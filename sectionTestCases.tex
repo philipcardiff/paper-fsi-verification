@@ -31,7 +31,7 @@ The test cases are designed to assess the proposed monolithic solver from severa
 %%--------------------------------------------------------------------------------------------------------------------%%
 \subsection{Case 1: Channel flow over a cavity with a flexible bottom} \label{sec:case1}
 %%--------------------------------------------------------------------------------------------------------------------%%
-Two-dimensional steaday laminar flow in a channel over a cavity was proposed as a fluid dynamics benchmark in \citep{Juretic2010} and was later proposed as a fluid-solid interaction benchmark through addition of addition of a flexible solid plate as a lower wall by \citet{Tukovic2018} (Figure \ref{fig:cavity_geom}).
+Two-dimensional steady laminar flow in a channel over a cavity was proposed as a fluid dynamics benchmark in \citep{Juretic2010} and was later proposed as a fluid-solid interaction benchmark through addition of a flexible solid plate as a lower wall by \citet{Tukovic2018} (Figure \ref{fig:cavity_geom}).
 The test is used here to assess robustness and convergence behaviour for an internal-flow fluid-solid interaction problem with a compliant wall.
 
 \begin{figure}[htbp]
@@ -43,7 +43,8 @@ The test is used here to assess robustness and convergence behaviour for an inte
 
 The fluid domain has channel height $H = 1\,\mathrm{m}$ and is solved as incompressible, Newtonian, and isothermal, with density $\rho_f = 1\,\mathrm{kg/m^3}$ and kinematic viscosity $\nu_f = 0.01\,\mathrm{m^2/s}$. A parabolic inlet velocity profile with mean value $\bar{u}_{\mathrm{in}} = 1\,\mathrm{m/s}$ is imposed, corresponding to $Re = 100$ based on $H$. A fixed pressure of $0$ Pa is prescribed at the outlet, while no-slip conditions are applied on fluid walls and interface-consistent kinematic/dynamic coupling conditions are enforced at the fluid-solid boundary.
 The flexible cavity bottom is modelled as a Saint Venant--Kirchhoff solid with density $\rho_s = 1000\,\mathrm{kg/m^3}$, Young's modulus $E = 500$ Pa, and Poisson's ratio $\nu_s = 0.4$.
-To efficiently and robustly attain the steady-state solution, the simuilation is advanced in time until a steady response is obtained, where a damping coefficient $c_d = 0.2$ s$^{-1}$ is employed in the solid. 
+To efficiently and robustly obtain the steady-state solution, the simulation is advanced in time until a steady response is reached, with a damping coefficient $c_d = 0.1$ s$^{-1}$ applied to the solid.
+% \hl{check: I may scale this with time step size}.
 
 \begin{table}[htbp]
 	\centering
@@ -64,24 +65,73 @@ To efficiently and robustly attain the steady-state solution, the simuilation is
 	\label{tab:case1_parameters}
 \end{table}
 
-%A steady-state fluid formulation is employed.
-%Following the reference tutorial setup, additional solid damping is applied through the \texttt{dampingCoeff} parameter to suppress spurious oscillations and accelerate convergence to steady state.
+Following the approach in \citep{Tukovic2018}, the prediction of two quantities are assessed: (i) the displacement history of a monitoring point on the flexible plate (point $A=(4,-1,0)$) and (ii) the resultant force components acting on the fluid-solid interface. 
+A systematic mesh- and pseudo-time-step sensitivity study was performed using three uniformly refined meshes and six pseudo-time-step sizes. The mesh spacings considered were
+\[
+    \Delta x \in \{0.1,\;0.05,\;0.025\}\,\mathrm{m},
+\]
+while the pseudo-time-step sizes were
+\[
+    \Delta t \in \{0.5,\;1,\;2.5,\;5,\;10,\;20\}\,\mathrm{s}.
+\]
+For each run, the computation was advanced until the automatic steady-state criterion was satisfied, based on the relative change in the monitored displacement and interface force over consecutive time levels. Cases that did not satisfy the steady-state criterion before the prescribed final time were excluded from the solution-sensitivity plots.
 
-Following the approach in \citep{Tukovic2018}, the prediction of two quantities are assessed: (i) the displacement history of a monitoring point on the flexible plate (point $A=(4,-1,0)$) and (ii) the resultant force components acting on the fluid-solid interface. %In addition, final-time contours of fluid velocity and solid equivalent stress are used for qualitative assessment. For consistency with the benchmark description, convergence to a steady solution is expected at approximately $t \approx 120\,\mathrm{s}$.
+Figure~\ref{fig:cavity_solution_sensitivity} shows the dependence of the steady-state vertical displacement at point $A$ and the vertical resultant interface force on the mesh spacing and pseudo-time-step size. The results show a clear dependence on spatial resolution, with both $U_y$ and $F_y$ varying monotonically under mesh refinement. In contrast, for a fixed mesh, the variation with pseudo-time-step size is small over the range of values considered. This indicates that, once the computation has reached the steady-state criterion, the pseudo-time-step size has only a weak influence on the predicted steady response. The dominant numerical sensitivity for this case is therefore associated with spatial discretisation rather than pseudo-time advancement.
 
-- accuracy => show we get the same results as partitioned
+\begin{figure}[htbp]
+    \centering
 
-- time and memory => partitioned vs monolithic
+    \subfigure[Vertical displacement at point $A$.]{
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Uy_vs_DeltaX}
+        \label{fig:cavity_Uy_vs_DeltaX}
+    }
+    \hfill
+    \subfigure[Vertical resultant interface force.]{
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Fy_vs_DeltaX}
+        \label{fig:cavity_Fy_vs_DeltaX}
+    }
 
-- time step effect => maybe show greater robustness as time step size is increased
+    \caption{Mesh and pseudo-time-step sensitivity of the steady-state solution for Case~1. The displacement and force predictions are primarily controlled by the mesh spacing, while the influence of the pseudo-time-step size is comparatively small for cases that reach the prescribed steady-state criterion.}
+    \label{fig:cavity_solution_sensitivity}
+\end{figure}
 
-- [maybe other case] => show effect of preconditioner
+The computational cost associated with the same set of simulations is shown in Figure~\ref{fig:cavity_cost_sensitivity}. The wall-clock time increases with problem size, as expected, but the dependence on pseudo-time-step size is not monotonic. In particular, the smallest pseudo-time steps require many increments to reach steady state, while excessively large pseudo-time steps do not necessarily accelerate convergence. Instead, larger pseudo-time steps can lead to a longer pseudo-time interval before the automatic steady-state criterion is satisfied, increasing the total wall-clock time. For this case, an intermediate pseudo-time-step size gives the best overall efficiency.
+
+\begin{figure}[htbp]
+    \centering
+
+    \subfigure[Wall-clock time.]{
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/WallTime_vs_Cells}
+        \label{fig:cavity_walltime_vs_cells}
+    }
+    \hfill
+    \subfigure[Maximum memory usage.]{
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Memory_vs_Cells}
+        \label{fig:cavity_memory_vs_cells}
+    }
+
+    \caption{Computational cost for Case~1 as a function of total cell count and pseudo-time-step size. The wall-clock time exhibits an optimum with respect to pseudo-time-step size: smaller values require more time steps, whereas larger values delay satisfaction of the automatic steady-state criterion. The memory usage is governed primarily by the total number of cells and is largely insensitive to the pseudo-time-step size.}
+    \label{fig:cavity_cost_sensitivity}
+\end{figure}
+
+The existence of an optimal pseudo-time-step size can be understood from the competing effects that determine the total cost. Reducing $\Delta t$ improves the smoothness of the pseudo-transient evolution and tends to produce robust convergence to the steady state, but increases the number of time steps required. Conversely, increasing $\Delta t$ reduces the number of nominal time increments but can degrade the effectiveness of the pseudo-transient relaxation. In such cases, the monitored displacement and force may approach their final values more slowly, or exhibit small non-monotonic changes that delay the satisfaction of the steady-state criterion. Hence, the total wall-clock time is minimised by an intermediate value of $\Delta t$, rather than by the largest stable value.
+
+The maximum memory usage, shown in Figure~\ref{fig:cavity_memory_vs_cells}, is primarily a function of the total number of fluid and solid cells. Unlike the wall-clock time, it shows little dependence on the pseudo-time-step size. This behaviour is expected for the present monolithic formulation, since the memory footprint is dominated by the storage of the coupled fields, linear-system data structures, and preconditioning objects, all of which are determined mainly by the number of degrees of freedom rather than by the pseudo-time-step size.
+
+
+%- accuracy => show we get the same results as partitioned
+%
+%- time and memory => partitioned vs monolithic
+%
+%- time step effect => maybe show greater robustness as time step size is increased
+%
+%- [maybe other case] => show effect of preconditioner
 
 
 %%--------------------------------------------------------------------------------------------------------------------%%
 \subsection{Case 2: Three-dimensional flexible tube} \label{sec:case2}
 %%--------------------------------------------------------------------------------------------------------------------%%
-Case 2 is based on the solids4foam \texttt{3dTube} fluid-solid interaction tutorial. This benchmark extends the previous two-dimensional setting to a fully three-dimensional internal-flow problem in which fluid pressure and shear loads induce deformation of a compliant tube wall. It is selected to evaluate solver robustness for 3D coupling, increased system size, and stronger geometric nonlinearity in the structural response.
+Case 2 is based on the solids4foam \texttt{3dTube} fluid-solid interaction tutorial. This benchmark extends the previous two-dimensional setting to a fully three-dimensional internal-flow problem in which fluid pressure and shear loads induce deformation of a compliant tube wall. It is selected to evaluate the solver's robustness under 3D coupling, increased system size, and stronger geometric nonlinearity in the structural response.
 
 The test is run in transient mode with incompressible flow and finite-strain solid mechanics, using the same monolithic coupling strategy as Case 1. The principal outputs are the time evolution of pressure drop, wall displacement at selected monitoring locations, and integrated fluid-solid interface forces. Additional post-processing includes deformed-shape visualisation and final-time velocity and stress fields for qualitative comparison against the tutorial behaviour.
 
