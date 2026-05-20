@@ -188,6 +188,15 @@ No-slip conditions are imposed on rigid walls, and a traction-free condition is 
 
 The constitutive parameters reported in the benchmark are: solid Young's modulus $E^s=10^5$, Poisson's ratio $\nu^s=0.4$, and density $\rho^s=500$; fluid density and kinematic viscosity are $\rho^f=1$ and $\nu^f=1$, respectively. Following the benchmark setup, temporal convergence is assessed using $\Delta t=1/40$, $1/80$, $1/120$, and $1/160$, with a reference solution computed at $\Delta t=2\times 10^{-5}$.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=1]{figures/blobInTreacle-geometry}
+	\caption{Case 6 setup (elastic half-cylinder in channel): geometry and base mesh.}
+	\label{fig:elasticHalfCylInChannel_geom}
+\end{figure}
+
+
+
 The error metric is the interface-displacement error in the streamwise direction, evaluated in the $L_2$ norm over the interface points,
 \begin{equation}
 \|error(\theta)\| = \| (\varphi(X,1)_{\Delta t=2\times 10^{-5}} - \varphi(X,1)_{\Delta t}) \|_{L_2}, \quad \forall\,X\in\Gamma,
