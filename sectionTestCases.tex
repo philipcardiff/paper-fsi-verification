@@ -151,6 +151,12 @@ Case 4 follows the solids4foam \texttt{HronTurekFsi3} tutorial, a widely used be
 
 To facilitate comparison with established literature, the primary metrics are the displacement of the beam tip and the force coefficients over time. Mean values, oscillation amplitudes, and characteristic frequencies are extracted after initial transients. This benchmark provides a stringent test of accuracy and robustness for coupled fluid--structure dynamics.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=1]{figures/HronTurek3-geometry}
+	\caption{Case 4 setup (Hron--Turek FSI3 benchmark): geometry and base mesh.}
+	\label{fig:HronTurek3_geom}
+\end{figure}
 
 %%--------------------------------------------------------------------------------------------------------------------%%
 \subsection{Case 5: Perpendicular flap (preCICE tutorial)} \label{sec:case5}
@@ -203,13 +209,6 @@ The error metric is the interface-displacement error in the streamwise direction
 \end{equation}
 where $\theta=(1,0)$ denotes the positive $x$-direction. This case is used to verify the expected second-order temporal accuracy of the quasi-monolithic formulation.
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.95\textwidth]{figures/case6_temporal_accuracy}
-	\caption{User-provided screenshot used to define Case 6 (temporal-accuracy benchmark with an elastic half-cylinder in a channel).}
-	\label{fig:case6_screenshot}
-\end{figure}
-
 
 %%--------------------------------------------------------------------------------------------------------------------%%
 \subsection{Case 7: FSI accuracy assessment (block with flexible tail)} \label{sec:case7}
@@ -220,12 +219,7 @@ Extracted model data are: fluid density $\rho_f = 1.18\times 10^{-3}\,\mathrm{g\
 
 The extracted geometry/boundary layout indicates a channel of height $12\,\mathrm{cm}$ with slip conditions on top and bottom walls and an outflow condition at the right boundary. The rigid block is followed by a thin flexible tail with annotated thickness $0.06\,\mathrm{cm}$.
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.72\textwidth]{figures/case7_geometry}
-	\caption{Extracted geometry and boundary-condition schematic for Case 7 (block with flexible tail).}
-	\label{fig:case7_schematic}
-\end{figure}
+\hl{IVAN comment: case geometry figure is the same as for case 8 (under assumption that we use the same mesh - which we can)}
 
 
 %%--------------------------------------------------------------------------------------------------------------------%%
@@ -239,7 +233,7 @@ In this manuscript, Case 8 is used as a 3D accuracy/robustness test with pronoun
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.72\textwidth]{figures/case8_geometry}
+	\includegraphics[scale=1]{figures/foilInWind-geometry}
 	\caption{Extracted top/side-view schematics for Case 8 (block with flapping plate).}
 	\label{fig:case8_schematic}
 \end{figure}
