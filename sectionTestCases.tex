@@ -37,7 +37,7 @@ The test is used here to assess robustness and convergence behaviour for an inte
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.9\textwidth]{figures/cavityFlexibleBottom-geometry}
-	\caption{Case 1 setup (channel flow over a cavity with a flexible bottom), including geometry, boundary conditions, and representative mesh.}
+	\caption{Case 1 setup (channel flow over a cavity with a flexible bottom), including geometry, boundary conditions, and representative mesh. \hl{REDO}}
 	\label{fig:cavity_geom}
 \end{figure}
 
@@ -82,12 +82,12 @@ Figure~\ref{fig:cavity_solution_sensitivity} shows the dependence of the steady-
     \centering
 
     \subfigure[Vertical displacement at point $A$.]{
-        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Uy_vs_DeltaX}
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Uy_vs_DeltaX_allSchemes}
         \label{fig:cavity_Uy_vs_DeltaX}
     }
     \hfill
     \subfigure[Vertical resultant interface force.]{
-        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Fy_vs_DeltaX}
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Fy_vs_DeltaX_allSchemes}
         \label{fig:cavity_Fy_vs_DeltaX}
     }
 
@@ -101,12 +101,12 @@ The computational cost associated with the same set of simulations is shown in F
     \centering
 
     \subfigure[Wall-clock time.]{
-        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/WallTime_vs_Cells}
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/WallTime_vs_Cells_allSchemes}
         \label{fig:cavity_walltime_vs_cells}
     }
     \hfill
     \subfigure[Maximum memory usage.]{
-        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Memory_vs_Cells}
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Memory_vs_Cells_monolithic_default}
         \label{fig:cavity_memory_vs_cells}
     }
 
@@ -114,7 +114,7 @@ The computational cost associated with the same set of simulations is shown in F
     \label{fig:cavity_cost_sensitivity}
 \end{figure}
 
-The existence of an optimal pseudo-time-step size can be understood from the competing effects that determine the total cost. Reducing $\Delta t$ improves the smoothness of the pseudo-transient evolution and tends to produce robust convergence to the steady state, but increases the number of time steps required. Conversely, increasing $\Delta t$ reduces the number of nominal time increments but can degrade the effectiveness of the pseudo-transient relaxation. In such cases, the monitored displacement and force may approach their final values more slowly, or exhibit small non-monotonic changes that delay the satisfaction of the steady-state criterion. Hence, the total wall-clock time is minimised by an intermediate value of $\Delta t$, rather than by the largest stable value.
+The existence of an optimal pseudo-time-step size can be understood in terms of the competing effects that determine the total cost. Reducing $\Delta t$ improves the smoothness of the pseudo-transient evolution and tends to produce robust convergence to the steady state, but increases the number of time steps required. Conversely, increasing $\Delta t$ reduces the number of nominal time increments but can degrade the effectiveness of the pseudo-transient relaxation. In such cases, the monitored displacement and force may approach their final values more slowly, or exhibit small non-monotonic changes that delay the satisfaction of the steady-state criterion. Hence, the total wall-clock time is minimised by an intermediate value of $\Delta t$, rather than by the largest stable value.
 
 The maximum memory usage, shown in Figure~\ref{fig:cavity_memory_vs_cells}, is primarily a function of the total number of fluid and solid cells. Unlike the wall-clock time, it shows little dependence on the pseudo-time-step size. This behaviour is expected for the present monolithic formulation, since the memory footprint is dominated by the storage of the coupled fields, linear-system data structures, and preconditioning objects, all of which are determined mainly by the number of degrees of freedom rather than by the pseudo-time-step size.
 
