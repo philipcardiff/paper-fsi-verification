@@ -36,8 +36,9 @@ The set of fluid control volumes is denoted by $\mathcal{P}^f$ and the set of so
 A generic cell is denoted by $P$, with volume $\Omega_P$ and faces $f \in \mathcal{F}_P$. The outward face area vector associated with face $f$ is
 denoted by $\bb{\Gamma}_f$.
 
-The primary unknowns are stored at cell centres and represent the pointwise values at those locations. \hl{do we mention equivalence with cell means?}
-% as well as the volume-average of the quantity in the cell.
+The primary unknowns are stored at cell centres and represent the pointwise values at those locations.
+An alternative---and common---flavour of cell-centred FVM instead interprets the stored values as cell averages, $\bar{\phi}_P = \Omega_P^{-1}\int_{\Omega_P}\phi\,d\Omega$.
+The two interpretations are equivalent to second order: since the centroid satisfies $\Omega_P^{-1}\int_{\Omega_P}(\bb{x}-\bb{x}_P)\,d\Omega = \bb{0}$, a Taylor expansion gives $\bar{\phi}_P = \phi(\bb{x}_P) + O(h^2)$, so they coincide to the order of accuracy of the present scheme.
 Volume integrals are approximated using midpoint quadrature,
 \begin{equation}
     \int_{\Omega_P}
