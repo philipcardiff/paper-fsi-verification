@@ -66,7 +66,7 @@ To efficiently and robustly obtain the steady-state solution, the simulation is 
 \end{table}
 
 Following the approach in \citep{Tukovic2018}, the prediction of two quantities are assessed: (i) the displacement history of a monitoring point on the flexible plate (point $A=(4,-1,0)$) and (ii) the resultant force components acting on the fluid-solid interface. 
-A systematic mesh- and pseudo-time-step sensitivity study was performed using three uniformly refined meshes and six pseudo-time-step sizes. The average mesh spacings considered were
+A systematic mesh- and pseudo-time-step sensitivity study was performed using three uniformly refined meshes and six pseudo-time-step sizes. The mesh spacings considered were
 \[
     \Delta x \in \{0.1,\;0.05,\;0.025\}\,\mathrm{m},
 \]
@@ -82,12 +82,12 @@ Figure~\ref{fig:cavity_solution_sensitivity} shows the dependence of the steady-
     \centering
 
     \subfigure[Vertical displacement at point $A$.]{
-        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Uy_vs_DeltaX_allSchemes}
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Uy_vs_DeltaX}
         \label{fig:cavity_Uy_vs_DeltaX}
     }
     \hfill
-    \subfigure[Vertical resultant interface force. \hl{IQNILS crashing}]{
-        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Fy_vs_DeltaX_allSchemes}
+    \subfigure[Vertical resultant interface force.]{
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Fy_vs_DeltaX}
         \label{fig:cavity_Fy_vs_DeltaX}
     }
 
@@ -97,18 +97,16 @@ Figure~\ref{fig:cavity_solution_sensitivity} shows the dependence of the steady-
 
 The computational cost associated with the same set of simulations is shown in Figure~\ref{fig:cavity_cost_sensitivity}. The wall-clock time increases with problem size, as expected, but the dependence on pseudo-time-step size is not monotonic. In particular, the smallest pseudo-time steps require many increments to reach steady state, while excessively large pseudo-time steps do not necessarily accelerate convergence. Instead, larger pseudo-time steps can lead to a longer pseudo-time interval before the automatic steady-state criterion is satisfied, increasing the total wall-clock time. For this case, an intermediate pseudo-time-step size gives the best overall efficiency.
 
-\hl{partitioned: crashing for meshes 3 and 4 at the first time step; it should be possible to get it converging, e.g. enable coupling after fluid field is initialised, or we can ensure fluid convergence in each FSI iteration using a residual control and a larger number of nCorrectors; both of these will change the timings and make it hard to compare to the monolithic. Maybe we just give values rather than compared times - we need to decide}
-
 \begin{figure}[htbp]
     \centering
 
     \subfigure[Wall-clock time.]{
-        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/WallTime_vs_Cells_allSchemes}
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/WallTime_vs_Cells}
         \label{fig:cavity_walltime_vs_cells}
     }
     \hfill
-    \subfigure[Maximum memory usage. \hl{not that useful}]{
-        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Memory_vs_Cells_monolithic_default}
+    \subfigure[Maximum memory usage.]{
+        \includegraphics[width=0.48\textwidth]{simulationData/cavityFlexibleBottom/Memory_vs_Cells}
         \label{fig:cavity_memory_vs_cells}
     }
 
@@ -116,7 +114,7 @@ The computational cost associated with the same set of simulations is shown in F
     \label{fig:cavity_cost_sensitivity}
 \end{figure}
 
-The existence of an optimal pseudo-time-step size can be understood in terms of the competing effects that determine the total cost. Reducing $\Delta t$ improves the smoothness of the pseudo-transient evolution and tends to produce robust convergence to the steady state, but increases the number of time steps required. Conversely, increasing $\Delta t$ reduces the number of nominal time increments but can degrade the effectiveness of the pseudo-transient relaxation. In such cases, the monitored displacement and force may approach their final values more slowly, or exhibit small non-monotonic changes that delay the satisfaction of the steady-state criterion. Hence, the total wall-clock time is minimised by an intermediate value of $\Delta t$, rather than by the largest stable value.
+The existence of an optimal pseudo-time-step size can be understood from the competing effects that determine the total cost. Reducing $\Delta t$ improves the smoothness of the pseudo-transient evolution and tends to produce robust convergence to the steady state, but increases the number of time steps required. Conversely, increasing $\Delta t$ reduces the number of nominal time increments but can degrade the effectiveness of the pseudo-transient relaxation. In such cases, the monitored displacement and force may approach their final values more slowly, or exhibit small non-monotonic changes that delay the satisfaction of the steady-state criterion. Hence, the total wall-clock time is minimised by an intermediate value of $\Delta t$, rather than by the largest stable value.
 
 The maximum memory usage, shown in Figure~\ref{fig:cavity_memory_vs_cells}, is primarily a function of the total number of fluid and solid cells. Unlike the wall-clock time, it shows little dependence on the pseudo-time-step size. This behaviour is expected for the present monolithic formulation, since the memory footprint is dominated by the storage of the coupled fields, linear-system data structures, and preconditioning objects, all of which are determined mainly by the number of degrees of freedom rather than by the pseudo-time-step size.
 
@@ -137,6 +135,12 @@ Case 2 is based on the solids4foam \texttt{3dTube} fluid-solid interaction tutor
 
 The test is run in transient mode with incompressible flow and finite-strain solid mechanics, using the same monolithic coupling strategy as Case 1. The principal outputs are the time evolution of pressure drop, wall displacement at selected monitoring locations, and integrated fluid-solid interface forces. Additional post-processing includes deformed-shape visualisation and final-time velocity and stress fields for qualitative comparison against the tutorial behaviour.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=1]{figures/3dTube-geometry}
+	\caption{Case 2 setup (\texttt{3dTube} benchmark): geometry and base mesh (dimensions are in mm).}
+	\label{fig:HronTurek3_geom}
+\end{figure}
 
 %%--------------------------------------------------------------------------------------------------------------------%%
 \subsection{Case 3: Flexible beam in cross-flow} \label{sec:case3}
@@ -199,7 +203,7 @@ The constitutive parameters reported in the benchmark are: solid Young's modulus
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/blobInTreacle-geometry}
-	\caption{Case 6 setup (elastic half-cylinder in channel): geometry and base mesh.}
+	\caption{Case 6 setup (elastic half-cylinder in channel): geometry and base mesh (dimensions are in \hl{check}).}
 	\label{fig:elasticHalfCylInChannel_geom}
 \end{figure}
 
@@ -236,6 +240,6 @@ In this manuscript, Case 8 is used as a 3D accuracy/robustness test with pronoun
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/foilInWind-geometry}
-	\caption{Extracted top/side-view schematics for Case 8 (block with flapping plate).}
+	\caption{Case 8 setup (three-dimensional block with flapping plate): geometry and base mesh in side and top view (dimensions are in cm).}
 	\label{fig:case8_schematic}
 \end{figure}
