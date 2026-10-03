@@ -83,6 +83,14 @@ textheight=24cm, % llncs has 19.3cm
 %\newcommand{\magRV}{\bbit{\psi}}
 \newcommand{\diag}{\rm diag}
 
+%% Author notes for drafting (remove before submission).
+%% \todo{...}     conspicuous block note; breaks across pages
+%% \citetodo{...} placeholder for a citation not yet in bibliography.bib
+\newcommand{\todo}[1]{\par\noindent\textcolor{red}{\rule{\linewidth}{0.8pt}}\par\nopagebreak
+	\noindent{\small\color{red!70!black}\textbf{AUTHOR NOTE:} #1\par}\nopagebreak
+	\noindent\textcolor{red}{\rule{\linewidth}{0.8pt}}\par}
+\newcommand{\citetodo}[1]{\textcolor{red}{[\textbf{cite:}~#1]}}
+
 \begin{document}
 
 \title[Article Title]{A quasi-monolithic cell-centred finite volume approach for fluid-solid interaction}
@@ -117,6 +125,8 @@ Performance is assessed on a suite of established two- and three-dimensional FSI
 
 \maketitle
 
+\todo{The title, abstract, Introduction (Section~\ref{sec:intro}) and Sections~\ref{sec:math_model}--\ref{sec:numerical_methods} are still those of the parent quasi-monolithic FSI paper and have deliberately not been rewritten in this pass. The verification evidence in Sections~\ref{sec:verification_methodology}--\ref{sec:recommended_suite} uses only the partitioned solution procedures (IQN-ILS, Robin--Neumann, Aitken); the quasi-monolithic solver is not used as evidence. Section~\ref{sec:numerical_methods} must eventually describe the partitioned procedures that produced the results.}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{sectionIntro.tex}
@@ -133,7 +143,17 @@ Performance is assessed on a suite of established two- and three-dimensional FSI
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{sectionTestCases.tex}
+% Sections 4--8: verification-benchmark paper.
+% The parent (monolithic-solver) test-case section is preserved unchanged in
+% sectionTestCases.tex but is no longer part of the build: its results come
+% from the experimental quasi-monolithic solver, which is not used as
+% verification evidence in this paper.
+%\input{sectionTestCases.tex}
+\input{sectionVerificationMethodology.tex}
+\input{sectionBenchmarkSuite.tex}
+\input{sectionCrossBenchmark.tex}
+\input{sectionRecommendedSuite.tex}
+\input{sectionDiscussion.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

@@ -28,7 +28,7 @@ This avoids outer iterations and can handle tightly coupled nonlinear problems r
 Monolithic FSI methods have been developed predominantly in the finite element (FE) community.
 Early influential examples include \citet{Heil2004}, who first demonstrated that block-triangular approximations of the coupled Jacobian provide effective preconditioners for monolithic ALE FSI with GMRES, and the segregated/monolithic comparison of \citet{Heil2008}.
 The Munich line of \citet{Mayr2015, Schott2019a} extended this with temporally consistent and cut-FEM-based formulations; in particular, \citet{Mayr2015} provides a clear FE counterpart to block-preconditioned monolithic Newton--Krylov FSI through Newton with GMRES and per-field ILU(0) preconditioning.
-The benchmark of \citet{Turek2006} (used as a test case in Section~\ref{sec:test_cases}) and the broader analyses of \citet{Richter2012, Richter2017} provided rigorous verification and goal-oriented frameworks.
+The benchmark of \citet{Turek2006} (revisited in Section~\ref{sec:fsi23}) and the broader analyses of \citet{Richter2012, Richter2017} provided rigorous verification and goal-oriented frameworks.
 \citet{Liu2014} introduced a quasi-monolithic FE formulation specifically targeting strong added-mass effects, in which the fluid mesh motion is treated outside the coupled Newton vector --- the approach most closely related to the present work.
 A comprehensive treatment is available in the textbook of \citet{JaimanJoshi2022}.
 % and the recent open-source FEniCS-based turtleFSI solver~\citep{Bergersen2020, Gjertsen2017}.
@@ -61,6 +61,6 @@ The specific contributions are:
 
 Section~\ref{sec:math_model} presents the governing equations for the coupled fluid--solid problem.
 Section~\ref{sec:numerical_methods} develops the cell-centred FV discretisation, the JFNK solver, and the approximate block preconditioner; the fluid mesh-motion procedure and implementation in solids4foam/PETSc are also described.
-Section~\ref{sec:test_cases} presents numerical results across eight benchmark configurations.
-Section~\ref{sec:conclusion} concludes.
+Section~\ref{sec:verification_methodology} sets out the verification methodology, Section~\ref{sec:benchmark_suite} presents the benchmark suite, Section~\ref{sec:cross_benchmark} draws cross-benchmark conclusions, and Section~\ref{sec:recommended_suite} proposes a recommended verification suite.
+Section~\ref{sec:discussion} discusses the findings and Section~\ref{sec:conclusion} concludes.
 \hl{Before submission, verify all references have correct details}
