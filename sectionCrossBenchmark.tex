@@ -7,7 +7,7 @@
 \todo{Synthesis based on the evidence available on 2026-10-03. Conclusions will change when: (a) Hron--Turek FSI3 4x and 3dTube level 3 are run; (c) independent COMSOL references become available (3dTube, beamInCrossFlow, mokLidDrivenCavity first); (d) the Hessenthaler benchmark is completed.}
 
 This section draws together the findings of Section~\ref{sec:benchmark_suite} by theme.
-In this suite the strength of a verification statement is usually limited by the quality of the reference, the number of refinement levels that could be afforded, or the iterative error, rather than by a demonstrated failure of the discretisation to converge; the one such failure found, the womersleyTube temporal order, was traced to the boundary treatment and removed.
+In this suite the strength of a verification statement is usually limited by the quality of the reference, the number of refinement levels that could be afforded, or the iterative error, rather than by a demonstrated failure of the discretisation to converge; the one such failure found, the womersleyTube temporal order, was traced to the boundary treatment and reduced to an $O(\Delta t\,h)$ boundary term that is negligible at practical steps.
 The observations are specific to this suite and to one code family, and are not offered as universal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,7 +46,7 @@ Among the category-A cases, ringAddedMass exhibits near-second-order temporal co
 Independently of reference quality, collapsibleChannel also shows near-second-order behaviour, in space against its category-B reference (orders 1.7 and 2.4 before the reference floor) and in time by self-convergence (1.8 and 2.0).
 womersleyTube first showed temporal orders of 1.3--1.8 that fell towards one as $\Delta t$ was refined, on every mesh.
 The orders are reference-free observations, but the diagnosis relied on the exact reference and on fluid-only and end-flux diagnostics: the deficit came from an $O(\Delta t)$ mass-flux inconsistency at the artificial tube ends, where the exact pressure and velocity gradient are imposed, not from the coupling (Section~\ref{sec:womersley}).
-With a flux-consistent end treatment every QoI converges at second order in time, and the finest solutions lie within $0.12\%$ of the continuum solution ($0.2\%$ for the attenuation, at the linear-theory level).
+With a flux-consistent end treatment every QoI converges at second order in time over the steps used (formally, an $O(\Delta t\,h)$ boundary term remains, as for standard fixed-pressure outlets), and the finest solutions lie within $0.12\%$ of the continuum solution ($0.2\%$ for the attenuation, at the linear-theory level).
 In ringAddedMass, by contrast, the exact reference allows the remaining $-0.13\%$ frequency error at a practical resolution to be attributed to the BDF2 phase error.
 
 \emph{Two levels do not establish convergence, and super-nominal orders are a warning.}

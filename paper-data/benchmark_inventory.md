@@ -115,7 +115,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
 - **QoIs:** velocity-profile max error, flow-rate amplitude/phase at L/2, wall radial displacement amplitude/phase, wave speed and attenuation from a log-pressure fit along the tube.
 - **Mesh study:** factors 1, 2, 4 (base 32 axial, 10 fluid radial, 4 wall radial) at 200 steps/period, Robin coupling. Orders: profile 2.06, flow_amp 2.16, flow_phase 1.92, wallMid_amp 2.15, speed 2.48, wallMid_phase 0.97, attenuation 0.63.
 - **Time-step study:** 50, 100, 200 steps/period on mesh 2. Orders 1.29–1.84 (flow_amp 1.64, flow_phase 1.84, wallMid_amp 1.71, wallMid_phase 1.74, speed 1.29, attenuation 1.51), below the nominal 2, falling to 0.75–1.79 with 400 steps/period.
-- **Diagnosis (2026-10-03, solids4foam branch `womersley-temporal-investigation`):** an O(Δt) mass-flux inconsistency at the tube ends (`codedMixed` velocity gradient + fixed pressure: OpenFOAM treats the mixed patch as fixing the value, so the end flux carries rAU ∂p/∂n ∝ Δt). Not the coupling, interface, ALE, solid, start-up, window, ddtCorr or tolerances; mesh independent. With the opt-in `pimpleFluid` option `fluxConsistentPatches (inlet outlet)` (commit 80009e6fc): time orders 1.85–2.14 (50/100/200) and 1.87–2.08 (100/200/400); mesh orders 2.01–2.05 (profile, flow, wall amplitude, speed), flow phase 1.92, wall phase 1.40, attenuation flat at ≈−2e-3 (linear-theory level). Report: `verification/womersley_temporal_investigation.md`.
+- **Diagnosis (2026-10-03, solids4foam branch `womersley-temporal-investigation`):** an O(Δt) mass-flux inconsistency at the tube ends (`codedMixed` velocity gradient + fixed pressure: OpenFOAM treats the mixed patch as fixing the value, so the end flux carries rAU ∂p/∂n ∝ Δt). Not the coupling, interface, ALE, solid, start-up, window, ddtCorr or tolerances; mesh independent. With the opt-in `pimpleFluid` option `fluxConsistentPatches (inlet outlet)` (commit e76f9cffc): time orders 1.85–2.14 (50/100/200) and 1.87–2.08 (100/200/400), i.e. second order over the steps used; formally an O(Δt·h) boundary-flux term remains (fixed-mesh order → 1 beyond ≈3200 steps/period on m1, ≈6400 on m2; second order under joint refinement; same order as a standard fixed-pressure outlet); mesh orders 2.01–2.05 (profile, flow, wall amplitude, speed), flow phase 1.92, wall phase 1.40, attenuation flat at ≈−2e-3 (linear-theory level). Report: `verification/womersley_temporal_investigation.md`.
 - **Coupling study:** IQN-ILS vs Robin agree to 3e-4 on every quantity; 14.8 vs 8.7 iterations/step.
 - **Best values (m4, n200), original set-up:** profile 1.18e-3; flow_amp −7.15e-4; flow_phase 1.5e-5 rad; wallMid_amp 8.6e-4; wallMid_phase −1.88e-3 rad; speed 8.9e-4; attenuation −4.47e-3.
 - **Best values (m4, n200), flux-consistent ends (v2512):** profile 1.20e-3; flow_amp −3.08e-4; flow_phase 8.3e-5 rad; wallMid_amp −1.79e-4; wallMid_phase −1.15e-3 rad; speed 1.2e-5; attenuation −1.96e-3.
@@ -443,7 +443,8 @@ observed orders, finest error, coupling agreement and cost. This is the
    needed initially. This affects the parent paper's Case 1 as well.
 2. ~~**Diagnose the womersleyTube temporal order (1.3–1.8).**~~ Done
    (2026-10-03): end-boundary flux inconsistency; fixed by
-   `fluxConsistentPatches`. Remaining: merge, tutorial adoption, re-run.
+   `fluxConsistentPatches` (second order over the steps used; formally
+   O(Δt·h) at fixed mesh). Remaining: merge, tutorial adoption, re-run.
 3. **Single-version rerun of every main-paper study** (v2512 by default, fixed
    commit, Linux), with tabulated per-level values written to CSV. Archive the
    case set-ups and drivers (Zenodo).
