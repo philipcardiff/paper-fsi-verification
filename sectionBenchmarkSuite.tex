@@ -115,44 +115,45 @@ It reduces to Womersley's thin-wall equation (Filonova et al., Eq.~41) as $h/R\t
 The thin-wall wave speed is $4.7\%$ higher for this wall: used as a reference, it would have hidden every discretisation error studied here.
 
 \paragraph{Evidence.}
-First Fourier coefficients over periods 5--6 (period-to-period change $<10^{-4}$) are compared for mesh factors 1, 2, 4 at 200 steps per period and for 50--200 steps per period on the middle mesh (Table~\ref{tab:womersley}).
+First Fourier coefficients over periods 5--6 (period-to-period change $<10^{-4}$) are compared for mesh factors 1, 2, 4 at 200 steps per period and for 50--400 steps per period on the middle mesh (Table~\ref{tab:womersley}), with Robin--Neumann coupling.
+The tube ends carry the exact pressure and the exact normal velocity gradient, and the fluid solver makes the mass flux through them equal to the flux of the boundary velocity (see \emph{Time} below).
 
 \begin{table}[htbp]
 	\centering
 	\small
-	\setlength{\tabcolsep}{5pt}
-	\caption{womersleyTube: observed orders from successive differences (three levels) and finest-mesh errors against the exact solution (mesh factor 4, 200 steps per period). The profile mesh order is from its errors on the two finest meshes. Phases in radians. Source: solids4foam \texttt{womersleyTube/verification/README.md}.}
+	\setlength{\tabcolsep}{4pt}
+	\caption{womersleyTube: observed orders from successive differences (three levels) and finest-mesh errors against the exact solution (mesh factor 4, 200 steps per period). Time orders on mesh factor 2 from 50/100/200 and 100/200/400 steps per period. The profile mesh order is from its errors on the two finest meshes. Phases in radians. Flux-consistent tube ends (\texttt{fluxConsistentPatches}); OpenFOAM-v2512, Linux.}
 	\label{tab:womersley}
 	\begin{tabular}{lrrr}
 		\toprule
 		Quantity & Mesh order & Time order & Finest-mesh error \\
 		\midrule
-		velocity profile (max.) & 2.06 & -- & $1.18\times10^{-3}$ \\
-		flow-rate amplitude & 2.16 & 1.64 & $-7.15\times10^{-4}$ \\
-		flow-rate phase & 1.92 & 1.84 & $1.5\times10^{-5}$ \\
-		wall displacement amplitude & 2.15 & 1.71 & $8.57\times10^{-4}$ \\
-		wall displacement phase & 0.97 & 1.74 & $-1.88\times10^{-3}$ \\
-		wave speed & 2.48 & 1.29 & $8.93\times10^{-4}$ \\
-		attenuation, $\mathrm{Im}(k)$ & 0.63 & 1.51 & $-4.47\times10^{-3}$ \\
+		velocity profile (max.) & 2.04 & -- & $1.20\times10^{-3}$ \\
+		flow-rate amplitude & 2.05 & 2.04, 2.03 & $-3.08\times10^{-4}$ \\
+		flow-rate phase & 1.92 & 1.85, 1.87 & $8.3\times10^{-5}$ \\
+		wall displacement amplitude & 2.01 & 1.96, 1.95 & $-1.79\times10^{-4}$ \\
+		wall displacement phase & 1.40 & 2.14, 2.08 & $-1.15\times10^{-3}$ \\
+		wave speed & 2.01 & 1.94, 1.93 & $1.2\times10^{-5}$ \\
+		attenuation, $\mathrm{Im}(k)$ & -- & 2.10, 2.08 & $-1.96\times10^{-3}$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \begin{itemize}
-	\item \emph{Space.} Amplitude-type QoIs and the wave speed converge at approximately second order, to within $0.12\%$ of the exact solution. The wall-displacement phase and the attenuation converge at about first order, and the attenuation has the largest error ($-0.45\%$); since $\mathrm{Im}(k)$ is only $14\%$ of $\mathrm{Re}(k)$, an error in the fitted wave number is amplified about sevenfold in the attenuation. The reason for the first-order phase convergence has not been established.
-	\item \emph{Time.} The observed temporal orders are 1.29--1.84, \emph{below} the nominal second order of the BDF2 scheme used in the fluid, the solid and the interface-velocity condition. The cause has not been identified, and the result is reported as an unresolved observation. The orders are reference-free; what the exact reference adds is that the finest solutions are shown to lie close to the continuum solution, so the deficit is a property of the coupled discretisation (or of the start-up), not of the comparison.
-	\item \emph{Start-up.} A transient of $\approx0.5\%$ in the wall displacement remains over the first period despite exact initialisation, and it \emph{grows} as $\Delta t$ is reduced (one candidate: an inconsistency between the exact initial point displacements used to move the fluid mesh and the solid's interpolation of its cell values). Only the last two of six periods are analysed.
-	\item \emph{Space--time interaction.} At 200 steps per period the temporal error is as large as the finest-mesh spatial error; it cancels in the mesh orders but is contained in the finest-mesh errors.
-	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $3\times10^{-4}$ or better in every QoI.
+	\item \emph{Space.} The profile, flow rate, wall-displacement amplitude and wave speed converge at second order (2.01--2.05; flow phase 1.92), the wave speed to $1.2\times10^{-5}$ on the finest mesh. The wall-displacement phase converges more slowly (order 1.40). The attenuation error is $\approx-2\times10^{-3}$ on all three meshes and at every time step: it no longer depends on the discretisation, and is consistent with the linear-theory level ($\approx10^{-3}$) amplified about sevenfold, since $\mathrm{Im}(k)$ is only $14\%$ of $\mathrm{Re}(k)$.
+	\item \emph{Time.} Every QoI converges at second order (1.87--2.08 from 100/200/400 steps per period, 1.85--2.14 from 50/100/200), in both the 5--6 and the 11--12 period windows. With the end condition imposed as usual (a mixed velocity condition with zero value fraction and a fixed pressure), the same study gave 1.29--1.84 from 50/100/200 and 0.75--1.79 from 100/200/400 steps per period, falling towards first order, on every mesh. The cause was an $O(\Delta t)$ inconsistency of the end flux: the segregated pressure--velocity algorithm treats a mixed velocity condition as fixing the boundary velocity, so the end flux is $\mathbf{U}_b\cdot\mathbf{S}_f - (\Delta t/\gamma)\,\partial p/\partial n\,|\mathbf{S}_f|$ (with $\gamma$ the BDF2 leading coefficient), which differs from the boundary velocity flux by a term proportional to $\Delta t$ and to the axial pressure gradient, about 1--2\% of the end flux at the working steps. The behaviour was identical for IQN-ILS and Robin--Neumann, persisted in a fluid-only computation with the exact wall motion on a static mesh, and was independent of the mesh, the start-up, the analysis window, the Rhie--Chow \texttt{ddtCorr} term and the tolerances (tightened 100-fold). Giving the pressure-equation flux on the end patches the boundary velocity (and the pressure gradient of the boundary cell, so that the fixed pressure stays implicit) removes it, with the boundary data unchanged; the time error at 200 steps per period falls from $1.6$, $0.9$ and $3.8\times10^{-3}$ to $1.3\times10^{-4}$, $3.4\times10^{-5}$ and $1.6\times10^{-4}$ in the wall amplitude, wave speed and attenuation.
+	\item \emph{Start-up.} With exact initial fields, the initial old-time solid displacements carried exact values in the cells but not on the boundary; through the Robin condition, which imposes the solid's boundary acceleration on the fluid, this produced a first-period transient that grew as $\Delta t$ was reduced ($3.4\%$ of the amplitude at 400 steps per period). Exact boundary values remove the growth. The transient does not reach the analysed periods (effect $<3\times10^{-6}$). A $0.26\%$ shift of a Robin--Neumann regression value between OpenFOAM-v2412 and v2512 is confined to this start-up (it decays to $5\times10^{-6}$ by the sixth period); it coincides with the one difference between the two installations' BDF2 start-up treatment.
+	\item \emph{Space--time balance.} At 200 steps per period the remaining time error is a tenth or less of the finest-mesh error for the profile, wall phase and attenuation, comparable for the wall amplitude and flow phase, and larger for the wave speed, whose finest-mesh error is only $1.2\times10^{-5}$.
+	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $2.3\times10^{-4}$ or better in every QoI (15.2 against 9.2 coupling iterations per step).
 \end{itemize}
 
-\todo{Do NOT remove or soften the sub-nominal temporal order. Planned diagnosis (paper-data/manuscript\_todos.md): time study on mesh factor 4 and at 400 steps per period; isolate the interface-velocity condition and the start-up transient. If the cause is found, report both the diagnosis and the corrected order; if not, retain the present statement as an open finding. Also note: the Robin--Neumann result moved by $0.26\%$ of amplitude between OpenFOAM-v2412 and v2512 (PR \#513 comment), which is larger than several of the finest-mesh errors in Table~\ref{tab:womersley} and must be resolved before the final numbers are fixed.}
+\todo{The numbers in Table~\ref{tab:womersley} use the \texttt{pimpleFluid} option \texttt{fluxConsistentPatches} on the tube ends (solids4foam branch \texttt{womersley-temporal-investigation}, commit 80009e6fc; OpenFOAM-v2512, Linux), which is not yet merged nor set in the tutorial. Once it is, re-run \texttt{Allverify} on the merged commit and confirm the table. Investigation, data and the original-set-up results: \texttt{womersleyTube/verification/womersley\_temporal\_investigation.md}.}
 
 \paragraph{Lesson.}
 This viscous wave-propagation case complements ringAddedMass (inviscid, standing mode) with separate amplitude and phase QoIs.
-Its central result is unresolved: amplitudes converge at the expected rate, but phase and attenuation converge slowly in space and every QoI converges below the nominal order in time.
-The case is retained because it exposes this behaviour, not because it demonstrates second-order accuracy.
-Limitations: the wall is untethered, unlike Womersley's constrained tube (solids4foam issue \#511), and the high-order solid cannot be used on wedge meshes (issue \#512).
+Its temporal study first showed orders below the nominal two, falling towards one with refinement; the exact reference, together with fluid-only and end-flux diagnostics, traced this to an $O(\Delta t)$ mass-flux inconsistency in the boundary treatment of the truncated domain rather than to the fluid--solid coupling, and a flux-consistent end treatment restores second order in every QoI.
+A truncated-domain benchmark therefore verifies its boundary treatment as much as its interior scheme, and a sub-nominal temporal order should be traced before it is attributed to the coupling.
+Limitations: the wall is untethered, unlike Womersley's constrained tube (solids4foam issue \#511), the high-order solid cannot be used on wedge meshes (issue \#512), and the attenuation is limited to $\approx0.2\%$ by the linear theory.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
