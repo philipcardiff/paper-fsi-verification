@@ -5,20 +5,21 @@
 % and the verification/ directories of the solids4foam development branch.
 
 Code verification asks whether the discrete equations are solved correctly and whether the discretisation error vanishes at the expected rate; it does not ask whether the governing equations describe a physical system~\citetodo{Roache 1998, Verification and Validation in Computational Science and Engineering; Oberkampf \& Roy 2010}.
-For a partitioned or monolithic fluid--structure interaction (FSI) calculation, the difference between a computed quantity $f$ and the exact solution of the stated mathematical problem, $f_\mathrm{exact}$, contains at least three contributions,
+For a coupled fluid--structure interaction (FSI) calculation it is useful to think of the difference between a computed quantity $f$ and the exact solution $f_\mathrm{exact}$ of the stated mathematical problem in terms of three dominant sources,
 \begin{equation}
-	f - f_\mathrm{exact} = \varepsilon_h + \varepsilon_{\Delta t} + \varepsilon_\mathrm{it},
+	f - f_\mathrm{exact} \approx \varepsilon_h + \varepsilon_{\Delta t} + \varepsilon_\mathrm{it},
 	\label{eq:error_decomposition}
 \end{equation}
 namely the spatial discretisation error $\varepsilon_h$ (fluid, solid and, in ALE form, the fluid-mesh motion), the temporal discretisation error $\varepsilon_{\Delta t}$, and the iterative error $\varepsilon_\mathrm{it}$ left by incomplete convergence of the interface coupling iterations and of the field solvers within them.
-A comparison with a benchmark value is informative only if each of these contributions is controlled, and only if the error of the benchmark value itself is known to be smaller than the differences being interpreted.
-Many FSI benchmarks in current use do not meet the second condition, and this section sets out how the present paper distinguishes the cases.
+Equation~\eqref{eq:error_decomposition} is a conceptual decomposition, not an exact additive identity: in a nonlinear coupled calculation the three contributions interact (for example, the coupling iterations converge to a discrete problem whose conditioning depends on $h$ and $\Delta t$), and they can partially cancel.
+It is used here only to organise the evidence that each source has been controlled.
+A comparison with a benchmark value is informative only if the sources that materially affect the chosen quantity are controlled, and only if the error of the benchmark value itself is known to be smaller than the differences being interpreted.
 
-Throughout, three notions are kept separate:
+Three notions are kept separate throughout:
 (i) a \emph{benchmark problem}, i.e.\ a precisely defined initial--boundary-value problem;
 (ii) a \emph{published benchmark value}, i.e.\ a number or curve reported for that problem by one or more groups; and
 (iii) a \emph{trustworthy verification reference}, i.e.\ a value whose own error is known to be small compared with the discretisation errors under study.
-A widely used benchmark problem does not by itself provide (iii).
+A widely used benchmark problem does not automatically provide a trustworthy benchmark solution: neither (i) nor (ii) implies (iii).
 
 \todo{Section~\ref{sec:numerical_methods} currently describes the quasi-monolithic solver of the parent paper. All results in Sections~\ref{sec:benchmark_suite}--\ref{sec:cross_benchmark} were obtained with partitioned coupling: interface quasi-Newton with inverse least-squares (IQN-ILS)~\citep{Degroote2009}, Robin--Neumann coupling with a Robin condition for pressure~\citep{Tukovic2018b}, and Aitken under-relaxation~\citep{kuttler2008fixed}, in the solids4foam toolbox~\citep{Cardiff2025}. A concise description of these procedures, the fluid (\texttt{pimpleFluid}) and solid solvers, and the time schemes (\texttt{backward}, i.e.\ BDF2, unless stated) is required in Section~\ref{sec:numerical_methods}.}
 
@@ -26,7 +27,7 @@ A widely used benchmark problem does not by itself provide (iii).
 \subsection{Reference-solution hierarchy}\label{sec:ref_hierarchy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Each benchmark is assigned a reference category according to the quality of the reference against which it is compared (Table~\ref{tab:ref_hierarchy}).
+Each benchmark is assigned a reference category (Table~\ref{tab:ref_hierarchy}).
 The category describes the reference, not the benchmark problem and not the quality of the present calculations.
 
 \begin{table}[htbp]
@@ -35,90 +36,80 @@ The category describes the reference, not the benchmark problem and not the qual
 	\setlength{\tabcolsep}{4pt}
 	\caption{Reference-solution hierarchy used in this paper. The case assignments are discussed in Section~\ref{sec:benchmark_suite}.}
 	\label{tab:ref_hierarchy}
-	\begin{tabular}{p{1.4cm}p{6.6cm}p{5.4cm}}
+	\begin{tabular}{p{1.4cm}p{7.0cm}p{5.0cm}}
 		\toprule
 		Category & Definition & Cases \\
 		\midrule
-		A & Analytical or semi-analytical solution of the stated continuum problem; any numerical error of its own (e.g.\ collocation) controlled to near round-off. & ringAddedMass, womersleyTube \\
-		B & Independently computed numerical solution of the \emph{same} problem, by a different code, accompanied by its own convergence evidence. & collapsibleChannel (oomph-lib), Hron--Turek FSI1 (Featflow, six levels) \\
-		C & Classical published benchmark value whose own discretisation error is only partly quantified. & Hron--Turek FSI2, FSI3 (Featflow level 4); beamInCrossFlow, original form \\
+		A & Analytical or semi-analytical solution of the stated continuum problem, with any numerical error of its own (e.g.\ collocation) controlled to near round-off. & ringAddedMass, womersleyTube \\
+		B & Independently computed numerical solution, by a different code and with its own convergence evidence, either of the same problem or of a problem with a small, explicitly identified model-form difference whose effect on the QoIs is quantified and small compared with the numerical errors of interest. & Hron--Turek FSI1 (Featflow, six levels); collapsibleChannel (oomph-lib, beam wall model) \\
+		C & Published benchmark value whose own discretisation error is only partly quantified. & Hron--Turek FSI2, FSI3 (Featflow level 4); beamInCrossFlow, original form \\
 		C-weak & As C, but digitised from figures, single-mesh, mutually inconsistent, preprint-only, or from the same code lineage as the code under test. & 3dTube, mokLidDrivenCavity, cavityFlexibleBottom, beamInCrossFlow modified form, blobInTreacle \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 Agreement with a category-A reference measures the total error directly.
-Agreement with a category-B reference measures it up to the stated reference uncertainty, and is interpreted only where the difference exceeds that uncertainty.
-Agreement with a category-C or C-weak reference is reported, but is not used as evidence of convergence; for these cases the primary verification evidence is self-convergence (below), and the comparison with published values is treated as a statement about the published values as much as about the present results.
-References computed with earlier versions of the same code family~\citep{Tukovic2018} are explicitly classed as C-weak whatever their resolution, because they share discretisation choices with the code under test and cannot expose common-mode errors.
+Agreement with a category-B reference measures it up to the stated reference uncertainty plus any quantified model-form contribution, and is interpreted only where the difference exceeds their sum.
+Agreement with a category-C or C-weak reference is reported, but is not used as evidence of convergence; for these cases the primary evidence is self-convergence, and the comparison is treated as a statement about the published values as much as about the present results.
+References computed with earlier versions of the same code family~\citep{Tukovic2018} are classed as C-weak whatever their resolution, because they share discretisation choices with the code under test and cannot expose common-mode errors.
 
-Two further distinctions are maintained throughout.
-First, \emph{self-convergence}, i.e.\ the convergence of a sequence of solutions of one code towards its own limit, demonstrates that the discretisation is consistent and that the asymptotic range has been reached, but not that the limit is the correct one; it is not external verification.
-Second, agreement between two coupling algorithms applied to the same discretisation (e.g.\ IQN-ILS and Robin--Neumann) is an internal consistency check on the iterative error and on the implementation of the coupling. It is not an independent reference, since both algorithms converge to the same discrete problem and share its discretisation error.
-The Robin--Neumann scheme modifies the discrete interface condition~\citep{Tukovic2018b}; where this matters (Section~\ref{sec:fsi23}) the two couplings are not expected to agree to the coupling tolerance.
+Two further distinctions are maintained.
+First, \emph{self-convergence}, i.e.\ convergence of a sequence of solutions of one code towards its own limit, demonstrates convergence of the numerical sequence and may establish the asymptotic rate, but does not establish that the limiting solution is the correct solution of the intended continuum problem; it is not external verification.
+Second, agreement between two coupling algorithms applied to the same discretisation (e.g.\ IQN-ILS and Robin--Neumann) is an internal consistency check on the iterative error and on the implementation of the coupling, not an independent reference, since both share the discretisation error.
+Where the Robin--Neumann scheme modifies the discrete interface condition~\citep{Tukovic2018b} the two couplings are not expected to agree to the coupling tolerance (Section~\ref{sec:fsi23}).
+Self-convergence, agreement with an external reference, and independent verification against a category-A or B reference therefore answer different questions, and are reported separately.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spatial, temporal and iterative convergence}\label{sec:convergence_method}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Refinement studies.}
-Mesh studies refine the fluid and solid meshes together by a constant ratio $r$ (normally $r=2$ in each in-plane direction), with matching interface discretisations.
-Unless stated otherwise the time step is reduced in proportion to the cell size so that the Courant number is unchanged; such a study measures the combined space--time error, and is identified as such.
-Separate time-step studies are performed on a fixed mesh.
-Where the mesh study is run at a fixed time step, the time error common to all levels cancels in the successive differences used for the observed order but not in the error against a reference; this is noted wherever it is significant (Section~\ref{sec:womersley}).
+Mesh studies refine the fluid and solid meshes together by a constant ratio $r$ (normally $r=2$), with matching interface discretisations.
+Where the time step is reduced in proportion to the cell size (constant Courant number) the study measures the combined space--time error and is labelled ``scaled''; separate time-step studies are performed on a fixed mesh.
+In a mesh study at fixed $\Delta t$ the common time error cancels in successive differences but not in the error against a reference (Section~\ref{sec:womersley}).
 
 \paragraph{Observed order.}
-For three solutions $f_1$, $f_2$, $f_3$ (fine to coarse) with constant refinement ratio $r$, the observed order is computed from successive differences,
+For three solutions $f_1$, $f_2$, $f_3$ (fine to coarse) with constant ratio $r$, the observed order is computed from successive differences,
 \begin{equation}
 	p = \frac{\ln\left[(f_3 - f_2)/(f_2 - f_1)\right]}{\ln r},
 	\label{eq:observed_order}
 \end{equation}
-which requires no reference and is the primary self-convergence measure.
+which requires no reference.
 When an exact reference is available, the order of the error itself, $p = \ln(e_2/e_1)/\ln r$ with $e_i = |f_i - f_\mathrm{exact}|$, is also reported.
-For category-B and C references, an \emph{apparent} order is sometimes computed in the same way with $f_\mathrm{ref}$ in place of $f_\mathrm{exact}$; this is meaningful only while $|f_1 - f_\mathrm{ref}|$ is large compared with the reference uncertainty, and two-level apparent orders are labelled as such.
-An observed order is regarded as evidence of asymptotic convergence only when it is close to the formal order of the scheme (two in space and time for the methods used here) and stable across at least three levels; orders far above or below the formal value, or non-monotone sequences, indicate a pre-asymptotic regime or competing error sources.
+For category-B and C references an \emph{apparent} order is sometimes computed with $f_\mathrm{ref}$ in place of $f_\mathrm{exact}$; this is meaningful only while $|f_1 - f_\mathrm{ref}|$ is large compared with the reference uncertainty, and two-level apparent orders are labelled as such.
+Three levels yield a single observed-order estimate, which cannot by itself show that the order is stable.
+The criterion used here is therefore graded: three or more levels with monotonic error reduction and an observed order compatible with the expected asymptotic behaviour (formally two in space and time for the methods used) are taken as \emph{consistent with} asymptotic convergence; only where four or more levels are available is it assessed whether the observed order itself is stabilising.
+Orders far above or below the formal value, or non-monotone sequences, indicate a pre-asymptotic regime or competing error sources.
 
 \paragraph{Richardson extrapolation.}
-Where three levels show an observed order consistent with the formal order, a Richardson estimate
+Where three levels satisfy the criterion above, a Richardson estimate
 \begin{equation}
 	f_\mathrm{RE} = f_1 + \frac{f_1 - f_2}{r^{p} - 1}
 	\label{eq:richardson}
 \end{equation}
-is used to quantify the remaining discretisation error of the finest solution~\citetodo{Richardson 1911; Roache 1998}.
-It is used in this paper only where indicated, and never to promote a non-asymptotic sequence into a converged value.
+is used to estimate the remaining discretisation error of the finest solution~\citetodo{Richardson 1911; Roache 1998}, never to promote a non-asymptotic sequence into a converged value.
 \todo{Decide whether to report a grid-convergence index (GCI) with a safety factor~\citetodo{Roache 1994/1998} for the self-convergence cases, or to keep Richardson estimates only. The current evidence base does not tabulate GCIs.}
 
 \paragraph{Iterative and coupling errors.}
-In a partitioned calculation the interface iterations at each time step are stopped when a coupling residual falls below a tolerance (\texttt{outerCorrTolerance} for the IQN-ILS and Aitken procedures; displacement, pressure-change and leakage-flux residuals for Robin--Neumann), and the fluid and solid linear and nonlinear solvers have their own tolerances.
-The resulting iterative error must be small compared with the discretisation error being measured, otherwise refinement studies converge towards a tolerance floor rather than to the continuum solution.
+Interface iterations at each time step are stopped when a coupling residual falls below a tolerance, and the field solvers have their own tolerances.
+The resulting iterative error must be small compared with the discretisation error being measured, otherwise a refinement study converges towards a tolerance floor rather than to the continuum solution.
 The direct test is a tolerance sweep at fixed discretisation; the indirect test is a comparison of two coupling algorithms.
-As discussed in Section~\ref{sec:iterative_errors}, only a minority of the present cases contain a systematic tolerance sweep, and this is identified as a gap in the current evidence.
+Only a minority of the present cases contain a systematic tolerance sweep (Section~\ref{sec:iterative_errors}).
+
+\paragraph{Proportionate control of error sources.}
+Verification is not treated as a fixed matrix of studies.
+The requirement applied is that, for each benchmark and each QoI on which a claim is made, the error sources that materially affect that QoI are shown to be controlled below the uncertainty relevant to the claim.
+Different benchmarks therefore emphasise different studies: a free-vibration frequency is dominated by the time-integration phase error, a near-body integrated force by spatial resolution, and a self-excited lift amplitude also by the coupling tolerance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Quantities of interest and error measures}\label{sec:qoi}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\paragraph{Choice of quantities.}
-Each benchmark is assessed through a small set of quantities of interest (QoIs) that are defined unambiguously and are computable from both the present results and the reference: point displacements, integrated interface forces, natural frequencies, and, for the analytical references, complex amplitudes (amplitude and phase) of flow rate, wall displacement and the complex wave number.
-Displacement-type, force-type and phase-type quantities are reported separately, because they need not converge at the same rate.
-Point displacements integrate the solution over the structure and are typically the best-behaved QoIs; integrated forces depend on near-wall pressure and velocity gradients and therefore on the boundary-layer resolution; and phase, attenuation and lift-amplitude quantities depend on small differences between larger quantities.
-The cross-benchmark consequences of this are collected in Section~\ref{sec:qoi_dependence}.
+Each benchmark is assessed through a small set of unambiguously defined quantities of interest (QoIs): point displacements, integrated interface forces, frequencies and, for the analytical references, complex amplitudes (amplitude and phase) and the complex wave number.
+Displacement-, force- and phase-type QoIs are reported separately because they need not converge at the same rate (Section~\ref{sec:qoi_dependence}).
 
-\paragraph{Error measures.}
-Errors are reported as relative differences, $(f - f_\mathrm{ref})/|f_\mathrm{ref}|$, except where the reference value is near zero, in which case the error is normalised by a characteristic amplitude (e.g.\ the peak displacement for the collapsible-channel history, Section~\ref{sec:collapsible}).
-Phase errors are reported in radians.
-Comparisons with published curves digitised from figures carry the extraction uncertainty of the digitisation, which is stated with each such reference.
-
-\paragraph{Periodic and transient quantities.}
-For time-periodic responses the comparison is made on statistics over a window of complete periods after the start-up transient has decayed, with the periodicity of the window checked explicitly (the change between successive periods must be small compared with the reported errors).
-For a forced periodic response with a known frequency, the complex Fourier coefficient at the forcing frequency is compared with the exact complex amplitude (womersleyTube).
-For self-excited oscillations (Hron--Turek FSI2 and FSI3), the phase is arbitrary and the comparison is made on the window mean, the amplitude (half the mean peak-to-peak range) and the frequency, following the convention of~\citet{Turek2006}.
-Free-vibration frequencies are obtained from zero crossings (ringAddedMass).
-Transient benchmarks are compared on characteristic events (first trough, first peak, arrival time of a wavefront) as well as on full histories.
-
-\paragraph{Reproducibility and machine-readable outputs.}
-Every case in Section~\ref{sec:benchmark_suite} is accompanied in solids4foam~\citep{Cardiff2025} by an opt-in verification driver (\texttt{Allverify}) that is separate from the regression tests.
-Each driver runs copies of the tutorial case under mesh, time-step and coupling variations, extracts the QoIs, and writes tabulated results (CSV) and a summary; reference values are stored in machine-readable files (JSON or CSV) that record, for each value, its source, figure or table, and extraction method; and the driver exits with a non-zero status unless every acceptance check passes.
-Several drivers also record the OpenFOAM version and a fingerprint of the solver executable and libraries, and reuse a previous run only if these and the case-file hashes match.
-These features are described further in Section~\ref{sec:infrastructure}.
+Errors are relative, $(f - f_\mathrm{ref})/|f_\mathrm{ref}|$, or normalised by a characteristic amplitude where the reference is near zero; phase errors are in radians; digitised curves carry their stated extraction uncertainty.
+Periodic statistics are taken over complete periods after the start-up transient, with the period-to-period change checked to be small compared with the reported errors: forced responses through the complex Fourier coefficient at the forcing frequency, self-excited oscillations through window mean, amplitude (half the mean peak-to-peak range) and frequency~\citep{Turek2006}, and free vibrations through zero-crossing frequencies.
+Transient problems are compared on characteristic events (first trough, wavefront arrival) as well as full histories.
+The drivers and reference files that produce these quantities are described in Section~\ref{sec:infrastructure}.
 \todo{State the exact solids4foam commit(s) and OpenFOAM version(s) used for every result reported. The current evidence was recorded on OpenFOAM-v2412 (ringAddedMass, womersleyTube, collapsibleChannel, Hron--Turek, 3dTube, mokLidDrivenCavity) and v2512 (cavityFlexibleBottom, blobInTreacle, beamInCrossFlow coupling checks), on macOS and Linux; see paper-data/manuscript\_todos.md. Plan a Zenodo archive of case set-ups, drivers, raw CSV outputs and reference files.}

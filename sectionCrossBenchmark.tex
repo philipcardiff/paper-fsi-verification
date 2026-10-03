@@ -4,31 +4,28 @@
 % Synthesis of Section 5. All values are repeated from Section 5 / the
 % evidence inventory; no new values are introduced here.
 
-\todo{First-draft synthesis based on the evidence available on 2026-10-03. Conclusions marked below will change when: (a) Hron--Turek FSI3 4x and 3dTube level 3 are run; (b) the womersleyTube temporal-order diagnosis is complete; (c) independent COMSOL references become available (mokLidDrivenCavity, 3dTube, blobInTreacle, cavityFlexibleBottom, beamInCrossFlow); (d) the Hessenthaler benchmark is completed.}
+\todo{Synthesis based on the evidence available on 2026-10-03. Conclusions will change when: (a) Hron--Turek FSI3 4x and 3dTube level 3 are run; (b) the womersleyTube temporal-order investigation is complete; (c) independent COMSOL references become available (3dTube, beamInCrossFlow, mokLidDrivenCavity first); (d) the Hessenthaler benchmark is completed.}
 
-This section draws together the findings of Section~\ref{sec:benchmark_suite} by theme rather than by case.
-The principal observation is that the strength of a verification statement is limited, in almost every case, by one of three factors: the quality of the reference, the number of refinement levels that can be afforded, or the iterative error.
-The discretisation error of the code under test is rarely the limiting factor once the asymptotic range has been reached.
+This section draws together the findings of Section~\ref{sec:benchmark_suite} by theme.
+In this suite the strength of a verification statement is usually limited by the quality of the reference, the number of refinement levels that could be afforded, or the iterative error, rather than by a demonstrated failure of the discretisation to converge; the womersleyTube temporal order is the principal exception.
+The observations are specific to this suite and to one code family, and are not offered as universal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Spatial and temporal convergence}\label{sec:cross_convergence}
+\subsection{Nominal and observed convergence}\label{sec:cross_convergence}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Table~\ref{tab:orders} collects the observed orders.
-The schemes used are formally second order in space and time.
 
 \begin{table}[htbp]
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{3pt}
-	\caption{Observed orders of convergence across the suite (formal order 2 in space and time). ``SD'': from successive differences of three or more levels (reference-free); ``vs exact'': error against an exact reference; ``2-level vs ref.'': apparent order from two levels against a non-exact reference, which is not reference-free; ``scaled'': $\Delta t$ reduced with $h$.}
+	\caption{Observed orders across the suite (formal order 2 in space and time). ``SD'': successive differences of three or more levels (reference-free); ``vs exact'': error against an exact reference; ``2-level vs ref.'': apparent order from two levels against a non-exact reference; ``scaled'': $\Delta t$ reduced with $h$.}
 	\label{tab:orders}
 	\begin{tabular}{p{3.0cm}p{4.6cm}p{3.4cm}p{2.8cm}}
 		\toprule
 		Case & Space & Time & Basis \\
 		\midrule
 		ringAddedMass & freq.\ converged on coarsest mesh; ratio 1.68--1.77; standard solid 1.66 & 1.90--2.14 & vs exact; Richardson \\
-		womersleyTube & 1.92--2.48 (amplitudes, profile, speed); 0.97 (wall phase); 0.63 (attenuation) & \textbf{1.29--1.84} & SD; vs exact \\
+		womersleyTube & 1.92--2.48 (amplitudes, profile, speed); 0.97 (wall phase); 0.63 (attenuation) & \textbf{1.29--1.84} & SD; errors vs exact \\
 		collapsibleChannel & 1.7, 2.4, then reference floor & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Hron--Turek FSI1 & 1.5--1.7 & -- & 2-level vs ref.\ (B) \\
 		Hron--Turek FSI3 & 1.1--3.8 (scaled) & -- & 2-level vs ref.\ (C) \\
@@ -42,34 +39,27 @@ The schemes used are formally second order in space and time.
 	\end{tabular}
 \end{table}
 
-Four observations follow.
+Table~\ref{tab:orders} collects the observed orders, from which three observations follow.
 
-\emph{Exact references expose behaviour that self-convergence and legacy references cannot.}
-The clearest departure from the formal order in the suite, the sub-nominal temporal order of 1.3--1.8 in womersleyTube, and the first-order spatial convergence of the wall phase and attenuation in the same case, were found in a problem with an exact reference.
-Neither would have been detectable against a category-C reference of $\sim1\%$ uncertainty, and the temporal deficit is invisible in the cases whose temporal studies are self-convergence studies at large $\Delta t$.
-Conversely, ringAddedMass shows that with an exact reference the remaining error at a practical resolution ($-0.13\%$ in frequency) can be attributed unambiguously to the phase error of BDF2.
-The cause of the womersleyTube result is not yet known and it is reported as an open finding.
+\emph{Observed orders frequently depart from the nominal order.}
+Only ringAddedMass (time) and the amplitude-type womersleyTube QoIs (space) show orders close to two over three levels with an exact reference.
+The womersleyTube temporal orders (1.3--1.8) and the first-order spatial convergence of its wall phase and attenuation are reference-free observations; the exact reference adds that the finest solutions lie within $0.12\%$ of the continuum solution ($0.45\%$ for the attenuation), so the deficit cannot be attributed to the comparison.
+Its cause is not known, and it is reported as an unresolved observation rather than repaired or explained.
+In ringAddedMass, by contrast, the exact reference allows the remaining $-0.13\%$ frequency error at a practical resolution to be attributed to the BDF2 phase error.
 
-\emph{Two-level studies do not establish convergence.}
-Hron--Turek FSI1, FSI2, FSI3 and 3dTube currently have two mesh levels each.
-Apparent orders against a reference range from 1.1 to 3.8 in FSI3, which is characteristic of a pre-asymptotic coarse level.
-For 3dTube, the two-level data show that one QoI ($u_{r,\max}$, $0.05\%$ change) is converged while another ($u_{z,\min}$, $1.85\%$) is not, which is useful information but is not an order.
-The most widely used benchmarks are thus, at present, the least completely verified, because they are expensive enough that third levels have not been run.
-
-\emph{Orders above the formal value are a warning, not a success.}
-blobInTreacle (2.4--2.5 in time) and the FSI3 two-level orders (up to 3.8) exceed the formal order.
-Both are interpreted as pre-asymptotic, and no claim of super-convergence is made.
+\emph{Two levels do not establish convergence, and super-nominal orders are a warning.}
+Hron--Turek FSI1--3 and 3dTube have two mesh levels each, so the most widely used benchmarks in the suite are at present the least completely verified.
+The FSI3 apparent orders (1.1--3.8) and the blobInTreacle temporal orders (2.4--2.5) are interpreted as pre-asymptotic; no super-convergence is claimed.
 
 \emph{Combined space--time refinement conceals the balance of errors.}
-Several studies reduce $\Delta t$ with $h$ (Hron--Turek, mokLidDrivenCavity, beamInCrossFlow), which keeps the Courant number fixed but measures only the combined error.
-Where the two have been separated, the balance differs strongly between cases: in 3dTube and mokLidDrivenCavity the temporal error at the working $\Delta t$ is an order of magnitude below the spatial error; in ringAddedMass the spatial error of the frequency is negligible and the temporal error dominates; and in womersleyTube they are of similar size on the finest mesh.
+Where space and time have been separated, the balance differs strongly: in 3dTube and mokLidDrivenCavity the temporal error at the working $\Delta t$ is an order of magnitude below the spatial error, in ringAddedMass it dominates the frequency, and in womersleyTube the two are similar on the finest mesh.
+Scaled studies (Hron--Turek, mokLidDrivenCavity, beamInCrossFlow) cannot show which dominates.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Quantity-of-interest dependence}\label{sec:qoi_dependence}
+\subsection{Dependence on the quantity of interest}\label{sec:qoi_dependence}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In every case with more than one QoI, the QoIs converge at markedly different rates (Table~\ref{tab:qoi_dependence}).
-A verification statement made on the basis of a single QoI therefore says little about the others.
+In every case with more than one QoI, the QoIs converge at substantially different rates (Table~\ref{tab:qoi_dependence}), so a verification statement made on one QoI says little about the others.
 
 \begin{table}[htbp]
 	\centering
@@ -93,47 +83,45 @@ A verification statement made on the basis of a single QoI therefore says little
 	\end{tabular}
 \end{table}
 
-The pattern is not a simple ``displacements converge faster than forces''.
-Time-mean integrated forces (FSI1--3 drag, cavityFlexibleBottom vertical force) are often the \emph{fastest}-converging quantities, presumably because they are dominated by a global pressure balance.
+The pattern is not simply that displacements converge faster than forces.
+Time-mean integrated forces (Hron--Turek drag, cavityFlexibleBottom vertical force) are often the \emph{fastest}-converging quantities, plausibly because they are dominated by a global pressure balance.
 The slowest are of three kinds:
-(i) oscillation amplitudes of forces that result from near-cancellation of larger contributions, above all the Hron--Turek lift amplitude;
-(ii) quantities derived from small differences or small components, such as the Womersley wall phase and attenuation ($\mathrm{Im}(k)$ is 14\% of $\mathrm{Re}(k)$), the 3dTube axial trough and the transverse tip displacement of FSI1; and
-(iii) quantities governed by near-wall resolution in three dimensions (beamInCrossFlow forces), where the mesh family rather than the refinement ratio controls convergence.
-\todo{The beamInCrossFlow interpretation (iii) is a hypothesis until the graded-mesh study is done.}
-The practical consequence is that a benchmark should report several QoI types (a displacement, a mean force, an oscillatory force amplitude or phase, and a frequency where applicable), and that the slowest QoI determines the resolution at which the benchmark can be said to be verified.
+(i) oscillation amplitudes of forces that result from near-cancellation of larger contributions, above all the Hron--Turek lift amplitude, which is also the QoI most sensitive to the coupling tolerance;
+(ii) phase- and attenuation-type quantities, or small components, such as the Womersley wall phase and attenuation ($\mathrm{Im}(k)$ is 14\% of $\mathrm{Re}(k)$), the 3dTube axial trough and the transverse tip displacement of FSI1; and
+(iii) integrated forces governed by near-wall resolution in three dimensions (beamInCrossFlow), where the mesh family rather than the refinement ratio may control convergence.
+\todo{Interpretation (iii) is a hypothesis until the beamInCrossFlow graded-mesh study is done.}
+A benchmark should therefore report several QoI types (a displacement, a mean force, an oscillatory force amplitude or phase, and a frequency where applicable), and the slowest QoI on which a claim is made determines the resolution required.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Iterative and coupling errors}\label{sec:iterative_errors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The iterative error is the least systematically quantified component of the error budget in the present suite, and in the FSI literature generally.
+The iterative error is the least systematically quantified component of the error budget in the present suite.
 
-\emph{Direct tolerance evidence is limited to Hron--Turek.}
-Only FSI2 contains a systematic coupling-tolerance sweep: a coupling tolerance of $10^{-5}$ inflates the lift amplitude by $13\%$ on the 1x mesh and $30\%$ on the 2x mesh, while $10^{-6}$ and $10^{-7}$ agree.
-The effect grows with refinement, so a tolerance chosen on a coarse mesh can contaminate a fine-mesh result.
-For FSI1 a fluid-solver tolerance change ($10^{-6}$ to $10^{-9}$) alters the steady values by at most $2\times10^{-4}$.
+\emph{Direct tolerance evidence is limited.}
+Only Hron--Turek FSI2 contains a coupling-tolerance sweep, and it shows that a tolerance of $10^{-5}$ inflates the lift amplitude by $13\%$ (1x) and $30\%$ (2x): the effect grows with refinement, so a tolerance chosen on a coarse mesh can contaminate a fine-mesh result.
+Elsewhere, the iterative error is bounded only indirectly.
 
-\emph{Iterative floors limit refinement studies.}
-In collapsibleChannel the IQN-ILS/Robin--Neumann difference ($0.08$--$0.23\%$ of the peak) does not decrease with mesh refinement and is of the size expected from the coupling tolerance; at the finest fluid mesh it is comparable with the remaining discretisation error and with the reference uncertainty.
-In blobInTreacle the time study cannot be continued below $\Delta t = 0.03125\,\mathrm{s}$ because the changes reach the solver and coupling tolerance (approximately $10^{-5}\,\mathrm{m}$).
-In both cases the iterative error, not the discretisation, bounds what can be verified.
+\emph{Iterative floors can limit refinement studies.}
+In collapsibleChannel the IQN-ILS/Robin--Neumann difference does not decrease with refinement and, at the finest fluid mesh, is comparable with the remaining discretisation error and the reference uncertainty; in blobInTreacle the time study cannot be continued below $\Delta t = 0.03125\,\mathrm{s}$ because the changes reach the tolerance level.
+In both, the iterative error rather than the discretisation bounds what can be verified.
 
-\emph{Agreement between coupling algorithms is a consistency check, not a reference.}
+\emph{Internal agreement is not external verification.}
 IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $3\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), $0.08\%$ (3dTube QoIs) and $0.4\%$ (beamInCrossFlow, base mesh).
-This confirms that the iterative error is small relative to these differences and that the implementations are consistent; it does not reduce the discretisation error, which both share.
-FSI3 shows that the two need not agree to the coupling tolerance at all when the Robin--Neumann scheme modifies the discrete interface condition: there the difference is a discretisation difference that decreases with refinement.
+This bounds the iterative error relative to these differences and checks the implementations against each other; it says nothing about the shared discretisation error, nor about whether the common limit is the continuum solution.
+FSI3 shows that the two need not agree to the coupling tolerance when the Robin--Neumann scheme modifies the discrete interface condition.
 
 \emph{Coupling algorithms can affect solution quality as well as cost.}
-In ringAddedMass, IQN-ILS produces a mesh-dependent amplitude loss (up to $2.1\%$ per period) that Robin--Neumann does not, without affecting the frequency; the mechanism is not understood.
-Iteration counts favour different algorithms in different cases: IQN-ILS needs fewer iterations in ringAddedMass (most strongly at $\mu = 10$) and FSI3 (9 against 52--152), whereas Robin--Neumann needs fewer in womersleyTube (8.7 against 14.8) and 3dTube (4.7 against 15.5).
+In ringAddedMass, IQN-ILS produces a mesh-dependent amplitude loss that Robin--Neumann does not (mechanism unknown); and the cheaper algorithm is case dependent (IQN-ILS in ringAddedMass and FSI3, Robin--Neumann in womersleyTube and 3dTube).
 
-\todo{ESSENTIAL: a coupling-tolerance sweep (at least two decades) on at least ringAddedMass (strong level) and collapsibleChannel, so that the claim ``iterative error $\ll$ discretisation error'' rests on more than one case. COMSOL evidence does not help here; this is a property of the partitioned procedure.}
+\todo{ESSENTIAL: one or two representative coupling-tolerance sweeps (at least two decades) at fixed discretisation, e.g.\ ringAddedMass (strong level) and collapsibleChannel, so that the claim ``iterative error $\ll$ discretisation error'' rests on more than one case.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reliability of published benchmark values}\label{sec:published_reliability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Of the eight classical or literature-referenced problems in the suite, none has a published reference that is both independent and accompanied by a convergence study at the level of resolution used here, with the exception of the Featflow FSI1 table and the regenerated collapsible-channel reference (Table~\ref{tab:published}).
+Among the literature-referenced problems in the suite, only the Featflow FSI1 table and the regenerated collapsible-channel reference are both independent and accompanied by convergence evidence at the resolution used here (Table~\ref{tab:published}).
+This is a statement about the specific values used, not about the quality of the FSI benchmark literature in general.
 
 \begin{table}[htbp]
 	\centering
@@ -146,8 +134,8 @@ Of the eight classical or literature-referenced problems in the suite, none has 
 		Case & Issue & Consequence \\
 		\midrule
 		Hron--Turek FSI2/3 & Summary values of~\citet{Turek2006} differ from Featflow tables (FSI3 drag amplitude $-18\%$; rounded frequencies); FSI2 level 3$\to$4 changes 0.9--2.5\% & Choice of source changes conclusions; reference uncertain by $\sim1\%$ \\
-		3dTube & FE references use implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$; peaks 21--24\% below FV values & Apparent code disagreement is a time-discretisation effect \\
-		mokLidDrivenCavity & Two inconsistent problem definitions; mesh-dependent openings; no convergence studies; group-B spread 5.7\% (peak) & No published value can be treated as exact \\
+		3dTube & FE references use implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$; peaks 21--24\% below FV values & Much of the peak difference reproduced as a time-discretisation effect \\
+		mokLidDrivenCavity & Two inconsistent problem definitions; mesh-dependent openings; no convincing convergence studies; group-B spread 5.7\% (peak) & No published value can be treated as correct \\
 		collapsibleChannel & Published problem (pre-stressed, massless wall) unsuitable for continuum/partitioned comparison & Modified problem and regenerated reference used \\
 		beamInCrossFlow & Richter refinement level/extrapolation unconfirmed; modified form same-lineage, single mesh & C and C-weak references \\
 		cavityFlexibleBottom & Same-lineage, digitised & Offset of $\sim5\%$ unexplained \\
@@ -156,13 +144,12 @@ Of the eight classical or literature-referenced problems in the suite, none has 
 	\end{tabular}
 \end{table}
 
-Three lessons are general.
-First, the source of a benchmark value matters: the same benchmark has several published ``reference values'', and an $18\%$ difference in a quoted force amplitude is larger than any discretisation error in the present 2x results.
-Second, disagreements between codes in the literature can originate in the discretisation choices of the reference rather than of the code under test, as 3dTube shows; a discrepancy with a published curve should not be resolved by tuning the code.
-Third, references from the same code lineage~\citep{Tukovic2018} are useful for regression and for diagnosing set-up differences, but provide no protection against common-mode errors and cannot be used as external verification.
+The table illustrates the central distinction of Section~\ref{sec:verification_methodology}: a widely used benchmark problem does not automatically provide a trustworthy benchmark solution.
+The same problem can carry several published ``reference values'', and an $18\%$ difference in a quoted force amplitude exceeds every discretisation error in the present 2x results.
+Disagreements between codes can originate in the discretisation of the reference rather than of the code under test (3dTube), so a discrepancy with a published curve should not be resolved by tuning the code; and same-lineage references, though useful for regression and for diagnosing set-up differences, cannot expose common-mode errors.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Computational cost and increasing benchmark complexity}\label{sec:cost}
+\subsection{Cost and dimensionality}\label{sec:cost}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{table}[htbp]
@@ -189,8 +176,7 @@ Third, references from the same code lineage~\citep{Tukovic2018} are useful for 
 	\end{tabular}
 \end{table}
 
-Cost rises by roughly four orders of magnitude from the exact-reference problems to the finest three-dimensional calculations (Table~\ref{tab:cost}).
-The completeness of the verification evidence falls in the opposite direction: the cheap two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have two mesh levels (3dTube), non-asymptotic uniform refinement (beamInCrossFlow) or, so far, no study at all (Hessenthaler).
-This inverse relation is not specific to the present code: it is the reason why the published values of the most realistic benchmarks are the least well converged, and it argues for a tiered suite in which inexpensive problems with strong references carry the burden of demonstrating formal accuracy, and expensive problems are used to test robustness, scalability and QoI behaviour in realistic configurations (Section~\ref{sec:recommended_suite}).
-Dimensionality also changes which errors dominate: in three dimensions the near-wall fluid resolution, rather than the solid discretisation or the coupling, appears to limit convergence (beamInCrossFlow), whereas in the thin-walled two-dimensional problems the solid discretisation can dominate (collapsibleChannel: $17.4\%$ versus $0.44\%$ for linear versus cubic solid).
-\todo{Revisit this subsection once the Hessenthaler benchmark and the 3dTube level-3 / beamInCrossFlow graded-mesh results exist; add cost per degree of freedom and per time step if comparable hardware is used.}
+Cost rises by roughly four orders of magnitude from the exact-reference problems to the finest three-dimensional calculations (Table~\ref{tab:cost}), and the completeness of the evidence falls in the opposite direction: the inexpensive two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have two mesh levels (3dTube), non-asymptotic uniform refinement (beamInCrossFlow) or, so far, no study (Hessenthaler).
+This illustrates one practical reason why rigorous convergence evidence becomes scarcer as geometric and computational complexity increase, and it motivates a tiered suite (Section~\ref{sec:recommended_suite}).
+Dimensionality may also change which error source dominates: in the three-dimensional beamInCrossFlow the near-wall fluid resolution appears to limit convergence (pending the graded-mesh study), whereas in the thin-walled two-dimensional collapsibleChannel the solid discretisation can dominate ($17.4\%$ versus $0.44\%$ for linear versus cubic solid).
+\todo{Revisit once the Hessenthaler benchmark and the 3dTube level-3 / beamInCrossFlow graded-mesh results exist; add cost per degree of freedom and per time step if comparable hardware is used.}

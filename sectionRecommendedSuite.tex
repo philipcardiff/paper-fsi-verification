@@ -2,89 +2,76 @@
 \section{Recommended verification suite}\label{sec:recommended_suite}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\todo{WORKING PROPOSAL. Final membership is not frozen; decisions marked below depend on outstanding evidence (paper-data/manuscript\_todos.md).}
+\todo{WORKING PROPOSAL. Final membership is not frozen; provisional cases are not assigned a final place until their evidence is complete (paper-data/manuscript\_todos.md).}
 
-Sections~\ref{sec:benchmark_suite} and~\ref{sec:cross_benchmark} suggest that no single benchmark verifies a continuum FSI code, and that the most widely used benchmarks are not the most discriminating.
-We therefore propose a tiered suite.
-The core suite is inexpensive enough to be run routinely, for example before each release or after a change to a discretisation or coupling algorithm, and is built around problems with exact or independently converged references.
-The extended suite contains three-dimensional, geometrically complex or expensive problems that test behaviour under more realistic conditions and are run less often.
+No single benchmark verifies a continuum FSI code, and in the present suite the most widely used benchmarks are not the most discriminating.
+We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membership determined by complementary challenges, reference quality, cost, and suitability for routine versus high-end use.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\caption{Proposed tiered suite (working proposal). Ref.: reference category (Table~\ref{tab:ref_hierarchy}).}
+	\label{tab:suite_tiers}
+	\begin{tabular}{p{2.8cm}p{1.1cm}p{6.3cm}p{3.4cm}}
+		\toprule
+		Case & Ref. & Principal challenge & Status \\
+		\midrule
+		\multicolumn{4}{l}{\emph{Core suite (routine; a few hours on a workstation)}} \\
+		ringAddedMass & A & added mass over $\mu = 0.1$--$10$; temporal phase error; solid-independent coupling check & core \\
+		womersleyTube & A & viscous wave propagation; amplitude versus phase/attenuation & core; open time-order finding \\
+		collapsibleChannel & B & thin bending wall, large deformation, strong added mass; solid discretisation & core \\
+		Hron--Turek FSI1 & B & steady large-deformation coupling & core; third level desirable \\
+		mokLidDrivenCavity & C-weak & tension-dominated membrane; definition sensitivity & candidate; see note \\
+		\midrule
+		\multicolumn{4}{l}{\emph{Extended / high-cost suite}} \\
+		Hron--Turek FSI2, FSI3 & C & self-excited oscillation; lift amplitude; tolerance sensitivity; mesh motion & needs FSI3 4x \\
+		3dTube & C-weak & 3-D wave propagation with added mass; time-discretisation sensitivity & needs level 3 \\
+		beamInCrossFlow$^\ast$ & C/C-weak & 3-D steady external flow; near-body force resolution & provisional \\
+		Hessenthaler$^\ast$ & -- & realistic 3-D geometry, large deformation; robustness & in development \\
+		cavityFlexibleBottom$^\ast$ & C-weak & steady internal flow, large deformation & provisional \\
+		blobInTreacle$^\ast$ & C-weak & temporal order in viscous large-deformation flow & provisional; possibly supplementary \\
+		\bottomrule
+		\multicolumn{4}{l}{$^\ast$ Provisional; tier not frozen.}
+	\end{tabular}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Core suite}\label{sec:core_suite}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{table}[htbp]
-	\centering
-	\footnotesize
-	\setlength{\tabcolsep}{3pt}
-	\caption{Proposed core suite (working proposal).}
-	\label{tab:core_suite}
-	\begin{tabular}{p{2.8cm}p{1.0cm}p{6.4cm}p{3.4cm}}
-		\toprule
-		Case & Ref. & What it verifies & Status \\
-		\midrule
-		ringAddedMass & A & added-mass coupling over $\mu = 0.1$--$10$; temporal order; solid-independent check via wet/dry ratio & core \\
-		womersleyTube & A & viscous wave propagation; amplitude and phase; temporal order & core; open time-order finding \\
-		collapsibleChannel & B & large-deformation bending wall; strong added mass; solid discretisation; partitioned robustness & core (serial; $\approx2.5$\,h full sweep) \\
-		Hron--Turek FSI1 & B & steady large-deformation coupling & core; third level desirable \\
-		mokLidDrivenCavity & C-weak & self-convergence of a tension-dominated membrane; definition sensitivity & core candidate; see note \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+The core suite is cheap enough to run after any change to a discretisation or coupling algorithm.
+Its backbone is the two category-A problems, which alone measure the total error directly; the category-B problems extend it to large deformation within reference uncertainties of $\approx0.3\%$ (collapsibleChannel) and $\approx0.2\%$ (FSI1).
 
-The core suite (Table~\ref{tab:core_suite}) covers inviscid and viscous added mass, small and large deformation, bending- and tension-dominated walls, transient, periodic and steady regimes, and all three coupling algorithms, with a total cost of a few hours on a workstation.
-The two category-A problems are the backbone, because only they measure the total error and can expose a deficit in formal order.
-The category-B problems extend coverage to large deformation, within the reference uncertainty of $\approx0.3\%$ (collapsibleChannel) and $\approx0.2\%$ (FSI1).
-For each core case we recommend reporting at least three refinement levels in space and in time, the observed orders of at least one displacement-type and one force- or phase-type QoI, a coupling-algorithm comparison and a coupling-tolerance sweep.
+The requirement is not a fixed matrix of studies but the principle of Section~\ref{sec:convergence_method}: for each QoI on which a claim is made, the error sources that materially affect it must be shown to be controlled below the uncertainty relevant to the claim.
+The benchmarks therefore emphasise different studies: ringAddedMass isolates temporal, solid-discretisation and added-mass effects; womersleyTube requires careful temporal and phase analysis; collapsibleChannel requires control of the solid discretisation and of the coupling tolerance; and, in the extended suite, beamInCrossFlow is challenging chiefly through the spatial resolution of near-body forces.
+Each core result should state its reference category, the number of levels and the observed behaviour for at least one displacement-type and one force- or phase-type QoI, and the evidence that the iterative error is subordinate.
 
-\todo{Decide whether mokLidDrivenCavity belongs in the core suite (cheap; tests a different solid regime; but C-weak and only self-convergence evidence) or in the extended suite. An independent converged COMSOL solution of the group-B definition would justify core membership. Decide also whether blobInTreacle, if promoted, enters the core suite as a temporal-order check.}
+\todo{Decide whether mokLidDrivenCavity belongs in the core suite (cheap; tests a different solid regime; but C-weak and only self-convergence evidence) or in the extended suite. An independent converged COMSOL solution of the group-B definition would justify core membership.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Extended and high-cost suite}\label{sec:extended_suite}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{table}[htbp]
-	\centering
-	\footnotesize
-	\setlength{\tabcolsep}{3pt}
-	\caption{Proposed extended suite (working proposal).}
-	\label{tab:extended_suite}
-	\begin{tabular}{p{2.8cm}p{1.2cm}p{6.2cm}p{3.4cm}}
-		\toprule
-		Case & Ref. & What it tests & Status / condition \\
-		\midrule
-		Hron--Turek FSI2, FSI3 & C & self-excited oscillation; lift-amplitude convergence; tolerance sensitivity; mesh motion (FSI2) & needs FSI3 4x \\
-		3dTube & C-weak & 3-D wave propagation with added mass; time-discretisation sensitivity & needs level 3 \\
-		beamInCrossFlow & C/C-weak & 3-D steady external flow; near-body resolution; 3-D large deformation & provisional; graded mesh + independent reference \\
-		Hessenthaler & -- & realistic 3-D geometry and large deformation; robustness and scalability & in development \\
-		cavityFlexibleBottom & C-weak & steady internal flow, large deformation & provisional; may be dropped \\
-		blobInTreacle & C-weak & temporal order in viscous large-deformation flow & provisional; possibly supplementary \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-The extended suite (Table~\ref{tab:extended_suite}) is not intended to establish formal order, which the core suite does more cheaply and more reliably, but to test whether the accuracy demonstrated there carries over to three dimensions, to geometrically complex domains, to large fluid-mesh motion and to QoIs (oscillatory forces, near-wall-dominated forces) that converge slowly.
-The Hron--Turek problems belong here despite being two-dimensional, because their slowest QoIs require meshes and run times well beyond those of the core suite, and because their published references carry approximately $1\%$ uncertainty.
-For these cases we recommend that published values be quoted together with their source (e.g.\ Featflow table or summary value) and reference category, and that agreement with them not be presented as verification without a self-convergence study.
+The extended suite does not establish formal order, which the core suite does more cheaply and reliably, but tests whether that accuracy carries over to three dimensions, complex geometry, large mesh motion and slowly converging QoIs.
+Hron--Turek FSI2/FSI3 belong here despite being two-dimensional, because their slowest QoIs need resolutions well beyond the core suite and their references carry $\approx1\%$ uncertainty.
+Published values should be quoted with their source (e.g.\ Featflow table or summary value) and reference category, and agreement with them should not be presented as verification without self-convergence evidence.
 
 \todo{Final extended-suite membership depends on: FSI3 4x; 3dTube level 3; beamInCrossFlow graded-mesh study and independent reference; Hessenthaler study; cavityFlexibleBottom resolution. A case without at least three mesh levels should not be listed as ``verified'' in any final suite table.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Executable benchmark infrastructure}\label{sec:infrastructure}
+\subsection{Executable verification infrastructure}\label{sec:infrastructure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A benchmark is useful for verification only if its definition, its reference and the procedure used to compare against the reference are reproducible.
-In the present work each case is distributed with an executable verification driver, and we recommend the following properties for any FSI verification suite.
+A benchmark is useful for verification only if its definition, its reference and the comparison procedure are reproducible.
+Independently of the code used, we recommend the following properties, which the drivers accompanying the present cases in solids4foam~\citep{Cardiff2025} implement to varying degrees.
 
 \begin{itemize}
-	\item \emph{Separation from regression testing.} Regression tests check that results have not changed; verification studies check convergence towards a reference. They have different costs, tolerances and purposes, and are kept as separate, opt-in drivers (\texttt{Allverify}) that never modify the tutorial case itself.
-	\item \emph{Complete studies, not single runs.} Each driver runs the mesh, time-step and coupling studies, computes the QoIs and observed orders, and exits with a non-zero status unless every acceptance criterion is met. Acceptance tolerances are set from the measured convergence and the model assumptions, and are stored with the reference rather than in the driver.
-	\item \emph{Machine-readable outputs.} Per-run QoIs are written to CSV, with a human-readable summary; diverged, truncated or non-periodic runs are reported as failures rather than read as results.
-	\item \emph{Reference provenance.} Reference values are stored in machine-readable files that record, for each value, the publication, figure or table, the extraction method (tabulated, vector-extracted, raster-digitised) and its estimated uncertainty; where possible, the script or source code that generates the reference (collocation solutions, oomph-lib driver) is stored with it.
-	\item \emph{Versioning and fingerprints.} Each run records the case-file hashes, the OpenFOAM version and a fingerprint of the solver executable and libraries, and previous runs are reused only if all of these match.
-	\item \emph{Archival.} The case set-ups, drivers, raw outputs and reference files used for a publication are archived with a persistent identifier.
+	\item \emph{Executable studies separate from regression tests.} An opt-in driver runs the mesh, time-step and coupling studies, computes the QoIs and observed orders, and exits with a non-zero status unless every acceptance criterion is met; regression tests, which check only that results have not changed, are kept separate.
+	\item \emph{Reference provenance.} Reference values are stored in machine-readable files that record, for each value, the source, figure or table, the extraction method (tabulated, vector-extracted, raster-digitised) and its uncertainty; where possible, the code that generates the reference (collocation scripts, oomph-lib driver) is stored with it.
+	\item \emph{Machine-readable outputs.} Per-run QoIs are written to CSV with a human-readable summary; diverged, truncated or non-periodic runs are reported as failures rather than read as results.
+	\item \emph{Reproducibility.} Each run records case-file hashes, the OpenFOAM version and a fingerprint of the solver executable and libraries; the case set-ups, drivers, raw outputs and reference files used for a publication are archived with a persistent identifier.
 \end{itemize}
 
-Such infrastructure allows a verification claim to be re-executed and checked by others rather than accepted on trust, and allows the suite to be re-run as the code changes.
-Machine-executable verification with unambiguous pass/fail criteria is also increasingly useful for automated scientific-software development workflows, in addition to conventional human-led development, because it provides an objective check that does not depend on visual comparison of plots.
+Such infrastructure allows a verification claim to be re-executed rather than accepted on trust.
 \todo{Not all drivers currently implement every property above (e.g.\ executable/library fingerprints are recorded by some drivers only; per-level CSV is not yet stored for beamInCrossFlow). Audit before submission and state precisely which properties hold for each case. Add Zenodo DOI.}
