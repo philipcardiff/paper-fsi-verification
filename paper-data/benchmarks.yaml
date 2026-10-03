@@ -1,0 +1,522 @@
+# Machine-readable twin of benchmark_inventory.md.
+# Every value traces to a solids4foam file, PR description/comment, or this
+# repository's simulationData/. Keys "derived_here" and "read_from_plot" flag
+# values computed or read in this inventory rather than stated in a source.
+
+provenance:
+  repository: https://github.com/solids4foam/solids4foam
+  branch: development
+  commit: 7c928c55
+  commit_date: 2026-10-03
+  inventory_date: 2026-10-03
+  new_simulations_run: false
+  open_prs_checked: [528, 503, 249, 233, 116]
+  open_prs_with_fsi_verification_content: []
+  reference_categories:
+    A: analytical or semi-analytical
+    B: independently converged numerical reference of the same problem
+    C: classical/published benchmark with partly quantified error
+    C-weak: as C, but figure-digitised, single-mesh, inconsistent, preprint or same code lineage
+
+benchmarks:
+
+  - id: ringAddedMass
+    path: tutorials/fluidSolidInteraction/ringAddedMass
+    prs: [510]
+    dimension: 2D plane strain (quarter, symmetry)
+    regime: transient free vibration (n=2 mode)
+    fluid_model: pimpleFluid, incompressible NS, nu=1e-7 (effectively inviscid)
+    solid_model: linearGeometryTotalDisplacement, PETSc SNES; cubic high-order (default) or standard
+    deformation: small
+    feature_tested: added mass, mass ratio mu = 0.101, 1.008, 10.08
+    reference:
+      category: A
+      description: exact linear eigenvalue of plane-strain continuum ring with potential-flow added-mass traction (Chebyshev collocation, 24 intervals); thin-ring closed form (Brennen 1982) as check
+      provenance: verification/scripts/ring_exact_frequencies.py; verification/reference/ringAddedMass_verification_references.json
+      precision: collocation change ~4.6e-8
+      values:
+        omega_dry: 2.55504219581415
+        omega_wet: {weak: 2.4356148807267943, moderate: 1.8045131724003833, strong: 0.768654490979269}
+        ratio: {weak: 0.9532581828656255, moderate: 0.7062557226478153, strong: 0.30083827665880936}
+        viscous_frequency_shift: {weak: -4.12e-5, moderate: -2.63e-4, strong: -7.31e-4}
+    quantities_of_interest: [wet frequency, dry frequency, wet/dry ratio, amplitude loss per period]
+    mesh_study: {exists: true, levels: [1, 2, 4], solid_cells: "4x48 to 16x192", fluid_cells: "12x48 to 48x192", steps_per_period: 100}
+    time_step_study: {exists: true, steps_per_period: [25, 50, 100], mesh_factor: 2}
+    coupling_study:
+      exists: true
+      description: IQN-ILS vs Robin-Neumann, mesh 2, 100 steps/period
+      agreement: 0.03% in frequency
+      mean_iterations: {iqnils: [2.99, 3.95, 4.91], robin: [3.87, 4.85, 12.29]}
+      tolerance_sweep: false
+    other_studies: [standard vs high-order solid]
+    observed_orders:
+      time: {dry: 1.90, weak: 1.92, moderate: 2.02, strong: 2.14}
+      mesh_ratio_error: {weak: 1.77, moderate: 1.73, strong: 1.68}
+      mesh_standard_solid: 1.66
+      mesh_frequency_high_order: not measurable (changes <= 0.06%)
+    best_values:
+      setting: mesh 4, 100 steps/period, IQN-ILS, high-order
+      omega: {dry: 2.55173, weak: 2.43248, moderate: 1.80224, strong: 0.76770}
+      error: {dry: -0.129%, weak: -0.129%, moderate: -0.126%, strong: -0.124%}
+      ratio_error: {weak: +0.001%, moderate: +0.003%, strong: +0.006%}
+      richardson_time_extrapolated_error: "within +0.018%"
+    independent_code_evidence: not required (exact); collocation script independent of solids4foam
+    cost: {tutorial: 75 s serial, full_study: "35 runs, ~30 min with 32 concurrent serial runs", longest_run: ~25 min}
+    versions_recorded: [v2412]
+    limitations:
+      - viscous damping not verified (Stokes layer unresolved by design)
+      - IQN-ILS amplitude loss up to 2.1%/period (coarsest, strong), halves per refinement, absent with Robin; mechanism unexplained
+      - v2412 only; regression half-period differs 0.05% on v2512
+    unique_contribution: exact reference with added-mass ratio swept over two decades; separates time, solid and coupling errors
+    strengthen: [v2512 rerun, explain IQN-ILS amplitude loss, n=3 mode and h/a sweep, quasi-monolithic solver run]
+    recommendation: {section: "4.1", placement: main}
+
+  - id: womersleyTube
+    path: tutorials/fluidSolidInteraction/womersleyTube
+    prs: [513]
+    dimension: axisymmetric (1 degree wedge)
+    regime: time-periodic travelling wave (6 periods, last 2 analysed)
+    fluid_model: pimpleFluid, viscous incompressible, Womersley number 5.01
+    solid_model: linearGeometryTotalDisplacement, PETSc SNES, standard second-order (high-order fails on wedge, issue 512)
+    deformation: small
+    feature_tested: viscous pressure-wave propagation in thick compliant tube; non-reflecting exact travelling-wave ends
+    reference:
+      category: A
+      description: exact linear solution, thick elastic cylinder (Chebyshev collocation, 16 intervals) + linearised full NS; free (untethered) wall
+      provenance: verification/scripts/womersley_exact.py; verification/reference/womersleyTube_verification_references.json
+      checks: [k8 vs k24 collocation, thin-wall limit vs Womersley/Filonova 2020 Eq. 41, tethered long-wave Lame limit to 2e-5]
+      values:
+        k: [0.14397837071646385, -0.020726589651181286]
+        wave_speed: 0.8727957228454881
+        wavelength: 43.6397861422744
+        womersley_thin_wall_wave_speed: 0.9135681385326775
+    quantities_of_interest: [velocity profile, flow rate amplitude and phase, wall radial displacement amplitude and phase, wave speed, attenuation]
+    mesh_study: {exists: true, levels: [1, 2, 4], base: "32 axial, 10 fluid radial, 4 wall radial", steps_per_period: 200, coupling: robin}
+    time_step_study: {exists: true, steps_per_period: [50, 100, 200], mesh_factor: 2}
+    coupling_study:
+      exists: true
+      description: IQN-ILS vs Robin, mesh 2, 100 steps/period
+      agreement: 3e-4 or better on every quantity
+      mean_iterations: {iqnils: 14.8, robin: 8.7}
+      tolerance_sweep: false
+    observed_orders:
+      mesh: {profile: 2.06, flow_amp: 2.16, flow_phase: 1.92, wallMid_amp: 2.15, wallMid_phase: 0.97, speed: 2.48, attenuation: 0.63}
+      time: {flow_amp: 1.64, flow_phase: 1.84, wallMid_amp: 1.71, wallMid_phase: 1.74, speed: 1.29, attenuation: 1.51}
+    best_values:
+      setting: m4, n200, Robin
+      relative_errors: {profile: 1.18e-3, flow_amp: -7.15e-4, flow_phase_rad: 1.53e-5, wallMid_amp: 8.57e-4, wallMid_phase_rad: -1.88e-3, speed: 8.93e-4, attenuation: -4.47e-3}
+    independent_code_evidence: not required (exact)
+    cost: {tutorial: "~4 min serial IQN-ILS, ~2 min Robin", runs: 2.5-25 min, full_study: ~30 min with 5 cores}
+    versions_recorded: [v2412 macOS arm64]
+    limitations:
+      - time order 1.3-1.8, below nominal 2; cause unidentified
+      - unexplained ~0.5% start-up transient that grows as dt decreases
+      - mesh study at n200 carries a time error of similar size to the finest mesh error
+      - wall phase and attenuation ~first order in space
+      - untethered wall, not Womersley's constrained tube (issue 511)
+      - Robin result moves 0.26% of amplitude v2412 -> v2512 (PR 513 comment), ~10x IQN-ILS sensitivity
+      - OpenFOAM.com only
+    checked_and_ruled_out:
+      - "BDF d2dt2 start-up fix fdf9b856 (feature/bdf34-time-schemes) affects only bdfD2dt2Scheme, not backward"
+    unique_contribution: exact viscous time-periodic wave-propagation reference with amplitude and phase QoIs; only axisymmetric case
+    strengthen: [diagnose time order (time study on m4 or n400), v2512 rerun, tethered variant after issue 511]
+    recommendation: {section: "4.1", placement: main, condition: time-order diagnosis or explicit reporting}
+
+  - id: collapsibleChannel
+    path: tutorials/fluidSolidInteraction/collapsibleChannel
+    prs: [507]
+    dimension: 2D
+    regime: transient (ramped collapse, damped oscillation), analysed to t=1.5 s
+    fluid_model: pimpleFluid, Re = Re*St = 50
+    solid_model: total-Lagrangian St Venant-Kirchhoff, PETSc SNES matrix-free; cubic high-order (default) or linear reconstruction
+    deformation: large
+    feature_tested: very light thin bending wall, strong added mass, internal flow; partitioned robustness vs wall density
+    reference:
+      category: B
+      description: oomph-lib monolithic Newton FE (Q2P-1 fluid, nonlinear Kirchhoff-Love beam, BDF2/Newmark); converged reference is Richardson-in-time of dt=0.003125 and 0.0015625
+      provenance: verification/reference/oomph-lib/collapsible_channel_ref.cc (regenerable); verification/reference/*.csv
+      precision: ~0.3% of peak (refinement 1 vs 2 0.26%; Richardson correction 0.06%; CR vs Taylor-Hood <0.001%)
+      modifications_from_published_problem: [sigma0 = 0 (no pre-stress), h/a = 1/20, clamped ends, pressure ramp, regularising density rho_s = rho_f (shift 0.28% of peak)]
+      model_form_difference: beam vs continuum O(h/L); static 0.05%
+      values: {static_wallMid: -0.14362832, converged_first_trough: -0.2160, peak_reference_displacement: 0.216}
+    quantities_of_interest: [wall-midpoint displacement history, first trough, static deflection]
+    mesh_study:
+      exists: true
+      solid_meshes: ["80x8", "160x8", "320x8", "640x8"]
+      fluid_levels: [1, 2, 3, 4]
+      fluid_cells: [3200, 12800, 28800, 51200]
+      fluid_errors_vs_oomph_same_dt: [4.65%, 1.43%, 0.53%, 0.50%]
+    time_step_study: {exists: true, dt: [0.025, 0.0125, 0.00625, 0.003125], self_differences: [4.56%, 1.33%, 0.34%], mesh: tutorial fluid level 1}
+    coupling_study:
+      exists: true
+      description: density sweep rho_s/rho_f 0..3 for IQN-ILS and Robin; Robin vs IQN-ILS comparison
+      agreement: 0.08-0.23% of peak, does not shrink with refinement
+      findings: [IQN-ILS never completes whole study, Robin completes all from rho_s/rho_f = 1]
+      tolerance_sweep: false
+    other_studies: [static wall linear vs cubic, solid discretisation in coupled problem]
+    observed_orders:
+      fluid_mesh: [1.7, 2.4, then reference floor]
+      time: [1.8, 2.0]
+      oomph_lib_time: [1.8, 1.9]
+    best_values: {first_trough_fluid4_dt0.00625: -0.21610, error_vs_oomph: 0.50%, cubic_solid_error_tutorial_mesh: 0.44%, linear_solid_error_tutorial_mesh: 17.4%}
+    independent_code_evidence: oomph-lib (independent monolithic FE)
+    cost: {tutorial: ~10 min, full_sweep: ~2.5 h one case per core, largest_case: 70 min, parallel: not supported (serial-only high-order Jacobian)}
+    versions_recorded: [v2412 Linux PETSc 3.24, v2412 macOS PETSc 3.22 (static)]
+    limitations:
+      - not the published pre-stressed massless problem
+      - temporal error on finest fluid mesh not measured
+      - solid fails in parallel; a 4-rank linear-reconstruction run gave a wrong displacement
+      - Robin/IQN-ILS gap does not shrink with refinement
+      - v2412 only
+    unique_contribution: independently converged monolithic reference for large-deformation bending wall with strong added mass; partitioned failure map
+    strengthen: [time study on fluid level >=3, parallel rerun after Jacobian fix, quasi-monolithic run with massless wall]
+    recommendation: {section: "4.2", placement: main}
+
+  - id: HronTurek
+    path: tutorials/fluidSolidInteraction/HronTurek
+    prs: [506, 472, 492, 219]
+    dimension: 2D (one spanwise cell)
+    fluid_model: pimpleFluid
+    solid_model: StVenantKirchhoffElastic, nonlinear geometry
+    reference_ambiguity: "Turek & Hron (2006) summary values differ from Featflow tables (FSI3 drag amplitude 22.66 vs 27.74 N/m; u_y frequency 5.3 vs 5.46 Hz; FSI2 u_y frequency 2.0 vs 1.93 Hz); study uses the tables"
+    variants:
+      - id: FSI1
+        regime: steady (pseudo-transient to t=30 s, dt 0.025)
+        deformation: large formulation, small displacement (u_y ~0.8 mm)
+        feature_tested: steady FSI with small loads
+        reference:
+          category: "C (B-grade)"
+          description: Featflow FSI1 table, six levels 2+0..7+0; spread <=0.73% u_x, 0.19% u_y, 0.14% drag, 0.26% lift
+          values: {ux: 2.270493e-5, uy: 8.208773e-4, drag: 14.29426, lift: 0.763746}
+        mesh_study: {exists: true, levels: [1, 2], level_4_defined_not_run: true}
+        results:
+          "1x": {ux: 2.20672e-5, uy: 7.04258e-4, drag: 14.18027, lift: 0.803445}
+          "2x": {ux: 2.24843e-5, uy: 7.82820e-4, drag: 14.26063, lift: 0.775620}
+          errors_2x: {ux: 0.97%, uy: 4.64%, drag: 0.24%, lift: 1.55%}
+        observed_orders_vs_featflow: {ux: 1.5, uy: 1.6, drag: 1.7, lift: 1.7}
+        time_step_study: "dt 0.025 -> 0.01 on 1x: u_y 0.04%, drag 0.04%, u_x 0.26%"
+        coupling_study: {description: steady Robin vs IQN-ILS restart on 1x, agreement: "<=0.01%", iterations: {iqnils: 5.9, robin: 17.6}}
+        tolerance_study: "fluid solver tolerance 1e-6 vs 1e-9: steady values agree to 2e-4 (1x, 2x)"
+        cost: {"1x": 781 s serial, "2x": 3062 s on 2 ranks, "4x": ">14 h on 3 ranks (estimate)"}
+        recommendation: {section: "4.2 or 4.3", placement: main, note: short}
+      - id: FSI3
+        regime: periodic self-excited
+        deformation: large formulation, moderate displacement (u_y ~ +/-35 mm)
+        feature_tested: low mass ratio (rho_s = rho_f), high-frequency vortex-induced oscillation
+        reference:
+          category: C
+          description: Featflow FSI3 level 4+0, dt=0.00025; driver reproduces table from published history to <=0.7% (drag amplitude 1.1%)
+          values: {ux_mean: -0.00288, ux_amplitude: 0.00272, ux_frequency: 10.93, uy_amplitude: 0.03499, uy_frequency: 5.46, drag_mean: 460.5, drag_amplitude: 27.74, lift_amplitude: 153.91}
+        mesh_study:
+          exists: true
+          levels: [1, 2]
+          cells: {"1x": {fluid: 5336, solid: 630, dt: 0.001}, "2x": {fluid: 21344, solid: 2520, dt: 0.0005}}
+          results_2x: {ux_mean: -2.791e-3, ux_amplitude: 2.662e-3, uy_amplitude: 34.17e-3, uy_frequency: 5.524, drag_mean: 459.3, drag_amplitude: 28.06, lift_amplitude: 174.4}
+          errors_1x_derived_here: {ux_mean: 21.3%, ux_amplitude: 19.2%, uy_amplitude: 14.4%, uy_frequency: 2.5%, drag_mean: 0.7%, drag_amplitude: 15.5%, lift_amplitude: 48.9%}
+          errors_2x: {ux_mean: 3.1%, ux_amplitude: 2.1%, uy_amplitude: 2.3%, uy_frequency: 1.2%, drag_mean: 0.3%, drag_amplitude: 1.2%, lift_amplitude: 13.3%}
+        observed_orders_two_level_vs_featflow_derived_here: {ux_mean: 2.8, ux_amplitude: 3.2, uy_amplitude: 2.6, uy_frequency: 1.1, drag_mean: 1.5, drag_amplitude: 3.8, lift_amplitude: 1.9}
+        time_step_study: none separate (dt scaled with mesh)
+        coupling_study:
+          description: transient Robin vs IQN-ILS from common restart, t=2..2.05 s
+          max_difference_1x: {ux: 5.08%, uy: 1.72%, drag: 0.24%, lift: 3.53%}
+          max_difference_2x: {ux: 1.92%, uy: 1.22%, drag: 0.13%, lift: 2.76%}
+          interpretation: different discrete interface conditions; difference < 1x->2x discretisation change
+          mean_iterations: {"1x": {iqnils: 9.0, robin: 151.5}, "2x": {iqnils: 9.0, robin: 51.7}}
+        tolerance_note: outerCorrTolerance 1e-5 (1e-6 stalls ~once per 5000 steps)
+        cost: {"1x": 1.1 h serial, "2x": 4.1 h on 8 ranks}
+        recommendation: {section: "4.3", placement: main, condition: 4x level}
+      - id: FSI2
+        regime: periodic self-excited, large amplitude
+        deformation: large (u_y ~ +/-80 mm)
+        feature_tested: heavy soft plate, large-amplitude flapping, fluid-mesh distortion
+        reference:
+          category: C
+          description: Featflow FSI2 level 4+0, dt=0.0005; level 3->4 changes 0.9-2.5% (reference uncertain ~1%)
+          values: {ux_mean: -0.01485, ux_amplitude: 0.0127, ux_frequency: 3.86, uy_amplitude: 0.0816, uy_frequency: 1.93, drag_mean: 215.06, drag_amplitude: 77.65, lift_amplitude: 237.8}
+        mesh_study:
+          exists: true
+          levels: [1, 2]
+          results_2x: {ux_mean: -14.396e-3, ux_amplitude: 12.458e-3, ux_frequency: 3.929, uy_amplitude: 80.55e-3, uy_frequency: 1.965, drag_mean: 216.04, drag_amplitude: 79.24, lift_amplitude: 256.32}
+          errors_1x: {ux_mean: 21.6%, ux_amplitude: 16.4%, ux_frequency: 7.0%, uy_amplitude: 12.4%, uy_frequency: 6.9%, drag_mean: 4.6%, drag_amplitude: 13.1%, lift_amplitude: 7.9%}
+          errors_2x: {ux_mean: 3.1%, ux_amplitude: 1.9%, ux_frequency: 1.8%, uy_amplitude: 1.3%, uy_frequency: 1.8%, drag_mean: 0.5%, drag_amplitude: 2.0%, lift_amplitude: 7.8%}
+        tolerance_study: "outerCorrTolerance 1e-5 inflates lift amplitude 13% (1x) / 30% (2x); 1e-6 vs 1e-7 no change"
+        cost: {"1x": 1.2 h serial, "2x": 4.0 h on 7 ranks}
+        limitations: [fluid mesh degrades (non-orthogonality 26 -> 58 deg by 10.5 s), IQN-ILS fails at 11.36 s on 2x, lift amplitude not converging (8% on both meshes)]
+        recommendation: {section: "4.3", placement: main, note: with FSI3 in one table}
+    independent_code_evidence: Featflow (independent monolithic FE); Tukovic 2018 values stored for information (same lineage)
+    versions_recorded: [v2412 Apple M1 Ultra]
+    limitations:
+      - only two mesh levels in every variant
+      - FSI3 lift amplitude 13.3% off at 2x
+      - FSI2 lift amplitude not converging; mesh-motion degradation
+    unique_contribution: community-standard benchmark in three regimes; only tolerance-sensitivity evidence in suite
+    strengthen: [FSI3 4x (essential), FSI1 4x, FSI2 4x after mesh-motion fix, separate time-step study for FSI3 at 2x]
+
+  - id: 3dTube
+    path: tutorials/fluidSolidInteraction/3dTube
+    prs: [501]
+    dimension: 3D (quarter tube)
+    regime: transient pressure pulse (3 ms), run to 20 ms
+    fluid_model: pimpleFluid, rho=1000, nu=3e-6
+    solid_model: Hookean small-strain linear elastic (literature mostly StVK)
+    deformation: small
+    feature_tested: 3D pressure-wave propagation in compliant vessel with strong added mass
+    reference:
+      category: C-weak
+      sources:
+        - {name: Tukovic et al. 2018 Fig. 25, type: FV backward, extraction: vector exact, independent: false, value_ur_max_mm: 0.15694, value_t_ur_max_ms: 7.23}
+        - {name: Lozovskiy et al. 2019 Fig. 3, type: monolithic FE implicit Euler dt=1e-4, extraction: raster +/-3e-6 m, independent: true, value_ur_max_mm: 0.1194}
+        - {name: Eken 2016 Fig. 5.6, type: monolithic FE implicit Euler dt=1e-4, extraction: raster +/-3e-6 m, independent: true, value_ur_max_mm: 0.1242}
+        - {name: thick-wall wave speed Tukovic 2018 Eq. 36, value_m_per_s: 4.81, quality: approximate}
+        - {name: Moens-Korteweg, value_m_per_s: "5.22-5.74", quality: upper bound}
+    quantities_of_interest: [u_r,max(A) and time, u_z,min(A) incident trough, u_r,min after reflection, front arrival time, pulse-wave speed c_p]
+    mesh_study:
+      exists: true
+      levels: [1, 2]
+      cells: {"1": {fluid: 16000, solid: 6400, dt: 2.5e-5}, "2": {fluid: 128000, solid: 51200, dt: 1.25e-5}}
+      level_3_defined_not_run: true
+      results: {"1": {ur_max_mm: 0.15984, uz_min_mm: -0.08823, t_arr_ms: 5.874, c_p: 4.771}, "2": {ur_max_mm: 0.15976, uz_min_mm: -0.08660, t_arr_ms: 5.854, c_p: 4.695}}
+      changes: {ur_max: 0.05%, uz_min: 1.85%, t_arr: 0.34%, c_p: 1.58%}
+    time_step_study:
+      exists: true
+      dt: [1e-4, 5e-5, 2.5e-5, 1.25e-5]
+      ur_max_successive_changes: [1.74%, 0.83%, 0.016%]
+      t_arr_successive_changes: [2.23%, 0.44%, 0.14%]
+    literature_discretisation_study: "Euler dt=1e-4 reproduces FE peaks (+2.5% Lozovskiy, -1.4% Eken); explains ~25% FE/FV split"
+    coupling_study:
+      exists: true
+      description: Robin vs IQN-ILS, level 1, backward, dt 2.5e-5
+      agreement: "history <=0.27% of peak, QoIs <=0.08%"
+      mean_iterations: {robin: 4.74, iqnils: 15.53}
+      predictor_on_off: "<=0.001%"
+    observed_orders: not defined (two mesh levels)
+    best_values: {ur_max_mm_level2: 0.15976, vs_tukovic: +1.8%, c_p_level2: 4.695, vs_thick_wall_estimate: -2.4%}
+    independent_code_evidence: Lozovskiy 2019 and Eken 2016 (monolithic FE) at their own Euler discretisation only
+    cost: {level_1: 425 s on 4 ranks, level_2: 7197 s on 4 ranks, level_3: ">10 h on 6 ranks (estimate)"}
+    versions_recorded: [v2412 Apple M1 Ultra]
+    limitations: [two mesh levels only, u_z,min still changing 1.85%, references read from figures, Hookean vs StVK, pressure ramp-off 3.0-3.1 ms, Robin iterations rise to 7.4 at smallest dt]
+    unique_contribution: only 3D transient case with mesh, time and coupling studies; resolves FE/FV literature discrepancy
+    strengthen: [level 3 (essential for main paper), independent converged reference (COMSOL requested)]
+    recommendation: {section: "4.3", placement: main, condition: level 3}
+
+  - id: mokLidDrivenCavity
+    path: tutorials/fluidSolidInteraction/mokLidDrivenCavity
+    prs: [497]
+    dimension: 2D
+    regime: periodic forced (lid 1-cos(2 pi t/5)), window t=20-70 s
+    fluid_model: pimpleFluid, rho=1, nu=0.01
+    solid_model: high-order TL (default) or standard; membrane h=0.002, E=250
+    deformation: large displacement, tension-dominated
+    feature_tested: classic partitioned-coupling benchmark; tension-dominated membrane
+    reference:
+      category: C-weak
+      ambiguity: published curves form two inconsistent groups; group A openings mesh-dependent and unstated
+      group_B_envelope: {peak: [0.2619, 0.2769], trough: [0.1967, 0.2033], mean: [0.2316, 0.2466]}
+      sources:
+        - {name: Valdes 2007, group: B, extraction: vector exact, peak: 0.2695, trough: 0.1967, mean: 0.2321}
+        - {name: Kratos (Zorrilla), group: B, extraction: raster ~0.5% of peak, peak: 0.2619, trough: 0.2033, mean: 0.2316}
+        - {name: Tiba et al. 2026, group: B, type: arXiv preprint 2609.16876, scalars_only: true, peak: 0.2769, mean: 0.2466}
+        - {name: Kassiotis et al. 2011, group: between, peak: 0.2433, trough: 0.2066, mean: 0.2255}
+        - {name: Mok 2001, group: A, peak: 0.2149, trough: 0.1426, mean: 0.1773}
+        - {name: Gerbeau and Vidrascu 2003, group: A, peak: 0.2132, trough: 0.1545, mean: 0.1828}
+        - {name: Wall 1999, group: A, peak: 0.1770, trough: 0.1474, mean: 0.1610}
+      no_source_reports_mesh_or_dt_study: true
+    quantities_of_interest: [midpoint mean peak, trough, time-mean, history distance to Valdes-Kratos band]
+    mesh_study:
+      exists: true
+      levels: ["16x16", "32x32", "64x64", "96x96"]
+      dt: [0.2, 0.1, 0.05, 0.025]
+      peaks: [0.2934, 0.2890, 0.2870, 0.2861]
+      troughs: [0.1942, 0.1986, 0.2022, 0.2044]
+      means: [0.2426, 0.2427, 0.2437, 0.2445]
+      successive_changes_of_peak: [1.56%, 1.26%, 0.78%]
+      finer_level_128_diverged: true
+    time_step_study: {exists: true, dt: [0.1, 0.05, 0.025], mesh: "64x64", changes: [0.17%, 0.04%]}
+    coupling_study: {exists: partial, description: "IQN-ILS vs Aitken, same response (no number recorded); iteration counts vs literature", tolerance_sweep: false}
+    other_studies: ["standard (2 or 8 cells) vs high-order solid agree to 0.04%"]
+    observed_orders: {peak: ~1.2, trough: "<0.5"}
+    best_values: {setting: "96x96", peak: 0.2861, trough: 0.2044, mean: 0.2445, peak_outside_envelope: +3.32%}
+    independent_code_evidence: Valdes, Kratos, Kassiotis (all single mesh/dt); commercial-code solution requested
+    cost: {mesh_96: 3729 s on 2 ranks, quick: ~7 min}
+    versions_recorded: [v2412 Apple Silicon]
+    limitations: [trough uncertain 1-2%, 128x128 diverges, one vector-extracted group-B history, foam-extend 3% different, OpenFOAM-9 regression varies ~1% across machines]
+    unique_contribution: shows literature definitions inconsistent and references unconverged; tension-dominated counterpoint
+    strengthen: [independent converged reference, diagnose 128 divergence, Richardson estimates]
+    recommendation: {section: "4.3", placement: main}
+
+  - id: beamInCrossFlow
+    path: tutorials/fluidSolidInteraction/beamInCrossFlow
+    prs: [412, 518, 450]
+    dimension: 3D (half domain, z=0 symmetry)
+    regime: steady (transient run to t=8 s, backward)
+    fluid_model: pimpleFluid, rho=1000, nu=1e-3
+    solid_model: StVenantKirchhoffElastic
+    coupling_study:
+      description: base-mesh Robin vs IQN-ILS, both forms (PR 518)
+      agreement: within 0.4%
+      other: "IQN-ILS option sweep; relMinSignificant 1e-2 removes near-steady stall"
+    time_step_study: none (dt scaled with mesh; Euler diagnostic only)
+    observed_orders: not asymptotic; no order reported
+    note_on_refined_meshes: PR 518 states refined verification meshes were not rerun after IQN-ILS default change (base mesh changed 0.01%)
+    variants:
+      - id: original
+        deformation: small (StVK used)
+        parameters: {E: 1.4e6, U_max: 0.2, ramp_s: 4, Re: 40}
+        reference:
+          category: C
+          sources:
+            - {name: Richter 2015, code: GASCOIGNE 3D monolithic FE, independent: true, ux: 5.95e-5, fx: 1.33, note: refinement level / extrapolation to be checked}
+            - {name: Tukovic 2018, independent: false, ux: 5.93e-5, uy: 2.40e-5, fx: 1.31, fy: 0.1055}
+        mesh_study:
+          levels: [1, 2, 4, 8]
+          dt: [0.05, 0.025, 0.0125, 0.00625]
+          finest_8x: {ux: 5.95387e-5, fx: 1.310774}
+          finest_errors_derived_here: {ux_vs_richter: +0.07%, fx_vs_richter: -1.4%, fx_vs_tukovic: +0.06%}
+          read_from_plot_ux: [3.93e-5, 5.04e-5, 5.69e-5, 5.95e-5]
+          last_change_read_from_plot: ~4.6%
+          fy_monotone: false
+        cost: {"8x": "~7.6M cells, ~11 h on 64 cores"}
+        recommendation: {section: "4.3", placement: supplementary}
+      - id: modified
+        deformation: large
+        parameters: {E: 1.0e4, U_max: 0.3, ramp_s: 1}
+        reference:
+          category: C-weak
+          sources:
+            - {name: Tukovic 2018 Fig. 28, independent: false, mesh: "273539 fluid / 6661 solid unstructured", ux: 0.01463, uy: 0.005, two_uz: -0.000447}
+          possible_independent_source_to_check: Gillebaart et al. 2016 (3D elastic beam in channel)
+        mesh_study:
+          levels: [1, 2, 3, 4, 8]
+          dt: [0.05, 0.025, 0.0166667, 0.0125, 0.00625]
+          finest_8x: {ux: 0.0143007, uy: 0.00496486, two_uz: -0.00045743}
+          finest_errors_derived_here: {ux: -2.3%, uy: -0.7%, two_uz: +2.3%}
+          read_from_plot_ux: [0.00978, 0.01214, 0.01315, 0.01365, 0.01430]
+          last_change_read_from_plot: ~4.7%
+        recommendation: {section: "4.3", placement: supplementary, promote_to_main_if: asymptotic convergence and independent reference}
+    independent_code_evidence: Richter 2015 (original form only)
+    versions_recorded: [unspecified for PR 412 sweeps; v2512 for PR 518 checks]
+    limitations: [not in asymptotic range, very fine fluid mesh needed near block, modified-form reference same lineage, per-level values only in PNG plots]
+    unique_contribution: only 3D steady and only 3D large-deformation case; shared geometry separates geometric nonlinearity
+    strengthen: [graded fluid-mesh family to asymptotic range, tabulated per-level CSV, check Richter level, independent large-deformation reference]
+
+  - id: cavityFlexibleBottom
+    path: tutorials/fluidSolidInteraction/cavityFlexibleBottom
+    prs: [439]
+    paper_repo_data: simulationData/cavityFlexibleBottom/campaignSummary.tsv
+    dimension: 2D
+    regime: steady (pseudo-transient, Euler, solid dampingCoeff)
+    fluid_model: pimpleFluid, Re=100
+    solid_model: nonLinearGeometryTotalLagrangianTotalDisplacement, StVK, E=500
+    deformation: large
+    feature_tested: internal flow over flexible cavity floor; steady FSI
+    reference:
+      category: C-weak
+      description: Tukovic et al. 2018 mesh-study curves, digitised; forces per 0.05 m depth
+      independent: false
+      values_uy: {"0.1": -0.23325, "0.05": -0.24574, "0.025": -0.24957, "0.0125": -0.25063}
+      values_fy_per_0.05m: {"0.1": -0.25801, "0.05": -0.26144, "0.025": -0.26246, "0.0125": -0.26272}
+    quantities_of_interest: [steady u_y at (4,-1,0.5), steady interface F_y]
+    mesh_study:
+      partitioned_aitken_v2512: {dx: [0.1, 0.05, 0.025], uy: [-0.20246, -0.22883, -0.23563], uy_error: [13.2%, 6.88%, 5.59%], fy: [-5.15312, -5.23894, -5.25632], fy_error: [0.13%, 0.19%, 0.14%]}
+      level_4_diverges_at_tutorial_dt: true
+      monolithic_paper_data: {dx: [0.1, 0.05, 0.025], uy_dt0.5: [-0.244682, -0.280336, -0.291921], fy_dt0.5: [-5.12266, -5.23412, -5.25227]}
+    time_step_study: {exists: "pseudo-time only (monolithic, paper data, dt 0.5-40 s)", finding: steady values insensitive to dt}
+    coupling_study: {exists: false}
+    observed_orders: {uy_partitioned_net: 1.96}
+    unresolved_discrepancy:
+      description: monolithic vs partitioned steady u_y differ by 24% at dx=0.025 while F_y agrees to 0.08%; published value lies between
+      derived_here: {uy_ratio_minus_1: 0.239, fy_ratio_minus_1: -0.0008, monolithic_vs_published: +17%}
+      also: tutorial README quotes earlier coarse-mesh value -0.219 m vs -0.20246 m now
+      likely_cause_class: set-up difference (solid model, material, monitor point or BCs), not coupling
+    cost: {partitioned_sweep: ~10 min serial, monolithic_m3: 2000-16500 s}
+    versions_recorded: [v2512 (partitioned), quasi-monolithic branch (paper data)]
+    unique_contribution: steady internal flow; only case with monolithic-solver data in this repo
+    recommendation: {placement: exclude, revisit: after discrepancy resolved; then at most supplementary}
+
+  - id: blobInTreacle
+    path: tutorials/fluidSolidInteraction/blobInTreacle
+    prs: [498]
+    dimension: 2D
+    regime: transient ramp to t=2 s, then steady
+    fluid_model: pimpleFluid with consistent yes (SIMPLEC), rho=1, nu=1
+    solid_model: StVK (preprint linear)
+    deformation: large
+    feature_tested: second-order temporal accuracy in viscous strongly damped FSI
+    reference:
+      category: C-weak
+      sources:
+        - {name: Liu et al. 2014 JCP, content: self-convergence norms only}
+        - {name: Liu arXiv:1401.0082 Fig. 5.3, content: interface at t=1 s, discretisation: "P5/P4/P5, first order, dt=0.025", own_error: ~4% of interface displacement}
+        - {name: Liu arXiv:1401.0082 Fig. 5.2, content: steady interface, mesh: "1239 fluid / 370 solid triangles"}
+      top_point_steady_displacement: [0.1297, -0.0117]
+    quantities_of_interest: [top-point u_x, u_y, interface shape at t=1 s and steady]
+    time_step_study: {exists: true, dt: [0.25, 0.125, 0.0625, 0.03125], ux_at_t1: [0.0558737, 0.0564184, 0.0565219, 0.0565398], orders_ux: [2.39, 2.54], orders_interface: [2.39, 2.41]}
+    mesh_study:
+      exists: true
+      levels: [0.5, 1, 2, 4]
+      ux_steady: [0.108206, 0.117301, 0.119698, 0.120152]
+      uy_steady: [-0.012650, -0.013745, -0.014003, -0.013996]
+      shape_error_t1: [5.5%, 1.6%, 1.6%, 1.6%]
+      shape_error_steady: [12.6%, 7.8%, 6.5%, 6.3%]
+      observed_order: 2.40
+      richardson_ux: 0.12026
+    coupling_study: {exists: false}
+    best_values: {ux_steady: 0.120152, vs_published: -7.4%, uy_vs_published: "+20% magnitude", shape_t1: 1.6%}
+    independent_code_evidence: Liu (FE), coarse and figure-based; COMSOL being arranged
+    cost: {full_study: ~33 min (x2, x4 on 4 ranks)}
+    versions_recorded: [v2512 Linux]
+    limitations: [steady offset 6-7% unexplained (attributed to coarse reference), time study limited by tolerance floor below dt=0.03125, finest mesh needs dt=0.005, not rechecked with quasi-monolithic solver]
+    unique_contribution: clean second-order temporal accuracy in viscous large-deformation FSI
+    strengthen: [independent converged reference, time study with tighter tolerances]
+    recommendation: {section: "4.3", placement: supplementary}
+
+excluded:
+  - {id: immersedHronTurekFsi2, location: tutorials/fluids/immersedBoundary, prs: [491, 487], reason: "immersed-boundary method; tip amplitude 7%/5% low, force amplitudes not mesh-converged; separate paper"}
+  - {id: membraneRoof, prs: [499], reason: "self-declared not a verification; single-run reference not reproduced"}
+  - {id: flexibleDamBreak, prs: [308], reason: "free-surface two-phase; references disagree after 0.6 s; no independence study"}
+  - {id: fillingElasticContainer, reason: "two-phase; qualitative agreement only"}
+  - {id: perpendicularFlap, reason: "demonstration, no reference"}
+  - {id: oneWayCavity, reason: "one-way demonstration, no reference"}
+  - {id: cerebralAneurysm, reason: "patient-specific demonstration; regression values only"}
+  - {id: parent_paper_cases_7_8, reason: "no solids4foam tutorial or verification evidence found"}
+
+section4_proposal:
+  "4.0": verification protocol
+  "4.1": {title: Analytical and semi-analytical reference problems, cases: {ringAddedMass: main, womersleyTube: main}}
+  "4.2": {title: Independently converged numerical reference problems, cases: {collapsibleChannel: main, HronTurek_FSI1: main}}
+  "4.3":
+    title: Classical FSI benchmarks revisited
+    cases:
+      HronTurek_FSI3_FSI2: main
+      3dTube: main
+      mokLidDrivenCavity: main
+      beamInCrossFlow_original: supplementary
+      beamInCrossFlow_modified: supplementary
+      blobInTreacle: supplementary
+      cavityFlexibleBottom: exclude
+  "4.4": summary table (suite card)
+
+missing_evidence:
+  essential:
+    - {id: cavity-discrepancy, case: cavityFlexibleBottom, task: diff monolithic and partitioned set-ups to explain 24% u_y difference at equal force, cost: low (no runs initially)}
+    - {id: womersley-time-order, case: womersleyTube, task: time study on m4 and/or n400; isolate interface-velocity BC and start-up transient, cost: "~1-2 h"}
+    - {id: single-version-rerun, case: all main-paper cases, task: rerun on v2512 at fixed commit on Linux; tabulate per-level CSV; Zenodo archive, cost: "~1-2 days of cluster time"}
+    - {id: hronturek-fsi3-4x, case: HronTurek FSI3, task: run 4x level (dt 0.00025, 16 ranks), cost: "many hours (unestimated in source)"}
+    - {id: 3dtube-level3, case: 3dTube, task: run level 3 (~1.4M cells), cost: ">10 h on 6 ranks"}
+    - {id: tolerance-study, case: "ringAddedMass, collapsibleChannel (at least)", task: vary outerCorrTolerance over two decades, cost: low-moderate}
+    - {id: reference-provenance, case: "HronTurek, beamInCrossFlow, mokLidDrivenCavity", task: "document Featflow tables vs 2006 summary; Richter 2015 level; flag Tiba 2026 preprint", cost: none}
+  desirable:
+    - {case: "mokLidDrivenCavity, 3dTube, blobInTreacle, collapsibleChannel", task: independent commercial-code references (COMSOL requested)}
+    - {case: collapsibleChannel, task: time study on fluid level 3-4; parallel rerun after Jacobian fix}
+    - {case: HronTurek, task: FSI1 4x; FSI2 4x after mesh-motion fix}
+    - {case: "ringAddedMass, collapsibleChannel, womersleyTube", task: quasi-monolithic solver (PR 233) cross-check, incl. massless collapsible wall}
+    - {case: ringAddedMass, task: explain IQN-ILS mesh-dependent amplitude loss}
+    - {case: mokLidDrivenCavity, task: diagnose 128x128 divergence; Richardson for trough}
+    - {case: beamInCrossFlow, task: graded mesh family to asymptotic range; per-level CSV; check Gillebaart 2016}
+  optional:
+    - {case: womersleyTube, task: tethered variant (issue 511), high-order wedge solid (issue 512)}
+    - {case: ringAddedMass, task: n=3 mode, h/a sweep}
+    - {case: blobInTreacle, task: time study with tighter tolerances below dt=0.03125}
+    - {case: cavityFlexibleBottom, task: level 4 with smaller dt (if retained)}
+    - {case: all, task: cross-fork reproducibility (OpenFOAM.org, foam-extend)}
+    - {case: HronTurek, task: Robin-Neumann cost appendix (issue 493)}

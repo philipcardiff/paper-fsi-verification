@@ -1,0 +1,51 @@
+%%==================================================================%%
+%% PROPOSED Section 4 outline -- comments only, not \input anywhere.
+%% Source of evidence: paper-data/benchmark_inventory.md
+%%==================================================================%%
+%
+% \section{Verification benchmarks}\label{sec:benchmarks}
+%
+% \subsection{Verification protocol}
+%   - QoIs and error norms; periodic-window statistics (mean/amplitude/freq)
+%   - observed order: successive differences vs error against reference
+%   - Richardson extrapolation; asymptotic-range criterion
+%   - coupling/iteration-error policy (outerCorrTolerance, Robin criteria)
+%   - reproducibility: Allverify drivers, input fingerprints, fixed
+%     solids4foam commit + OpenFOAM version, Zenodo archive
+%
+% \subsection{Analytical and semi-analytical reference problems}
+%   \subsubsection{Added mass on a vibrating ring (ringAddedMass)}    [MAIN]
+%     exact continuum eigenvalue; mu = 0.1, 1, 10; time orders 1.9-2.1;
+%     wet/dry ratio isolates coupling error; IQN-ILS vs Robin 0.03%
+%   \subsubsection{Womersley flow in a thick elastic tube (womersleyTube)} [MAIN]
+%     exact thick-wall + full linearised NS; mesh order ~2 for amplitudes;
+%     OPEN: time order 1.3-1.8, start-up transient (diagnose or report)
+%
+% \subsection{Independently converged numerical reference problems}
+%   \subsubsection{Collapsible channel (collapsibleChannel)}          [MAIN]
+%     oomph-lib monolithic reference (regenerable); 0.5% at reference floor;
+%     cubic vs linear solid; partitioned-failure map vs wall density
+%   \subsubsection{Turek--Hron FSI1 (steady)}                          [MAIN, short]
+%     Featflow six-level table converged to ~0.2%; orders 1.5-1.7
+%     (alternatively open 4.3.1 with FSI1)
+%
+% \subsection{Classical FSI benchmarks revisited}
+%   \subsubsection{Turek--Hron FSI3 and FSI2}                          [MAIN]
+%     Featflow tables vs 2006 summary values (ambiguity); lift amplitude;
+%     tolerance sensitivity (FSI2); mesh-motion limit (FSI2)
+%     NEEDS: FSI3 4x level
+%   \subsubsection{Three-dimensional flexible tube (3dTube)}           [MAIN]
+%     only 3-D transient; FE/FV 25% literature split = time discretisation
+%     NEEDS: level 3
+%   \subsubsection{Lid-driven cavity with flexible bottom (Mok)}       [MAIN]
+%     two inconsistent literature groups; converged solids4foam result;
+%     tension-dominated membrane (standard = high-order solid)
+%   [SUPPLEMENTARY] beamInCrossFlow (original + modified),
+%                   blobInTreacle (2nd-order time accuracy)
+%   [EXCLUDED]      cavityFlexibleBottom (unresolved 24% mono/partitioned
+%                   u_y difference; same-lineage reference), immersed FSI2,
+%                   membraneRoof, flexibleDamBreak, fillingElasticContainer
+%
+% \subsection{Summary of the suite}
+%   one table: case | dim | regime | ref. category | orders | finest error |
+%              coupling agreement | cost
