@@ -25,7 +25,7 @@ The observations are specific to this suite and to one code family, and are not 
 		Case & Space & Time & Basis \\
 		\midrule
 		ringAddedMass & freq.\ converged on coarsest mesh; ratio 1.68--1.77; standard solid 1.66 & 1.90--2.14 & vs exact; Richardson \\
-		womersleyTube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level & 1.85--2.14 (1.29--1.84 before end-flux fix) & SD; errors vs exact \\
+		womersleyTube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level & 1.86--2.14 (1.29--1.84 before end-flux fix) & SD; errors vs exact \\
 		collapsibleChannel & 1.7, 2.4, then reference floor & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Hron--Turek FSI1 & 1.5--1.7 & -- & 2-level vs ref.\ (B) \\
 		Hron--Turek FSI3 & 1.1--3.8 (scaled) & -- & 2-level vs ref.\ (C) \\
@@ -109,7 +109,7 @@ In collapsibleChannel the IQN-ILS/Robin--Neumann difference does not decrease wi
 In both, the iterative error rather than the discretisation bounds what can be verified.
 
 \emph{Internal agreement is not external verification.}
-IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.3\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), $0.08\%$ (3dTube QoIs) and $0.4\%$ (beamInCrossFlow, base mesh).
+IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.2\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), $0.08\%$ (3dTube QoIs) and $0.4\%$ (beamInCrossFlow, base mesh).
 This bounds the iterative error relative to these differences and checks the implementations against each other; it says nothing about the shared discretisation error, nor about whether the common limit is the continuum solution.
 FSI3 shows that the two need not agree to the coupling tolerance when the Robin--Neumann scheme modifies the discrete interface condition.
 
