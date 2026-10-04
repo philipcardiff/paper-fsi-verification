@@ -4,10 +4,10 @@
 % Synthesis of Section 5. All values are repeated from Section 5 / the
 % evidence inventory; no new values are introduced here.
 
-\todo{Synthesis based on the evidence available on 2026-10-03. Conclusions will change when: (a) Hron--Turek FSI3 4x and 3dTube level 3 are run; (b) the womersleyTube temporal-order investigation is complete; (c) independent COMSOL references become available (3dTube, beamInCrossFlow, mokLidDrivenCavity first); (d) the Hessenthaler benchmark is completed.}
+\todo{Synthesis based on the evidence available on 2026-10-03. Conclusions will change when: (a) Hron--Turek FSI3 4x and 3dTube level 3 are run; (c) independent COMSOL references become available (3dTube, beamInCrossFlow, mokLidDrivenCavity first); (d) the Hessenthaler benchmark is completed.}
 
 This section draws together the findings of Section~\ref{sec:benchmark_suite} by theme.
-In this suite the strength of a verification statement is usually limited by the quality of the reference, the number of refinement levels that could be afforded, or the iterative error, rather than by a demonstrated failure of the discretisation to converge; the womersleyTube temporal order is the principal exception.
+In this suite the strength of a verification statement is usually limited by the quality of the reference, the number of refinement levels that could be afforded, or the iterative error, rather than by a demonstrated failure of the discretisation to converge; the one such failure found, the womersleyTube temporal order, was traced to the boundary treatment and reduced to an $O(\Delta t\,h)$ boundary term that is negligible at practical steps.
 The observations are specific to this suite and to one code family, and are not offered as universal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,7 +25,7 @@ The observations are specific to this suite and to one code family, and are not 
 		Case & Space & Time & Basis \\
 		\midrule
 		ringAddedMass & freq.\ converged on coarsest mesh; ratio 1.68--1.77; standard solid 1.66 & 1.90--2.14 & vs exact; Richardson \\
-		womersleyTube & 1.92--2.48 (amplitudes, profile, speed); 0.97 (wall phase); 0.63 (attenuation) & \textbf{1.29--1.84} & SD; errors vs exact \\
+		womersleyTube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level & 1.86--2.14 (1.29--1.84 before end-flux fix) & SD; errors vs exact \\
 		collapsibleChannel & 1.7, 2.4, then reference floor & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Hron--Turek FSI1 & 1.5--1.7 & -- & 2-level vs ref.\ (B) \\
 		Hron--Turek FSI3 & 1.1--3.8 (scaled) & -- & 2-level vs ref.\ (C) \\
@@ -44,8 +44,9 @@ Table~\ref{tab:orders} collects the observed orders, from which three observatio
 \emph{Observed orders can depart from the nominal order.}
 Among the category-A cases, ringAddedMass exhibits near-second-order temporal convergence, while the amplitude-type womersleyTube quantities exhibit near-second-order spatial convergence.
 Independently of reference quality, collapsibleChannel also shows near-second-order behaviour, in space against its category-B reference (orders 1.7 and 2.4 before the reference floor) and in time by self-convergence (1.8 and 2.0).
-The womersleyTube temporal orders (1.3--1.8) and the first-order spatial convergence of its wall phase and attenuation are reference-free observations; the exact reference adds that the finest solutions lie within $0.12\%$ of the continuum solution ($0.45\%$ for the attenuation), so the deficit cannot be attributed to the comparison.
-Its cause is not known, and it is reported as an unresolved observation rather than repaired or explained.
+womersleyTube first showed temporal orders of 1.3--1.8 that fell towards one as $\Delta t$ was refined, on every mesh.
+The orders are reference-free observations, but the diagnosis relied on the exact reference and on fluid-only and end-flux diagnostics: the deficit came from an $O(\Delta t)$ mass-flux inconsistency at the artificial tube ends, where the exact pressure and velocity gradient are imposed, not from the coupling (Section~\ref{sec:womersley}).
+With a flux-consistent end treatment every QoI converges at second order in time over the steps used (formally, an $O(\Delta t\,h)$ boundary term remains, as for standard fixed-pressure outlets), and the finest solutions lie within $0.12\%$ of the continuum solution ($0.2\%$ for the attenuation, at the linear-theory level).
 In ringAddedMass, by contrast, the exact reference allows the remaining $-0.13\%$ frequency error at a practical resolution to be attributed to the BDF2 phase error.
 
 \emph{Two levels do not establish convergence, and super-nominal orders are a warning.}
@@ -53,7 +54,7 @@ Hron--Turek FSI1--3 and 3dTube have two mesh levels each, so the most widely use
 The FSI3 apparent orders (1.1--3.8) and the blobInTreacle temporal orders (2.4--2.5) are interpreted as pre-asymptotic; no super-convergence is claimed.
 
 \emph{Combined space--time refinement conceals the balance of errors.}
-Where space and time have been separated, the balance differs strongly: in 3dTube and mokLidDrivenCavity the temporal error at the working $\Delta t$ is an order of magnitude below the spatial error, in ringAddedMass it dominates the frequency, and in womersleyTube the two are similar on the finest mesh.
+Where space and time have been separated, the balance differs strongly: in 3dTube and mokLidDrivenCavity the temporal error at the working $\Delta t$ is an order of magnitude below the spatial error, in ringAddedMass it dominates the frequency, and in womersleyTube, once the end-flux inconsistency is removed, it is a tenth or less of the finest-mesh error for most QoIs (before, the two were similar).
 Scaled studies (Hron--Turek, mokLidDrivenCavity, beamInCrossFlow) cannot show which dominates.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,7 +73,7 @@ In every case with more than one QoI, the QoIs converge at substantially differe
 		\toprule
 		Case & Faster & Slower \\
 		\midrule
-		womersleyTube & flow-rate, wall amplitude, wave speed: order $\approx2$, error $\leq0.09\%$ & wall phase (order 0.97); attenuation (order 0.63, error $-0.45\%$) \\
+		womersleyTube & flow-rate, wall amplitude, wave speed: order $\approx2$, error $\leq0.04\%$ & wall phase (order 1.40); attenuation (error $-0.2\%$, at the linear-theory level) \\
 		Hron--Turek FSI1 (2x) & drag $0.24\%$ & $u_y$ $4.64\%$ \\
 		Hron--Turek FSI3 (2x) & drag mean $0.3\%$; displacements 2.1--3.1\% & lift amplitude $13.3\%$ \\
 		Hron--Turek FSI2 (2x) & drag mean $0.5\%$; $u_y$ amplitude $1.3\%$ & lift amplitude $7.8\%$, not converging \\
@@ -108,7 +109,7 @@ In collapsibleChannel the IQN-ILS/Robin--Neumann difference does not decrease wi
 In both, the iterative error rather than the discretisation bounds what can be verified.
 
 \emph{Internal agreement is not external verification.}
-IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $3\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), $0.08\%$ (3dTube QoIs) and $0.4\%$ (beamInCrossFlow, base mesh).
+IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.2\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), $0.08\%$ (3dTube QoIs) and $0.4\%$ (beamInCrossFlow, base mesh).
 This bounds the iterative error relative to these differences and checks the implementations against each other; it says nothing about the shared discretisation error, nor about whether the common limit is the continuum solution.
 FSI3 shows that the two need not agree to the coupling tolerance when the Robin--Neumann scheme modifies the discrete interface condition.
 

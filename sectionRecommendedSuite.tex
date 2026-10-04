@@ -19,7 +19,7 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		\midrule
 		\multicolumn{4}{l}{\emph{Core suite (routine; a few hours on a workstation)}} \\
 		ringAddedMass & A & added mass over $\mu = 0.1$--$10$; temporal phase error; solid-independent coupling check & core \\
-		womersleyTube & A & viscous wave propagation; amplitude versus phase/attenuation & core; open time-order finding \\
+		womersleyTube & A & viscous wave propagation; amplitude versus phase/attenuation; truncated-domain boundary consistency & core \\
 		collapsibleChannel & B & thin bending wall, large deformation, strong added mass; solid discretisation & core \\
 		Hron--Turek FSI1 & B & steady large-deformation coupling & core; third level desirable \\
 		mokLidDrivenCavity & C-weak & tension-dominated membrane; definition sensitivity & candidate; see note \\
@@ -44,7 +44,7 @@ The core suite is cheap enough to run after any change to a discretisation or co
 Its backbone is the two category-A problems, which alone measure the total error directly; the category-B problems extend it to large deformation within reference uncertainties of $\approx0.3\%$ (collapsibleChannel) and $\approx0.2\%$ (FSI1).
 
 The requirement is not a fixed matrix of studies but the principle of Section~\ref{sec:convergence_method}: for each QoI on which a claim is made, the error sources that materially affect it must be shown to be controlled below the uncertainty relevant to the claim.
-The benchmarks therefore emphasise different studies: ringAddedMass isolates temporal, solid-discretisation and added-mass effects; womersleyTube requires careful temporal and phase analysis; collapsibleChannel requires control of the solid discretisation and of the coupling tolerance; and, in the extended suite, beamInCrossFlow is challenging chiefly through the spatial resolution of near-body forces.
+The benchmarks therefore emphasise different studies: ringAddedMass isolates temporal, solid-discretisation and added-mass effects; womersleyTube requires careful temporal and phase analysis and a flux-consistent treatment of its truncated ends; collapsibleChannel requires control of the solid discretisation and of the coupling tolerance; and, in the extended suite, beamInCrossFlow is challenging chiefly through the spatial resolution of near-body forces.
 Each core result should state its reference category, the number of levels and the observed behaviour for at least one displacement-type and one force- or phase-type QoI, and the evidence that the iterative error is subordinate.
 
 \todo{Decide whether mokLidDrivenCavity belongs in the core suite (cheap; tests a different solid regime; but C-weak and only self-convergence evidence) or in the extended suite. An independent converged COMSOL solution of the group-B definition would justify core membership.}
