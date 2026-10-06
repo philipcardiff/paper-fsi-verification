@@ -4,6 +4,20 @@ Evidence report for the `3dTube` benchmark (Section `sec:3dtube`). It records
 what the third mesh level and the supporting runs show, for review before the
 manuscript is changed. No `.tex` file is modified by this report.
 
+> **Status (6 October 2026): Sections 1-11 are superseded where they give
+> numbers or convergence verdicts.** The investigation of the cross-platform
+> `u_z,min` discrepancy (Section 12) found two defects in solids4foam that
+> affected the runs behind Sections 1-11: an aliasing miscompilation of the
+> fluid wall viscous force (wrong axial wall shear on `-O3` builds, i.e. every
+> xenosim run) and degenerate barycentric weights in the FSI point transfer
+> (a smeared displacement transfer on mesh levels 2 and 3 on every
+> platform, but not on level 1). Both are fixed. The corrected three-level
+> results, convergence verdicts and consequences are in Sections 12.6-12.7
+> and replace the corresponding parts of Sections 1, 4, 5, 8, 9 and 11. The
+> time-discretisation (implicit-Euler) conclusion of Section 6 is confirmed
+> with the corrected runs; the reference provenance (Section 3) is unchanged.
+> Sections 1-11 are kept as the record of what the uncorrected runs showed.
+
 ## 1. Executive scientific conclusion
 
 Level 3 (1.02 M fluid and 0.41 M solid cells, `Δt = 6.25e-6 s`) ran to
@@ -394,3 +408,204 @@ Optional:
 > first-order time integration in the references, which are not converged in
 > time; it is not a difference between finite element and finite volume
 > discretisations.
+
+## 12. Cross-platform u_z discrepancy investigation
+
+The question: on two platforms the benchmark was deterministic but
+`u_z,min(A)` differed by 1.5% (level 1) to 3% (level 3), while `u_r,max`,
+arrival time and pulse speed agreed to 0.1-0.2%. Platforms: **xenosim**
+(AMD EPYC 9684X; OpenFOAM v2512 and v2412 Ubuntu packages, GCC 11.4; the
+solids4foam library compiled with the wmake default `-O3`; PETSc 3.24
+development build) and **MeluXina** (AMD EPYC 7H12; OpenFOAM v2412 EasyBuild
+foss-2024a, GCC 13.3, whose wmake rules compile with `-O2 -fno-tree-vectorize
+-march=znver2`; PETSc 3.22). The investigation found **two independent
+defects**, both in solids4foam, both now fixed. The full evidence, the
+standalone reproducer and the diagnostics are on the solids4foam branch in
+`tutorials/fluidSolidInteraction/3dTube/verification/platform/`.
+
+### 12.1 Minimal reproducer
+
+- **Defect 1** is visible on level 1, first time step, first FSI iteration,
+  first PIMPLE corrector (`nOuterCorr 1`, `allowUnconvergedCoupling yes`,
+  `nOuterCorrectors 1`): the axial component of the fluid force on the wall
+  is -2.597e-6 N (xenosim) against -6.519e-6 N (MeluXina), the radial
+  components equal to 16 digits.
+- **Defect 2** is visible on level 2, first time step, second FSI
+  iteration: the first solid solve is identical on both platforms (SNES
+  norms to 1e-11), the second starts from a residual 0.6% different.
+- Inputs: bit-identical case directories copied between the machines,
+  meshes identical to 2e-17 m (points, owners, neighbours, patch ordering),
+  dictionaries and fields identical. Case generation is excluded.
+
+### 12.2 First-divergence evidence
+
+| Stage (level, step, iteration) | Quantity | xenosim vs MeluXina |
+|---|---|---|
+| L1, plain OpenFOAM `pimpleFoam`, rigid wall, 1 step | all fields, wall force | equal to 1e-15 (axial viscous force 5.4626698912391e-06 N on both) |
+| L1, solids4foam, step 1, it. 1, after the fluid solve | U, p, phi, Uf, meshPhi, motion fields (every cell and face) | max relative difference 2e-15 |
+| same | wall `snGrad(U)`, cell `grad(U)`, wall `devReff` | identical (to 1e-16) |
+| same | wall traction `rho*(nf & -devReff_b)`, axial | **differs: face 0 -3.9e-5 vs -0.659 Pa; total -2.597e-6 vs -6.519e-6 N** |
+| L2, step 1, it. 1 (after fix 1) | fluid fields | 1e-8 relative (ordinary iterate-path round-off) |
+| L2, step 1, it. 2 | solid interface displacement increment, input to the transfer | identical to 1e-10 |
+| same | the same field after `transferPointsZoneToZone` (solid to fluid) | **differs 0.15-0.2% in the sums, asymmetric in x and y on both platforms** |
+| same | fluid wall `pointMotionU` | differs 12-43% |
+
+### 12.3 Wall-force decomposition
+
+On the first fluid solve the axial wall force is entirely viscous: the
+pressure contribution `sum(p Sf_z)` is 7e-19 N on both platforms. The
+viscous traction is `rho*(nf & -devReff)` on the wall. Its inputs are
+identical on both platforms: the wall normal (axial component < 3e-15), the
+wall `snGrad(U)` (the wall cells are orthogonal, `|k| < 1e-19`, so the
+non-orthogonal correction and the registered `grad(U)` that
+`elasticWallVelocity::snGrad` looks up do not contribute), the boundary
+gradient and the wall `devReff`. On xenosim, the same expression evaluated
+on a *named* copy of the operands, or by a hand-written loop, gives
+MeluXina's value; only the one-line expression on tmp operands is wrong. The
+x and y components are right and the z component is wrong:
+
+`z = (n&(-D))_x (-D_xz) + (n&(-D))_y (-D_yz)`, i.e. the z component is formed
+from the already overwritten x and y of the result, which reproduces the
+xenosim face values exactly.
+
+### 12.4 Version/toolchain tests
+
+| Test | Result | Rules in / out |
+|---|---|---|
+| OpenFOAM v2412 vs v2512 on xenosim (solids4foam, level 1) | identical | OpenFOAM release out |
+| old solids4foam commit (`d35d59e11`) vs current | identical | solids4foam history out |
+| MPI ranks 1, 2, 4, 8 (xenosim, level 1); serial on both | identical per platform | decomposition and reductions out (defect 1) |
+| solid preconditioner hypre vs LU; tight tolerances; IQN-ILS vs Robin | identical per platform | linear solvers, iterative error, coupling scheme out |
+| `FOAM_SETNAN`, `FOAM_SIGFPE` on both | unchanged | uninitialised memory out |
+| convection limiter off; Gauss instead of least-squares gradients | split persists | operator/scheme choice out |
+| plain `pimpleFoam` (no solids4foam code) | platforms agree to 1e-15 | OpenFOAM's own operators out |
+| **standalone OpenFOAM program: `tmp<vectorField> & (-tmp<symmTensorField>)`** | wrong at `-O3` with GCC 11.4 and GCC 13.3 (error 7e-4 on values of 7e-4); exact at `-O2`, `-O1`, `-O0`, `-O3 -march=native` and `-O3 -D__restrict__=`; FMA contraction irrelevant | **defect 1 = aliasing undefined behaviour exposed by `-O3`** |
+| solids4foam built `-O2` vs `-O3` on xenosim, level 2 | identical (after fix 1) | defect 2 not compiler-dependent |
+| dump of the point-transfer weights, level 2 | all 6601 points have weights (1/3, 1/3, 1/3) | **defect 2 = degenerate barycentric fallback** |
+
+### 12.5 Root cause
+
+**Two root causes, both identified with reproducible discriminating tests
+and both fixed.**
+
+1. **Defect 1 (classification: compiler/toolchain sensitivity of an
+   undefined-behaviour operator use, C/D).** solids4foam computed the fluid
+   wall viscous force as `rho*(nf() & (-devReff().boundaryField()[patch]))`.
+   OpenFOAM's field operators reuse the storage of the first tmp operand
+   (the normal) for the vector result, while their loops access result and
+   operands through `__restrict__` pointers; the result therefore aliases an
+   input the compiler is told is not aliased. At `-O3` GCC computes and
+   stores x and y, then forms z from the overwritten normal. Builds at `-O2`
+   (the EasyBuild OpenFOAM rules) are correct. Effect: the axial wall shear
+   was wrong (by up to 2.5x on the first step; 1.5-3% in `u_z,min`) on
+   xenosim at every level. Fix: named normal field in every fluid model, and
+   the same pattern removed from `newtonIcoFluid` and the `solidTractions`
+   function object (solids4foam commit `635ff464f`). The hazard is in
+   OpenFOAM's field algebra itself and should be reported to OpenCFD.
+2. **Defect 2 (classification: FSI mapping defect, F; refinement-dependent).**
+   The solid-to-fluid point transfer (`amiInterfaceToInterfaceMapping`, also
+   `amiZoneInterpolation`) takes barycentric weights from
+   `triangle::pointToBarycentric`, which returns the "degenerate" weights
+   (1/3, 1/3, 1/3) when `d00*d11 - d01^2 < SMALL`. That quantity is
+   `4 A^2` in m^4: about 1.5e-14 on level 1, 9.4e-16 on level 2 and 6e-17 on
+   level 3, against `SMALL = 1e-15`. Every interface point of levels 2 and 3
+   was therefore interpolated as a three-point average, level 1 correctly.
+   The smeared transfer broke the x-y symmetry of the quarter tube (solid
+   wall force x and y 0.3% apart) and, because the average depends on which
+   triangle the addressing search picks, results depended on decomposition
+   (xenosim level 2: 0.16000 mm on 8 ranks, 0.16029 on 32) and build. Fix: a
+   scale-invariant weight computation (`triangleWeights.H`, solids4foam
+   commit `0ff7f462b`).
+
+**Defect 2 also contaminated the original mesh study on every platform**:
+level 1 and levels 2-3 were coupled through different interpolation
+operators, so the earlier non-monotone `u_r,max` sequence (Section 4) was not
+evidence about the discretisation.
+
+### 12.6 Quantified platform uncertainty and corrected results
+
+After both fixes:
+
+| | u_r,max (mm) | u_z,min (mm) | t_arr (ms) | c_p (m/s) |
+|---|---:|---:|---:|---:|
+| L1 xenosim (4 ranks) / MeluXina (8) | 0.15978 / 0.15978 | -0.08819 / -0.08819 | 5.873 / 5.873 | 4.654 / 4.654 |
+| L2 xenosim (8) / MeluXina (32) | 0.15946 / 0.15946 | -0.08659 / -0.08659 | 5.843 / 5.843 | 4.635 / 4.634 |
+
+**Platform uncertainty in `u_z,min(A)`: below 0.01% (no difference at the
+resolution of the reported digits on levels 1 and 2; on the level-1 and
+level-2 first-step reproducers the wall forces agree to 12 significant
+digits).** It is two orders of magnitude below
+the level-2-to-3 change. Level 3 was computed once (MeluXina, 128 ranks); a
+second level-3 run on xenosim was not possible within the queue (estimated
+start a week later), so the level-3 platform agreement is inferred from
+levels 1 and 2 and from the now rank-independent formulation.
+
+Corrected three-level study (both fixes; L1-L2 xenosim, L3 MeluXina; Δt
+halved with the mesh; `c_p` with probes off the cell faces):
+
+| Quantity | L1 | L2 | L3 | Δ1→2 | Δ2→3 | Order | Verdict |
+|---|---:|---:|---:|---:|---:|---:|---|
+| u_r,max(A) (mm) | 0.15978 | 0.15946 | 0.15851 | -0.20% | -0.60% | undefined | monotone, change grows: **not asymptotic** |
+| t(u_r,max) (ms) | 7.201 | 7.215 | 7.252 | +0.19% | +0.50% | undefined | flat peak, extraction-limited |
+| u_z,min(A) (mm) | -0.08819 | -0.08659 | -0.08571 | 1.87% | 1.02% | 0.87 | monotone, ~first order (nominal 2) |
+| t_arr(A) (ms) | 5.873 | 5.843 | 5.825 | -0.51% | -0.31% | 0.72 | monotone, sub-nominal |
+| c_p (m/s) | 4.654 | 4.635 | 4.594 | -0.41% | -0.88% | undefined | change grows; at the probe sampling noise |
+| u_r,min(A), t>14 ms (mm) | -0.10014 | -0.09409 | -0.09603 | 6.3% | 2.0% | undefined | non-monotone |
+| mean FSI iterations | 4.78 | 3.87 | 3.18 | | | | all steps converged, max 9 |
+
+Fixed `Δt = 2.5e-5 s` (pure mesh refinement): `u_r,max` 0.15978, 0.15921,
+0.15835 (0.36%, 0.54%; undefined); `u_z,min` -0.08819, -0.08643, -0.08554
+(2.0%, 1.03%; order 0.98); `t_arr` 5.873, 5.837, 5.815 (0.61%, 0.38%; order
+0.65). Temporal error at the fine levels: 2.5e-5 → 1.25e-5 s on L2 changes
+`u_r,max` +0.16%, `u_z,min` +0.18%, `t_arr` +0.10%; 2.5e-5 → 6.25e-6 s on L3
++0.10%, +0.20%, +0.17%. The scaled path is mesh-dominated (0.4-1.0% mesh
+against 0.1-0.2% time step).
+
+Literature (unchanged in substance): level-3 `u_r,max` is 1.0% above
+Tuković et al. (2018); implicit Euler at `Δt = 1e-4 s` lands within
++2.5%/-1.4% (L1) and +1.3%/-2.6% (L2) of Lozovskiy/Eken and its damping
+(0.036-0.038 mm) is 92-115% of the published gap (86-126% within the reading
+accuracy); Robin-Neumann and IQN-ILS agree to 0.07% (history 0.26%).
+
+### 12.7 Consequences for the manuscript
+
+- **`u_z,min` can remain a QoI.** The platform dependence was not a property
+  of the benchmark or of the axial displacement; it was two code defects,
+  and after the fixes the platform uncertainty is below 0.01%. The axial
+  displacement is not ill-conditioned (classification G is excluded: the
+  corrected platforms agree to the reported digits, and the sequence is
+  monotone).
+- **The convergence statements change.** Report: `u_z,min` and `t_arr`
+  converge monotonically at about first order (0.87-0.98 and 0.65-0.72);
+  `u_r,max` decreases monotonically but its changes are not yet decreasing
+  (0.20% → 0.60%), so no order and no asymptotic claim; its level-3
+  uncertainty is about 0.6% or more. `u_z,min` is now the *better-behaved*
+  displacement QoI; the earlier statement "`u_r,max` converged, `u_z,min` not"
+  is wrong in both halves and must not be used.
+- **Every 3dTube number recorded before commit `0ff7f462b` must be
+  replaced**, including the two-level `tab:3dtube` values in the current
+  manuscript (recorded on an Apple M1 with the defective point transfer on
+  level 2): use the table in 12.6. The FE/FV time-integration conclusion and
+  its numbers are confirmed (Euler L1 `u_r,max` 0.12241 mm, against 0.12233 mm
+  on xenosim before the fixes).
+- **`u_r,max` and the time-integration conclusion are not affected by the
+  platform question** (u_r,max agreed to 0.1% even before the fixes; the
+  Euler damping is 0.036-0.038 mm in every variant).
+- **A methodological point worth a sentence in the paper:** the verification
+  campaign found two solver defects that no single-platform run would have
+  shown: a compiler-dependent miscompilation and a refinement-dependent
+  mapping degeneracy that switched on between levels 1 and 2. Cross-platform
+  replication and symmetry checks are cheap and were decisive.
+- **COMSOL** remains useful for `u_r,max` (not self-converged) but is no
+  longer needed to arbitrate `u_z,min`.
+
+### 12.8 Remaining work
+
+- Not needed for `u_z,min`: the cause is identified, fixed and verified.
+- Optional: a second corrected level-3 run on another platform (the queue
+  did not allow it), and an upstream report to OpenCFD about tmp reuse with
+  `__restrict__` in compound inner products.
+- Small-time-step behaviour: PENDING_TS5_PAPER
+- The earlier sections' general recommendations still hold for `u_r,max`:
+  a fourth level or an independent converged solution would be needed for a
+  convergence statement on the peak.
