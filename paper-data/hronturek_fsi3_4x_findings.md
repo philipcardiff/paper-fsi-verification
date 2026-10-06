@@ -306,3 +306,237 @@ about 154 and 165 N/m. No literature survey of other codes was done here.
 > `u_x` and drag amplitude), so agreement with the reference cannot be
 > asserted to better than about 5% for amplitude quantities, and FSI3
 > remains a category C benchmark.
+
+## 12. CSM3 structural convergence diagnosis
+
+Structural-only study of the FSI3 plate, run to test whether the solids4foam
+solid alone explains the p ≈ 1 displacement convergence of sections 4 and 9.
+No fluid, no coupling, no FSI run is involved. Code and compact results:
+solids4foam branch `verification/hronturek-csm3` (commit `9a1c5e8ee`,
+directory `tutorials/fluidSolidInteraction/HronTurek/verification/csm3`);
+machine-readable tables: `hronturek_csm3_levels.csv`,
+`hronturek_csm3_observed_order.csv`, `hronturek_csm2_static_levels.csv`.
+OpenFOAM v2512 on xenosim, PETSc SNES, the FSI3 solid settings unchanged
+(`nonLinearGeometryTotalLagrangianTotalDisplacement`, `leastSquaresS4f`
+gradient, `diffStencilLaplacian` stabilisation with `scaleFactor 0.5`).
+
+### CSM3 definition
+
+Turek–Hron CSM tests (Featflow "CSM tests"; structure alone, no fluid):
+
+| | CSM2 (static) | CSM3 (transient) |
+|---|---|---|
+| geometry | the FSI flag, x ∈ [0.24899, 0.6] m, thickness 0.02 m, 2D plane strain | same |
+| support | left face (x = 0.24899 m) clamped, others traction-free | same |
+| ρ, ν | 1000 kg/m³, 0.4 | same |
+| E (μ) | **5.6e6 Pa (2.0e6)** = the FSI3 plate | 1.4e6 Pa (0.5e6) |
+| constitutive law | St. Venant–Kirchhoff, finite strain | same |
+| load | gravity (0, −2, 0) m/s² on the plate only | same |
+| time | steady | from rest in the undeformed state, `backward` (BDF2), dt = 1e-3 s, 2 s |
+| QoIs at A = (0.6, 0.2) | u_x, u_y | mean ± amplitude [frequency] of u_x, u_y |
+
+Important: **CSM3 is not the FSI3 plate.** CSM3 has μ = 0.5e6 (the FSI2
+plate stiffness), FSI3 has μ = 2e6, which is the steady CSM2 plate. The
+transient CSM3 was run because it is the dynamic structural benchmark that
+was asked for; CSM2 was added because it is the same plate as FSI3 and has a
+reference that is converged to five digits. The loading is gravity, not the
+fluid load, so this isolates the structural operator, not the FSI3 response.
+CSM1 (static, μ = 0.5e6) was not run: the single-step Newton solve stalls at
+2x and above for the soft plate.
+
+### Reference provenance
+
+Featflow "CSM tests" page (read from the page source, not digitised):
+
+- **CSM2** steady, level 5+1 (22 772 elements): u_x = −0.469000 mm,
+  u_y = −16.9739 mm. The Featflow levels 4+2 → 4+3 → 5+1 change by
+  < 1e-5 relative, so this value is effectively converged *for Featflow's
+  discretisation*.
+- **CSM3** transient, level 4+0, dt = 0.005 s: u_x = −14.305 ± 14.305 mm,
+  u_y = −63.607 ± 65.160 mm, f = 1.0995 Hz. The spatial levels 2+0 → 4+0
+  change by ≤ 0.05%, but the *time step* does not: for dt = 0.02, 0.01, 0.005
+  s the u_x mean is −14.404, −14.645, −14.305 mm (non-monotone, 2.4% spread),
+  the u_y mean −64.371, −64.766, −63.607 mm (1.8%), the frequency 1.0956,
+  1.0978, 1.0995 Hz. The CSM3 reference is therefore a ≈ 1–2% reference, not
+  an exact one.
+
+### Mesh family
+
+One block, 105k × 6k cells (the FSI3 solid mesh is k = 1, 2, 4), square
+cells, orthogonal and with aspect ratio 1.003; h = 3.343/k mm. Geometry,
+material, load, formulation and tolerances are identical on all levels; no
+physical parameter is scaled.
+
+| level | cells (length × thickness) | total cells | h (mm) | CSM3 runtime (s) |
+|---|---|---:|---:|---:|
+| 1x | 105 × 6 | 630 | 3.343 | 52 |
+| 2x | 210 × 12 | 2 520 | 1.672 | 156 |
+| 4x | 420 × 24 | 10 080 | 0.836 | 628 |
+| 8x | 840 × 48 | 40 320 | 0.418 | 3 320 |
+
+16x (161 000 cells) diverged in the single-step Newton solve of the static
+case and was not pursued.
+
+### Temporal/iterative control
+
+All times are for the transient CSM3, window = closing 1 s of a 2 s run (one
+full period, T ≈ 0.9 s), extrema refined by a parabola.
+
+- **Time step.** 2x with dt = 1e-3, 5e-4, 2.5e-4 s: u_y mean −60.946,
+  −60.984, −60.995 mm; u_x mean −12.842, −12.846, −12.847 mm; frequency
+  1.1304, 1.1303, 1.1303 Hz. The dt → dt/2 change is 0.06% (u_y mean) and
+  the sequence is second-order (ratio 3.5). On 4x, dt 1e-3 → 5e-4 changes
+  u_x mean by 0.04% and u_y mean by 0.04%. Against a 1x→2x change of 14–28%
+  and a 4x→8x change of 1.3–2.7%, the temporal error is negligible.
+- **Iterative error.** SNES `rtol = stol = 1e-6` → 1e-11 on 2x gives
+  identical results to every printed digit for both the transient run and
+  the static CSM2 (2x, 4x). No linear/nonlinear tolerance effect.
+- **Point extraction.** The monitored value is the `pointD` value at the mesh
+  vertex (0.6, 0.2), which exists on every level (even thickness cell count).
+  Written `pointD` at that vertex and the function-object output agree to
+  all printed digits (1x, 2x, 4x). The high-order reconstruction, which uses
+  an independent point evaluation, converges to the same limit
+  (17.02 mm), so the extraction is not what limits the order.
+
+### Results
+
+CSM3, dt = 1e-3 s. Errors are `(value − Featflow)/|Featflow|`; for the means
+a positive error means a smaller deflection than Featflow.
+
+| QoI | 1x | 2x | 4x | 8x | Featflow (dt = 0.005) | err 1x | err 2x | err 4x | err 8x |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| u_x mean (mm) | −9.270 | −12.842 | −14.188 | −14.578 | −14.305 | +35.2% | +10.2% | +0.8% | −1.9% |
+| u_x amplitude (mm) | 9.270 | 12.842 | 14.189 | 14.578 | 14.305 | −35.2% | −10.2% | −0.8% | +1.9% |
+| u_y mean (mm) | −52.096 | −60.946 | −63.885 | −64.700 | −63.607 | +18.1% | +4.2% | −0.4% | −1.7% |
+| u_y amplitude (mm) | 52.127 | 60.907 | 63.895 | 64.732 | 65.160 | −20.0% | −6.5% | −1.9% | −0.7% |
+| frequency (Hz) | 1.2251 | 1.1304 | 1.1028 | 1.0954 | 1.0995 | +11.4% | +2.8% | +0.3% | −0.4% |
+
+Successive differences and observed order (mesh ratio 2, p = log₂(d₁/d₂)):
+
+| QoI | d(1x→2x) | d(2x→4x) | d(4x→8x) | ratio, 1x–4x | p, 1x–4x | ratio, 2x–8x | p, 2x–8x |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| u_x mean (mm) | −3.572 | −1.346 | −0.389 | 2.65 | 1.41 | 3.46 | 1.79 |
+| u_x amplitude (mm) | +3.572 | +1.347 | +0.389 | 2.65 | 1.41 | 3.47 | 1.79 |
+| u_y mean (mm) | −8.850 | −2.939 | −0.815 | 3.01 | 1.59 | 3.61 | 1.85 |
+| u_y amplitude (mm) | +8.780 | +2.988 | +0.836 | 2.94 | 1.56 | 3.57 | 1.84 |
+| frequency (Hz) | −0.0947 | −0.0276 | −0.0074 | 3.43 | 1.78 | 3.73 | 1.90 |
+
+Relative last change (4x→8x): u_x 2.7%, u_y mean 1.3%, u_y amplitude 1.3%,
+frequency 0.7%.
+
+Steady CSM2 (FSI3 plate), the same four levels, u_y (mm) and its error
+against Featflow 5+1 (−16.9739 mm; positive = less deflection):
+
+| variant | 1x | 2x | 4x | 8x | p 1x–4x | p 2x–8x |
+|---|---:|---:|---:|---:|---:|---:|
+| baseline (as FSI3) | −13.339 (+21.4%) | −15.829 (+6.7%) | −16.694 (+1.65%) | −16.938 (+0.21%) | 1.53 | 1.83 |
+| stabilisation 0.25 | −14.209 | −16.175 | −16.797 | −16.966 | 1.66 | 1.88 |
+| stabilisation 1.0 | −12.109 | −15.283 | −16.522 | −16.890 | 1.36 | 1.75 |
+| high order, p = 2 | −15.884 | −16.840 | −16.993 | −17.018 | 2.65 | 2.56 |
+| high order, p = 3 | −16.940 | −17.011 | −17.019 | −17.023 | 3.12 | – |
+
+(u_x gives the same picture: baseline −0.2891, −0.4075, −0.4534, −0.4667 mm
+against −0.4690; p = 1.37 and 1.78.) The u_y limit of the high-order
+solutions is ≈ 17.02 mm, 0.29% above Featflow's value; the standard scheme
+approaches the same limit from below.
+
+### Observed order
+
+- The solids4foam CSM3 displacement QoIs converge **monotonically on all
+  four levels**, from the stiff side: the coarse plate is too stiff, the
+  amplitudes are too small and the frequency too high.
+- The observed order is **not 1**. On the same 1x–2x–4x triple used for FSI3
+  it is 1.4 (u_x) and 1.6 (u_y), and on 2x–4x–8x it is 1.8–1.9 for every QoI,
+  including the frequency (1.78 → 1.90). It rises monotonically towards 2.
+  The steady CSM2 plate repeats this (u_y: 1.53 → 1.83; relative to the
+  high-order limit the errors are 21.6%, 7.0%, 1.9%, 0.50%, with local
+  orders 1.63, 1.85, 1.97).
+- This is *evidence consistent with entry into the asymptotic range*, with
+  p still below 2 at the 2x–8x triple. It is not a demonstration of
+  asymptotic second order: no 16x level exists, and the high-order
+  reference for the limit is itself a solids4foam result. A p = 2
+  extrapolation of 4x→8x gives u_x mean −14.71, u_y mean −64.97, u_y
+  amplitude 65.01 mm and f = 1.093 Hz; these are indicative only.
+- **Against Featflow.** The CSM3 8x values sit 0.7–1.9% from the dt = 0.005
+  s reference and the extrapolated values 2–3% on the means, but within the
+  reference's own time-step spread: Featflow at dt = 0.01 s gives −14.645,
+  −64.766, 64.948 mm, i.e. our extrapolated u_x mean is 0.4%, the u_y mean
+  0.3% and the u_y amplitude 0.1% from that column. The CSM3 reference
+  cannot discriminate at the 1–2% level, so the CSM3 *level-to-level
+  convergence* is the stronger evidence, not agreement with the table.
+
+### Diagnosis
+
+Does the solid alone explain the p ≈ 1 FSI behaviour? **No for the order,
+yes in large part for the size and direction.**
+
+1. *The solid is not first order.* On the FSI3 levels the structural order is
+   1.4–1.6 and rises to 1.8–1.9 one level later; no first-order plateau is
+   seen on either the transient CSM3 or the steady CSM2.
+2. *The coarse FSI3 solid levels carry a large pre-asymptotic stiffness
+   error*, 21% (1x), 6.7% (2x), 1.7% (4x), 0.2% (8x) of the CSM2 deflection.
+   As a proxy, normalising to 4x, the CSM2 u_y is 0.799 : 0.948 : 1 and the
+   FSI3 u_y amplitude (section 4) is 0.824 : 0.943 : 1; for u_x the CSM2
+   values are 0.638 : 0.899 : 1 against 0.742 : 0.911 : 1 in FSI3. The
+   structural stiffness error alone therefore reproduces the sign,
+   monotonicity and rough size of the FSI3 1x→2x→4x displacement changes.
+   This is a scaling argument, not a decomposition: the FSI3 load is
+   fluid-dynamic, its frequency is 5.5 Hz, not 1.1 Hz, and the fluid and
+   coupling errors add to the structural one. It also predicts that the FSI3
+   displacements still have ≈ 1.5% (u_y) to ≈ 3% (u_x) to gain from the solid
+   alone between 4x and 8x.
+3. *Where the structural error comes from* (CSM2, baseline discretisation):
+   - **Bending / thickness resolution dominates.** With 105 cells along the
+     plate, refining only the thickness 6 → 12 → 24 → 48 gives u_y = −13.339,
+     −15.088, −15.684, −15.854 mm (errors +21.4, +11.1, +7.6, +6.6%).
+     Refining only the length 105 → 210 → 420 → 840 with 6 thickness cells
+     gives −13.339, −13.920, −14.075, −14.114 mm and saturates at +16.9%.
+   - **The stabilisation is active and not small.** `diffStencilLaplacian`,
+     `scaleFactor 0.5`, stiffens the plate. Halving the factor to 0.25 raises
+     |u_y| by 6.5% (1x), 2.2% (2x), 0.6% (4x), 0.17% (8x); doubling to 1.0
+     lowers it by 9.2%, 3.5%, 1.0%, 0.3%. The effect falls by about 3–4× per
+     refinement, consistent with an O(h²) consistent term, not a first-order
+     one, and extrapolating the factor to 0 recovers ≈ 1.7 of the 3.7 mm
+     deficit at 1x. The unstabilised solid (factor 0) does not converge in
+     the linear solve (`DIVERGED_ITS`), so the term cannot simply be removed.
+   - **Reconstruction order.** The default linear least-squares displacement
+     reconstruction leaves the rest. The existing high-order option
+     (`highOrderResidual`, moving least squares) ran cleanly with no changes
+     to the code: p = 2 polynomials give 15.88 (1x), 16.84, 16.99, 17.02 mm
+     (order 2.6) and p = 3 gives 16.94, 17.01, 17.02, 17.02 mm (order 3.1),
+     0.2% from the limit already on the 1x mesh.
+4. *Clamp and extraction:* the point extraction is not the cause (above); a
+   clamp-localised first-order error is excluded by the observed order on
+   the monitored tip displacement itself. Geometric nonlinearity is not the
+   cause either: the formulation is the same total-Lagrangian one in all
+   runs and the order is unaffected by the stabilisation or reconstruction
+   settings. No updated-Lagrangian comparison was made.
+5. *Bug or limitation?* No defect was found: this is a discretisation
+   limitation (second-order scheme with large pre-asymptotic error on
+   6-cell-thick bending) plus a conservative default stabilisation. No code
+   change was made. The single non-bug oddity is that the single-step Newton
+   solve of the steady problem stalls for E = 1.4e6 at 2x and above; the
+   transient solver is unaffected.
+
+### Consequence for FSI3
+
+**CSM3 shows nominal convergence (p = 1.4–1.6 on the FSI3 levels, 1.8–1.9
+on 2x–8x), so the FSI3 observed order of ≈ 0.9–1.1 does not follow from the
+asymptotic order of the solid.** The solid does contribute a large,
+monotone, pre-asymptotic stiffness error on the 1x and 2x FSI3 meshes that
+reproduces much of the FSI3 displacement change, and which was misread as
+slow convergence. The remaining step from p ≈ 1.5 to p ≈ 1 has to come from
+the fluid, the interface or the interaction of the structural error with
+them. The statement "the solids4foam solid converges only first order" is
+not supported and should not be made.
+
+### Recommended next focused task
+
+One FSI3 diagnostic with the 2x fluid and coupling settings fixed:
+**decoupled refinement of the solid only**, i.e. FSI3 on the existing 2x
+fluid mesh with the solid mesh at 2x (existing), 4x and 8x (or the 4x solid
+with `highOrderResidual`), compared on u_y/u_x amplitude and frequency. If
+u_y rises by ≈ 6% and 1.5% as the CSM2 proxy predicts, the solid is the
+dominant source of the mesh dependence and the FSI3 level sequence only has
+to be re-run with a refined solid; if it does not, the first-order trend lies
+in the fluid or the interface.
