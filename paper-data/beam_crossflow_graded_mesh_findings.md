@@ -3,13 +3,16 @@
 ## 1. Executive scientific conclusion
 
 The graded family materially improves the allocation of fluid cells and gives
-three-level monotone trends for the original-case displacements and `F_x` at a
-fixed time step. Their local observed orders are about 1.0 for `u_x(A)` and
-`u_y(A)` and 1.5 for `F_x`, but the 8x calculation reaches the unchanged
-100-iteration coupling limit, so the available evidence does not establish an
-asymptotic range. `F_y` remains non-monotone. The hypothesis is therefore only
-partly confirmed: near-body grading improves the principal trends efficiently,
-but force cancellation and coupling/solid-interface sensitivities remain.
+four completed fixed-time-step levels for both case forms. On the finest
+refinement, original `u_x(A)` and `F_x` change by 3.83% and 0.69%; modified
+`u_x(A)` and `F_x` change by 3.60% and 0.64%. The mixed-platform fine-level
+apparent orders are about 1.4 for `u_x(A)` and 1.7 for `F_x` in both forms.
+Dedicated L2 controls show that version/platform differences are at most 0.29%
+for `u_x(A)` and 0.062% for `F_x`, supporting those principal trends. The
+small `u_z(A)` is strongly platform-sensitive, original `F_y` remains
+non-monotone over the full family, and no Richardson extrapolation is
+justified. The hypothesis is therefore confirmed as an efficiency diagnosis,
+but not as proof that near-body fluid resolution was the sole error source.
 
 The study does establish two conclusions independently of the final numerical
 trend. First, the old global-uniform sequence is a poor allocation of cells:
@@ -22,13 +25,17 @@ point interpretation and inlet peak speed.
 ## 2. Provenance
 
 - solids4foam branch: `verification/beam-crossflow-graded-mesh`
-- solids4foam commit: `7d1012ada277bff935a89a6e7472155937c0d933`
+- solids4foam commit: `f6ff138cfe624679b9e1b0648b45af143d43cdd4`
+  (results update; branch history contains
+  mesh implementation commit `7d1012ada277bff935a89a6e7472155937c0d933`)
 - starting commit: `aee0c8e3502675749ae89185cc957633ebd6d854`
   (`development`, fetched 2026-10-04)
-- OpenFOAM: OpenCFD v2512
+- OpenFOAM: OpenCFD v2512 for L0--L2 and temporal data; OpenCFD v2412 for L3
+  and platform controls
 - solids4foam solver: `solids4Foam`, PETSc-enabled build
-- platform: `xenosim`, Linux 5.15, two AMD EPYC 9684X 96-core sockets
-- date: 2026-10-04
+- platforms: `xenosim`, Linux 5.15, two AMD EPYC 9684X 96-core sockets;
+  MeluXina Slurm CPU nodes for L3 and controls
+- dates: 2026-10-04 to 2026-10-06
 - coupling: partitioned IQN-ILS with direct interface mapping, predictor,
   relative mode filter `0.01`, outer tolerance `1e-6`, at most 100 iterations
 - time integration: BDF2 (`backward`) in fluid and solid
@@ -45,16 +52,26 @@ point interpretation and inlet peak speed.
       --levels 2,4 --cores auto
   ```
 
-The first original sweep was stopped after L1 and resumed from L2 to avoid
-repeating completed levels. The first modified attempt used 64 ranks and
-failed on L1; the listed retry uses the driver's validated factor-dependent
-rank counts. Both failures are part of the evidence rather than discarded
-solver tuning.
+L3 and platform controls were subsequently run on MeluXina on 2026-10-04 to
+2026-10-06 using OpenFOAM v2412, PETSc 3.22 and OpenMPI 5.0.3. Both production
+L3 cases used 128 ranks, `deltaT=0.00625 s`, and otherwise identical case,
+scheme, tolerance and coupling settings. The Slurm production jobs were
+`5293133` and `5293134`; the L2 controls were `5303748` and `5307350`.
+
+The first original L3 attempt on v2512/64 ranks reached the 100-iteration cap
+at its first step. On v2412, one-step diagnostics converged in 36 iterations
+on 32 ranks and 23 on 128 ranks; the unchanged 128-rank production case then
+completed. A modified v2412 L2 control stalled at `t=1.68125 s` on 32 ranks,
+whereas its unchanged 128-rank repeat completed. These failures are retained
+as decomposition/platform sensitivity evidence rather than hidden by solver
+tuning.
 
 The commands were run from
 `tutorials/fluidSolidInteraction/beamInCrossFlow`. Compact source results are
 versioned beside the verification driver in solids4foam and copied to this
-paper repository. No raw field directories are committed.
+paper repository as `beam_crossflow_graded_mesh_results.csv` and
+`beam_crossflow_graded_platform_controls.csv`. No raw field directories are
+committed.
 
 ## 3. Existing uniform-mesh evidence
 
@@ -157,24 +174,28 @@ study treats a change below 0.5% as steady for the reported precision.
 | 0 | 7,840 | 4.08348e-5 | -- | 1.56846e-5 | -3.18602e-7 |
 | 1 | 62,720 | 5.21672e-5 | 27.75% | 2.10399e-5 | -7.38201e-7 |
 | 2 | 501,760 | 5.79343e-5 | 11.06% | 2.36525e-5 | -9.26181e-7 |
-| 3 | 4,014,080 | not converged | -- | not converged | not converged |
+| 3 | 4,014,080 | 6.01533e-5 | 3.83% | 2.44087e-5 | -1.73881e-6 |
 
 | L | `F_x` (N) | change | `F_y` (N) | `F_z` (N) |
 | --- | ---: | ---: | ---: | ---: |
 | 0 | 1.197706 | -- | 0.1077488 | -0.0417130 |
 | 1 | 1.279401 | 6.82% | 0.1065742 | -0.0463250 |
 | 2 | 1.308220 | 2.25% | 0.1082129 | -0.0504448 |
-| 3 | not converged | -- | not converged | not converged |
+| 3 | 1.317197 | 0.69% | 0.1087008 | -0.0516540 |
 
-L0--L2 are monotone for every listed quantity except `F_y`. The three-point
-local orders are 0.975 for `u_x(A)`, 1.035 for `u_y(A)`, 1.158 for `u_z(A)`
-and 1.503 for `F_x`. The `F_z` order is only 0.163 and its changes shrink too
-slowly to support extrapolation. `F_y` reverses direction and has no observed
-order. L2 is 2.20% below Richter's Table 6 extrapolated displacement and 1.42%
-below its extrapolated `F_x`, but those agreements cannot be treated as error
+L0--L3 are monotone for every listed quantity except `F_y`. The L1--L3
+apparent orders are 1.378 for `u_x(A)`, 1.789 for `u_y(A)`, 1.683 for `F_x`
+and 1.768 for `F_z`. They mix v2512 L1--L2 with v2412 L3, so they are
+platform-qualified rather than strict single-executable orders. The v2412 L2
+control differs from v2512 by 0.26% in `u_x(A)` and only 0.0015% in `F_x`;
+using that control, the final changes are 3.56% and 0.685%. Thus the principal
+fine-level trends are robust. In contrast, L2 `u_z(A)` differs by 77% between
+controls and its mixed-platform apparent order is negative. `F_y` reverses
+direction over the full family, although its finest three values increase
+with shrinking differences. L3 is 1.10% above the rounded Richter
+displacement and 0.96% below its `F_x`, but those agreements are not error
 estimates because the benchmark definitions differ. No Richardson value is
-reported: the last displacement changes are still 11--25%, and L3 did not
-complete the first time step within the unchanged coupling limit.
+reported.
 
 At identical solid/interface factors, replacing the old uniform fluid mesh by
 the graded fluid mesh raises `u_x(A)` by 4.11%, 3.76% and 1.82% on L0--L2;
@@ -192,32 +213,40 @@ factor, and its displacement remains 2.70% lower.
 | 0 | 7,840 | 0.0100906 | 0.00350698 | -0.000103346 |
 | 1 | 62,720 | 0.0126639 | 0.00444752 | -0.000190036 |
 | 2 | 501,760 | 0.0139699 | 0.00487255 | -0.000219652 |
+| 3 | 4,014,080 | 0.0144735 | 0.00496883 | -0.000431879 |
 
 | L | `F_x` (N) | `F_y` (N) | `F_z` (N) |
 | --- | ---: | ---: | ---: |
 | 0 | 2.164837 | 0.274350 | -0.261011 |
 | 1 | 2.296244 | 0.239080 | -0.272527 |
 | 2 | 2.344948 | 0.229769 | -0.281750 |
+| 3 | 2.359966 | 0.2280017 | -0.2837244 |
 
-Every listed modified QoI is monotone over L0--L2. Local orders are 0.978,
-1.146, 1.549, 1.432, 1.921 and 0.320 for `u_x`, `u_y`, `u_z`, `F_x`, `F_y`
-and `F_z`, respectively. The finest changes remain 9.6--15.6% for
-displacements but only 2.1--3.9% for forces; these are promising trends, not
-an asymptotic demonstration. L2 is 4.51% below Tukovic `u_x`, 2.55% below
-`u_y`, and its symmetry-paired `2u_z` is 1.72% below the Figure 28 value.
-Thus the sequence approaches the old same-lineage values, but an independent
-limit is still absent. At L2 all point components and `F_x`/`F_y` change by at
-most 0.42% over `t=7...8 s`; `F_z` still changes by 0.93%.
+Every listed modified QoI is monotone over L0--L3. L2--L3 changes are 3.60%,
+1.98%, 96.6%, 0.64%, 0.77% and 0.70% for `u_x`, `u_y`, `u_z`, `F_x`, `F_y`
+and `F_z`. Mixed-platform L1--L3 apparent orders for all but `u_z` are 1.375,
+2.142, 1.697, 2.397 and 2.224; `u_z` has negative order. The v2412 L2 control
+differs from v2512 by 0.29% in `u_x`, 0.74% in `u_y`, 0.062% in `F_x`, 0.19%
+in `F_y` and 0.27% in `F_z`, but by 87% in the small `u_z`. Thus the principal
+displacement and force trends are robust, while the out-of-plane component is
+not. L3 is 1.07% below Tukovic `u_x` and 0.62% below `u_y`; its
+symmetry-paired `2u_z` is 93% larger in magnitude than the Figure 28 value.
+The old apparent `u_z` agreement was therefore not robust. Over `t=7...8 s`,
+L3 principal displacements and `F_x` change by at most 0.39%, while `F_y` and
+`F_z` still change by 0.91% and 0.97%.
 
 ## 7. Displacement versus force convergence
 
 The graded family makes `u_x(A)`, `u_y(A)` and pressure-dominated `F_x`
-monotone in the original case, but not at the same rate: `F_x` changes by
-6.82% then 2.25% and has local order 1.50, whereas `u_x(A)` changes by 27.75%
-then 11.06% and has order 0.97. Thus agreement of one force does not imply
-displacement convergence. `F_y` is more difficult because decreasing pressure
-and increasing viscous contributions partially cancel; its total falls by
-1.09% and then rises by 1.54%. This remains unresolved and no order is fitted.
+monotone in the original case, but not at the same rate: the final `F_x`
+change is 0.69%, whereas the final `u_x(A)` change is 3.83%. The corresponding
+modified changes are 0.64% and 3.60%. Thus integrated drag is substantially
+closer to mesh independence than point displacement, and agreement of one
+force does not imply displacement convergence. Original `F_y` is more
+difficult because decreasing pressure and increasing viscous contributions
+partially cancel; it falls on L0--L1 and then rises. Its full sequence is
+non-monotone, so the positive finest-three apparent order is not promoted to a
+Richardson estimate.
 
 Observed orders are reported only for three consecutive values whose two
 successive differences have the same sign. Blank orders mean that the sequence
@@ -285,11 +314,12 @@ reference for the present modified case.
 | Original L0 | 7,840 | 1 | 595 s | 1,280 | 6.06 / 10 |
 | Original L1 | 62,720 | 4 | 1,477 s | 1,280 | 5.77 / 10 |
 | Original L2 | 501,760 | 64 | 3,561 s | 1,280 | 5.98 / 14 |
-| Original L3 | 4,014,080 | 64 | failed, step 1 | 0 | 100 at failure |
+| Original L3 | 4,014,080 | 128 | 59,018 s | 1,280 | 6.82 / 37 |
 | Original L2, `dt=0.0125 s` | 501,760 | 64 | 3,236 s | 640 | 8.06 / 20 |
 | Modified L0 | 7,840 | 4 | 315 s | 1,280 | 6.66 / 12 |
 | Modified L1 | 62,720 | 4 | 1,770 s | 1,280 | 6.92 / 13 |
 | Modified L2 | 501,760 | 32 | 5,095 s | 1,280 | 8.38 / 39 |
+| Modified L3 | 4,014,080 | 128 | 36,504 s | 1,280 | 10.37 / 75 |
 
 Completed graded L2 is the clearest like-for-like cost result: its `0.002765 m`
 near-body spacing is 13% finer than old uniform 8x (`0.003125 m`), yet it has
@@ -303,17 +333,20 @@ New L3 has 4,014,080 total cells, 47.2% fewer than old uniform 8x, while its
 representative near-body spacing is 2.25 times smaller. A uniform 16x mesh
 would have spacing `0.0015625 m` (slightly coarser than new L3) and about 60.8
 million total cells. The graded mesh therefore uses about 15 times fewer cells
-than a uniform mesh with comparable controlling resolution. Cell-count and
-runtime savings do not by themselves establish a better convergence rate.
+than a uniform mesh with comparable controlling resolution. It completed both
+forms without relaxing any coupling criterion. Cell-count and runtime savings
+do not by themselves establish a better convergence rate.
 
 ## 11. Remaining uncertainties
 
-The fourth original level and the first over-decomposed modified L1 attempt
-failed the unchanged 100-iteration coupling limit. These failures are retained
-as evidence and no tolerance was relaxed to manufacture a trend. Three
-completed levels give only one local-order estimate, not proof of a stable
-asymptotic range. The original transverse force remains non-monotone, and the
-small out-of-plane components are not convincingly converged.
+All four production levels completed, but L3 required a different OpenFOAM
+version/platform and decomposition after the original v2512/64-rank attempt
+failed the unchanged 100-iteration limit. L2 controls bound the resulting
+principal-QoI difference below 0.75%, but the orders remain mixed-platform
+estimates rather than a strict single-executable sequence. Original transverse
+force remains non-monotone over the full family, modified transverse forces
+are still changing by about 1% over the final second, and the small
+out-of-plane displacement is strongly platform-sensitive and unconverged.
 
 The most fundamental uncertainty is reference definition, not solver
 repeatability: neither form currently has an independent result for the exact
@@ -323,16 +356,16 @@ after fluid near-body resolution is improved.
 
 ## 12. Consequences for the manuscript
 
-The evidence strengthens the claim that global uniform refinement is an
+The evidence strongly supports the claim that global uniform refinement is an
 inefficient route and that displacement and integrated force must be assessed
 separately. It weakens any claim that the commonly quoted Richter values are
 an exact independent validation, because the beam location, point-A meaning,
 inlet speed and solution history differ. The original form now has useful
-three-level spatial evidence but remains provisional rather than a strong
-validation case; the modified form deserves still weaker status because its
-reference is same-lineage. Until the exact benchmark definition has an
-independent reference and the finest-level coupling sensitivity is resolved,
-`beamInCrossFlow` should not carry a central main-text verification claim.
+four-level numerical verification evidence, but remains provisional as a
+validation case. The modified form has similarly strong internal mesh evidence
+but an even weaker same-lineage reference. Until the exact benchmark definition
+has an independent reference, `beamInCrossFlow` should not carry a central
+main-text validation claim.
 
 No manuscript `.tex` file was changed in this work.
 
@@ -340,12 +373,11 @@ No manuscript `.tex` file was changed in this work.
 
 ### Essential
 
-- Resolve the L3 coupling failure without changing physical or spatial
-  discretisation settings: first test decomposition sensitivity and then, if
-  needed, diagnose the IQN-ILS history/initialisation. Do not merely relax the
+- Reproduce L2--L3 with one OpenFOAM executable/platform before using the
+  apparent orders for Richardson extrapolation.
+- Diagnose why the fine cases and modified L2 control are decomposition-
+  sensitive despite unchanged coupling settings; do not merely relax the
   convergence tolerance.
-- Repeat enough fine levels to decide whether the L0--L2 local orders persist;
-  do not use a Richardson estimate until they do.
 - Reconcile the exact monitoring-point and geometry definition with the
   intended benchmark. The present study deliberately retains the current
   solids4foam point, `(0.45,0.15,-0.15) m`, on the upstream face.
@@ -373,14 +405,16 @@ No manuscript `.tex` file was changed in this work.
 ## 14. Suggested manuscript wording
 
 > A parametrically graded beam-in-cross-flow family reduced cell count by a
-> factor of about 15 at comparable near-body spacing. Three completed levels
-> gave monotone displacement and streamwise-force trends in both forms, with
-> local orders near one for streamwise displacement and 1.4--1.5 for
-> streamwise force. Original transverse force remained non-monotone, and the
-> finest original level reached the coupling-iteration limit. The case is
-> therefore retained as provisional numerical evidence, not exact validation;
-> the commonly quoted Richter values correspond to a different beam position,
-> mid-thickness sample point, inlet speed and stationary formulation.
+> factor of about 15 at comparable near-body spacing. Four levels completed in
+> both forms. On the final refinement, streamwise displacement changed by
+> 3.6--3.8%, whereas streamwise force changed by only 0.6--0.7%, demonstrating
+> materially different displacement and integrated-force convergence. L2
+> platform controls support these principal trends, although the finest-level
+> orders mix OpenFOAM versions and the small out-of-plane displacement is not
+> robust. Original transverse force remains non-monotone. The case is retained
+> as provisional numerical evidence, not exact validation; the commonly quoted
+> Richter values correspond to a different beam position, mid-thickness sample
+> point, inlet speed and stationary formulation.
 
 ## Explicit answers to the scientific questions
 
@@ -390,31 +424,39 @@ No manuscript `.tex` file was changed in this work.
    comparable near-body spacing with 15.2 times fewer cells, but residual
    solid/interface and coupling sensitivities remain.
 2. **Does the graded family converge monotonically?**
-   Original `u_x`, `u_y`, `u_z`, `F_x` and `F_z` do over L0--L2; original
-   `F_y` does not. All modified L0--L2 QoIs are monotone. Original L3 has no
-   solution because the coupling limit is reached.
+   Original `u_x`, `u_y`, `u_z`, `F_x` and `F_z` do over L0--L3; original
+   `F_y` does not. All modified L0--L3 QoIs are monotone, although monotonicity
+   of the platform-sensitive `u_z` is not evidence of convergence.
 3. **Which QoIs show credible observed orders?**
-   Original `u_x(A)`, `u_y(A)` and `F_x` have useful local orders of 0.975,
-   1.035 and 1.503. They are provisional three-point estimates, not confirmed
-   asymptotic orders. The small `u_z` component gives 1.158 but is less robust.
+   The finest three values give useful apparent orders of 1.38 (`u_x`), 1.79
+   (`u_y`) and 1.68 (`F_x`) for the original form, and 1.37, 2.14 and 1.70 for
+   the modified form. They are mixed-platform estimates, not confirmed
+   asymptotic orders. Force orders other than original `F_y` are also positive;
+   `u_z` has negative order and is not credible.
 4. **Which QoIs remain unresolved?**
-   `F_y`, `F_z`, the small out-of-plane displacement, and every L3 trend;
-   modified-case conclusions are additionally limited by their weak reference.
+   The small out-of-plane displacement, original full-family `F_y`, strict
+   single-platform orders, and an exact independent reference. Modified-case
+   conclusions are additionally limited by their weak reference and residual
+   final-second transverse-force drift.
 5. **Does `F_x` converge differently from `u_x(A)`?**
-   Yes. Original L1--L2 changes are 2.25% for `F_x` versus 11.06% for
-   `u_x(A)`, with local orders 1.50 and 0.97 respectively.
+   Yes. Original L2--L3 changes are 0.69% for `F_x` versus 3.83% for
+   `u_x(A)`; modified changes are 0.64% versus 3.60%. Drag is substantially
+   closer to mesh independence than displacement.
 6. **What happens to `F_y`?**
    It falls and then rises in the original graded sequence, consistent with
-   cancellation between oppositely evolving pressure and viscous components;
-   no order or extrapolation is defensible.
+   cancellation between oppositely evolving pressure and viscous components.
+   The finest three points have shrinking changes, but the full sequence is
+   non-monotone, so no Richardson extrapolation is defensible. Modified `F_y`
+   is monotone and changes by 0.77% on L3.
 7. **Is original Richter agreement robust or partly coincidental?**
    It is partly coincidental as validation evidence. L2 is close numerically,
    but Richter's beam position, mid-thickness point, inlet speed and stationary
    formulation do not match the present upstream-face transient case.
 8. **Does the modified case converge to the old Tukovic value?**
-   It trends toward it: L2 errors are 4.51% (`u_x`), 2.55% (`u_y`) and 1.72%
-   (`2u_z`). The remaining 9.6--15.6% mesh changes and same-code provenance
-   prevent treating that destination as independently established.
+   Its principal components trend toward it: L3 errors are 1.07% (`u_x`) and
+   0.62% (`u_y`). The symmetry-paired `2u_z` instead moves far from the old
+   value and is platform-sensitive. Same-code provenance prevents treating the
+   apparent destination as independently established.
 9. **Is temporal error negligible?**
    It is subordinate on original L2: principal-QoI changes on halving the time
    step are 0.020--0.071%, far below spatial changes. This has not been proved
@@ -423,8 +465,10 @@ No manuscript `.tex` file was changed in this work.
     At slightly finer near-body spacing, completed graded L2 uses 15.2 times
     fewer cells and about 11 times less 64-rank wall time than old uniform 8x.
 11. **Is this now a strong main-paper verification case?**
-    No. It is useful numerical evidence, but the reference-definition mismatch,
-    non-monotone force, and failed finest coupling level keep it provisional.
+    Not yet as an independent validation case. It is now strong internal
+    numerical evidence, but the reference-definition mismatch, mixed-platform
+    finest order, original non-monotone force and unresolved `u_z` keep it
+    provisional.
 12. **Is independent COMSOL still valuable?**
     Yes. An exact-definition COMSOL mesh/time study remains high-value,
     especially for the modified case, and should report the same point and
