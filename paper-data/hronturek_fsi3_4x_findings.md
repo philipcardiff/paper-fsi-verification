@@ -450,7 +450,7 @@ approaches the same limit from below.
   including the frequency (1.78 → 1.90). It rises monotonically towards 2.
   The steady CSM2 plate repeats this (u_y: 1.53 → 1.83; relative to the
   high-order limit the errors are 21.6%, 7.0%, 1.9%, 0.50%, with local
-  orders 1.63, 1.85, 1.97).
+  orders 1.63, 1.86, 1.95).
 - This is *evidence consistent with entry into the asymptotic range*, with
   p still below 2 at the 2x–8x triple. It is not a demonstration of
   asymptotic second order: no 16x level exists, and the high-order
@@ -536,7 +536,7 @@ One FSI3 diagnostic with the 2x fluid and coupling settings fixed:
 **decoupled refinement of the solid only**, i.e. FSI3 on the existing 2x
 fluid mesh with the solid mesh at 2x (existing), 4x and 8x (or the 4x solid
 with `highOrderResidual`), compared on u_y/u_x amplitude and frequency. If
-u_y rises by ≈ 6% and 1.5% as the CSM2 proxy predicts, the solid is the
-dominant source of the mesh dependence and the FSI3 level sequence only has
+u_y rises by ≈ 5.5% from the 2x to the 4x solid (and a further ≈ 1.5% to
+8x), as the CSM2 proxy predicts, the solid is the dominant source of the mesh dependence and the FSI3 level sequence only has
 to be re-run with a refined solid; if it does not, the first-order trend lies
 in the fluid or the interface.
