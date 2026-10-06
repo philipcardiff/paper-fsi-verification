@@ -419,7 +419,9 @@ solids4foam library compiled with the wmake default `-O3`; PETSc 3.24
 development build) and **MeluXina** (AMD EPYC 7H12; OpenFOAM v2412 EasyBuild
 foss-2024a, GCC 13.3, whose wmake rules compile with `-O2 -fno-tree-vectorize
 -march=znver2`; PETSc 3.22). The investigation found **two independent
-defects**, both in solids4foam, both now fixed. The full evidence, the
+defects**, both in solids4foam, both now fixed (branch
+`verification/3dtube-level3`: fixes `635ff464f` and `0ff7f462b`; corrected
+results and investigation notes `c45b30b7e`). The full evidence, the
 standalone reproducer and the diagnostics are on the solids4foam branch in
 `tutorials/fluidSolidInteraction/3dTube/verification/platform/`.
 
@@ -605,7 +607,10 @@ accuracy); Robin-Neumann and IQN-ILS agree to 0.07% (history 0.26%).
 - Optional: a second corrected level-3 run on another platform (the queue
   did not allow it), and an upstream report to OpenCFD about tmp reuse with
   `__restrict__` in compound inner products.
-- Small-time-step behaviour: PENDING_TS5_PAPER
+- Small-time-step behaviour: the backward-scheme instability on level 1 at
+  `Δt = 6.25e-6 s` (Section 5) is unchanged by the two fixes (rerun: growth
+  from ~11 ms, divergence at ~13.9 ms); it does not affect the scaled
+  levels and remains uninvestigated (optional).
 - The earlier sections' general recommendations still hold for `u_r,max`:
   a fourth level or an independent converged solution would be needed for a
   convergence statement on the peak.
