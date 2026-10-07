@@ -540,3 +540,166 @@ u_y rises by ≈ 5.5% from the 2x to the 4x solid (and a further ≈ 1.5% to
 8x), as the CSM2 proxy predicts, the solid is the dominant source of the mesh dependence and the FSI3 level sequence only has
 to be re-run with a refined solid; if it does not, the first-order trend lies
 in the fluid or the interface.
+
+## 13. FSI3 solid-only refinement at fixed fluid resolution
+
+Error-decomposition study asked for by the section 12 recommendation. Code
+and compact results: solids4foam branch
+`verification/hronturek-fsi3-solid-refinement` (commit `7c15e5bcd`, driver
+option `--solid-refinement`, `scripts/fsi3_solid_refinement_analysis.py`,
+`reference/fsi3_solid_refinement/`). Machine-readable:
+`hronturek_fsi3_solid_refinement.csv`, `.json`. OpenFOAM v2512 on xenosim.
+No `.tex` change. **This is not a spatial-order study (the fluid is fixed);
+no order is derived.**
+
+### Setup
+
+The 2x fluid mesh (21 344 cells, 168 interface faces), `dt = 0.0005 s`,
+IQN-ILS with `outerCorrTolerance 1e-5`, mesh motion, materials, end time
+7 s and the 1 s analysis window are **identical in all runs and identical to
+the existing 2x run**, which is reused as the solid-2x baseline (its case
+directory differs from the new ones only in `blockMeshDict` of the solid and
+the decomposition: 8 ranks instead of 14). Only the solid block mesh
+changes: 2x = 210 × 12, 4x = 420 × 24, 8x = 840 × 48 cells (2 520 / 10 080 /
+40 320). Solid formulation, `diffStencilLaplacian` stabilisation
+(`scaleFactor 0.5`) and reconstruction order are unchanged. QoIs use the
+same extraction as the earlier tables (last full u_y period of the closing
+1 s). Forces: extrema-based amplitude and, in parentheses, the 4 ms
+moving-average amplitude.
+
+### Results
+
+| Quantity | fluid 2x / solid 2x | solid 4x | solid 8x | Δ 2→4 | Δ 4→8 | Δ 2→8 |
+|---|---:|---:|---:|---:|---:|---:|
+| u_x mean (mm) | −2.7878 | −2.7970 | −2.7705 | +0.33% | −0.95% | −0.62% |
+| u_x amplitude (mm) | 2.6568 | 2.6544 | 2.6292 | −0.09% | −0.95% | −1.04% |
+| u_x frequency (Hz) | 11.046 | 11.002 | 10.982 | −0.39% | −0.19% | −0.58% |
+| u_y amplitude (mm) | 34.175 | 34.285 | 34.289 | +0.32% | +0.01% | +0.33% |
+| u_y frequency (Hz) | 5.5227 | 5.5013 | 5.4907 | −0.39% | −0.19% | −0.58% |
+| drag mean (N/m) | 459.74 | 459.44 | 459.08 | −0.07% | −0.08% | −0.14% |
+| drag amplitude, extrema (N/m) | 28.03 | 27.01 | 26.49 | −3.64% | −1.91% | −5.49% |
+| drag amplitude, smoothed | 27.63 | 26.28 | 26.11 | −4.89% | −0.65% | −5.50% |
+| lift amplitude, extrema (N/m) | 174.14 | 157.32 | 152.67 | −9.66% | −2.96% | −12.33% |
+| lift amplitude, smoothed | 172.27 | 155.78 | 150.95 | −9.57% | −3.10% | −12.37% |
+
+(Featflow L4: u_x −2.88 mm, u_x ampl. 2.72, u_y ampl. 34.99 mm, f 5.46 Hz,
+drag ampl. 27.74, lift ampl. 153.91 N/m.) Cycle-to-cycle spread over the
+window is ≤ 0.02 mm in u_y amplitude (0.06%) and 0.7–1.2 N/m in the lift
+amplitude, so the displacement changes of 0.3–1% are resolved but small; the
+late-time variability (1 s scale wandering) is ~0.3% in u_y amplitude, so the
+u_x changes of ~1% are marginal.
+
+Comparison with the matched path (1x → 2x → 4x, fluid and solid refined
+together, dt halved): u_x mean +24.9% / +10.6%, u_y amplitude +14.5% /
++6.0%, frequency −1.17% / −0.87%.
+
+### Interface cleanliness
+
+| solid | solid interface faces | fluid interface faces | mean / max outer iterations | steps above tol. | force balance (rms(F_f+F_s)/rms F_f) |
+|---|---:|---:|---:|---:|---:|
+| 2x | 432 | 168 | 7.01 / 13 | 0 | 5.9e-4 |
+| 4x | 864 | 168 | 6.99 / 13 | 0 | 5.4e-4 |
+| 8x | 1 728 | 168 | 6.98 / 13 | 0 | 5.0e-4 |
+
+The solid interface is already 2.6× finer than the fluid one on the baseline
+and 10× finer at 8x. The AMI force transfer stays conservative to 5e-4 (it
+improves slightly), the iteration count is unchanged, every step meets the
+tolerance and no instability occurs. Wall time grows (44 → 93 → 154
+core-hours) because of the solid solve. The experiment is clean. A fine-solid /
+coarse-fluid non-matching interface shows no material artefact in these
+metrics; a possible effect on the traction interpolation itself was not
+separately probed.
+
+### Comparison with the CSM prediction
+
+**It did not respond as predicted.** Section 12 suggested ~5–6% in u_y from
+solid 2x → 4x (CSM2 tip error 6.7% → 1.7%) and ~1–2% from 4x → 8x. Observed:
+u_y amplitude +0.32% and +0.01%, u_x mean +0.33% and −0.95% (u_x does not
+even keep one sign). The frequency does respond monotonically and
+decelerates (−0.39%, −0.19%), consistent with a softer plate, but its
+magnitude (−0.58% over 2x → 8x) is far smaller than the ~3% a 6.7% static
+stiffness error would produce for a pure structure (f ∝ √k). The
+fluid-loaded plate evidently has a much lower sensitivity to structural
+stiffness than the CSM2/CSM3 structure alone (the plate here is not close
+to a static, gravity-loaded cantilever; a plausible but untested reason is
+that the dynamic response is set by the fluid forcing and the added mass,
+with the stiffness entering mostly through the frequency). The 4x → 8x
+change is small relative to 2x → 4x for the frequency and u_y, i.e. the
+solid has converged in the sense of these QoIs; for u_x it does not
+shrink (−0.09% → −0.95%), but stays ≈ 1%.
+
+### Error decomposition
+
+- **u_y amplitude:** the full 1x → 2x → 4x path moves +14.5% and +6.0%.
+  Solid alone moves +0.3% (2x → 8x), i.e. **≈ 5% of the 2x → 4x change**.
+  The remainder is the fluid: fluid 2x → 4x at the 4x solid (the existing
+  matched 4x run against this study's solid 4x) is +5.7%, which reproduces
+  the whole matched change (0.3% + 5.7% = 6.0%).
+- **u_x mean:** solid alone −0.6% against a matched +10.6%; the fluid
+  accounts for +10.3%. The solid explains none of it, and has the wrong sign.
+- **Frequency:** solid alone −0.58% (2x → 8x), against −0.87% matched; the
+  solid explains about **two thirds** of the matched frequency change. The
+  fluid-only change at solid 4x is −0.50% (not additive with the above
+  because the two sequences share the solid 2x → 4x step, but the order of
+  magnitude agrees).
+- **Forces:** the solid refinement *does* change the loads: lift amplitude
+  −12.3% (174.1 → 152.7 N/m, essentially onto Featflow's 153.9) and drag
+  amplitude −5.5% (28.0 → 26.5 against 27.74), with drag mean unchanged. In
+  the matched path these two shifts are hidden by the opposite fluid
+  contribution (lift +12.5% fluid-only, 1x → 2x −24%, so the matched
+  sequence is non-monotone in the extrema amplitude). The lift amplitude of
+  the matched 4x run (+15%, reported as inflated by coupling noise in §4) is
+  thus partly a coarse-solid effect, not only noise. This is a force result;
+  it was not pursued (no force-noise campaign).
+- The additivity is approximate: the matched 4x run also halves `dt` (a
+  ≤ 1.7% displacement effect, §5/§7), and the pair f2/s4x → f4/s4x differs
+  from fluid-only by that time-step change.
+
+### Consequence for the apparent p ≈ 1 behaviour
+
+The solid is **not** the origin of the displacement mesh dependence, nor of
+the p ≈ 1 path: ~95% of the u_y change and all of the u_x change on the
+matched 2x → 4x step come from the fluid (with the interface/coupling it
+drives). The coarse-solid stiffness error identified in section 12 is real
+and visible in the frequency (about two thirds of its 2x → 4x drift) and in
+the lift/drag amplitudes (−10 … −12%), but it does not set the displacement
+amplitudes in this FSI. The statement of section 12 that the solid "likely
+explains much of the size and sign of the FSI3 displacement changes" is
+**not supported**: the coincidence of the normalised CSM2 deflection ratios
+with the u_y amplitude ratios (0.80 : 0.95 : 1 vs 0.82 : 0.94 : 1) was a
+coincidence. No formal order is inferred; the displacement p ≈ 1 along the
+matched path is, on this evidence, a fluid/interface property.
+
+### Answers to the open questions
+
+1. u_x mean +0.33% (2→4), −0.95% (4→8); amplitude −0.09%, −0.95%.
+2. u_y amplitude +0.32%, +0.01%.
+3. Frequency −0.39%, −0.19% (−0.58% total).
+4. No, for the displacements (predicted 5–6%, seen 0.3%); partly yes for
+   the sign and monotone decay of the frequency.
+5. Yes for u_y and frequency (0.01%, 0.19%); u_x stays ~1%.
+6. ≈ 5% of u_y, none of u_x, ~⅔ of the frequency drift, and the solid *does*
+   explain a large part of the lift/drag amplitude shifts.
+7. No. The p ≈ 1 sequence is fluid-dominated.
+8. No material artefact (conservation 5e-4, iterations unchanged).
+9. Yes: the standard solid is adequate for the displacements already at 2x
+   against these QoIs; for force amplitudes a 4x–8x solid is needed.
+10. Not tested: the optional `highOrderResidual` run was skipped because the
+    structural error does not dominate the displacements (the instruction made
+    it conditional on that).
+11. See below.
+
+### Classification
+
+**C — little structural effect** on the displacement QoIs (the quantities of
+primary interest), with a clearly visible structural effect on the force
+amplitudes and a partial one on the frequency. Not D: the experiment is
+clean.
+
+### Recommended next single task
+
+The CFD3 sub-benchmark on the 1x/2x/4x fluid meshes (rigid plate, no
+coupling), to test whether the first-order behaviour of the loads and, by
+extension, the fluid-driven displacement change comes from the fluid
+discretisation alone. Run it with the dt of the matched path first, and only
+then with a fixed dt to separate space and time.
