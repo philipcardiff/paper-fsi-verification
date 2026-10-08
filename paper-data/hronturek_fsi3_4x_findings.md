@@ -703,3 +703,221 @@ coupling), to test whether the first-order behaviour of the loads and, by
 extension, the fluid-driven displacement change comes from the fluid
 discretisation alone. Run it with the dt of the matched path first, and only
 then with a fixed dt to separate space and time.
+
+## 14. CFD3 fluid-only convergence diagnosis
+
+Asked for by the section 13 recommendation: does the fluid discretisation
+alone show sub-nominal convergence in the loads that drive FSI3? Code and
+compact results: solids4foam branch `verification/hronturek-cfd3` (commit
+`00065a6fb`; `scripts/hron_turek_cfd3.py`, `scripts/cfd3_analysis.py`,
+`reference/cfd3/`). Machine-readable: `hronturek_cfd3_paths.csv`,
+`hronturek_cfd3_runs.csv`, `hronturek_cfd3_study.json`. OpenFOAM v2512,
+xenosim. No `.tex` change, no FSI or solid run.
+
+### CFD3 definition
+
+CFD3 of Turek and Hron (2006) is the **rigid-flag version of the FSI3 problem
+on the same geometry**: channel 2.5 × 0.41 m, cylinder of radius 0.05 m at
+(0.2, 0.2), flag 0.35 × 0.02 m attached to the cylinder with its tip at
+(0.6, 0.2), parabolic inflow of mean 2 m/s (maximum 3 m/s, `Re = 200`),
+ρ = 1000 kg/m³, ν = 0.001 m²/s, no-slip walls, cylinder and flag, zero-stress
+outflow. It is **unsteady**: periodic vortex shedding (St ≈ 0.22). Forces act
+on the cylinder and flag together. Nothing was substituted: the case uses the
+tutorial's own fluid `blockMeshDict` (the FSI3 fluid domain with the flag
+cut-out), inlet and outlet, with the plate patch made a fixed wall; the flag
+is the undeformed FSI3 flag. The published CFD3 reports drag and lift only
+(mean ± amplitude [frequency]); there is **no pressure-difference quantity**,
+so none is reported here. Initial condition: fluid at rest, impulsively
+started; the flow takes ≈ 15 s (1x, `dt = 10⁻³`) to saturate (lift
+envelope grows from the small asymmetry of the channel), so each run goes to
+25 s (1x matched to 40 s) and the closing 1 s (3–4 lift periods) is analysed
+with the FSI3 extraction (mean = (max+min)/2, amplitude = (max−min)/2 over
+the last full lift period, 4 ms moving-average amplitude as the smoothed
+variant). Periodicity: per-period lift amplitude varies by ≤ 0.19 N/m
+(0.07%) over the closing 3 s, and its drift over those 3 s is ≤ 0.12 N/m, in
+every run.
+
+### Reference provenance
+
+Featflow CFD3 table (`fsi_cfd_tests.html`, Q2/P1 discontinuous FEM, levels
+1+0 … 4+0, 576 … 36 864 elements), best values level 4+0, `dt = 0.005`:
+drag 439.45 ± 5.6183 [4.3956 Hz], lift −11.893 ± 437.81 [4.3956 Hz]. At
+`dt = 0.01` the same level gives 439.38 ± 5.4639 [4.3825], −9.9868 ± 434.79.
+The reference is **not temporally converged**: halving dt changes the lift
+amplitude by 0.7%, the drag amplitude by 2.8% and the frequency by 0.3%; the
+level sequence at `dt = 0.005` is monotone for the drag mean (437.41,
+439.05, 439.45; ratio 0.24) but **not** for the drag amplitude (5.586,
+5.580, 5.618) and the lift amplitude steps (434.74, 436.17, 437.81) do not
+decrease (1.4, 1.6). I therefore treat the reference as good to ≈ 0.1% in
+the drag mean, ≈ 0.5–1% in the lift amplitude and frequency, and 2–3% in
+the drag amplitude. No reference is exact.
+
+### Mesh and timestep families
+
+| level | fluid cells | interface (plate+cylinder) | cells vs Featflow | `dt` matched / fixed | mesh quality (1x) | core-h |
+|---|---:|---|---|---|---|---:|
+| 1x | 5 336 | same blocks as FSI3 1x | between Featflow 1+0 and 2+0 (576, 2 304 quads, but Q2) | 10⁻³ / 2.5·10⁻⁴ | max non-orth 24.5°, skew 0.41, aspect 17 | 0.5 / 1.4 |
+| 2x | 21 344 | ×2 per direction | – | 5·10⁻⁴ / 2.5·10⁻⁴ (+ 1.25·10⁻⁴) | – | 11.4 / 17.2 / 51.6 |
+| 4x | 85 376 | ×4 | – | 2.5·10⁻⁴ (matched = fixed) | – | 187.6 |
+
+The meshes are the FSI3 fluid meshes (blocks multiplied by 1, 2, 4, one
+spanwise cell, graded as in the tutorial): `h` halves each level. Schemes
+and solver settings are those of the FSI3 fluid (backward, linearUpwind
+cell-limited, `nOuterCorrectors 3`, `nCorrectors 3`). Because the matched
+4x is the fixed-dt 4x, six runs cover everything: 1x at 10⁻³ and 2.5·10⁻⁴,
+2x at 5·10⁻⁴, 2.5·10⁻⁴ and 1.25·10⁻⁴, 4x at 2.5·10⁻⁴.
+
+### Matched space-time results
+
+| QoI | 1x | 2x | 4x | Featflow L4 | err 1x / 2x / 4x | ratio | order | verdict |
+|---|---:|---:|---:|---:|---|---:|---:|---|
+| drag mean (N/m) | 446.01 | 441.81 | 440.15 | 439.45 | +1.49 / +0.54 / +0.16% | 0.40 | 1.34 | monotone, sub-nominal |
+| drag amplitude | 4.062 | 5.527 | 5.732 | 5.618 | −27.7 / −1.6 / +2.0% | 0.14 | 2.84 | monotone, order > 2 |
+| drag amplitude, smoothed | 4.029 | 5.507 | 5.721 | – | | 0.15 | 2.79 | as above |
+| lift mean | −67.9 | −19.0 | −13.8 | −11.89 | | – | – | near zero: undefined (converging) |
+| lift amplitude (N/m) | 296.0 | 424.4 | 438.0 | 437.81 | −32.4 / −3.05 / +0.05% | 0.106 | 3.24 | monotone, order > 2 |
+| lift amplitude, smoothed | 295.1 | 423.8 | 437.7 | – | | 0.108 | 3.21 | as above |
+| frequency (Hz) | 4.415 | 4.454 | 4.448 | 4.3956 | +0.44 / +1.33 / +1.20% | −0.15 | – | non-monotone |
+| Strouhal `f D/Ū` | 0.2208 | 0.2227 | 0.2224 | 0.2198 | | | – | non-monotone |
+| drag mean, pressure part | 401.5 | 395.8 | 394.3 | | | 0.25 | 2.00 | monotone |
+| drag mean, viscous part | 44.29 | 45.94 | 45.79 | | | −0.09 | – | non-monotone |
+| lift amplitude, pressure | 294.5 | 421.7 | 434.8 | | | 0.10 | 3.28 | monotone |
+| lift amplitude, viscous | 3.69 | 5.53 | 5.74 | | | 0.11 | 3.14 | monotone (1% of the total) |
+
+### Fixed-dt spatial results
+
+`dt = 2.5·10⁻⁴` on all three meshes (the 4x column is the same run).
+
+| QoI | 1x | 2x | 4x | ratio | order |
+|---|---:|---:|---:|---:|---:|
+| drag mean | 445.49 | 441.78 | 440.15 | 0.44 | 1.18 |
+| drag amplitude | 3.926 | 5.520 | 5.732 | 0.13 | 2.91 |
+| lift amplitude | 284.6 | 423.7 | 438.0 | 0.103 | 3.27 |
+| frequency (Hz) | 4.411 | 4.454 | 4.448 | −0.13 | non-monotone |
+| drag mean, pressure | 401.0 | 395.8 | 394.3 | 0.28 | 1.83 |
+| drag mean, viscous | 44.33 | 45.90 | 45.79 | −0.07 | non-monotone |
+| lift amplitude, pressure | 283.1 | 421.0 | 434.8 | 0.101 | 3.31 |
+
+Matched against fixed dt: the 1x→2x lift-amplitude change is +43.4% matched
+and +48.9% fixed (the 1x matched run is the coarsest in time, which partly
+masks the coarse-mesh deficit), and the 2x→4x change is +3.2% against +3.4%.
+Orders are 1.34/1.18 (drag mean), 2.84/2.91 (drag amplitude) and 3.24/3.27
+(lift amplitude): **fixing dt does not change the conclusion**.
+
+### Temporal control
+
+2x at `dt = 5·10⁻⁴, 2.5·10⁻⁴, 1.25·10⁻⁴`: lift amplitude 424.44, 423.67,
+421.99 (−0.18%, −0.40%), drag mean 441.81, 441.78, 441.73 (−0.01%),
+drag amplitude 5.527, 5.520, 5.505, frequency 4.4542, 4.4538, 4.4525 Hz
+(inside the cycle spread). **The differences grow as dt falls** (ratios
+1.6–2.2): there is no temporal convergence to quote an order from, and the
+time error is not formally resolved. Its total (0.6% in the lift amplitude,
+0.01% in the drag mean) is nevertheless 5–100× smaller than the 2x→4x
+spatial change (3.2%, 0.4%). The persistent downward drift suggests a
+dt-dependent splitting/tolerance effect of the PIMPLE loop (not
+investigated; recorded as a negative result). **Temporal error is subordinate
+for the lift amplitude and the drag mean, comparable to the 2x→4x change in
+the drag amplitude only if the smoothed change (0.4%) is compared with the
+spatial one (3.9%), i.e. still subordinate.**
+
+### Observed order
+
+Defensible: drag mean p ≈ 1.2–1.3 (matched 1.34, fixed 1.18; pressure part
+1.8–2.0; viscous part not monotone); lift amplitude p ≈ 3.2 and drag
+amplitude p ≈ 2.8–2.9, both **above the formal order** and therefore
+pre-asymptotic error reduction (error −32% → −3% → +0.05% against the
+reference), not asymptotic orders; no Richardson extrapolation is
+meaningful. Not reported: frequency/Strouhal (non-monotone, differences
+within 0.1–0.4% of the reference's own dt sensitivity) and the lift mean
+(near zero). The 4x lift amplitude agrees with Featflow to 0.05%, but the
+reference is uncertain by ≈ 0.7% in time, so this is agreement within the
+reference uncertainty, not a demonstration that 4x is converged.
+
+### Comparison with FSI3
+
+| quantity | FSI3 1x→2x, 2x→4x (section 4) | CFD3 matched 1x→2x, 2x→4x |
+|---|---|---|
+| lift amplitude (smoothed) | 228.8 → 172.3 → 165.6 (−24.7%, −3.9%; ratio 0.12; p 3.1) | 295.1 → 423.8 → 437.7 (+43.6%, +3.3%; ratio 0.108; p 3.2) |
+| drag amplitude (smoothed) | 22.6 → 27.6 → 30.6 (+22%, +11%; p 0.74) | 4.03 → 5.51 → 5.72 (+37%, +3.9%; p 2.8) |
+| drag mean | 456.6 → 459.7 → 462.1 (within variability) | 446.0 → 441.8 → 440.2 (−0.9%, −0.4%; p 1.3) |
+| frequency | 5.588 → 5.523 → 5.474 (p 0.4) | 4.415 → 4.454 → 4.448 (non-monotone) |
+| `u_y` amplitude | +14.5%, +6.0% (p 1.07) | not a CFD3 quantity |
+| `u_x` mean | +24.9%, +10.6% (p 0.91) | not a CFD3 quantity |
+
+Directions of change differ (the FSI3 lift amplitude falls, the CFD3 one
+rises: the fixed flag sheds much more strongly, 438 against 154 N/m), so
+there is no one-to-one mapping. What carries over is the **shape**: the FSI3
+smoothed lift amplitude reproduces the CFD3 error-reduction ratio (0.12 vs
+0.108) and the order above 2 (3.1 vs 3.2), i.e. the lift-amplitude behaviour
+in FSI3 looks like a fluid-resolution effect: a rapid pre-asymptotic
+reduction with a 2x error of 3–12%. The CFD3 2x→4x load changes are small
+(0.4% drag mean, 3.3% lift amplitude, 3.9% drag amplitude) and converging
+faster than the FSI3 displacements (6% and 10.6%, p ≈ 1). The CFD3 drag
+mean, the load that drives `u_x`, has a sub-nominal order (1.2–1.3) like
+`u_x` (0.91), but a change 25× smaller than the `u_x` change. The fluid is
+**pre-asymptotic at 1x and 2x** (2x errors: lift amplitude −3%, drag
+amplitude −1.6%, drag mean +0.5%); at 4x it is within the reference
+uncertainty. Whether load changes of this size can produce 6–10%
+displacement changes in a flexible plate is not answered by a rigid
+calculation.
+
+### Diagnosis
+
+**Classification: C, mixed.** The rigid fluid load converges cleanly
+(monotone, error reduction faster than second order, 2x error of a few
+percent for the amplitudes) except for the drag mean (p ≈ 1.2–1.3, but
+only 0.4% in the 2x→4x change) and the frequency (non-monotone, ≈ 0.1%). It
+does **not** reproduce the p ≈ 1 sequence of the FSI3 displacements, nor
+their magnitude. Pressure dominates: the lift amplitude is 99% pressure and
+converges like the total; the viscous drag part is non-monotone (±0.15
+N/m) and 10% of the drag. The static fluid operator therefore does not by
+itself explain the p ≈ 1 `u_x`/`u_y` behaviour. Per the limitation of a
+rigid calculation, this does not clear the fluid in FSI3: CFD3 does not test
+the ALE mesh motion, the moving no-slip boundary or the interface transfer.
+The FSI3 lift amplitude behaves like the CFD3 one, so the fluid part of
+FSI3 *force* convergence looks CFD3-like; the *displacement* convergence is
+what departs from it. No optional fluid-side diagnostic was run (the
+behaviour is not clearly sub-nominal).
+
+### Answers to the questions
+
+1. **CFD3:** the rigid-flag FSI3 problem, Re = 200, unsteady, drag/lift on
+   cylinder + flag (see above); no pressure-difference quantity.
+2. **Trust in the references:** good to ≈ 0.1% (drag mean), 0.5–1% (lift
+   amplitude, frequency), 2–3% (drag amplitude); not temporally converged,
+   non-monotone in the amplitudes.
+3. **Monotone on 1x/2x/4x:** yes for the drag mean, drag and lift amplitudes
+   and the pressure parts; no for the frequency/Strouhal and the viscous
+   drag.
+4. **Defensible orders:** drag mean 1.2–1.3; amplitudes 2.8–3.3 (above
+   formal, pre-asymptotic).
+5. **Fixed dt:** no change of conclusion (orders within 0.15).
+6. **Temporal error:** subordinate (0.6% vs 3.2% for the lift amplitude) but
+   not itself convergent (differences grow as dt falls).
+7. **Drag and lift:** drag mean slowly (p ≈ 1.2–1.3, 0.4% change), amplitudes
+   rapidly (3–4% change at 2x→4x).
+8. **Pressure/viscous:** pressure drag p ≈ 1.8–2.0, viscous drag
+   non-monotone (±0.15 N/m); lift pressure p ≈ 3.3, viscous lift is 1.3% of
+   the amplitude.
+9. **Reproduces the sub-nominal FSI3 displacement behaviour?** Not in
+   magnitude or order; it reproduces the FSI3 lift-amplitude shape.
+10. **Fluid discretisation the leading explanation for the displacement
+    trend?** No, not on this evidence; it is a contributor (2x loads are 3%
+    off in amplitude) that cannot be excluded for the displacement.
+11. **ALE / interface transfer next?** Yes.
+12. **Next task:** below.
+
+### Recommended next single task
+
+A fluid-only moving-mesh test without coupling: prescribe the 4x FSI3 plate
+motion (the interface displacement history of one period, taken from the
+committed 4x run or from a fixed periodic shape, e.g. the first bending
+mode scaled to the tip amplitude) on the fluid meshes 1x/2x/4x with the
+ALE velocity-Laplacian motion solver, and compare the plate
+force/pressure-difference history across levels. This separates the
+moving-boundary/ALE fluid response from the coupling and the structure
+using the same machinery as CFD3. First step: check that the
+solids4foam fluid model can prescribe the boundary motion (e.g. through
+`pointMotionU`/`fixedValue` displacement patch); if not, the equivalent
+alternative is a single FSI3 2x/4x pair with tight interface tolerance on
+the interface transfer only.
