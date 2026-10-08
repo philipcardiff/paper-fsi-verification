@@ -921,3 +921,136 @@ solids4foam fluid model can prescribe the boundary motion (e.g. through
 `pointMotionU`/`fixedValue` displacement patch); if not, the equivalent
 alternative is a single FSI3 2x/4x pair with tight interface tolerance on
 the interface transfer only.
+
+## 15. Prescribed-motion fluid-only ALE test
+
+Task recommended in section 14. Code and compact results: solids4foam branch
+`verification/hronturek-ale-prescribed` (commit `27c9bfdf7`, stacked on
+`verification/hronturek-cfd3`; `scripts/hron_turek_ale.py`,
+`scripts/ale_analysis.py`, `reference/ale/`). Machine-readable:
+`hronturek_ale_paths.csv`, `hronturek_ale_runs.csv`, `hronturek_ale_study.json`.
+OpenFOAM v2512, xenosim. No solid, no coupling, no `.tex` change.
+
+### Setup
+
+Each run restarts the developed rigid CFD3 state of the same level (25 s,
+section 14) and bends the flag with a prescribed periodic motion on the FSI3
+fluid mesh with the FSI3 mesh motion (`velocityLaplacian`, quadratic
+inverse-distance diffusivity on plate and cylinder, `newMovingWallVelocity` on the
+plate, same schemes/solvers/PIMPLE). Prescribed transverse displacement
+`η(x,t) = A s(t) φ(x) sin(2π f (t − 25))`, `A = 35 mm` (Featflow FSI3 tip
+amplitude 34.99 mm), `f = 5.5 Hz` (FSI3), `φ` the clamped-free beam mode 2
+normalised to unit tip value (FSI3 flaps at ≈ 2.5× the first in-vacuum
+frequency, i.e. near the second mode), `s` a smooth 1 s ramp. The point
+velocity is `(η(t) − η(t − dt))/dt`, so the Euler-integrated mesh follows η
+exactly. Eight seconds are run (1 s ramp + 7 s); the analysis uses the last
+five forcing periods (0.91 s). Mesh quality stays good at the extreme
+deflection (4x: max non-orthogonality 31°, skewness 0.44; at rest 25°, 0.41).
+Levels and time steps are those of section 14: matched 1x/2x/4x with
+`dt = 10⁻³/5·10⁻⁴/2.5·10⁻⁴`, and fixed `dt = 2.5·10⁻⁴` (the 4x run is common). Five
+runs, 0.2 to 109 core-hours. **Flag kinematics are an assumption** (a
+standing mode-2 shape at the FSI3 tip amplitude and frequency, not the actual
+FSI3 motion, which was not stored); the test therefore gauges the fluid
+response to a given FSI3-like motion, not the FSI3 loads.
+
+Quantities (per unit depth): force on cylinder + flag ("total") and on the flag
+("plate"); the Fourier components at `f` split into the part in phase with the
+displacement (`a1`) and with the velocity (`b1`); extrema-based amplitude over
+the last period; the **generalised force** `Q`, the pressure force on the flag
+projected on φ (viscous part excluded: < 1% of the load), and the work per
+cycle `π A b1`. The flow locks to the forcing in every run (variance outside
+the first six harmonics < 10⁻⁴; fundamental changes by ≤ 0.8 N/m, ≤ 0.1%,
+between the last two five-period windows).
+
+### Results
+
+| quantity | 1x (dt 10⁻³) | 2x (5·10⁻⁴) | 4x (2.5·10⁻⁴) | 1x→2x | 2x→4x | order |
+|---|---:|---:|---:|---:|---:|---|
+| `Q` in phase with displacement `a1` (N/m) | 1391.5 | 1445.8 | 1443.4 | +3.90% | −0.16% | non-monotone |
+| `Q` in phase with velocity `b1` (N/m) | −291.0 | −269.6 | −273.9 | +7.4% | −1.6% | non-monotone |
+| work per cycle `π A b1` (J/m) | −31.99 | −29.64 | −30.11 | +7.4% | −1.6% | non-monotone |
+| total lift amplitude, extrema (N/m) | 3572.4 | 3514.1 | 3498.0 | −1.63% | −0.46% | 1.85 (monotone) |
+| plate lift amplitude, extrema | 3174.9 | 3266.5 | 3281.3 | +2.9% | +0.45% | 2.6 (above formal) |
+| plate lift, fundamental `a1` | −3261.6 | −3355.2 | −3326.9 | +2.9% | −0.8% | non-monotone |
+| plate lift, `b1` | −353.0 | −505.3 | −457.9 | +43% | −9.4% | non-monotone |
+| total drag mean | 638.2 | 643.6 | 635.4 | +0.8% | −1.3% | non-monotone |
+| total drag, 2nd harmonic | 169.0 | 181.3 | 185.4 | +7.3% | +2.3% | 1.6 (monotone) |
+
+Fixed `dt = 2.5·10⁻⁴` (1x, 2x, 4x): `a1` 1398.4, 1445.9, 1443.4 (+3.4%, −0.17%);
+`b1` −291.7, −271.8, −273.9 (+6.8%, −0.75%); total lift extrema 3567.1,
+3514.2, 3498.0 (p 1.7); plate lift extrema 3189.2, 3264.7, 3281.3 (p 2.2);
+total drag 2nd harmonic p 1.4. Temporal control (2x, `dt` 5·10⁻⁴ → 2.5·10⁻⁴):
+`a1` 1445.77 → 1445.87, `b1` −269.6 → −271.8 (0.8%), total lift extrema 3514.1 → 3514.2.
+Scale of the load: the modal inertia force of the FSI3 flag for this motion,
+`ρ_s t L (∫φ²=¼) ω² A`, is **73 N/m**, against `Q ≈ 1.4 kN/m`.
+
+### Observed order
+
+No defensible order for the key modal load components: `a1` and `b1` of `Q`
+change sign between differences (the 1x level is the outlier; the sequence
+overshoots at 2x and falls back at 4x), as do the plate-lift quadrature
+and the drag mean. Monotone sequences with orders in the second-order
+range or above exist only for amplitudes that are dominated by the smooth
+inertial part: the lift amplitudes (1.7–2.6) and the drag second harmonic (1.4–1.6).
+No order is near 1 for a load that is changing by more than its
+window-to-window noise (0.1%).
+
+### Comparison with FSI3
+
+2x → 4x, the modal pressure load changes by −2.4 N/m (`a1`, −0.16%) and
+−4.3 N/m (`b1`, −1.6%), i.e. 3% and 6% of the 73 N/m structural scale;
+1x → 2x by +54 and +21 N/m, i.e. 74% and 29% of it. The FSI3 `u_y` amplitude
+changes by +14.5% (1x→2x) and +6.0% (2x→4x). The load differences
+decrease much faster (ratio 0.03–0.2) than the FSI3 displacement
+differences (0.41–0.48): the prescribed-motion fluid response is
+converging near or above second order in sequence, not along the
+p ≈ 1 sequence of the displacements. The load amplitudes that matter to
+the structure are **small differences of large forces**: the flag is only
+a ≈ 20th of the fluid force in inertia, so a relative load error of 1%
+(≈ 14 N/m) is ≈ 20% of the structural inertia force. That amplification
+(≈ 20 at the inertia scale; the nearest FSI3 evidence is the 5.7% `u_y` change from
+refining only the fluid with the solid at 4x, section 13) is a plausible
+route from sub-percent fluid-load changes to the 6–10% displacement
+changes, but this test does not demonstrate it: the actual coupled
+response, and the actual FSI3 kinematics, are not involved.
+
+### Diagnosis
+
+**Classification: B/C — the moving-mesh fluid response is not the p ≈ 1
+source.** (B: ALE load converges cleanly and quickly for a given motion;
+not A; not D: runs periodic, temporal error ≤ 0.8% in `b1`, 0.007% in `a1`.)
+The mesh-motion, moving-wall and ALE flux machinery of FSI3 reproduces
+smooth, fast load convergence on 1x/2x/4x for a prescribed flag motion;
+the slow, first-order-like displacement sequence appears only when the
+loads are fed back through the structure. The 1x level is
+clearly pre-asymptotic (4–7% off in the modal loads); the 2x level is within
+≈ 0.2% (`a1`) and 1.6% (`b1`) of the 4x one. The remaining candidates are
+the interface/coupling treatment (AMI mapping between 168 fluid and 432–1728
+solid faces, IQN-ILS) and the amplification of small load differences by
+the coupled system, not the static or moving fluid operator.
+Limitations: standing mode-2 kinematics, pressure-only generalised force, no
+viscous part, no x-displacement, one amplitude, one frequency; the test says
+nothing about the coupled response.
+
+### Answers to the questions
+
+1. **Did the ALE test show sub-nominal convergence?** No: the key modal
+   loads are non-monotone with 2x → 4x changes of 0.16% and 1.6%; the
+   monotone amplitudes have orders 1.4–2.6.
+2. **Lock-in and periodicity?** Yes (variance outside harmonics < 10⁻⁴).
+3. **Matched vs fixed dt?** Same conclusion (differences ≤ 0.8%).
+4. **Is the p ≈ 1 FSI3 behaviour reproduced?** No.
+5. **Fluid ALE the leading explanation?** No, on this evidence.
+
+### Recommended next single task
+
+Coupled sensitivity (amplification) test, 2x only: in the existing FSI3 2x
+configuration (dt 0.0005, solid 4x, IQN-ILS), scale the fluid traction passed
+to the solid by (1 ± 0.01) and (1 ± 0.03) — two or four 2x runs of 7 s, about 10 core-hours
+each — and compare the `u_y` and `u_x` amplitude changes with the 5.7% / 10%
+changes of a fluid 2x → 4x refinement. If a 1–3% load change reproduces them, the
+displacement sequence is a load-error amplification and the diagnosis
+passes to the fluid load error at the interface (pressure/viscous traction
+accuracy on the moving flag); if not, the interface transfer or the
+coupling iteration is implicated. This requires a one-line traction scaling
+in the interface (a driver-level change on a throwaway branch).
