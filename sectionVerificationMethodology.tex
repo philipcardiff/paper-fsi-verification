@@ -21,7 +21,7 @@ Three notions are kept separate throughout:
 (iii) a \emph{trustworthy verification reference}, i.e.\ a value whose own error is known to be small compared with the discretisation errors under study.
 A widely used benchmark problem does not automatically provide a trustworthy benchmark solution: neither (i) nor (ii) implies (iii).
 
-\todo{Section~\ref{sec:numerical_methods} currently describes the quasi-monolithic solver of the parent paper. All results in Sections~\ref{sec:benchmark_suite}--\ref{sec:cross_benchmark} were obtained with partitioned coupling: interface quasi-Newton with inverse least-squares (IQN-ILS)~\citep{Degroote2009}, Robin--Neumann coupling with a Robin condition for pressure~\citep{Tukovic2018b}, and Aitken under-relaxation~\citep{kuttler2008fixed}, in the solids4foam toolbox~\citep{Cardiff2025}. A concise description of these procedures, the fluid (\texttt{pimpleFluid}) and solid solvers, and the time schemes (\texttt{backward}, i.e.\ BDF2, unless stated) is required in Section~\ref{sec:numerical_methods}.}
+All results were obtained with the partitioned procedures of Section~\ref{sec:numerical_methods}; agreement with experimental data, where it exists (Section~\ref{sec:hessenthaler}), is validation and is never used as evidence of convergence.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reference-solution hierarchy}\label{sec:ref_hierarchy}
@@ -42,8 +42,8 @@ The category describes the reference, not the benchmark problem and not the qual
 		\midrule
 		A & Analytical or semi-analytical solution of the stated continuum problem, with any numerical error of its own (e.g.\ collocation) controlled to near round-off. & ringAddedMass, womersleyTube \\
 		B & Independently computed numerical solution, by a different code and with its own convergence evidence, either of the same problem or of a problem with a small, explicitly identified model-form difference whose effect on the QoIs is quantified and small compared with the numerical errors of interest. & Hron--Turek FSI1 (Featflow, six levels); collapsibleChannel (oomph-lib, beam wall model) \\
-		C & Published benchmark value whose own discretisation error is only partly quantified. & Hron--Turek FSI2, FSI3 (Featflow level 4); beamInCrossFlow, original form \\
-		C-weak & As C, but digitised from figures, single-mesh, mutually inconsistent, preprint-only, or from the same code lineage as the code under test. & 3dTube, mokLidDrivenCavity, cavityFlexibleBottom, beamInCrossFlow modified form, blobInTreacle \\
+		C & Published benchmark value whose own discretisation error is only partly quantified. & Hron--Turek FSI2, FSI3 (Featflow level 4); beamInCrossFlow (\citet{Richter2012}; in progress) \\
+		C-weak & As C, but digitised from figures, single-mesh, mutually inconsistent, preprint-only, or from the same code lineage as the code under test. & 3dTube, mokLidDrivenCavity, cavityFlexibleBottom, blobInTreacle \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -95,6 +95,18 @@ Interface iterations at each time step are stopped when a coupling residual fall
 The resulting iterative error must be small compared with the discretisation error being measured, otherwise a refinement study converges towards a tolerance floor rather than to the continuum solution.
 The direct test is a tolerance sweep at fixed discretisation; the indirect test is a comparison of two coupling algorithms.
 Only a minority of the present cases contain a systematic tolerance sweep (Section~\ref{sec:iterative_errors}).
+The meaning of the tolerance depends on the convergence test.
+A test that can be met by a measure normalised by the \emph{total} interface displacement, such as the legacy $\min(r_1, r_2)$ of Eq.~\eqref{eq:coupling_residuals}, does not bound the reduction of the interface residual within a step; in slowly varying phases it can accept steps that are far from converged, and the resulting error accumulates over many steps.
+A steadiness or periodicity check on a QoI cannot detect such an accumulated error, because the solution can be steady (or drift slowly) at the wrong value.
+We therefore recommend that verification runs require every residual measure to meet the tolerance ($\max(r_1, r_2)$), record the residuals at acceptance, and are not restarted from states computed with a weaker test, since these retain their history.
+The campaigns in progress (Sections~\ref{sec:beam} and~\ref{sec:hessenthaler}) use the strict test; the completed studies of Sections~\ref{sec:exact_refs}--\ref{sec:classical} used the legacy test, and their iterative error is bounded by the tolerance, coupling-algorithm and time-step comparisons reported with each case.
+\todo{Check $r_1$ at acceptance in the residual files of the completed transient studies (ringAddedMass, womersleyTube, collapsibleChannel, Hron--Turek FSI1--3, 3dTube, mokLidDrivenCavity) and of the steady cases (FSI1, cavityFlexibleBottom), which solids4foam issue \#552 lists as potentially affected; state per case whether the legacy test accepted steps with $r_1$ above the tolerance. For FSI3 the 2x tolerance pair ($10^{-5}$/$10^{-6}$) bounds the displacement effect to $\leq1.7\%$.}
+
+\paragraph{Code, build and platform.}
+The code under test is the compiled executable, not the source alone.
+The compiler, its optimisation level, the OpenFOAM release and the platform are therefore part of the verification configuration and are recorded with each result.
+Replicating a calculation on a second platform or build is inexpensive and can expose defects that no refinement study on one platform reveals: in 3dTube (Section~\ref{sec:3dtube}) a cross-platform difference that looked like a platform effect was an aliasing defect that only an optimised build exposed.
+A symmetry that the discrete problem should preserve, or invariance to the domain decomposition, is a similarly cheap check on the interface transfer.
 
 \paragraph{Proportionate control of error sources.}
 Verification is not treated as a fixed matrix of studies.

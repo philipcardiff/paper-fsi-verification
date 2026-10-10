@@ -486,44 +486,43 @@ Level 4 diverges at the tutorial pseudo-time step with both Aitken and IQN-ILS; 
 The route to rehabilitation is an improved partitioned study plus an independent COMSOL solution of the identical set-up, which would show either that the same-lineage published curve is inaccurate or that a set-up difference exists; neither can be claimed now.
 
 %%-------------------------------------------------------------------
-\subsubsection{Beam in cross-flow [PROVISIONAL]}\label{sec:beam}
+\subsubsection{Beam in cross-flow [IN PROGRESS]}\label{sec:beam}
 %%-------------------------------------------------------------------
 
-\todo{PROVISIONAL BENCHMARK: retain in main text only if (i) a graded fluid-mesh family that resolves the near-body flow and boundary layer reaches the asymptotic range for both displacement and integrated force (three levels with consistent observed orders), with per-level values tabulated in CSV; and (ii) an independent converged reference is obtained, at least for the large-deformation (modified) form (COMSOL; or Gillebaart et al.\ 2016 if it tabulates the same configuration). Current uniform refinements are NOT asymptotic, and no convergence claim may be made from them.}
+\todo{IN PROGRESS. The verification campaign for this case, rebuilt to the definition of \citet{Richter2012}, is running; no result from it is reported here. Retain in the main text only if (i) a mesh family reaches the asymptotic range for both displacement and integrated force (three levels with consistent observed orders, per-level values in CSV), with a separate time-step check and the strict coupling convergence test (Section~\ref{sec:iterative_errors}); and (ii) the inflow and monitoring-point definition are settled from the text of \citet{Richter2012}, not from agreement with its values. The running campaign was started on a solids4foam tree without the fixes of PR \#546 (OpenFOAM-v2412, GCC, \texttt{-O2}); an A/B check is required before its results are used.}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=1]{figures/beamInCrossFlow-geometry}
-	\caption{Beam in cross-flow: geometry (half domain with $z = 0$ symmetry) and monitoring point A.}
+	\caption{Beam in cross-flow: geometry (half domain with $z = 0$ symmetry) and monitoring point A, as in the original solids4foam tutorial; the beam position and point A of \citet{Richter2012} differ (see text).}
 	\label{fig:beam_geom}
 \end{figure}
 
 \paragraph{Potential value.}
-A thick elastic plate clamped in a three-dimensional channel flow (Fig.~\ref{fig:beam_geom}) is the only steady three-dimensional case, in an original small-deformation form ($E = 1.4\,\mathrm{MPa}$, $Re = 40$)~\citep{Richter2015} and a modified large-deformation form ($E = 10\,\mathrm{kPa}$)~\citep{Tukovic2018}, which together separate geometric nonlinearity from discretisation effects.
+A thick elastic plate clamped in a three-dimensional channel flow (Fig.~\ref{fig:beam_geom}) is the only steady three-dimensional external-flow case in the suite ($E = 1.4\,\mathrm{MPa}$, $Re = 40$).
+\citet{Richter2012} computed it with an independent monolithic finite element code on five globally refined levels and extrapolated the finest three ($u_x(A) = 5.924\times10^{-5}\,\mathrm{m}$, $F_x = 1.327\,\mathrm{N}$, stated accuracy $\leq1\%$); the frequently quoted values $5.95\times10^{-5}\,\mathrm{m}$ and $1.33\,\mathrm{N}$ are rounded benchmark values, not a single refinement level, and are often attributed to \citet{Richter2015}.
+This makes it a candidate category-C reference with unusually good convergence evidence of its own.
 
-\paragraph{Existing evidence.}
-\begin{itemize}
-	\item \emph{References.} Original form: $u_x(A) = 5.95\times10^{-5}\,\mathrm{m}$ and $F_x = 1.33\,\mathrm{N}$ from an independent monolithic finite element code~\citep{Richter2015} (C; refinement level and possible extrapolation unconfirmed). Modified form: values read from Fig.~28 of \citet{Tukovic2018}, a single same-lineage mesh (C-weak).
-	\item \emph{Uniform refinement.} Factors 1--8 (original; finest $\approx7.6\times10^6$ cells) and 1--8 (modified, five levels), with $\Delta t$ scaled. On the finest original mesh $u_x(A)$ is $+0.07\%$ and $F_x$ $-1.4\%$ from Richter; on the finest modified mesh the displacements differ from the same-lineage values by $-2.3\%$, $-0.7\%$ and $+2.3\%$.
-	\item \emph{Not asymptotic.} The final refinement still changes $u_x(A)$ by $\approx4.6\%$ (original) and $4.7\%$ (modified) (read from stored plots), and $F_y$ (original) varies non-monotonically. The finest results are therefore not mesh-converged, and the close agreement of $u_x(A)$ with Richter cannot be separated from coincidence.
-	\item \emph{Displacement versus force.} Displacement and integrated force converge differently. This is consistent with the force being controlled by near-body velocity gradients, which uniform refinement of a coarse base mesh improves only slowly, but it is a hypothesis to be tested.
-	\item \emph{Coupling.} Robin--Neumann and IQN-ILS agree to within $0.4\%$ on the base mesh for both forms.
-\end{itemize}
-Planned evidence: a graded near-body/boundary-layer mesh family for displacements and forces, a separate time-step check, and an independent COMSOL reference (or \citet{Gillebaart2016}, if applicable).
+\paragraph{Status.}
+The earlier solids4foam calculations of this case placed the beam $0.05\,\mathrm{m}$ further downstream than \citet{Richter2012}, sampled point A on the upstream face rather than at mid-thickness, used a different peak inflow speed and a transient start-up; they therefore solved a different problem, and their comparison with the Richter values is withdrawn.
+The case has been rebuilt to the geometry and material of \citet{Richter2012}, and a new mesh and time-step campaign is in progress.
+An earlier modified, large-deformation form ($E = 10\,\mathrm{kPa}$) with same-lineage reference values read from a figure of \citet{Tukovic2018} (C-weak) is not pursued here.
 
 %%-------------------------------------------------------------------
-\subsubsection{Hessenthaler three-dimensional benchmark [IN DEVELOPMENT]}\label{sec:hessenthaler}
+\subsubsection{Hessenthaler three-dimensional benchmark [IN PROGRESS]}\label{sec:hessenthaler}
 %%-------------------------------------------------------------------
 
-\todo{IN DEVELOPMENT --- placeholder only. No solids4foam case, verification driver or numerical result for this benchmark exists in the repository at the time of writing. Do not add numbers until the case and its verification study exist. Retain in the main text only if mesh, time-step and coupling-tolerance studies are completed with consistent observed orders for the principal QoIs.}
+\todo{IN PROGRESS. A numerical-verification campaign (solids4foam branch verification/hessenthaler-phaseI) is running; no convergence result is reported here. Retain in the main text only if mesh, time-step and coupling studies of the steady Phase-I state, run with the strict coupling test from $t = 0$, give consistent observed orders for the principal QoIs. Record the justification of the fixed shear modulus. The campaign was started on a tree without solids4foam PR \#546 (OpenFOAM-v2412, GCC, \texttt{-O2}) and uses AMI interface transfer; an A/B check is required before its results are used.}
 
 \paragraph{Intended role.}
-The benchmark of Hessenthaler et al.\citetodo{Hessenthaler et al.\ 2017, IJNMBE, ``Experiment for validation of fluid--structure interaction models and algorithms''; check also the companion numerical paper} is intended as the realistic-complexity capstone: a geometrically complex, three-dimensional, large-deformation problem driven by periodic flow, at a cost that tests robustness and parallel performance.
-The planned numerical verification follows Section~\ref{sec:verification_methodology}: the published specification with deviations stated, periodic-window QoIs, mesh, time-step and coupling-tolerance studies, and an independent numerical reference if one becomes available.
+The benchmark of Hessenthaler et al.\citetodo{Hessenthaler et al.\ 2017, IJNMBE, ``Experiment for validation of fluid--structure interaction models and algorithms''; check also the companion numerical paper} is a geometrically complex, three-dimensional, large-deformation problem (a silicone flap in a flow phantom) with phase-contrast MRI measurements.
+It is primarily a \emph{validation} case: agreement with the measurements depends on the mathematical model (including a shear modulus calibrated from a measured deflection) as well as on the numerics, and is not a numerical verification reference.
+Separately, a numerical-verification campaign treats the Phase-I steady state of one fixed mathematical model (fixed shear modulus, neo-Hookean flap, Newtonian fluid) as the problem to be verified, with nested solid meshes, a fluid mesh family, time-step and coupling studies, and no use of the measurements.
 
-\paragraph{Experimental data.}
-The accompanying phase-contrast MRI and other measurements are \emph{validation} data: agreement with them depends on the mathematical model as well as on the numerics, and they are not a numerical verification reference.
-If included, they will be presented separately, as context, after the numerical verification.
+\paragraph{Status.}
+The campaign has so far produced one methodological finding rather than convergence results: with the legacy default coupling convergence test the flap tip drifted slowly for the whole run, by more than the spatial differences being measured, and the drift was traced to accumulated coupling error (Section~\ref{sec:iterative_errors}).
+The verification runs are being repeated with the strict test from $t = 0$.
+If the experimental comparison is included, it will be presented separately, after the numerical verification and labelled as validation.
 
 %%-------------------------------------------------------------------
 \subsubsection{Blob in treacle [PROVISIONAL]}\label{sec:blob}
