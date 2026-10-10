@@ -93,7 +93,7 @@ textheight=24cm, % llncs has 19.3cm
 
 \begin{document}
 
-\title[Article Title]{A quasi-monolithic cell-centred finite volume approach for fluid-solid interaction}
+\title[Verification benchmarks for fluid--solid interaction]{Benchmark problems are not benchmark solutions: an open verification suite for continuum fluid--solid interaction with quantified numerical uncertainty}
 
 \author*[1]{\fnm{Philip} \sur{Cardiff}}\email{philip.cardiff@ucd.ie}
 %\author*[1,2,3]{\fnm{Philip} \sur{Cardiff}}\email{philip.cardiff@ucd.ie}
@@ -112,20 +112,23 @@ textheight=24cm, % llncs has 19.3cm
 
 
 \abstract{
-Fluid--solid interaction (FSI) problems arising in engineering and biomedical applications often involve strong coupling and significant added-mass effects, regimes in which partitioned solution strategies can suffer from slow convergence or instability.
-Monolithic solution strategies provide an attractive alternative but have been developed almost exclusively in the finite element setting.
-This paper presents a quasi-monolithic cell-centred finite volume method for FSI, in which the fluid velocity and pressure (in arbitrary Lagrangian--Eulerian form) and solid velocity (in total Lagrangian form) momentum equations are coupled within a single nonlinear residual, with strong enforcement of the interface kinematic and dynamic conditions.
-The coupled nonlinear system is solved using a Jacobian-free Newton--Krylov procedure with an approximate block preconditioner, assembled from compact finite volume linearisations of the fluid, solid, and interface-coupling terms.
-The preconditioner supports both monolithic and nested field-split usage, with optional Schur-complement approximation of the velocity--pressure block via the Rhie--Chow pressure stabilisation.
-The method is implemented in the OpenFOAM-based toolbox solids4foam using PETSc for the nonlinear and linear algebra.
-Performance is assessed on a suite of established two- and three-dimensional FSI benchmarks, demonstrating second-order spatial and temporal accuracy, agreement with partitioned reference solutions, and robust convergence at time-step sizes for which partitioned coupling becomes inefficient or fails.
+Many benchmark problems exist for fluid--solid interaction (FSI), but few benchmark solutions come with a rigorously established numerical uncertainty, and agreement with a published value is often taken as evidence that a code is correct.
+This paper assembles an open, executable verification suite for continuum FSI and classifies each reference by its quality: analytical (A), independently converged numerical with at most a small, quantified model-form difference (B), published but incompletely quantified (C), and weak (C-weak).
+For each benchmark the spatial, temporal and iterative errors are studied separately and the quantities of interest are reported with their observed convergence behaviour; verification against the mathematical problem is kept separate from validation against experiment.
+All calculations use the partitioned finite volume FSI framework of the open-source toolbox solids4foam: a PIMPLE-type arbitrary Lagrangian--Eulerian fluid, small-strain and total Lagrangian solids of standard and high-order accuracy, and Dirichlet--Neumann (Aitken, IQN-ILS) or Robin--Neumann coupling.
+For two analytical problems (an added-mass ring and a thick-walled Womersley tube) and an independently computed collapsible channel, most quantities converge at observed orders close to the nominal two, and the finest solutions agree with the references to within the reference uncertainty or a small identified error.
+The widely used benchmarks are less conclusive.
+For the Hron--Turek FSI3 problem, a two-level agreement with the Featflow reference disappears on a third level: the displacements converge at an observed order of about one, and the reference itself changes by up to 4\% between its two finest levels.
+For a three-dimensional pressure-pulse tube, verification exposed two solver defects, a compiler-dependent aliasing error and a mesh-dependent degeneracy of the interface interpolation, and showed that much of a 20--25\% discrepancy between published solutions is reproduced by the difference in time integration.
+A third finding concerns the iterative error: a widely used form of the coupling convergence test can accept unconverged steps in slowly varying phases, producing a drift that a steadiness check on the quantity of interest does not detect.
+The suite, its drivers and its machine-readable references are released so that verification claims can be re-executed rather than accepted on trust.
 }
 
-\keywords{Fluid--solid interaction, Monolithic, Quasi-monolithic, Jacobian-free Newton--Krylov, Finite volume method, Added-mass effects, solids4foam, OpenFOAM}
+\keywords{Fluid--solid interaction, Code verification, Benchmark, Reference solution, Numerical uncertainty, Partitioned coupling, Finite volume method, solids4foam, OpenFOAM}
 
 \maketitle
 
-\todo{The title, abstract, Introduction (Section~\ref{sec:intro}) and Sections~\ref{sec:math_model}--\ref{sec:numerical_methods} are still those of the parent quasi-monolithic FSI paper and have deliberately not been rewritten in this pass. The verification evidence in Sections~\ref{sec:verification_methodology}--\ref{sec:recommended_suite} uses only the partitioned solution procedures (IQN-ILS, Robin--Neumann, Aitken); the quasi-monolithic solver is not used as evidence. Section~\ref{sec:numerical_methods} must eventually describe the partitioned procedures that produced the results.}
+\todo{Title, abstract, Introduction and Section~\ref{sec:numerical_methods} rewritten (October 2026) around the partitioned solution procedures that produced every result. Section~\ref{sec:math_model} is still that of the parent paper and should be checked for consistency (e.g.\ velocity- versus displacement-based solid unknowns). Abstract numbers must be re-checked against Sections~\ref{sec:benchmark_suite}--\ref{sec:cross_benchmark} before submission.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -184,7 +187,7 @@ WIP, yet several areas for future exploration remain:
 \bmhead{Data Availability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \hl{CHECK}
-The codes presented are publicly available at \url{https://github.com/solids4foam/solids4foam} on the \texttt{feature-petsc-snes} branch, and the cases and plotting scripts are available at \url{https://github.com/solids4foam/solid-benchmarks}.
+The solids4foam toolbox is publicly available at \url{https://github.com/solids4foam/solids4foam}; the benchmark cases, their verification drivers (\texttt{Allverify}), the machine-readable reference files and the analysis scripts are in the \texttt{tutorials/fluidSolidInteraction} directories of that repository. \todo{Give the release tag or commit and the Zenodo DOI of the archived case set-ups, drivers, raw outputs and reference files; several verification branches (3dTube, Hron--Turek diagnostics, Hessenthaler) are not yet merged.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

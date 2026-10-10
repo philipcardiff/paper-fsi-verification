@@ -1,9 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}\label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-This paper presents a quasi-monolithic cell-centred finite volume method for fluid--solid interaction (FSI), implemented in the OpenFOAM-based toolbox solids4foam~\citep{Cardiff2025} and solved using a Jacobian-free Newton--Krylov (JFNK) procedure.
-The remainder of this section places the method in the context of existing FSI approaches, identifies the gap addressed, and summarises the specific contributions.
+Benchmark problems are central to the development of fluid--solid interaction (FSI) codes: they are used to demonstrate accuracy, to compare coupling algorithms and to support claims that a new method is correct.
+Many such problems exist, from the flag-behind-a-cylinder family of \citet{Turek2006} to pressure-pulse tubes, lid-driven cavities with flexible membranes and three-dimensional flows past elastic plates.
+Far fewer of them come with a benchmark \emph{solution} whose own numerical error has been established: published values are often single-mesh results, are read from figures, are reported without time-step studies, or differ between sources by more than the discretisation errors that they are used to judge.
+Agreement with such a value is then weak evidence, and disagreement is ambiguous: it may mean that the code under test is wrong, that the reference is wrong, or that the code's own solution is not yet resolved.
+This paper addresses that gap for continuum FSI with an open, executable verification suite in which the quality of every reference and the spatial, temporal and iterative errors of every result are stated explicitly.
 
 FSI methods can be classified along three axes: the modelling viewpoint (Eulerian, Lagrangian, or mixed), the degree of interface coupling (weak vs.\ strong), and the solver structure (partitioned vs.\ monolithic).
 
@@ -20,47 +22,30 @@ Strongly coupled approaches strictly enforce the interface kinematic and dynamic
 
 Strong coupling can be enforced through either a partitioned or a monolithic solver structure.
 In partitioned (staggered, two-system) approaches, separate solvers --- and potentially separate discretisations --- are used for the fluid and solid~\citep{Tukovic2018}, and outer iterations are performed over the interface at each time step.
-These are accelerated using Aitken relaxation~\citep{Degroote2009, bungartz2016precice, irons1969version, kuttler2008fixed}, quasi-Newton schemes~\citep{santiago2020hpc, delaisse2022surrogate}, or Robin-type coupling~\citep{Tukovic2019}.
+These are accelerated using Aitken relaxation~\citep{Degroote2009, bungartz2016precice, irons1969version, kuttler2008fixed}, quasi-Newton schemes~\citep{santiago2020hpc, delaisse2022surrogate}, or Robin-type interface conditions~\citep{Tukovic2018b}.
 The principal limitations are robustness and efficiency: for strongly coupled, highly nonlinear problems, outer-iteration convergence can be slow or fail entirely, particularly under strong added-mass loading.
 In contrast, monolithic approaches treat the fluid and solid as a single system, solved concurrently within the same linearised system~\citep{Degroote2009}.
 This avoids outer iterations and can handle tightly coupled nonlinear problems robustly, at the cost of reduced modularity and a poorly conditioned linear system that is more difficult to solve.
 
-Monolithic FSI methods have been developed predominantly in the finite element (FE) community.
-Early influential examples include \citet{Heil2004}, who first demonstrated that block-triangular approximations of the coupled Jacobian provide effective preconditioners for monolithic ALE FSI with GMRES, and the segregated/monolithic comparison of \citet{Heil2008}.
-The Munich line of \citet{Mayr2015, Schott2019a} extended this with temporally consistent and cut-FEM-based formulations; in particular, \citet{Mayr2015} provides a clear FE counterpart to block-preconditioned monolithic Newton--Krylov FSI through Newton with GMRES and per-field ILU(0) preconditioning.
-The benchmark of \citet{Turek2006} (revisited in Section~\ref{sec:fsi23}) and the broader analyses of \citet{Richter2012, Richter2017} provided rigorous verification and goal-oriented frameworks.
-\citet{Liu2014} introduced a quasi-monolithic FE formulation specifically targeting strong added-mass effects, in which the fluid mesh motion is treated outside the coupled Newton vector --- the approach most closely related to the present work.
-A comprehensive treatment is available in the textbook of \citet{JaimanJoshi2022}.
-% and the recent open-source FEniCS-based turtleFSI solver~\citep{Bergersen2020, Gjertsen2017}.
-An early matrix-free FE precedent is the PFEM-based monolithic Lagrangian method of \citet{Ryzhakov2010}, in which global pressure condensation enables a matrix-free diagonally-preconditioned conjugate gradient inner solve.
-Most recently, fully coupled Newton--Krylov methods with exact Jacobians and multigrid/Schwarz preconditioning have been demonstrated in the FE setting~\citep{Aulisa2018}, alongside ongoing development of field-split and block preconditioners for added-mass-dominated FSI~\citep{Badia2008, Muddle2012, Deparis2016, Jodlbauer2019, Calandrini2020}.
-A common feature across this body of work is that the underlying spatial discretisation is finite element.
+The verification literature for FSI is smaller than that for its component fields.
+The proposal of \citet{Turek2006} defines the most widely used problems and reports multi-level reference values, and goal-oriented error estimation has been developed for FSI in the finite element setting~\citep{Richter2012, Richter2017}; monolithic finite element and hybrid finite volume/finite element codes have been demonstrated on these and related problems~\citep{Heil2004, Heil2008, Eken2016, Lozovskiy2019}, with convergence evidence that ranges from multi-level studies to single-mesh results.
+Partitioned finite volume FSI, including the OpenFOAM-based framework of \citet{Tukovic2018} on which the solids4foam toolbox~\citep{Cardiff2025} builds, has mostly been assessed by comparison with such published values.
+Across this literature, the error of the reference itself is rarely quantified, iterative (coupling) errors are seldom separated from discretisation errors, and the time integration of a reference is often first order with a large step, so that two codes can disagree because their references differ rather than because either is wrong.
+General verification practice --- observed orders from systematic refinement, separation of error sources, and the distinction between verification and validation~\citetodo{Roache 1998; Oberkampf \& Roy 2010} --- is well established for single-field problems but is applied unevenly to coupled FSI.
 
-In contrast, body-fitted cell-centred finite volume FSI methods --- particularly within the OpenFOAM ecosystem --- have largely followed partitioned coupling strategies.
-The standard reference here is \citet{Tukovic2018}, whose partitioned framework underpins the solids4foam toolbox \citep{Cardiff2025} and a substantial body of subsequent applied work; a recent review~\citep{Cardiff2021} documents the broader trajectory of finite volume solid mechanics that this work builds on.
-Cross-ecosystem coupling frameworks such as preCICE~\citep{bungartz2016precice} extend this paradigm but remain partitioned in nature.
-Vertex-centred FV variants such as the hybrid scheme of \citet{Malan2013} achieve strong coupling through partitioned dual-time iteration but, by the authors' own description, remain block-Jacobi at the FSI level rather than monolithic.
-A smaller line of cell-centred FV work instead adopts unified or one-system formulations, beginning with \citet{Greenshields1999b} and \citet{Greenshields2005} and later continued by \citet{Giannopapa2006, Giannopapa2008} and \citet{Tandis2023}.
-These unified FV-FSI procedures solve common pressure--velocity-type equations across fluid and solid regions using segregated SIMPLE-type pressure--velocity splitting, rather than a fully coupled Newton or Newton--Krylov solve.
-Separate Eulerian FV one-continuum approaches have also emerged, notably the quadtree-based monolithic method of \citet{Bergmann2022} and recent VOF-based work~\citep{Prajapati2025}, in which fluid and structure phases are solved over a common Cartesian computational domain without distinct fluid and solid meshes.
-
-The closest prior work in terms of solver architecture is the parallel monolithic FV/FE scheme of \citet{Eken2016}, which couples a side-centred (staggered) unstructured finite volume fluid discretisation with a Galerkin finite element solid using inexact Newton with FGMRES, an upper-triangular right block preconditioner replacing the zero pressure block with a scaled discrete Laplacian, and restricted additive Schwarz subdomain solves via PETSc.
-The present method differs in three important respects: the fluid discretisation is cell-centred collocated rather than staggered, with both fluid and solid in the same cell-centred FV framework; the fluid mesh motion is treated outside the coupled Newton vector (a quasi-monolithic strategy) rather than included as additional unknowns; and the Newton--Krylov operator is applied in a Jacobian-free manner, with the approximate block preconditioner serving solely as the preconditioning matrix rather than as an assembled Jacobian.
-
-To the authors' knowledge, no prior work has presented a body-fitted cell-centred finite volume quasi-monolithic FSI formulation solved with a Jacobian-free Newton--Krylov procedure and an approximate fluid--solid block preconditioner; the closest precedent is the staggered-FV/FE monolithic Newton--Krylov method of \citet{Eken2016}.
-The present work fills this gap, building on the authors' recent JFNK methods for cell-centred FV solid mechanics~\citep{Cardiff2026, Batistic2026}, which are here extended to coupled FSI.
+The present work applies that practice to a suite of continuum FSI benchmarks, all solved with one partitioned, cell-centred finite volume framework: a PIMPLE-type ALE fluid, small-strain and total Lagrangian finite volume solids with standard and high-order discretisations~\citep{Cardiff2026, Batistic2026}, and Dirichlet--Neumann (Aitken~\citep{kuttler2008fixed}, IQN-ILS~\citep{Degroote2009}) or Robin--Neumann~\citep{Tukovic2018b} coupling.
+The aim is not to promote a solver but to establish, case by case, what the available references can and cannot verify, and how much of the remaining difference is attributable to the code under test.
+Verification here means convergence of the discrete solution to the solution of the stated mathematical problem; agreement with experimental data is validation, is kept separate, and is never used as evidence of convergence.
 
 The specific contributions are:
 \begin{enumerate}
-    \item A cell-centred finite volume formulation for incompressible Newtonian fluid--elastic solid interaction, in which the fluid momentum (in ALE form), fluid pressure, and solid momentum (in total Lagrangian form) equations are coupled within a single nonlinear residual, with strong enforcement of the interface kinematic and dynamic conditions. The fluid mesh motion is treated outside the coupled Newton vector, following the quasi-monolithic strategy of \citet{Liu2014}.
-    \item A Jacobian-free Newton--Krylov solution strategy supported by an approximate block preconditioner. The preconditioner is assembled from compact FV linearisations of the fluid, solid, and interface-coupling terms, and supports both monolithic and nested field-split usage --- outer fluid--solid split, with optional inner velocity--pressure Schur-complement approximation via the Rhie--Chow pressure-stabilisation block.
-    \item An open-source implementation in the solids4foam toolbox~\citep{Cardiff2025} interfaced with PETSc~\citep{PETSc}, demonstrating that monolithic FSI is achievable within a segregated finite volume framework without rewriting the underlying OpenFOAM discretisation.
-    The source code and benchmark cases are released openly, supporting independent verification, reproduction, and extension by the community.
-    \item A benchmark study covering established 2D and 3D FSI test cases, including verification of spatial and temporal accuracy, comparison against partitioned solutions, and assessment of solver robustness under strong added-mass conditions.
+    \item A reference-quality classification for FSI benchmarks (category A: analytical; B: independently converged numerical solution, possibly of a problem with a small, quantified model-form difference; C: published values with incompletely quantified error; C-weak: digitised, single-mesh, inconsistent or same-lineage values), applied to every case in the suite.
+    \item Spatial, temporal and iterative error studies for each benchmark, with observed orders reported only where the evidence supports them, and with the slowest-converging quantity of interest identified.
+    \item Evidence that verification exposes real defects and misleading benchmark agreement: two solver defects found through a cross-platform discrepancy in a three-dimensional tube, one compiler-dependent and one that changed the interface interpolation with mesh level; a two-level agreement with the Hron--Turek FSI3 reference that disappears on a third level; a published code-to-code discrepancy that is largely reproduced by the difference in time integration; and a default coupling convergence test that can accept unconverged steps.
+    \item An open, executable implementation of the suite in solids4foam~\citep{Cardiff2025}: case set-ups, verification drivers that compute the quantities of interest and observed orders, and machine-readable reference files with their provenance, so that the studies can be re-run on other codes and platforms.
 \end{enumerate}
 
-Section~\ref{sec:math_model} presents the governing equations for the coupled fluid--solid problem.
-Section~\ref{sec:numerical_methods} develops the cell-centred FV discretisation, the JFNK solver, and the approximate block preconditioner; the fluid mesh-motion procedure and implementation in solids4foam/PETSc are also described.
+Section~\ref{sec:math_model} states the governing equations and Section~\ref{sec:numerical_methods} the partitioned finite volume procedures used for every result.
 Section~\ref{sec:verification_methodology} sets out the verification methodology, Section~\ref{sec:benchmark_suite} presents the benchmark suite, Section~\ref{sec:cross_benchmark} draws cross-benchmark conclusions, and Section~\ref{sec:recommended_suite} proposes a recommended verification suite.
 Section~\ref{sec:discussion} discusses the findings and Section~\ref{sec:conclusion} concludes.
 \hl{Before submission, verify all references have correct details}
