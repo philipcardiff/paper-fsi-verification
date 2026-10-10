@@ -34,9 +34,9 @@ The observations are specific to this suite and to one code family, and are not 
 		Hron--Turek FSI3 & displacements 0.9--1.1; drag amplitude 0.74 (scaled) & $\leq1.7\%$ change (2x, $\Delta t$ and tolerance) & SD \\
 		3dTube & $u_{z,\min}$ 0.87, $t_\mathrm{arr}$ 0.72; $u_{r,\max}$ not defined (changes grow) & 0.1--0.2\% change at the fine-level $\Delta t$ & SD \\
 		mokLidDrivenCavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
-		cavityFlexibleBottom$^\ast$ & 1.96 ($u_y$, net) & -- & SD \\
-		beamInCrossFlow$^\ast$ & not asymptotic (scaled) & -- & -- \\
-		blobInTreacle$^\ast$ & 2.40 & 2.39--2.54 & SD \\
+		cavityFlexibleBottom$^\ast$ & 1.96 ($u_y$; one triple, level 4 diverged) & -- & SD \\
+		beamInCrossFlow$^\ast$ & in progress & -- & -- \\
+		blobInTreacle$^\ast$ & 2.40 (super-nominal) & 2.39--2.54 (super-nominal) & SD \\
 		\bottomrule
 		\multicolumn{4}{l}{$^\ast$ Provisional cases.}
 	\end{tabular}
@@ -67,7 +67,7 @@ At 4x the FSI3 displacements differ from Featflow by more than the reference's l
 
 \emph{Combined space--time refinement conceals the balance of errors.}
 Where space and time have been separated, the balance differs strongly: in 3dTube the temporal error at the fine-level $\Delta t$ ($0.1$--$0.2\%$) is several times smaller than the level-2-to-3 change ($0.3$--$1.0\%$), in mokLidDrivenCavity it is an order of magnitude below the spatial error, in ringAddedMass it dominates the frequency, and in womersleyTube, once the end-flux inconsistency is removed, it is a tenth or less of the finest-mesh error for most QoIs (before, the two were similar).
-Scaled studies (Hron--Turek, mokLidDrivenCavity, beamInCrossFlow) cannot show which dominates.
+Scaled studies cannot show which dominates unless supplemented, as for Hron--Turek FSI3 and 3dTube, by time-step checks on the finer levels.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dependence on the quantity of interest}\label{sec:qoi_dependence}
@@ -92,8 +92,7 @@ In every case with more than one QoI, the QoIs converge at substantially differe
 		3dTube & $u_{z,\min}$, $t_\mathrm{arr}$: monotone, orders 0.87, 0.72 & $u_{r,\max}$, $c_p$: changes grow ($u_{r,\max}$ $0.20\%$, $0.60\%$) \\
 		mokLidDrivenCavity & peak (order $\approx1.2$) & trough (order $<0.5$) \\
 		cavityFlexibleBottom$^\ast$ & $F_y$: within $0.2\%$ on all levels & $u_y$: 13.2\% $\to$ 5.6\% \\
-		beamInCrossFlow$^\ast$ & -- & $F_y$ non-monotone; $u_x(A)$ and $F_x$ still changing \\
-		\bottomrule
+				\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -102,8 +101,7 @@ Time-mean integrated forces (Hron--Turek drag, cavityFlexibleBottom vertical for
 The slowest are of three kinds:
 (i) oscillation amplitudes of forces that result from near-cancellation of larger contributions, above all the Hron--Turek lift amplitude, which is also the QoI most sensitive to the coupling tolerance;
 (ii) phase- and attenuation-type quantities, or small components, such as the Womersley wall phase and attenuation ($\mathrm{Im}(k)$ is 14\% of $\mathrm{Re}(k)$) and the transverse tip displacement of FSI1; and
-(iii) integrated forces governed by near-wall resolution in three dimensions (beamInCrossFlow), where the mesh family rather than the refinement ratio may control convergence.
-\todo{Interpretation (iii) is a hypothesis until the beamInCrossFlow graded-mesh study is done.}
+(iii) loads that set a self-excited response, such as the in-phase fluid force on the Hron--Turek flag, which converges at an observed order of about one under a fixed motion although the force amplitude converges quickly.
 A benchmark should therefore report several QoI types (a displacement, a mean force, an oscillatory force amplitude or phase, and a frequency where applicable), and the slowest QoI on which a claim is made determines the resolution required.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -133,7 +131,7 @@ In collapsibleChannel the IQN-ILS/Robin--Neumann difference does not decrease wi
 In both, the iterative error rather than the discretisation bounds what can be verified.
 
 \emph{Internal agreement is not external verification.}
-IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.2\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), $0.07\%$ (3dTube QoIs) and $0.4\%$ (beamInCrossFlow, base mesh).
+IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.2\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), and $0.07\%$ (3dTube QoIs).
 This bounds the iterative error relative to these differences and checks the implementations against each other; it says nothing about the shared discretisation error, nor about whether the common limit is the continuum solution.
 FSI3 shows that the two need not agree to the coupling tolerance when the Robin--Neumann scheme modifies the discrete interface condition.
 
@@ -194,7 +192,7 @@ This is a statement about the specific values used, not about the quality of the
 		3dTube & Independent references use implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$, without time-step studies; peaks 20--25\% below BDF2 values; figure-digitised & Implicit Euler in the present code reproduces 92--115\% of the gap \\
 		mokLidDrivenCavity & Two inconsistent problem definitions; mesh-dependent openings; no convincing convergence studies; group-B spread 5.7\% (peak) & No published value can be treated as correct \\
 		collapsibleChannel & Published problem (pre-stressed, massless wall) unsuitable for continuum/partitioned comparison & Modified problem and regenerated reference used \\
-		beamInCrossFlow & Richter refinement level/extrapolation unconfirmed; modified form same-lineage, single mesh & C and C-weak references \\
+		beamInCrossFlow & Quoted values ($5.95\times10^{-5}\,\mathrm{m}$, $1.33\,\mathrm{N}$) are rounded extrapolations of \citet{Richter2012}, often cited to a later paper; earlier calculations solved a different beam position, monitoring point and inflow & Comparison withdrawn; campaign rebuilt to the published definition \\
 		cavityFlexibleBottom & Same-lineage, digitised & Offset of $\sim5\%$ unexplained \\
 		blobInTreacle & Preprint figures only; first-order time, coarse steady mesh & Steady offset of 7--20\% unexplained \\
 		\bottomrule
@@ -228,13 +226,13 @@ Disagreements between codes can originate in the discretisation of the reference
 		3dTube & level 1 504\,s on 4 ranks; level 2 3\,641\,s on 8 ranks; level 3 22\,502\,s (6.25\,h) on 32 ranks ($\approx720$ core-hours) \\
 		mokLidDrivenCavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
 		cavityFlexibleBottom$^\ast$ & three-level sweep $\approx10$\,min serial \\
-		beamInCrossFlow$^\ast$ & original 8x ($\approx7.6\times10^6$ cells) $\approx11$\,h on 64 cores \\
+		beamInCrossFlow$^\ast$ & in progress \\
 		blobInTreacle$^\ast$ & full study $\approx33$\,min \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-Cost rises by roughly four orders of magnitude from the exact-reference problems to the finest three-dimensional calculations (Table~\ref{tab:cost}), and the completeness of the evidence falls in the opposite direction: the inexpensive two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have two mesh levels (3dTube), non-asymptotic uniform refinement (beamInCrossFlow) or, so far, no study (Hessenthaler).
+Cost rises by roughly four orders of magnitude from the exact-reference problems to the finest three-dimensional calculations (Table~\ref{tab:cost}), and the completeness of the evidence falls in the opposite direction: the inexpensive two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have three levels with sub-nominal or undefined orders (3dTube) or, so far, no completed study (beamInCrossFlow, Hessenthaler). Even in two dimensions a third level can cost an order of magnitude more than the second (Hron--Turek FSI3: 40.8\,h on 32 ranks at 4x, without further strong scaling).
 This illustrates one practical reason why rigorous convergence evidence becomes scarcer as geometric and computational complexity increase, and it motivates a tiered suite (Section~\ref{sec:recommended_suite}).
-Dimensionality may also change which error source dominates: in the three-dimensional beamInCrossFlow the near-wall fluid resolution appears to limit convergence (pending the graded-mesh study), whereas in the thin-walled two-dimensional collapsibleChannel the solid discretisation can dominate ($17.4\%$ versus $0.44\%$ for linear versus cubic solid).
-\todo{Revisit once the Hessenthaler benchmark and the 3dTube level-3 / beamInCrossFlow graded-mesh results exist; add cost per degree of freedom and per time step if comparable hardware is used.}
+Which error source dominates is case dependent: in the thin-walled two-dimensional collapsibleChannel the solid discretisation can dominate ($17.4\%$ versus $0.44\%$ for linear versus cubic solid), whereas in Hron--Turek FSI3 refining the solid alone accounts for only $\approx5\%$ of the change in the $u_y$ amplitude.
+\todo{Revisit once the beamInCrossFlow and Hessenthaler campaigns are complete; add cost per degree of freedom and per time step if comparable hardware is used.}

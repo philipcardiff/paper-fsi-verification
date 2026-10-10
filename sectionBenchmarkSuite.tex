@@ -33,11 +33,11 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		3dTube & 3-D & transient pulse & small & C-weak & 3 & 4 & IQN-ILS/RN \\
 		mokLidDrivenCavity & 2-D & periodic (forced) & large & C-weak & 4 & 3 & IQN-ILS/Aitken$^\dagger$ \\
 		cavityFlexibleBottom$^\ast$ & 2-D & steady & large & C-weak & 3 & -- & none \\
-		beamInCrossFlow$^\ast$ & 3-D & steady & small/large & C/C-weak & 4/5 & scaled & IQN-ILS/RN \\
-		Hessenthaler$^\ast$ & 3-D & periodic & large & -- & -- & -- & -- \\
+		beamInCrossFlow$^\ast$ & 3-D & steady & small & C & \multicolumn{3}{l}{in progress (Richter definition)} \\
+		Hessenthaler$^\ast$ & 3-D & steady (Phase I) & large & -- & \multicolumn{3}{l}{in progress; validation case} \\
 		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & C-weak & 4 & 4 & none \\
 		\bottomrule
-		\multicolumn{8}{l}{$^\ast$ Provisional (Section~\ref{sec:provisional}). $^\dagger$ Iteration counts only; no quantitative difference recorded.}
+		\multicolumn{8}{l}{$^\ast$ Provisional or in progress (Section~\ref{sec:provisional}). $^\dagger$ Iteration counts only; no quantitative difference recorded.}
 	\end{tabular}
 \end{table}
 
@@ -443,22 +443,22 @@ Midpoint statistics over $t = 20$--$70\,\mathrm{s}$ under combined mesh and time
 \end{table}
 
 \begin{itemize}
-	\item \emph{Self-convergence.} Successive changes in the peak are $1.56\%$, $1.26\%$ and $0.78\%$; the observed order of the peak is $\approx1.2$ (non-uniform final ratio), suggesting a limit near $0.285\,\mathrm{m}$, and that of the trough is below 0.5, leaving the trough uncertain by $\approx1$--$2\%$. A separate time-step study on $64^2$ changes the response by $0.17\%$ and $0.04\%$ of the peak, so the error is dominated by the mesh.
+	\item \emph{Self-convergence.} Successive changes in the peak are $1.56\%$, $1.26\%$ and $0.78\%$; the observed order of the peak is $\approx1.2$ (non-uniform final ratio) and that of the trough below 0.5, so neither sequence is shown to be asymptotic and no limit is extrapolated; the trough is uncertain by at least $\approx1$--$2\%$. A separate time-step study on $64^2$ changes the response by $0.17\%$ and $0.04\%$ of the peak, so the error is dominated by the mesh.
 	\item \emph{Comparison.} On $96^2$ the trough and mean lie within or just outside the group-B envelope, and the peak is $3.3\%$ above the largest group-B peak; since the group-B values are single-mesh results differing by $5.7\%$, this cannot be attributed to either side.
 	\item \emph{Solid and coupling.} The standard and high-order solids agree to $0.04\%$: for a tension-dominated membrane the high-order solid gives no benefit, unlike the bending-dominated collapsible channel. IQN-ILS and Aitken give the same response (difference not quantified).
 \end{itemize}
 
 \paragraph{Lesson.}
 A long-established benchmark can be ill defined.
-The present results are a self-converged solution of the fully specified group-B definition ($\approx1\%$ in the peak, less certain in the trough), not verification against an external reference.
-\todo{HIGH-VALUE: an independent converged solution (COMSOL or another code) of the group-B definition, with its own mesh and time study, would make this a category-B case. Also: diagnose the $128^2$ divergence; Richardson estimates of peak and trough; quantify the IQN-ILS/Aitken difference.}
+The present results are a self-convergence sequence for the fully specified group-B definition (last change $0.78\%$ in the peak; the trough less certain), not verification against an external reference.
+\todo{HIGH-VALUE: an independent converged solution (COMSOL or another code) of the group-B definition, with its own mesh and time study, would make this a category-B case. Also: diagnose the $128^2$ divergence; quantify the IQN-ILS/Aitken difference. No Richardson estimate is justified by the present (sub-nominal, non-uniform) sequence.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Provisional and in-development benchmarks}\label{sec:provisional}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Each of the four cases below would add a feature not otherwise covered, but none currently supports a verification claim; no statement below depends on simulations that have not been run.
+Each of the four cases below would add a feature not otherwise covered, but none currently supports a verification claim. Two (beamInCrossFlow and Hessenthaler) are verification campaigns in progress, for which no convergence results are reported; no statement below depends on simulations that have not been completed.
 
 %%-------------------------------------------------------------------
 \subsubsection{Flexible-bottom cavity [PROVISIONAL]}\label{sec:cavity}
@@ -479,7 +479,7 @@ Steady channel flow over a cavity with a flexible floor~\citep{Tukovic2018} (Fig
 \paragraph{Existing (partitioned) evidence.}
 The reference is the mesh study of~\citet{Tukovic2018}, digitised from figures and computed with an earlier version of the same code family (C-weak).
 A partitioned (Aitken) study on three levels ($\Delta x = 0.1$, $0.05$, $0.025\,\mathrm{m}$) gives steady $u_y = -0.20246$, $-0.22883$ and $-0.23563\,\mathrm{m}$ at the monitoring point ($13.2\%$, $6.88\%$ and $5.59\%$ from the published values at the same spacing; net observed order 1.96), while the interface force agrees with the published values to within $0.2\%$ on every level.
-The displacement thus converges, at approximately second order, towards a value $\approx5\%$ from the published curve at equal force.
+The displacement changes decrease monotonically over these three levels (a single net observed order of 1.96), but with only one triple and the fourth level diverged (below), second-order convergence is not established; the finest value is $\approx5\%$ from the published curve at equal force.
 
 \paragraph{Missing evidence.}
 Level 4 diverges at the tutorial pseudo-time step with both Aitken and IQN-ILS; there is no coupling, tolerance or pseudo-time-step study; and the $5\%$ offset is unexplained (an earlier solids4foam version gave $-0.219\,\mathrm{m}$ on the coarsest mesh, against $-0.20246\,\mathrm{m}$ now).
@@ -540,7 +540,7 @@ If the experimental comparison is included, it will be presented separately, aft
 An elastic half-cylinder in a highly viscous channel flow (Fig.~\ref{fig:blob_geom}), proposed by~\citet{Liu2014} to measure the temporal order of a coupled scheme, is strongly damped and undergoes large deformation.
 The reference is C-weak: \citet{Liu2014} report only self-convergence norms, and the preprint\citetodo{Liu et al., arXiv:1401.0082} gives figure-extracted interface shapes at $t = 1\,\mathrm{s}$ (first-order time integration, own time error $\approx4\%$) and at steady state (1\,239 fluid and 370 solid triangles).
 At $t = 1\,\mathrm{s}$, $\Delta t = 0.25$ to $0.03125\,\mathrm{s}$ gives top-point $u_x = 0.0558737$, $0.0564184$, $0.0565219$ and $0.0565398\,\mathrm{m}$, with observed orders 2.39 and 2.54 ($u_x$) and 2.39 and 2.41 (interface shape); below $\Delta t = 0.03125\,\mathrm{s}$ the changes reach the coupling/solver-tolerance level ($\approx10^{-5}\,\mathrm{m}$).
-Orders above the formal value indicate a pre-asymptotic sequence, so the evidence supports at least second-order behaviour over this range, not a measured order of 2.
-Four mesh levels give steady $u_x$ from $0.108206$ to $0.120152\,\mathrm{m}$ (observed order 2.40; Richardson estimate $0.12026\,\mathrm{m}$, finest level within $0.1\%$).
+Orders above the formal value indicate a pre-asymptotic sequence; they are reported as observed self-convergence behaviour, not as a measured order.
+Four mesh levels give steady $u_x$ from $0.108206$ to $0.120152\,\mathrm{m}$ with decreasing changes (observed order 2.40, above the formal value); no extrapolated value is given.
 The $t = 1\,\mathrm{s}$ interface shape is within $1.6\%$ of the preprint, inside its own time error; at steady state $u_x$ is $7.4\%$ smaller and $|u_y|$ $20\%$ larger, an offset not yet explained (reference-mesh coarseness is plausible but unconfirmed).
 No coupling study exists, and the temporal-order contribution partly overlaps with ringAddedMass and collapsibleChannel.
