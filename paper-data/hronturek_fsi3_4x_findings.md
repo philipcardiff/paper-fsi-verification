@@ -1054,3 +1054,148 @@ passes to the fluid load error at the interface (pressure/viscous traction
 accuracy on the moving flag); if not, the interface transfer or the
 coupling iteration is implicated. This requires a one-line traction scaling
 in the interface (a driver-level change on a throwaway branch).
+
+## 16. PR #546 exposure and energy balance of the replayed coupled motion
+
+The code and compact results are on solids4foam branch
+`verification/hronturek-energy-balance` (commit `c821aeb8b`, on
+`27c9bfdf7`; README section "Trajectory replay and energy balance",
+`reference/energy_balance/`). The machine-readable files here are
+`hronturek_pr546_exposure.json`, `hronturek_energy_runs.json` and
+`hronturek_energy_balance.csv`. All runs used OpenFOAM v2512
+(`_87ed40d2-20251219`, Ubuntu package 2512.0-1) on xenosim (EPYC 9684X,
+Ubuntu 22.04), with GCC 11.4.0 at `-O3`. About 60 core-hours were spent,
+including A/B tests; no `.tex` file changed.
+
+### PR #546 exposure: none
+
+Every study in sections 1 to 15 ran a single binary. It was built on
+2026-10-03 from `aee0c8e35`, whose `src/` is identical to `27c9bfdf7`,
+with GCC 11.4 `-O3` and PETSc.
+
+- **Aliasing defect.** The 3dTube alias reproducer fails at `-O3` on
+  xenosim (7.0e-4) and passes at `-O2`. The error is in z only, and it is
+  exact for 2-D inputs (n_z = 0, D_xz = D_yz = 0).
+- **Barycentric weights.** FSI3 uses the default AMI transfer, but the
+  degenerate branch (4A² < 1e-15 m⁴) cannot trigger. The smallest
+  interface fan triangle is 1.6e-6 m², at solid 8x, which is 9.8e3 times
+  above the threshold.
+- **A/B against the fixed tree.** `27c9bfdf7` + `28751407c` + the audit
+  commit `c8efdd390` was built with the same toolchain. All of these are
+  identical to every written digit:
+  - an FSI3 2x coupled restart (600 steps), including the forces, point A,
+    all plate points and the IQN-ILS residual file;
+  - a replay 2x restart (600 steps), whose run uses
+    `newMovingWallVelocity::snGrad`;
+  - a CFD3 2x restart (500 steps), run with `28751407c` only.
+
+  The 2x→4x changes are therefore not artefacts of #546.
+
+### Replay of the actual coupled motion
+
+The coupled 2x flag motion (four harmonics per interface point, 5.5236 Hz,
+tip amplitude 34.30 mm) is prescribed on fluid-only meshes. The replay
+loads are about 20 times smaller than with the section-15 mode-2
+kinematics: the plate-lift fundamental is 179 N/m, and the coupled lift
+amplitude is 174 N/m. Restarts with an energy function object (pressure
+plus viscous traction, matching `forcesPlate`) give the net fluid work per
+cycle W (positive into the flag) and the tip-normalised first-harmonic
+generalised force (`Q_in` in phase with the displacement, `Q_quad` with
+the velocity). The analysis window is five periods.
+
+| mesh, dt | W (J/m) | Q_in (N/m) | Q_quad (N/m) | gross \|P\| work | coupled u_y (mm) |
+|---|---:|---:|---:|---:|---:|
+| 1x, 1e-3 | −1.99 | 50.3 | −17.0 | 8.38 | 29.85 |
+| 1x, 2.5e-4 | −1.75 | 47.8 | −14.7 | 8.38 | — |
+| 2x, 5e-4 (source) | +0.08 | 72.2 | +2.0 | 7.40 | 34.18 |
+| 2x, 2.5e-4 | +0.14 | 72.7 | +2.6 | 7.34 | 34.46 |
+| 4x, 2.5e-4 | +0.13 | 81.0 | +2.3 | 6.89 | 36.23 |
+| 2x, amplitude ×0.95 / ×1.05 | +0.02 / −0.03 | 81.0 / 60.8 | 1.1 / 1.2 | 5.98 / 9.02 | |
+| 2x, frequency ×0.99 | +1.33 | 69.7 | 13.4 | 7.24 | |
+
+Resolution of W:
+
+- The two discrete-work definitions differ by `O(ωΔt)`: 0.12 J/m at
+  dt = 1e-3 and 0.03 J/m at dt = 2.5e-4.
+- The restart reproduces the original replay to within 0.0015 J/m per
+  cycle.
+- The solid BDF2 dissipation is negligible (1.6e-5 E per cycle;
+  E1 = 0.81 J/m), so a coupled limit cycle needs W ≈ 0. On the source mesh
+  W = 0.08 to 0.18 J/m, so zero is resolved to about 0.1 J/m only.
+
+### Energy-balance hypothesis: not supported as the explanation of 2x→4x
+
+- **1x→2x.** At fixed motion the 1x fluid extracts about 2 J/m per cycle
+  more than 2x. That is 28% of the gross exchange, almost all of it
+  first-harmonic transverse pressure work. The sign is consistent with the
+  smaller 1x amplitude.
+- **2x→4x.** δW = −0.016 J/m (fixed dt) or +0.044 J/m (matched dt). That
+  is below the ±0.05 J/m resolution of W, and the sign is undetermined.
+- **Sensitivities.**
+  - W is almost flat in amplitude: the secant is about −0.014 J/m per mm,
+    and it is not monotone.
+  - W is steep in frequency: −22.5 J/m per Hz.
+  - The implied coupled sensitivity dA/dW is incompatible between levels:
+    2.1 to 2.3 mm per J/m from 1x, against +47 or −129 from 4x.
+- **Verdict.** Because W is so flat in amplitude, 0.03 J/m could move the
+  amplitude by 2 mm. The energy route is therefore *indeterminate*, not
+  refuted, for 2x→4x. It cannot be used to explain the 6% change, and it
+  fails quantitatively for 1x (it predicts about 100 mm).
+- **Frequency.** The observed −0.9% frequency shift would add about 1 J/m
+  at fixed shape. Shape and harmonic changes must close the balance, and a
+  single-motion replay cannot show how.
+- **Negative result for the hypothesis as posed:** the 2x→4x mesh change
+  does not show up as a measurable change in the net work.
+
+### What does change with the mesh: the in-phase force
+
+At fixed motion, Q_in rises 43% from 1x to 2x and 12% from 2x to 4x. The
+`a1`/`b1` loads of section 15 changed by 0.16 to 1.6% under the assumed
+kinematics. Q_in also falls steeply with amplitude (−5.9 N/m per mm).
+
+A one-mode in-phase balance at fixed frequency, `ΔA = −δQ_in/(∂Q_in/∂A)`,
+optionally with a secant structural term `Q_in/A`, predicts:
+
+- 1x: −2.7 to −4.2 mm (observed −4.32);
+- 4x: +1.0 to +1.5 mm (observed +2.05).
+
+That is the right sign and 50 to 98% of the magnitude. This is a
+**consistent hypothesis, not an identified mechanism**:
+
+- at one frequency, Q_in cannot separate added mass, stiffness and
+  reactive vortical load;
+- `Q_in/A` is a secant, not the structural tangent;
+- the energy residual is not closed.
+
+The structural share remains small: refining the solid alone explains
+about 5% of the u_y change (section 13).
+
+### u_x mean
+
+The time-mean tip u_x is kinematic. The inextensible estimate
+`−¼∫|W′|²dx` gives −2.66 mm against −2.70 mm fitted. Across the coupled
+levels the time-mean u_x scales as A^1.88–1.93; A² is within 1.6% at 1x
+and 0.4% at 4x. The benchmark midrange (max+min)/2 scales as A^1.64–1.70,
+because the 2f waveform changes. The u_x trend therefore follows u_y and
+is not an independent error.
+
+### Time step at the fixed 4x mesh
+
+There are no data. At fixed 2x mesh, halving dt changes u_y by +0.8% at
+tolerance 1e-5 and by −0.03% at 1e-6. A 4x run at dt = 1.25e-4, restarted
+for 2 s (16 000 steps, about 7 s per step on 32 cores), would cost about
+1000 core-hours. It was not launched.
+
+### Recommended next step
+
+Close the in-phase hypothesis with two cheap replays on the 2x mesh, each
+about 2 core-hours:
+
+1. a cross-replay of the coupled 1x trajectory on the 2x mesh, recorded
+   by a 1x coupled restart;
+2. a replay of the 2x motion with `Q_in` forced by a ±1% frequency
+   perturbation, to separate the frequency dependence of `Q_in`.
+
+Alternatively, a coupled 2x run with the fluid traction's in-phase part
+scaled by 1.1 would test directly whether a 12% in-phase load change
+gives about +2 mm.
