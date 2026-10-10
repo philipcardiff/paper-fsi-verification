@@ -1189,12 +1189,12 @@ for 2 s (16 000 steps, about 7 s per step on 32 cores), would cost about
 ### Recommended next step
 
 Close the in-phase hypothesis with two cheap replays on the 2x mesh, each
-about 2 core-hours:
+about 2 to 15 core-hours:
 
 1. a cross-replay of the coupled 1x trajectory on the 2x mesh, recorded
    by a 1x coupled restart;
-2. a replay of the 2x motion with `Q_in` forced by a ±1% frequency
-   perturbation, to separate the frequency dependence of `Q_in`.
+2. a ±5% amplitude-scaled replay on the 4x mesh, to check that
+   `∂Q_in/∂A` and `∂W/∂A` do not depend on the mesh.
 
 Alternatively, a coupled 2x run with the fluid traction's in-phase part
 scaled by 1.1 would test directly whether a 12% in-phase load change
