@@ -28,7 +28,7 @@ The observations are specific to this suite and to one code family, and are not 
 		womersleyTube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level & 1.86--2.14 (1.29--1.84 before end-flux fix) & SD; errors vs exact \\
 		collapsibleChannel & 1.7, 2.4, then reference floor & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Hron--Turek FSI1 & 1.5--1.7 & -- & 2-level vs ref.\ (B) \\
-		Hron--Turek FSI3 & 1.1--3.8 (scaled) & -- & 2-level vs ref.\ (C) \\
+		Hron--Turek FSI3 & displacements 0.9--1.1; drag amplitude 0.74 (scaled) & $\leq1.7\%$ change (2x, $\Delta t$ and tolerance) & SD \\
 		3dTube & $u_{z,\min}$ 0.87, $t_\mathrm{arr}$ 0.72; $u_{r,\max}$ not defined (changes grow) & 0.1--0.2\% change at the fine-level $\Delta t$ & SD \\
 		mokLidDrivenCavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
 		cavityFlexibleBottom$^\ast$ & 1.96 ($u_y$, net) & -- & SD \\
@@ -50,8 +50,11 @@ With a flux-consistent end treatment every QoI converges at second order in time
 In ringAddedMass, by contrast, the exact reference allows the remaining $-0.13\%$ frequency error at a practical resolution to be attributed to the BDF2 phase error.
 
 \emph{Two levels do not establish convergence, and super-nominal orders are a warning.}
-Hron--Turek FSI1--3 and 3dTube have two mesh levels each, so the most widely used benchmarks in the suite are at present the least completely verified.
-The FSI3 apparent orders (1.1--3.8) and the blobInTreacle temporal orders (2.4--2.5) are interpreted as pre-asymptotic; no super-convergence is claimed.
+Third levels changed the conclusions drawn from two in both cases where they were added.
+In Hron--Turek FSI3 the two-level apparent orders of 2.6--3.8 arose from a sequence crossing the reference value, and the three-level observed order of the displacements is about one.
+In 3dTube the small two-level change in $u_{r,\max}$ reported earlier was obtained with an interface interpolation operator that changed between the levels; after correction its changes grow on the third level.
+FSI1 and FSI2 still have two levels, so the most widely used benchmarks in the suite remain the least completely verified.
+Orders well above the formal value (the FSI3 filtered lift amplitude, 3.1; the rigid-flag force amplitudes, 2.8--3.3; the blobInTreacle temporal orders, 2.4--2.5) are interpreted as pre-asymptotic; no super-convergence is claimed, and they are not used for extrapolation.
 
 \emph{Combined space--time refinement conceals the balance of errors.}
 Where space and time have been separated, the balance differs strongly: in 3dTube the temporal error at the fine-level $\Delta t$ ($0.1$--$0.2\%$) is several times smaller than the level-2-to-3 change ($0.3$--$1.0\%$), in mokLidDrivenCavity it is an order of magnitude below the spatial error, in ringAddedMass it dominates the frequency, and in womersleyTube, once the end-flux inconsistency is removed, it is a tenth or less of the finest-mesh error for most QoIs (before, the two were similar).
@@ -75,7 +78,7 @@ In every case with more than one QoI, the QoIs converge at substantially differe
 		\midrule
 		womersleyTube & flow-rate, wall amplitude, wave speed: order $\approx2$, error $\leq0.04\%$ & wall phase (order 1.40); attenuation (error $-0.2\%$, at the linear-theory level) \\
 		Hron--Turek FSI1 (2x) & drag $0.24\%$ & $u_y$ $4.64\%$ \\
-		Hron--Turek FSI3 (2x) & drag mean $0.3\%$; displacements 2.1--3.1\% & lift amplitude $13.3\%$ \\
+		Hron--Turek FSI3 (4x) & drag mean and frequency: within $0.3\%$ of the reference & displacements: order $\approx1$; force amplitudes $7.6$--$10.4\%$ above the reference, not asymptotic \\
 		Hron--Turek FSI2 (2x) & drag mean $0.5\%$; $u_y$ amplitude $1.3\%$ & lift amplitude $7.8\%$, not converging \\
 		3dTube & $u_{z,\min}$, $t_\mathrm{arr}$: monotone, orders 0.87, 0.72 & $u_{r,\max}$, $c_p$: changes grow ($u_{r,\max}$ $0.20\%$, $0.60\%$) \\
 		mokLidDrivenCavity & peak (order $\approx1.2$) & trough (order $<0.5$) \\
@@ -135,7 +138,7 @@ This is a statement about the specific values used, not about the quality of the
 		\toprule
 		Case & Issue & Consequence \\
 		\midrule
-		Hron--Turek FSI2/3 & Summary values of~\citet{Turek2006} differ from Featflow tables (FSI3 drag amplitude $-18\%$; rounded frequencies); FSI2 level 3$\to$4 changes 0.9--2.5\% & Choice of source changes conclusions; reference uncertain by $\sim1\%$ \\
+		Hron--Turek FSI2/3 & Summary values of~\citet{Turek2006} differ from Featflow tables (FSI3 drag amplitude $-18\%$; rounded frequencies); Featflow level 3$\to$4 changes 1.6--4.5\% (FSI3 displacements and force amplitudes), 0.9--2.5\% (FSI2) & Choice of source changes conclusions; FSI3 reference uncertain by 3--5\% in $u_x$ and force amplitudes \\
 		3dTube & Independent references use implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$, without time-step studies; peaks 20--25\% below BDF2 values; figure-digitised & Implicit Euler in the present code reproduces 92--115\% of the gap \\
 		mokLidDrivenCavity & Two inconsistent problem definitions; mesh-dependent openings; no convincing convergence studies; group-B spread 5.7\% (peak) & No published value can be treated as correct \\
 		collapsibleChannel & Published problem (pre-stressed, massless wall) unsuitable for continuum/partitioned comparison & Modified problem and regenerated reference used \\
@@ -147,7 +150,7 @@ This is a statement about the specific values used, not about the quality of the
 \end{table}
 
 The table illustrates the central distinction of Section~\ref{sec:verification_methodology}: a widely used benchmark problem does not automatically provide a trustworthy benchmark solution.
-The same problem can carry several published ``reference values'', and an $18\%$ difference in a quoted force amplitude exceeds every discretisation error in the present 2x results.
+The same problem can carry several published ``reference values'', and an $18\%$ difference in a quoted force amplitude exceeds the 2x-to-4x change of every FSI3 quantity.
 Disagreements between codes can originate in the discretisation of the reference rather than of the code under test (3dTube), so a discrepancy with a published curve should not be resolved by tuning the code; and same-lineage references, though useful for regression and for diagnosing set-up differences, cannot expose common-mode errors.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -168,7 +171,8 @@ Disagreements between codes can originate in the discretisation of the reference
 		womersleyTube & runs 2.5--25\,min serial; full study $\approx30$\,min on 5 cores \\
 		collapsibleChannel & tutorial $\approx10$\,min; finest fluid mesh 70\,min; full sweep $\approx2.5$\,h (one case per core); serial only \\
 		Hron--Turek FSI1 & 1x 781\,s serial; 2x 3\,062\,s on 2 ranks; 4x estimated $>14$\,h on 3 ranks \\
-		Hron--Turek FSI2/3 & 1x 1.1--1.2\,h serial; 2x 4.0--4.1\,h on 7--8 ranks \\
+		Hron--Turek FSI3 & 1x 1.4\,h serial; 2x 5.5\,h on 8 ranks; 4x 40.8\,h on 32 ranks (no speed-up beyond 32 ranks); OpenFOAM-v2512 \\
+		Hron--Turek FSI2 & 1x 1.1--1.2\,h serial; 2x 4.0--4.1\,h on 7--8 ranks \\
 		3dTube & level 1 504\,s on 4 ranks; level 2 3\,641\,s on 8 ranks; level 3 22\,502\,s (6.25\,h) on 32 ranks ($\approx720$ core-hours) \\
 		mokLidDrivenCavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
 		cavityFlexibleBottom$^\ast$ & three-level sweep $\approx10$\,min serial \\

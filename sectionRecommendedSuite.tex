@@ -25,7 +25,7 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		mokLidDrivenCavity & C-weak & tension-dominated membrane; definition sensitivity & candidate; see note \\
 		\midrule
 		\multicolumn{4}{l}{\emph{Extended / high-cost suite}} \\
-		Hron--Turek FSI2, FSI3 & C & self-excited oscillation; lift amplitude; tolerance sensitivity; mesh motion & needs FSI3 4x \\
+		Hron--Turek FSI2, FSI3 & C & self-excited oscillation; lift amplitude; tolerance sensitivity; mesh motion; sub-nominal coupled order & FSI3 three levels, order $\approx1$; FSI2 two levels \\
 		3dTube & C-weak & 3-D wave propagation with added mass; time-discretisation sensitivity; cross-platform and toolchain checks & three levels; $u_{r,\max}$ not yet converging \\
 		beamInCrossFlow$^\ast$ & C/C-weak & 3-D steady external flow; near-body force resolution & provisional \\
 		Hessenthaler$^\ast$ & -- & realistic 3-D geometry, large deformation; robustness & in development \\
@@ -54,10 +54,10 @@ Each core result should state its reference category, the number of levels and t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The extended suite does not establish formal order, which the core suite does more cheaply and reliably, but tests whether that accuracy carries over to three dimensions, complex geometry, large mesh motion and slowly converging QoIs.
-Hron--Turek FSI2/FSI3 belong here despite being two-dimensional, because their slowest QoIs need resolutions well beyond the core suite and their references carry $\approx1\%$ uncertainty.
+Hron--Turek FSI2/FSI3 belong here despite being two-dimensional, because their slowest QoIs need resolutions well beyond the core suite, the FSI3 displacements converge only at an observed order of about one, and the FSI3 reference itself carries a $3$--$5\%$ uncertainty in $u_x$ and the force amplitudes.
 Published values should be quoted with their source (e.g.\ Featflow table or summary value) and reference category, and agreement with them should not be presented as verification without self-convergence evidence.
 
-\todo{Final extended-suite membership depends on: FSI3 4x; 3dTube level 3; beamInCrossFlow graded-mesh study and independent reference; Hessenthaler study; cavityFlexibleBottom resolution. A case without at least three mesh levels should not be listed as ``verified'' in any final suite table.}
+\todo{Final extended-suite membership depends on: the beamInCrossFlow (Richter) campaign and an independent reference; the Hessenthaler verification campaign; cavityFlexibleBottom resolution; for 3dTube, a fourth level or an independent converged solution for $u_{r,\max}$. A case without at least three mesh levels should not be listed as ``verified'' in any final suite table.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Executable verification infrastructure}\label{sec:infrastructure}
