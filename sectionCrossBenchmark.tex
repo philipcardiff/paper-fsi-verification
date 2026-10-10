@@ -124,7 +124,7 @@ Strict restarts from different default-test states did not return to one value (
 A steadiness check on the QoI --- for example a change below $0.04\%$ over the last second --- would have accepted the drifting solution.
 The lesson is general to partitioned codes: a convergence measure normalised by a large total quantity can be met without converging the step, and the error it admits is invisible to checks on the solution itself; the residual reduction at acceptance should be reported.
 
-\todo{The Hessenthaler numbers above were obtained on a tree without solids4foam PR \#546; the finding concerns the convergence test and is not expected to depend on it, but confirm with the A/B check. Evidence: solids4foam branch verification/hessenthaler-phaseI, commit 9f33c42a2, \texttt{hessenthalerFsi/verification/README.md}; solids4foam issue \#552.}
+\todo{The Hessenthaler numbers above were obtained on a tree without solids4foam PR \#546; the A/B check with PR \#546 gives bit-identical F1S2 results (and a 0.04\% tip change for the S3 solid mesh), so the finding does not depend on it. Evidence: solids4foam branch verification/hessenthaler-phaseI, commit 9f33c42a2, \texttt{hessenthalerFsi/verification/README.md}; solids4foam issue \#552.}
 
 \emph{Iterative floors can limit refinement studies.}
 In collapsibleChannel the IQN-ILS/Robin--Neumann difference does not decrease with refinement and, at the finest fluid mesh, is comparable with the remaining discretisation error and the reference uncertainty; in blobInTreacle the time study cannot be continued below $\Delta t = 0.03125\,\mathrm{s}$ because the changes reach the tolerance level.

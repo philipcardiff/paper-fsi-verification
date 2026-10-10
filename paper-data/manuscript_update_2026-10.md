@@ -162,3 +162,13 @@ evidence files. The sources are:
   (v2412, −O2, AMI for Hessenthaler). The aliasing defect is −O3-only, so
   −O2 builds should be immune to defect (a); defect (b) can still apply.
   The A/B check is outstanding.
+
+
+## Addendum (coordinator, 2026-10-10)
+
+The Hessenthaler PR #546 A/B is done (reported by the Hessenthaler session):
+
+- F1S2 is bit-identical over 750 steps, so the MeluXina build (-O2) is unaffected by the aliasing defect and the S2 solid does not trigger the barycentric defect.
+- F1S3 changes the tip deflection by +0.006 mm (0.04%).
+
+The beam A/B (face-size check) is still outstanding. The two related `\todo` notes are updated.
