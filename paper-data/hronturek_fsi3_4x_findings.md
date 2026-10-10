@@ -1042,7 +1042,7 @@ nothing about the coupled response.
 4. **Is the p ≈ 1 FSI3 behaviour reproduced?** No.
 5. **Fluid ALE the leading explanation?** No, on this evidence.
 
-### Recommended next single task
+### Recommended next single task (superseded by section 16)
 
 Coupled sensitivity (amplification) test, 2x only: in the existing FSI3 2x
 configuration (dt 0.0005, solid 4x, IQN-ILS), scale the fluid traction passed
@@ -1054,3 +1054,157 @@ passes to the fluid load error at the interface (pressure/viscous traction
 accuracy on the moving flag); if not, the interface transfer or the
 coupling iteration is implicated. This requires a one-line traction scaling
 in the interface (a driver-level change on a throwaway branch).
+
+## 16. Fluid-only replay of the coupled FSI3 trajectory
+
+Section 15 recommended a traction-scaling test. An independent review
+(Codex Astra, one query) disagreed: a uniform scaling tests one error
+direction only, the ratio of fluid force to structural inertia is not a
+response amplification, and a failure to reproduce the trend would not
+implicate the interface. It recommended replaying the **actual** converged
+coupled interface trajectory on fluid 2x and 4x with identical motion and
+comparing phase-resolved loads and cycle work. I adopted that. The tighter
+tolerance and time-step controls it suggested as a cheap discriminator exist
+already (sections 5 and 7). Code and compact results: solids4foam branch
+`verification/hronturek-trajectory-replay` (commit `05af89c4c`, stacked on
+the ALE branch; `hron_turek_replay_source.py`, `hron_turek_replay.py`,
+`replay_analysis.py`, `reference/replay/`). Machine-readable:
+`hronturek_replay_paths.csv`, `hronturek_replay_runs.csv`,
+`hronturek_replay_study.json`. No solid in the replay runs, no `.tex` change.
+
+### Setup
+
+1. **Trajectory.** The completed FSI3 run fluid 2x / solid 2x (IQN-ILS, dt
+   5·10⁻⁴) was restarted from t = 7 s for 1.2 s on 8 ranks, writing the
+   positions of all plate-patch points at every step. The solid is total
+   Lagrangian, so the restart uses `restart no` (the IQN-ILS history is rebuilt
+   in a few steps); the restarted run reproduces the original periodic state
+   (frequency 5.5236 against 5.523 Hz, tip amplitude 34.18 against 34.175 mm).
+   The fluid 4x / solid 4x run could not be used: it did not write the restart
+   state, and restarting costs ≈ 160 core-hours.
+2. **Fit.** The last five periods (7.248–8.153 s, f = 5.5236 Hz) are fitted
+   per point of the flag's surface polyline with a mean and four harmonics
+   in x and y (maximum fit residual 0.08 mm, 0.2% of the amplitude); the
+   coefficients are interpolated along the polyline (exactly on the 2x
+   points, linearly in between for 4x, nested subset for 1x).
+3. **Replay.** From the developed rigid CFD3 state of each level the plate
+   point velocity is the finite difference of the replayed displacement
+   (smooth 1 s ramp from 25 s), same mesh motion and fluid settings as FSI3
+   and sections 14–15; 8 s run, last five periods analysed. Five runs:
+   matched (1x/2x/4x with dt 10⁻³, 5·10⁻⁴, 2.5·10⁻⁴) and fixed dt 2.5·10⁻⁴
+   (1x, 2x). 0.2–140 core-hours.
+4. **Quantities.** Force on the flag ("plate") and on cylinder + flag
+   ("total"), per unit depth; first harmonic split into the part in phase with
+   the tip displacement (`inphase`) and with the tip velocity (`quad`);
+   phase of the force; pressure work on the flag per cycle.
+
+**Validation.** The 2x replay reproduces the coupled 2x total forces over the
+same window: drag mean 459.5 against 458.4 N/m (0.2%), lift fundamental
+166.9 against 167.3 (0.2%), drag second harmonic 25.7 against 25.6 (0.5%).
+Replay runs are locked (variance outside the harmonics < 10⁻⁴); the
+fundamental changes by ≤ 0.8 N/m between the last two five-period windows.
+
+### Results (same motion, matched path, N/m)
+
+| quantity | 1x | 2x | 4x | 1x→2x | 2x→4x | order |
+|---|---:|---:|---:|---:|---:|---|
+| total lift, fundamental | 138.9 | 166.9 | 168.4 | +20% | +0.9% | 4.3 (pre-asymptotic) |
+| total lift, in phase with displacement | −101.7 | −82.6 | −49.2 | +19 | +33 | differences grow |
+| total lift, in phase with velocity | 94.6 | 145.1 | 161.0 | +50 | +16 | 1.7 |
+| total lift, phase (deg) | 137.1 | 119.7 | 107.0 | −17.4 | −12.7 | 0.45 |
+| plate lift, fundamental | 176.1 | 178.7 | 164.0 | +2.6 | −14.7 | non-monotone |
+| plate lift, in phase with displacement | −174.0 | −162.2 | −135.5 | +11.8 | +26.7 | differences grow |
+| plate lift, in phase with velocity | 27.2 | 75.0 | 92.5 | +48 | +17.5 | 1.45 |
+| plate lift, phase (deg) | 171.1 | 155.2 | 145.7 | −15.9 | −9.5 | 0.74 |
+| plate drag mean | −13.5 | −16.2 | −18.4 | −2.8 | −2.2 | 0.31 |
+| total drag mean | 464.8 | 459.5 | 456.0 | −5.4 | −3.4 | 0.64 |
+| pressure work on flag per cycle (J/m) | −2.08 | −0.130 | −0.080 | +1.95 | +0.05 | 5.3 |
+
+Fixed dt = 2.5·10⁻⁴ (1x, 2x, 4x): total lift in phase with displacement
+−112.6, −81.7, −49.2; in phase with velocity 83.7, 146.7, 161.0 (order 2.1);
+total lift phase 143.4°, 119.1°, 107.0° (differences −24.3°, −12.1°); plate
+lift phase 174.4°, 154.6°, 145.7° (−19.8°, −8.9°); plate drag mean −13.2,
+−16.3, −18.4 (order 0.47); total drag mean order 0.61. The 2x matched and
+fixed values differ by ≤ 2% (e.g. plate quadrature 75.0 against 76.7).
+The 2x→4x change is the same in both paths (4x is common).
+
+### Observed order
+
+- The **amplitude** of the total lift fundamental converges quickly (+0.9%
+  2x→4x), and so does the pressure work per cycle in absolute terms
+  (0.05 J/m).
+- The **phase** of the load against the flag motion does not: total lift
+  137° → 120° → 107° (matched; order 0.45), plate lift 171° → 155° → 146°
+  (order 0.74); fixed dt 143° → 119° → 107° (order 1.0) and 174° → 155° → 146°
+  (order 1.2). The in-phase component changes by +19 and +33 N/m (total), +12 and
+  +27 N/m (plate): the differences grow with refinement, so no order is
+  defined. The quadrature component converges at order 1.5–2.1 but changes by
+  11–23% 2x→4x.
+- The **mean streamwise force on the flag** changes by −14% 2x→4x (order
+  0.3–0.5) and the total drag mean by −0.7% (order 0.6).
+
+### Comparison with FSI3
+
+The replay isolates the fluid response to a fixed motion, so any change is a
+fluid-resolution effect. For the 2x→4x step the in-phase load on the flag
+changes by 27 N/m and the quadrature one by 17.5 N/m. The structural modal
+inertia scale for this motion is 73 N/m (section 15), so these are 37% and
+24% of it, and the flag's mean streamwise load changes by 14%. These are
+the quantities that fix the flag's equilibrium shape (`u_x` mean: mean
+streamwise load, −14% against the FSI3 `u_x` change of +10.6%), frequency
+(in-phase load: added-mass-like) and amplitude (quadrature load: damping or
+negative damping). The sign and size of those changes are consistent with
+the 6–10% FSI3 displacement changes, and their orders (0.3–1.5, differences
+that do not shrink) are consistent with the observed p ≈ 0.9–1.1. The lift
+amplitude, by contrast, is converged to 1% at 2x, which hides the phase
+change.
+
+### Diagnosis
+
+**Classification: A, fluid-dominated, for the flag loads.** With
+the **same imposed coupled motion**, the fluid load on the flag is
+sub-nominally convergent in phase and in the mean streamwise component, while
+the load amplitude and the CFD3 loads converge quickly. This reproduces,
+without any solid or coupling, the character of the FSI3 displacement
+sequence, and replaces the earlier hypothesis that the coupled system
+amplifies small load differences with a direct fluid-side observation. Caveats:
+one source trajectory (fluid 2x / solid 2x, 4x–1x interpolated along the
+surface); the true coupled 4x motion differs by ≈ 6% in amplitude and will
+differ in phase, so the replay does not give the FSI3 4x load, only the
+fluid's response to a fixed motion; the 1x level is coarse; the work per cycle
+is pressure only and is the difference of large terms; no formal order is
+quoted for non-monotone or growing differences. This does not exclude a
+coupling contribution on top.
+
+A concrete candidate for a first-order source is visible in the setup, not
+tested here: the FSI3 tutorial fluid uses `zeroGradient` pressure on the plate
+(`p.dirichletNeumann`), whereas the library has `movingWallPressure`
+(`∂p/∂n = −ρ n·a_wall`, used by other FSI tutorials). For a wall acceleration
+`a_n ≈ ω² A ≈ 40 m/s²`, a zero-gradient wall pressure is in error by
+`ρ a_n h/2` (first order in the near-wall cell size h), about 80 Pa at 2x or
+≈ 30 N/m over the flag: the size of the observed in-phase load change. This
+is a hypothesis from a size estimate, not a result.
+
+### Answers to the questions
+
+1. **Did the replay confirm that the fluid load on the moving flag is
+   sub-nominal?** Yes, in phase and in the mean streamwise force; no in the lift amplitude.
+2. **Does the replay reproduce the coupled forces?** Yes (0.2–0.5% at 2x).
+3. **Matched vs fixed dt?** Same conclusion (≤ 2% at 2x).
+4. **Is the p ≈ 1 FSI3 behaviour reproduced in the fluid?** Qualitatively, in
+   the phase and mean-load orders (0.3–1.2).
+5. **Is the coupled system needed to explain it?** Not required; not excluded.
+
+### Recommended next single task
+
+Test the wall-pressure condition on the replay: repeat the 1x/2x/4x replay (same
+trajectory, same table, 8 s, matched dt) with `movingWallPressure` on the
+flag instead of `zeroGradient`, and compare the same quantities. If the
+phase and in-phase/mean loads then converge at order ≈ 2 and the 2x→4x
+changes shrink, the first-order source is the wall-pressure boundary
+condition of the FSI3 tutorial and the next FSI3 run is a matched 2x
+sensitivity with the corrected condition. If they do not, the cause is in the
+ALE flux/mesh-motion discretisation (e.g. the wall-flux and the
+`backward` ddt on the moving mesh) and the next task is to switch those one at
+a time on the replay. Cost: about 140 core-hours for the 4x run, 15 for
+1x + 2x.
