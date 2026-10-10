@@ -29,7 +29,7 @@ The observations are specific to this suite and to one code family, and are not 
 		collapsibleChannel & 1.7, 2.4, then reference floor & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Hron--Turek FSI1 & 1.5--1.7 & -- & 2-level vs ref.\ (B) \\
 		Hron--Turek FSI3 & 1.1--3.8 (scaled) & -- & 2-level vs ref.\ (C) \\
-		3dTube & not defined (2 levels) & changes $1.74$, $0.83$, $0.016\%$ & SD \\
+		3dTube & $u_{z,\min}$ 0.87, $t_\mathrm{arr}$ 0.72; $u_{r,\max}$ not defined (changes grow) & 0.1--0.2\% change at the fine-level $\Delta t$ & SD \\
 		mokLidDrivenCavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
 		cavityFlexibleBottom$^\ast$ & 1.96 ($u_y$, net) & -- & SD \\
 		beamInCrossFlow$^\ast$ & not asymptotic (scaled) & -- & -- \\
@@ -54,7 +54,7 @@ Hron--Turek FSI1--3 and 3dTube have two mesh levels each, so the most widely use
 The FSI3 apparent orders (1.1--3.8) and the blobInTreacle temporal orders (2.4--2.5) are interpreted as pre-asymptotic; no super-convergence is claimed.
 
 \emph{Combined space--time refinement conceals the balance of errors.}
-Where space and time have been separated, the balance differs strongly: in 3dTube and mokLidDrivenCavity the temporal error at the working $\Delta t$ is an order of magnitude below the spatial error, in ringAddedMass it dominates the frequency, and in womersleyTube, once the end-flux inconsistency is removed, it is a tenth or less of the finest-mesh error for most QoIs (before, the two were similar).
+Where space and time have been separated, the balance differs strongly: in 3dTube the temporal error at the fine-level $\Delta t$ ($0.1$--$0.2\%$) is several times smaller than the level-2-to-3 change ($0.3$--$1.0\%$), in mokLidDrivenCavity it is an order of magnitude below the spatial error, in ringAddedMass it dominates the frequency, and in womersleyTube, once the end-flux inconsistency is removed, it is a tenth or less of the finest-mesh error for most QoIs (before, the two were similar).
 Scaled studies (Hron--Turek, mokLidDrivenCavity, beamInCrossFlow) cannot show which dominates.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,7 +77,7 @@ In every case with more than one QoI, the QoIs converge at substantially differe
 		Hron--Turek FSI1 (2x) & drag $0.24\%$ & $u_y$ $4.64\%$ \\
 		Hron--Turek FSI3 (2x) & drag mean $0.3\%$; displacements 2.1--3.1\% & lift amplitude $13.3\%$ \\
 		Hron--Turek FSI2 (2x) & drag mean $0.5\%$; $u_y$ amplitude $1.3\%$ & lift amplitude $7.8\%$, not converging \\
-		3dTube & $u_{r,\max}$: change $0.05\%$ & $u_{z,\min}$: $1.85\%$; $c_p$: $1.58\%$ \\
+		3dTube & $u_{z,\min}$, $t_\mathrm{arr}$: monotone, orders 0.87, 0.72 & $u_{r,\max}$, $c_p$: changes grow ($u_{r,\max}$ $0.20\%$, $0.60\%$) \\
 		mokLidDrivenCavity & peak (order $\approx1.2$) & trough (order $<0.5$) \\
 		cavityFlexibleBottom$^\ast$ & $F_y$: within $0.2\%$ on all levels & $u_y$: 13.2\% $\to$ 5.6\% \\
 		beamInCrossFlow$^\ast$ & -- & $F_y$ non-monotone; $u_x(A)$ and $F_x$ still changing \\
@@ -89,7 +89,7 @@ The pattern is not simply that displacements converge faster than forces.
 Time-mean integrated forces (Hron--Turek drag, cavityFlexibleBottom vertical force) are often the \emph{fastest}-converging quantities, plausibly because they are dominated by a global pressure balance.
 The slowest are of three kinds:
 (i) oscillation amplitudes of forces that result from near-cancellation of larger contributions, above all the Hron--Turek lift amplitude, which is also the QoI most sensitive to the coupling tolerance;
-(ii) phase- and attenuation-type quantities, or small components, such as the Womersley wall phase and attenuation ($\mathrm{Im}(k)$ is 14\% of $\mathrm{Re}(k)$), the 3dTube axial trough and the transverse tip displacement of FSI1; and
+(ii) phase- and attenuation-type quantities, or small components, such as the Womersley wall phase and attenuation ($\mathrm{Im}(k)$ is 14\% of $\mathrm{Re}(k)$) and the transverse tip displacement of FSI1; and
 (iii) integrated forces governed by near-wall resolution in three dimensions (beamInCrossFlow), where the mesh family rather than the refinement ratio may control convergence.
 \todo{Interpretation (iii) is a hypothesis until the beamInCrossFlow graded-mesh study is done.}
 A benchmark should therefore report several QoI types (a displacement, a mean force, an oscillatory force amplitude or phase, and a frequency where applicable), and the slowest QoI on which a claim is made determines the resolution required.
@@ -109,7 +109,7 @@ In collapsibleChannel the IQN-ILS/Robin--Neumann difference does not decrease wi
 In both, the iterative error rather than the discretisation bounds what can be verified.
 
 \emph{Internal agreement is not external verification.}
-IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.2\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), $0.08\%$ (3dTube QoIs) and $0.4\%$ (beamInCrossFlow, base mesh).
+IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.2\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), $0.07\%$ (3dTube QoIs) and $0.4\%$ (beamInCrossFlow, base mesh).
 This bounds the iterative error relative to these differences and checks the implementations against each other; it says nothing about the shared discretisation error, nor about whether the common limit is the continuum solution.
 FSI3 shows that the two need not agree to the coupling tolerance when the Robin--Neumann scheme modifies the discrete interface condition.
 
@@ -136,7 +136,7 @@ This is a statement about the specific values used, not about the quality of the
 		Case & Issue & Consequence \\
 		\midrule
 		Hron--Turek FSI2/3 & Summary values of~\citet{Turek2006} differ from Featflow tables (FSI3 drag amplitude $-18\%$; rounded frequencies); FSI2 level 3$\to$4 changes 0.9--2.5\% & Choice of source changes conclusions; reference uncertain by $\sim1\%$ \\
-		3dTube & FE references use implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$; peaks 21--24\% below FV values & Much of the peak difference reproduced as a time-discretisation effect \\
+		3dTube & Independent references use implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$, without time-step studies; peaks 20--25\% below BDF2 values; figure-digitised & Implicit Euler in the present code reproduces 92--115\% of the gap \\
 		mokLidDrivenCavity & Two inconsistent problem definitions; mesh-dependent openings; no convincing convergence studies; group-B spread 5.7\% (peak) & No published value can be treated as correct \\
 		collapsibleChannel & Published problem (pre-stressed, massless wall) unsuitable for continuum/partitioned comparison & Modified problem and regenerated reference used \\
 		beamInCrossFlow & Richter refinement level/extrapolation unconfirmed; modified form same-lineage, single mesh & C and C-weak references \\
@@ -169,7 +169,7 @@ Disagreements between codes can originate in the discretisation of the reference
 		collapsibleChannel & tutorial $\approx10$\,min; finest fluid mesh 70\,min; full sweep $\approx2.5$\,h (one case per core); serial only \\
 		Hron--Turek FSI1 & 1x 781\,s serial; 2x 3\,062\,s on 2 ranks; 4x estimated $>14$\,h on 3 ranks \\
 		Hron--Turek FSI2/3 & 1x 1.1--1.2\,h serial; 2x 4.0--4.1\,h on 7--8 ranks \\
-		3dTube & level 1 425\,s and level 2 7\,197\,s on 4 ranks; level 3 estimated $>10$\,h on 6 ranks \\
+		3dTube & level 1 504\,s on 4 ranks; level 2 3\,641\,s on 8 ranks; level 3 22\,502\,s (6.25\,h) on 32 ranks ($\approx720$ core-hours) \\
 		mokLidDrivenCavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
 		cavityFlexibleBottom$^\ast$ & three-level sweep $\approx10$\,min serial \\
 		beamInCrossFlow$^\ast$ & original 8x ($\approx7.6\times10^6$ cells) $\approx11$\,h on 64 cores \\

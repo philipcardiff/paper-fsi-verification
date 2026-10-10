@@ -30,7 +30,7 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		Hron--Turek FSI1 & 2-D & steady & large & B & 2 & 2 & IQN-ILS/RN \\
 		Hron--Turek FSI3 & 2-D & self-excited & large & C & 2 & scaled & IQN-ILS/RN \\
 		Hron--Turek FSI2 & 2-D & self-excited & large & C & 2 & scaled & tolerance sweep \\
-		3dTube & 3-D & transient pulse & small & C-weak & 2 & 4 & IQN-ILS/RN \\
+		3dTube & 3-D & transient pulse & small & C-weak & 3 & 4 & IQN-ILS/RN \\
 		mokLidDrivenCavity & 2-D & periodic (forced) & large & C-weak & 4 & 3 & IQN-ILS/Aitken$^\dagger$ \\
 		cavityFlexibleBottom$^\ast$ & 2-D & steady & large & C-weak & 3 & -- & none \\
 		beamInCrossFlow$^\ast$ & 3-D & steady & small/large & C/C-weak & 4/5 & scaled & IQN-ILS/RN \\
@@ -304,47 +304,52 @@ With two levels, FSI1 is converging towards an independent reference and FSI2/FS
 
 \paragraph{What it tests.}
 A $3\,\mathrm{ms}$ pressure pulse travelling through a fluid-filled elastic tube (Fig.~\ref{fig:3dtube_geom}; response to $20\,\mathrm{ms}$, including the outlet reflection) is the standard three-dimensional test of partitioned coupling under strong added mass ($\rho_s/\rho_f = 1.2$)~\citetodo{Formaggia et al.\ 2001; Gerbeau \& Vidrascu 2003; Fern\'andez \& Moubachir 2005}~\citep{kuttler2008fixed, Degroote2009}; most publications report only iteration counts and snapshots.
-The solid here is Hookean (small strain), whereas most published calculations use St Venant--Kirchhoff (peak hoop strain $\approx3\%$).
+The solid here is Hookean (small strain), whereas most published calculations use St Venant--Kirchhoff (peak hoop strain $\approx3\%$); a quarter of the tube is computed with symmetry planes, with Robin--Neumann coupling, BDF2 in fluid and solid, and non-conformal (AMI) interface transfer.
 
 \paragraph{Reference.}
-No tabulated values exist; the references are point-A histories read from figures: \citet{Tukovic2018} (finite volume, BDF2, vector-extracted; same code lineage), and \citet{Lozovskiy2019} and \citet{Eken2016} (independent monolithic finite element codes, both implicit Euler with $\Delta t = 10^{-4}\,\mathrm{s}$; raster-digitised to $\approx\pm3\times10^{-6}\,\mathrm{m}$).
+No tabulated values exist; the references are point-A histories read from figures: \citet{Tukovic2018} (partitioned finite volume, BDF2, $\Delta t = 2.5\times10^{-5}\,\mathrm{s}$, a single mesh, vector-extracted; same code lineage), \citet{Lozovskiy2019} (monolithic finite element) and \citet{Eken2016} (monolithic, with a side-centred finite volume fluid and a finite element solid).
+The last two are independent codes, both with implicit Euler time integration at $\Delta t = 10^{-4}\,\mathrm{s}$ and neither with a time-step study; they are raster-digitised to $\approx\pm3\times10^{-6}\,\mathrm{m}$.
 The reference is category C-weak.
 
 \paragraph{Evidence.}
-Two mesh levels are available (Table~\ref{tab:3dtube}; 16\,000 and 128\,000 fluid cells, $\Delta t$ halved); a third ($\approx1.4\times10^6$ cells) has not been run.
+Three geometrically similar mesh levels (16\,000, 128\,000 and 1\,024\,000 fluid cells; ratio 2) are computed with $\Delta t$ halved with the mesh ($2.5\times10^{-5}$, $1.25\times10^{-5}$ and $6.25\times10^{-6}\,\mathrm{s}$); all coupling criteria were met at every step (mean 4.8, 3.9 and 3.2 coupling iterations per step).
+Table~\ref{tab:3dtube} gives the results obtained after correcting the two solver defects described below; every 3dTube value recorded before those corrections, including the earlier two-level values, is superseded.
 
 \begin{table}[htbp]
 	\centering
 	\small
-	\setlength{\tabcolsep}{5pt}
-	\caption{3dTube: QoIs at point A on mesh levels 1 and 2 (BDF2, $\Delta t$ halved with the mesh), and the relative change between them.}
+	\setlength{\tabcolsep}{4pt}
+	\caption{3dTube: QoIs at point A on three mesh levels ($\Delta t$ halved with the mesh), successive relative changes and observed order (Eq.~\eqref{eq:observed_order}, reported only for monotone sequences with decreasing changes). Levels 1--2: OpenFOAM-v2512 (Linux, GCC, \texttt{-O3}), confirmed to the reported digits on OpenFOAM-v2412 (Linux, GCC, \texttt{-O2}); level 3: OpenFOAM-v2412 only. Both defects corrected (solids4foam PR \#546). $c_p$: pressure-wave speed from probes on the axis.}
 	\label{tab:3dtube}
-	\begin{tabular}{lrrr}
+	\begin{tabular}{lrrrrrr}
 		\toprule
-		Quantity & Level 1 & Level 2 & Change \\
+		Quantity & Level 1 & Level 2 & Level 3 & Change 1$\to$2 & Change 2$\to$3 & Order \\
 		\midrule
-		$u_{r,\max}$ (mm) & 0.15984 & 0.15976 & $0.05\%$ \\
-		$u_{z,\min}$ (mm) & $-0.08823$ & $-0.08660$ & $1.85\%$ \\
-		$t_\mathrm{arr}$ (ms) & 5.874 & 5.854 & $0.34\%$ \\
-		$c_p$ (m/s) & 4.771 & 4.695 & $1.58\%$ \\
+		$u_{r,\max}$ (mm) & 0.15978 & 0.15946 & 0.15851 & $-0.20\%$ & $-0.60\%$ & -- \\
+		$u_{z,\min}$ (mm) & $-0.08819$ & $-0.08659$ & $-0.08571$ & $1.87\%$ & $1.02\%$ & 0.87 \\
+		$t_\mathrm{arr}$ (ms) & 5.873 & 5.843 & 5.825 & $-0.51\%$ & $-0.31\%$ & 0.72 \\
+		$c_p$ (m/s) & 4.654 & 4.635 & 4.594 & $-0.41\%$ & $-0.88\%$ & -- \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \begin{itemize}
-	\item \emph{Time.} On level 1, successive halvings of $\Delta t$ from $10^{-4}\,\mathrm{s}$ change $u_{r,\max}$ by $1.74\%$, $0.83\%$ and $0.016\%$ (wavefront arrival similarly): the working time step is converged to $\approx0.1\%$.
-	\item \emph{Mesh.} $u_{r,\max}$ changes by only $0.05\%$ between levels, but $u_{z,\min}$ by $1.85\%$ and $c_p$ by $1.58\%$. With two levels no order can be computed, and the axial displacement and wave speed are not shown to be converged.
-	\item \emph{Literature discrepancy.} The published finite element peaks of $u_{r,\max}$ ($\approx0.119$ and $0.124\,\mathrm{mm}$) are some $21$--$24\%$ below the finite volume value of \citet{Tukovic2018} ($0.157\,\mathrm{mm}$). Run with the time discretisation of the finite element references (implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$), the present code gives peaks within $+2.5\%$ of \citet{Lozovskiy2019} and $-1.4\%$ of \citet{Eken2016}. Much of the finite element/finite volume difference in this QoI can therefore be reproduced by the numerical damping of the first-order, large-step time integration; this does not establish that every difference between the published histories has this origin.
-	\item \emph{BDF2 comparison.} The level-2 $u_{r,\max}$ is $1.8\%$ above \citet{Tukovic2018}; $c_p$ is $2.4\%$ below the approximate thick-wall long-wave estimate~\citep{Tukovic2018}.
-	\item \emph{Coupling.} Robin--Neumann and IQN-ILS QoIs differ by at most $0.08\%$ (histories $0.27\%$ of the peak); Robin--Neumann needs 4.7 coupling iterations per step against 15.5 for IQN-ILS.
+	\item \emph{Space.} The axial trough $u_{z,\min}$ and the arrival time $t_\mathrm{arr}$ converge monotonically, at observed orders of about 0.87 and 0.72 (0.98 and 0.65 at a fixed $\Delta t = 2.5\times10^{-5}\,\mathrm{s}$), far below the nominal two; no Richardson estimate is made. The peak radial displacement $u_{r,\max}$ decreases monotonically, but its changes grow ($0.20\%$, then $0.60\%$), so no order can be given; its level-3 uncertainty is at least $\approx0.6\%$, and spatial convergence of $u_{r,\max}$ is not established. The wave speed $c_p$ behaves similarly.
+	\item \emph{Time.} On the finer levels the time step contributes $\approx0.1$--$0.2\%$: halving $\Delta t$ on level 2 changes $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ by $+0.16\%$, $+0.18\%$ and $+0.10\%$, and reducing it from $2.5\times10^{-5}$ to $6.25\times10^{-6}\,\mathrm{s}$ on level 3 by $+0.10\%$, $+0.20\%$ and $+0.17\%$. The scaled path is therefore dominated by the mesh.
+	\item \emph{Coupling.} Robin--Neumann and IQN-ILS agree to $0.07\%$ in the QoIs and $0.26\%$ of the peak in the histories.
+	\item \emph{Two solver defects found by verification.} On two platforms the calculations were deterministic, but $u_{z,\min}$ differed by $1.5\%$ (level 1) to $3\%$ (level 3) while the other QoIs agreed to $0.1$--$0.2\%$. Tracing the first divergence found two independent defects in solids4foam, both fixed in solids4foam PR \#546.
+	(a)~The fluid wall viscous force was evaluated as an inner product of temporary fields, \texttt{nf() \& (-devReff().boundaryField())}. OpenFOAM's field algebra writes such a product into the storage of a temporary operand while the loops access result and operands through \texttt{\_\_restrict\_\_} pointers, so the result aliases an input; with GCC at \texttt{-O3} (the default OpenFOAM build rules) the axial component was formed from already overwritten components, and the first-step axial wall shear was wrong by up to $\approx2.5$ times. Builds at \texttt{-O2} were correct. The root cause is the temporary-reuse mechanism of OpenFOAM's products under \texttt{\_\_restrict\_\_}; the audit carried out for PR \#546 found and fixed about 15 further solids4foam sites with the same mechanism.
+	(b)~The solid-to-fluid point transfer took barycentric weights from a routine that returns the degenerate weights $(1/3, 1/3, 1/3)$ when $4A^2$ ($A$ the triangle area, in $\mathrm{m}^4$) falls below a fixed absolute threshold. On levels 2 and 3, but not on level 1, every interface triangle fell below it, so every interface point was interpolated as a three-point average: the interpolation operator changed with refinement, broke the symmetry of the quarter tube and made results depend on the domain decomposition. The earlier non-monotone two-level sequence was therefore not evidence about the discretisation. The fix computes scale-invariant weights.
+	After both corrections the two platforms agree to all reported digits on levels 1 and 2 (platform uncertainty $<0.01\%$, two orders of magnitude below the level-2-to-3 change).
+	\item \emph{Literature discrepancy.} The published $u_{r,\max}$ of the implicit-Euler references ($\approx0.119$ and $0.124\,\mathrm{mm}$) lie $20$--$25\%$ below the BDF2 values of \citet{Tukovic2018} ($0.157\,\mathrm{mm}$) and of the present calculations (level 3 is $1.0\%$ above \citet{Tukovic2018}). Run with the time discretisation of those references (implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$), the present code lowers its peak by $0.036$--$0.038\,\mathrm{mm}$, i.e.\ $92$--$115\%$ of the published gap ($86$--$126\%$ within the reading accuracy), and lands within $+2.5\%/-1.4\%$ (level 1) and $+1.3\%/-2.6\%$ (level 2) of \citet{Lozovskiy2019} and \citet{Eken2016}. Implicit Euler itself converges slowly in time (still $4.4\%$ low at $\Delta t = 1.25\times10^{-5}\,\mathrm{s}$ on level 1), so neither published peak is converged in time. Much of the discrepancy is therefore reproduced by the difference in time integration. Because \citet{Eken2016} uses a finite volume fluid, the split is between time integrators, not between finite element and finite volume methods; the references also differ in wall model, pressure switch-off and mesh, and the earlier peak time of \citet{Eken2016} ($0.3\,\mathrm{ms}$) is not explained.
 \end{itemize}
-% Derived: 0.1194/0.15694 - 1 = -23.9%; 0.1242/0.15694 - 1 = -20.9% (raster-digitised FE peaks vs Tukovic 2018 vector-extracted peak).
 
-\todo{ESSENTIAL: run mesh level 3 (approximately $1.4\times10^6$ cells; estimated $>10$\,h on 6 ranks). Two levels do not support a convergence claim, and $u_{z,\min}$ still changes by $1.85\%$. HIGH-VALUE: an independent COMSOL (or other code) solution with BDF2-type time integration at converged $\Delta t$ would replace the same-lineage reference and test the time-discretisation explanation from the finite element side.}
+\todo{Level 3 was computed on one platform only (OpenFOAM-v2412, MeluXina, 128 ranks); a corrected level-3 replicate on a second platform, a level 4 ($\approx8\times10^6$ fluid cells) or an independent converged solution with second-order time integration would be needed for any convergence statement on $u_{r,\max}$. Report the OpenFOAM tmp-reuse/\texttt{\_\_restrict\_\_} hazard upstream to OpenCFD and cite the report. The backward-scheme instability on level 1 at $\Delta t = 6.25\times10^{-6}\,\mathrm{s}$ (growth from $\approx11\,\mathrm{ms}$) is unexplained; it does not affect the scaled levels. Evidence: paper-data/3dtube\_level3\_findings.md, Section 12.6 (branch evidence/3dtube-level3); solids4foam branch verification/3dtube-level3.}
 
 \paragraph{Lesson.}
-For the peak radial displacement, an apparent code-to-code disagreement of $\approx20$--$25\%$ in the literature is largely a time-discretisation effect of the references.
-Two mesh levels permit a QoI-dependent statement ($u_{r,\max}$ converged, $u_{z,\min}$ not) but no convergence claim for the case as a whole.
+The case did more as a defect detector than as a convergence demonstration.
+A cross-platform difference that looked like a platform effect was a compiler-dependent aliasing error, and a mesh-dependent interpolation defect switched on between the first and second levels; neither would have been visible on a single platform or on one mesh level.
+After correction, the axial displacement and arrival time converge at sub-nominal observed orders, the peak radial displacement is not yet in a converging regime, and the reference remains C-weak; much of the published code-to-code discrepancy in the peak is reproduced by the difference in time integration.
 
 %%-------------------------------------------------------------------
 \subsubsection{Modified lid-driven cavity}\label{sec:mok}
