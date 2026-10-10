@@ -172,3 +172,9 @@ The Hessenthaler PR #546 A/B is done (reported by the Hessenthaler session):
 - F1S3 changes the tip deflection by +0.006 mm (0.04%).
 
 The beam A/B (face-size check) is still outstanding. The two related `\todo` notes are updated.
+
+- Hron–Turek (2026-10-10): the geometric-singularity hypothesis was REJECTED by surface localisation of Q_in (solids4foam branch verification/hronturek-tip-localisation, d90657d02, about 19 core-hours).
+  - Tip-corner regions: 22% of the 2x→4x change, at order 1.2, the same as the total.
+  - Cylinder corners: about 0%.
+  - Aft smooth flag, x 0.46–0.58 m: 69% of the change, a vortex-induced pressure lobe.
+  - The text now attributes the sub-nominal order to pre-asymptotic resolution of the vortical loading.
