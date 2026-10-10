@@ -1195,7 +1195,7 @@ is a hypothesis from a size estimate, not a result.
    the phase and mean-load orders (0.3–1.2).
 5. **Is the coupled system needed to explain it?** Not required; not excluded.
 
-### Recommended next single task
+### Recommended next single task (done at 1x and 2x in section 17)
 
 Test the wall-pressure condition on the replay: repeat the 1x/2x/4x replay (same
 trajectory, same table, 8 s, matched dt) with `movingWallPressure` on the
@@ -1208,3 +1208,102 @@ ALE flux/mesh-motion discretisation (e.g. the wall-flux and the
 `backward` ddt on the moving mesh) and the next task is to switch those one at
 a time on the replay. Cost: about 140 core-hours for the 4x run, 15 for
 1x + 2x.
+
+## 17. Wall-pressure condition on the replay (staged, 1x and 2x)
+
+Test recommended in section 16. A second Astra query (one) agreed that the
+pressure condition was worth testing but advised a staged plan: run 2x and 1x
+first, fund the 4x run only if the condition materially reduces the
+coarse-to-medium differences, and note that two meshes establish sensitivity,
+not order. The user asked for the coordinator session to be consulted as well;
+none of the listed peer sessions was identifiable as such and the user chose
+to skip it. Code and data: solids4foam branch
+`verification/hronturek-replay-wallpressure` (commit `2b8a2227f`, stacked on the
+replay branch; `--pressure movingWallPressure`, `scripts/replay_compare.py`,
+`reference/replay_wallpressure/`); `hronturek_replay_wallpressure.json`. No
+solid, no coupling, no `.tex` change.
+
+### Setup
+
+Identical to section 16 (same fitted 2x coupled trajectory and table, same
+fluid settings, 8 s, last five periods) except that the plate pressure
+condition is `movingWallPressure` (`∂p/∂n = −ρ n·a_wall`, with the wall
+acceleration from `newMovingWallVelocity` using its backward formula;
+`pimpleFluid` adds the matching `rAU ∂p/∂n |S_f|` flux correction) instead of
+the tutorial's `zeroGradient`. Runs: 1x (dt 10⁻³), 2x (5·10⁻⁴), and 2x at
+2.5·10⁻⁴. The 4x run (≈ 140 core-hours) was not made. A first submission
+of the 2x runs failed at `decomposePar` (the reconstructed rigid-state field has
+no `value` entry for the fixed-gradient condition); the builder now adds it.
+
+### Results (N/m; harmonics against the tip displacement)
+
+| quantity | 1x zG | 2x zG | 1x mWP | 2x mWP | 2x mWP, dt/2 |
+|---|---:|---:|---:|---:|---:|
+| plate lift, in phase with displacement | −174.0 | −162.2 | −186.2 | −166.3 | −166.3 |
+| plate lift, in phase with velocity | 27.2 | 75.0 | −29.1 | 55.6 | 56.7 |
+| plate drag mean | −13.5 | −16.2 | −9.6 | −13.9 | −13.8 |
+| total lift, in phase with displacement | −101.7 | −82.6 | −120.2 | −87.9 | −87.7 |
+| total lift, in phase with velocity | 94.6 | 145.1 | 29.1 | 122.8 | 123.9 |
+| total lift, fundamental | 138.9 | 166.9 | 123.7 | 151.0 | 151.8 |
+| total lift, phase (deg) | 137.1 | 119.7 | 166.4 | 125.6 | 125.3 |
+| total drag mean | 464.8 | 459.4 | 468.8 | 461.7 | 461.9 |
+| pressure work on the flag per cycle (J/m) | −2.08 | −0.130 | −1.69 | −0.036 | −0.014 |
+
+(zG = `zeroGradient`, tutorial; mWP = `movingWallPressure`.) The 2x time-step
+halving changes the mWP loads by ≤ 2% (quadrature 55.6 → 56.7).
+
+1x → 2x changes: with `zeroGradient` the plate load in phase with velocity
+changes by +48, the total by +50, the total phase by −17.4°, the plate mean drag
+by −2.7; with `movingWallPressure` by +85, +94, −40.8° and −4.4. **The
+coarse-to-medium differences become larger, not smaller.** The difference made
+by the condition itself (mWP − zG) is large at 1x and shrinks at 2x: plate
+quadrature −56 → −19 (ratio 0.34), total quadrature −66 → −22 (0.34), total phase
++29° → +6° (0.20), plate in phase −12 → −4 (0.34), plate mean drag +3.9 → +2.3
+(0.59); but the total lift amplitude shift does not shrink (−15.2 → −15.9, ratio
+1.05), so at 2x the two conditions differ by 10% in lift amplitude.
+
+### Interpretation
+
+- The wall-pressure condition is a **first-order-sized error source at 1x** (it
+  changes loads by 50–60 N/m, as much as the whole 1x→2x change with the
+  tutorial condition) and a smaller but non-negligible one at 2x. Its
+  influence on most harmonics falls by a factor of 3–5 per refinement,
+  consistent with a first-order effect, so the tutorial's `zeroGradient`
+  contributes first-order error to those loads.
+- It is **not shown to be the source of the slow convergence**. The staging
+  criterion (the condition materially reduces the 1x→2x differences) is not
+  met, and no 4x value exists to say whether the mWP sequence flattens. The
+  1x level may simply be further from the asymptote with `movingWallPressure`.
+- Observation of possible importance for the benchmark: with
+  `movingWallPressure` the replayed 2x total lift amplitude is 151.0 N/m
+  (−1.9% against Featflow level 4, 153.9), whereas `zeroGradient` gives 166.9
+  (+8.4%); the coupled FSI3 lift amplitude is +7.6% (4x) to +11.9% (2x)
+  above Featflow with `zeroGradient`. The size and sign of the shift match
+  that offset, but the replay uses the trajectory of a coupled run that
+  was itself computed with `zeroGradient`, so this indicates what a
+  coupled run with the condition might show; it is not a coupled result.
+- Astra caveats that stand: the exact normal-momentum balance includes a
+  viscous term, the true wall-to-cell distance should replace h/2 in the
+  estimate, and recovering second order would support but not prove
+  exclusivity of the pressure condition.
+
+### Classification
+
+**D for the question asked (inconclusive), with a positive sensitivity
+finding:** the pressure condition changes the moving-flag loads by amounts
+comparable to the refinement differences and appears to be a first-order
+contributor, but two levels cannot decide whether it explains the p ≈ 1
+displacement behaviour.
+
+### Recommended next single task
+
+Decide with one more run, the 4x replay with `movingWallPressure` (≈ 140
+core-hours, matched dt 2.5·10⁻⁴, same table), which completes the
+three-level sequence for direct comparison with section 16: if the in-phase,
+quadrature, phase and mean-drag sequences then converge at order ≈ 2 with
+2x→4x changes below ≈ 5 N/m, the tutorial's `zeroGradient` is the main
+first-order source and the next step is a matched 2x FSI3 run with
+`movingWallPressure` (coupled, requires checking the Robin and
+Dirichlet-Neumann interface conditions with it); if not, the cause lies in the
+ALE flux/mesh-motion discretisation and the next task is to vary one
+ingredient at a time on the replay at 2x (wall flux, `ddt` on the moving mesh).
