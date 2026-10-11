@@ -25,10 +25,10 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		mokLidDrivenCavity & C-weak & tension-dominated membrane; definition sensitivity & candidate; see note \\
 		\midrule
 		\multicolumn{4}{l}{\emph{Extended / high-cost suite}} \\
-		Hron--Turek FSI2, FSI3 & C & self-excited oscillation; lift amplitude; tolerance sensitivity; mesh motion & needs FSI3 4x \\
-		3dTube & C-weak & 3-D wave propagation with added mass; time-discretisation sensitivity & needs level 3 \\
-		beamInCrossFlow$^\ast$ & C/C-weak & 3-D steady external flow; near-body force resolution & provisional \\
-		Hessenthaler$^\ast$ & -- & realistic 3-D geometry, large deformation; robustness & in development \\
+		Hron--Turek FSI2, FSI3 & C & self-excited oscillation; lift amplitude; tolerance sensitivity; mesh motion; sub-nominal coupled order & FSI3 three levels, order $\approx1$; FSI2 two levels \\
+		3dTube & C-weak & 3-D wave propagation with added mass; time-discretisation sensitivity; cross-platform and toolchain checks & three levels; $u_{r,\max}$ not yet converging \\
+		beamInCrossFlow$^\ast$ & C & 3-D steady external flow; displacement and force convergence & in progress \\
+		Hessenthaler$^\ast$ & -- & realistic 3-D geometry, large deformation; steady-state iterative error; validation data kept separate & in progress \\
 		cavityFlexibleBottom$^\ast$ & C-weak & steady internal flow, large deformation & provisional \\
 		blobInTreacle$^\ast$ & C-weak & temporal order in viscous large-deformation flow & provisional; possibly supplementary \\
 		\bottomrule
@@ -44,8 +44,8 @@ The core suite is cheap enough to run after any change to a discretisation or co
 Its backbone is the two category-A problems, which alone measure the total error directly; the category-B problems extend it to large deformation within reference uncertainties of $\approx0.3\%$ (collapsibleChannel) and $\approx0.2\%$ (FSI1).
 
 The requirement is not a fixed matrix of studies but the principle of Section~\ref{sec:convergence_method}: for each QoI on which a claim is made, the error sources that materially affect it must be shown to be controlled below the uncertainty relevant to the claim.
-The benchmarks therefore emphasise different studies: ringAddedMass isolates temporal, solid-discretisation and added-mass effects; womersleyTube requires careful temporal and phase analysis and a flux-consistent treatment of its truncated ends; collapsibleChannel requires control of the solid discretisation and of the coupling tolerance; and, in the extended suite, beamInCrossFlow is challenging chiefly through the spatial resolution of near-body forces.
-Each core result should state its reference category, the number of levels and the observed behaviour for at least one displacement-type and one force- or phase-type QoI, and the evidence that the iterative error is subordinate.
+The benchmarks therefore emphasise different studies: ringAddedMass isolates temporal, solid-discretisation and added-mass effects; womersleyTube requires careful temporal and phase analysis and a flux-consistent treatment of its truncated ends; collapsibleChannel requires control of the solid discretisation and of the coupling tolerance; and, in the extended suite, Hron--Turek FSI3 requires separate solid, rigid-fluid and prescribed-motion studies to interpret its sub-nominal coupled order.
+Each core result should state its reference category, the number of levels and the observed behaviour for at least one displacement-type and one force- or phase-type QoI, the evidence that the iterative error is subordinate (including the convergence test used and the residual reduction at acceptance), and the code version, compiler and platform.
 
 \todo{Decide whether mokLidDrivenCavity belongs in the core suite (cheap; tests a different solid regime; but C-weak and only self-convergence evidence) or in the extended suite. An independent converged COMSOL solution of the group-B definition would justify core membership.}
 
@@ -54,10 +54,10 @@ Each core result should state its reference category, the number of levels and t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The extended suite does not establish formal order, which the core suite does more cheaply and reliably, but tests whether that accuracy carries over to three dimensions, complex geometry, large mesh motion and slowly converging QoIs.
-Hron--Turek FSI2/FSI3 belong here despite being two-dimensional, because their slowest QoIs need resolutions well beyond the core suite and their references carry $\approx1\%$ uncertainty.
+Hron--Turek FSI2/FSI3 belong here despite being two-dimensional, because their slowest QoIs need resolutions well beyond the core suite, the FSI3 displacements converge only at an observed order of about one, and the FSI3 reference itself carries a $3$--$5\%$ uncertainty in $u_x$ and the force amplitudes.
 Published values should be quoted with their source (e.g.\ Featflow table or summary value) and reference category, and agreement with them should not be presented as verification without self-convergence evidence.
 
-\todo{Final extended-suite membership depends on: FSI3 4x; 3dTube level 3; beamInCrossFlow graded-mesh study and independent reference; Hessenthaler study; cavityFlexibleBottom resolution. A case without at least three mesh levels should not be listed as ``verified'' in any final suite table.}
+\todo{Final extended-suite membership depends on: the beamInCrossFlow (Richter) campaign and an independent reference; the Hessenthaler verification campaign; cavityFlexibleBottom resolution; for 3dTube, a fourth level or an independent converged solution for $u_{r,\max}$. A case without at least three mesh levels should not be listed as ``verified'' in any final suite table.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Executable verification infrastructure}\label{sec:infrastructure}
@@ -70,8 +70,8 @@ Independently of the code used, we recommend the following properties, which the
 	\item \emph{Executable studies separate from regression tests.} An opt-in driver runs the mesh, time-step and coupling studies, computes the QoIs and observed orders, and exits with a non-zero status unless every acceptance criterion is met; regression tests, which check only that results have not changed, are kept separate.
 	\item \emph{Reference provenance.} Reference values are stored in machine-readable files that record, for each value, the source, figure or table, the extraction method (tabulated, vector-extracted, raster-digitised) and its uncertainty; where possible, the code that generates the reference (collocation scripts, oomph-lib driver) is stored with it.
 	\item \emph{Machine-readable outputs.} Per-run QoIs are written to CSV with a human-readable summary; diverged, truncated or non-periodic runs are reported as failures rather than read as results.
-	\item \emph{Reproducibility.} Each run records case-file hashes, the OpenFOAM version and a fingerprint of the solver executable and libraries; the case set-ups, drivers, raw outputs and reference files used for a publication are archived with a persistent identifier.
+	\item \emph{Reproducibility.} Each run records case-file hashes, the OpenFOAM version, the compiler and optimisation flags and a fingerprint of the solver executable and libraries; the case set-ups, drivers, raw outputs and reference files used for a publication are archived with a persistent identifier.
 \end{itemize}
 
 Such infrastructure allows a verification claim to be re-executed rather than accepted on trust.
-\todo{Not all drivers currently implement every property above (e.g.\ executable/library fingerprints are recorded by some drivers only; per-level CSV is not yet stored for beamInCrossFlow). Audit before submission and state precisely which properties hold for each case. Add Zenodo DOI.}
+\todo{Not all drivers currently implement every property above (e.g.\ executable/library fingerprints and compiler flags are recorded by some drivers only). Audit before submission and state precisely which properties hold for each case. Add Zenodo DOI.}
