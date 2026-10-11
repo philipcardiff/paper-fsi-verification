@@ -12,7 +12,7 @@ evidence files. The sources are:
   `evidence/hronturek-fsi3-4x` (PR #4). Sections 1–16 are used; the claim in
   section 12 that "the solid explains" the displacement changes is retracted
   in section 13.
-- **HT-EB**: section 16 of the same file on `evidence/hronturek-energy-balance`
+- **HT-EB**: section 18 of the same file on `evidence/hronturek-fsi3-4x` (formerly section 16 on `evidence/hronturek-energy-balance`)
   (PR #546 exposure, energy balance, `u_x` ~ A²).
 - **HT-RV**: solids4foam `verification/hronturek-replay-variants` `d700b64c8`,
   `HronTurek/verification/README.md`, section "Fluid-side variants". This
@@ -178,3 +178,10 @@ The beam A/B (face-size check) is still outstanding. The two related `\todo` not
   - Cylinder corners: about 0%.
   - Aft smooth flag, x 0.46–0.58 m: 69% of the change, a vortex-induced pressure lobe.
   - The text now attributes the sub-nominal order to pre-asymptotic resolution of the vortical loading.
+
+- Hron–Turek (2026-10-11): the explanation now follows the second-order campaign (solids4foam `verification/hronturek-second-order`, f19536dbb; evidence section 19).
+  - Mesh creep from path-dependent `velocityLaplacian`.
+  - First-order `zeroGradient` wall pressure.
+  - An inactive limiter.
+  - With the fixes, the standard family has order 2.5 and the refined family is flat; the 3.4% gap between the families is open.
+  - Production runs are pending.
