@@ -93,9 +93,16 @@ section is final.
   with a predictor and `outerCorrTolerance 1e-4`.
   - Verification runs: strict test (`requireAllResidualMeasures yes`,
     `nOuterCorr 60`, `allowUnconvergedCoupling yes`) and `couplingReuse 0`.
-  - Accepted unconverged steps are counted. All of them occur in the
-    violent start-up transient (t < 5 s): 5-12 per run out of
-    10,000-22,500 steps.
+  - Steps still above the tolerance after 60 iterations are accepted and
+    counted. There are two kinds:
+    - In the start-up transient (t < 10 s): 0.1-0.5 % of steps, with r1
+      up to ~7e-3.
+    - Near the steady state (F1S2, 30-45 s: 384 of 7,500 steps, 5 %):
+      r1 stops at about 1.25e-4, just above 1e-4, while the absolute
+      measure r2 is at most 3e-12. A step that starts at round-off cannot
+      reduce its residual by a further 1e-4 (a noise floor). The restart
+      tests of Section 7 show that such steps do not affect the steady
+      value.
 - **End state.** Steady. The QoIs are the tip displacement averaged over
   the last seconds of a run that has settled (drift < 1e-4 mm/s).
 - **Fixed parameters.** Only the meshes, the time step and the iterative
@@ -251,10 +258,24 @@ same μ*.
 
 ## 12. Numerical uncertainty budget (PENDING)
 
-## 13. Validation against MRI (PENDING)
+## 13. Validation against MRI (PRELIMINARY)
 
-To be done on the best-resolved strict solution. MRI agreement is not used
-anywhere above.
+These metrics are computed with the driver's `validation_metrics` from the
+time-averaged centreline and voxel velocities of each run (MRI tip
+16.41 mm). They are not used anywhere above.
+
+| Strict run | Tip y (mm) | Tip − MRI (mm) | Centreline RMS / max (mm) | Velocity d_mean / d_max (/630 mm/s) |
+| --- | --- | --- | --- | --- |
+| F1S1 (30 s) | 16.189 | −0.22 | 0.278 / 0.597 | 0.051 / 0.347 |
+| F1S2 (45 s) | 16.654 | +0.24 | 0.291 / 0.618 | 0.050 / 0.351 |
+| F2S2 (20 s, not settled) | 16.610 | +0.20 | 0.261 / 0.591 | 0.049 / 0.326 |
+
+- Solid refinement moves the tip from below the measurement (S1) to above
+  it (S2). The finer levels move it further above.
+- The converged model will lie about 0.3-0.4 mm (about 2 %) above the MRI
+  tip. That is well inside one MRI voxel (1.302 x 1.302 x 6 mm).
+- The velocity metrics barely change with refinement.
+- Final numbers will be taken on the best-resolved run.
 
 ## 14. Independent numerical comparison
 
