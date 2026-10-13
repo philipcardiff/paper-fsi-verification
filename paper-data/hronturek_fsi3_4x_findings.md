@@ -1510,3 +1510,96 @@ The replays use the coupled 2x trajectory of section 16.
     #552).
 
   Results will be reported in section 20.
+
+## 20. Production runs: 8x' replay and the corrected coupled FSI3 sequence
+
+Code, scripts and full tables: solids4foam branch `verification/hronturek-production`
+(README section "Production runs"). It merges `verification/hronturek-second-order`
+(f19536dbb) with the PR #554 branch. Data here: `hronturek_production_*.csv`.
+
+### 20.1 Fluid side: 8x' ring+box replay
+
+Setup:
+
+- the ring+box family of section 19 (752 896 cells);
+- the same replayed 2x coupled motion;
+- central convection, `displacementLaplacian` and `movingWallPressure`;
+- dt 1.25e-4;
+- the same five-period window ending at 30.2 s.
+
+It ran on MeluXina with the same solids4foam commit and OpenFOAM v2512 (GCC 13.3, 128
+ranks). Over the 1.36 s overlap it agrees with a xenosim start (GCC 11.4, 64 ranks): Q_in
+82.184 against 82.127 N/m (0.07%).
+
+| level | 1x' | 2x' | 3x' | 4x' | 8x' |
+|---|---:|---:|---:|---:|---:|
+| Q_in (N/m) | 67.18 | 79.63 | 79.99 | 79.27 | **77.16** |
+| plate lift fundamental (N/m) | 155.3 | 155.6 | 156.0 | 157.2 | 160.9 |
+| mean plate drag (N/m) | -15.21 | -18.32 | -18.55 | -18.32 | -17.46 |
+
+- **The 2x'–4x' plateau was not asymptotic.** 8x' moves Q_in by -2.7%, six times the
+  2x'→4x' change. The lift phasor rotates by about 4–5° per level. The finest standard
+  (81.96) and ring+box (77.16) values now differ by 6%.
+- **The change is spatial.** Rerunning 4x' at the 8x' time step accounts for 6% of the
+  Q_in change and 4% of the phase change.
+- **No order, Richardson value or GCI is quoted** for the fluid load. Q_in lies in 77–82
+  N/m across families and levels; that is an observed spread, not an error bound.
+
+### 20.2 Coupled FSI3 with the corrected setup
+
+Setup:
+
+- fluid: ring+box 1x'/2x'/4x';
+- solid: 2x/4x/8x;
+- treatments as in 20.1, with the coupled solver driving `displacementLaplacian` (PR #554);
+- dt 5e-4 on all levels;
+- coupling: strict test (issue #552), tol 1e-5, no reuse;
+- cold starts on every run, because limit-cycle restarts diverge (solids4foam issue #555);
+- QoIs: five periods before 6.0 s, benchmark definitions.
+
+| | u_x (max+min)/2 | u_x amp | u_y amp | f | drag (max+min)/2 | drag amp | lift (max+min)/2 | lift amp |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1x' | -2.859 | 2.754 | 34.62 | 5.570 | 458.5 | 28.6 | 0.99 | 194.7 |
+| 2x' | -3.082 | 2.929 | 36.17 | 5.497 | 461.4 | 30.2 | 2.18 | 174.1 |
+| 4x' | -3.069 | 2.903 | 36.12 | 5.473 | 461.5 | 29.7 | 2.54 | 164.7 |
+| Featflow | -2.88 | 2.72 | 34.99 | 5.46 | 460.5 | 27.74 | 2.50 | 153.9 |
+
+Units: mm, Hz, N/m. The u_x time mean is -2.835/-3.093/-3.087 mm.
+
+**Error control.** Each error is compared with D = |q(4x') - q(2x')|.
+
+- Time: a 2x' triplet (dt 1e-3/5e-4/2.5e-4). The temporal error at dt 5e-4 is
+  0.00–0.04 D for f and the force amplitudes, and 0.3 D for u_y amplitude and u_x
+  (max+min)/2. It is far below every 1x'→2x' change.
+- Coupling: tol 1e-4 against 1e-5 at 1x' changes f and the lift amplitude by 0.02 D,
+  u_y amplitude by 0.4 D and u_x by 0.2 D.
+- Iterations: 10.6–11.4 IQN-ILS iterations per step. 0.3–1.2% of steps were accepted
+  above the tolerance at the IQN-ILS floor (none in the 4x' window).
+- Drift: u_y amplitude drifts by +0.012–0.017 mm/s on every level. The common window
+  keeps this below D.
+
+**Findings.**
+
+- **Displacements.** From 2x' to 4x' u_y amplitude changes by -0.14% and u_x by +0.4%.
+  This is of the order of the time and coupling sensitivities, so the spatial order is
+  unresolved; it is a refinement sensitivity, not an error bound. The original
+  first-order behaviour (section 1) is gone; the 1x' level remains pre-asymptotic.
+- **Frequency and lift amplitude** converge monotonically along the joint fluid–solid
+  path, at observed orders 1.6 and 1.1. Provisional Richardson values: f → 5.461 Hz
+  (GCI 0.27%) and lift amplitude → 156.6 N/m (GCI 6.1%).
+- **The lift amplitude is dominated by the solid.** At fluid 1x', solid 2x→4x alone
+  changes it by -18 N/m. A fluid 2x'/solid 8x cross run is in progress to separate the
+  solid and fluid shares of the 2x'→4x' change.
+- **Drag and lift means** change by less than their temporal or coupling sensitivities
+  from 2x' to 4x'.
+- **Featflow**, compared only after the sequence was characterised: u_y amplitude +3.2%,
+  u_x +6.6%, f +0.2%, drag mean +0.2%, lift mean 2.54 against 2.50. The corrected setup
+  does not close the displacement gap, and our sequence no longer moves towards Featflow.
+  - The u_y difference is within Featflow's own 3–5% uncertainty; the u_x difference
+    exceeds it.
+  - This is a persistent difference between the tested solutions. It is not shown to be a
+    continuum discrepancy or a bias of the method.
+- **Open:** the replay load still moves at 8x', but no coupled 8x' level exists to show
+  whether the displacements respond to it.
+
+Cost: about 4 900 core-hours, plus about 600 for the cross run.
