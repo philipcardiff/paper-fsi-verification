@@ -185,9 +185,12 @@ control:
   Δt-dependent face-flux interpolation of the pressure-velocity coupling.
   The shift is monotone, at 0.003-0.004 mm per factor 2 (0.02 %). The Δt
   = 0.001 and 0.004 restarts were still converging slowly (±1e-4 mm/s).
-- **Coupling tolerance.** Its end-state effect is below 1e-4 mm. Path
-  independence is checked separately: the from-zero tolerance 1e-3 run is
-  0.015 mm ahead at 20 s, and is being extended to 45 s.
+- **Coupling tolerance.** Its end-state effect is below 1e-4 mm.
+- **Path independence.** A strict run at tolerance 1e-3 from t = 0 is
+  0.015 mm ahead at 20 s but reaches 16.6554 mm over 40-45 s (drift
+  -1e-5 mm/s), against 16.6550 mm at 1e-4. So with the strict test the
+  coupling (iterative) error of the steady tip is at most 0.0004 mm, both
+  at the end state and along the path.
 - **Stabilisation.** +0.05 mm (0.3 %) on S2. It is part of the solid
   discretisation error and is expected to fall by about 4x per solid level.
 
