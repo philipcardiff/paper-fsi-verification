@@ -4,7 +4,7 @@ Source of truth: solids4foam branch `verification/beam-richter` (also pushed
 to PR #544's branch `verification/beam-crossflow-graded-mesh`), file
 `tutorials/fluidSolidInteraction/beamInCrossFlow/verification/README.md`, and
 the compact evidence in `.../verification/reference/campaign/`. Data copied
-here: `paper-data/beam_richter/`. Status: L0-L2 complete; L3 pending approval.
+here: `paper-data/beam_richter/`. Status: L0-L3 complete (2026-10-13).
 
 ## Platform and build
 
@@ -49,18 +49,22 @@ comparison with Richter is made only after our own sequence is resolved.
 | L0 | 8.13919e-5 | 1.95723e-6 | -2.03080e-6 | 2.15736 | 0.32694 |
 | L1 | 9.62607e-5 | 1.94057e-6 | -2.15035e-6 | 2.30568 | 0.33773 |
 | L2 | 1.024547e-4 | 1.92632e-6 | -2.20300e-6 | 2.36363 | 0.34428 |
-| L3* | 1.04477e-4 | 1.91581e-6 | -2.21533e-6 | 2.38303 | 0.34575 |
+| L3* | 1.044776e-4 | 1.91580e-6 | -2.21539e-6 | 2.38305 | 0.34577 |
 
-*L3: mean over t = 3.0-3.5 s from the converged rigid flow; a decaying 8 Hz
-fluid-loaded bending oscillation (relative amplitude ~1e-4, decaying ~4.7x per
-0.5 s, as at L2) remains; segment 2 (to 4.5 s, job 5336554) queued.
+*L3: from the converged rigid flow, two segments (0-3.69 s, 3-4.5 s), mean
+over 4.0-4.5 s. The 7.9 Hz damped fluid-loaded bending oscillation (8.0 Hz at
+L2, not shedding) decays 2.1x per 0.25 s: u_x half-amplitude 9.4e-5 (3.0-3.25
+s) to 2.1e-6 (4.25-4.5 s). Remaining slow wake drift: ~2e-6 (u_x), ~3e-6 (F_x),
+~1e-4 (F_y, F_z). The plain restart at t = 3 s did not re-excite the mode; the
+L2 restart with re-decomposition did (1.4e-4, then decayed).
 
 Increments L0-1/1-2/2-3: u_x 15.4/6.0/1.9 %, F_x 6.4/2.5/0.81 %. Observed
 orders (L0-L2, L1-L3): u_x 1.26, 1.61; F_x 1.36, 1.58 (rigid-beam F_x 1.36,
 1.55); F_y 0.72, 2.16; u_z 1.18, 2.09; u_y 0.23, 0.44. Wording: monotone,
 orders increasing towards 2, asymptotic regime suggested but not
 demonstrated; no GCI. Conditional Richardson values (L1-L3 order): u_x
-1.0546e-4 m (+0.94 %), F_x 2.3928 N (+0.41 %); with p = 2: 1.0515e-4, 2.3896.
+1.0546e-4 m (+0.94 %), F_x 2.3929 N (+0.41 %); with p = 2: 1.0515e-4 (+0.65 %),
+2.3895 (+0.27 %). F_z orders 0.73, 1.84.
 
 Non-spatial errors: coupling <= 2e-6, history <= 1.6e-6, steadiness 2.5e-7
 (L2), fixed-dt Rhie-Chow sensitivity (dt x2, /2) 2-4e-4 at L2, falling ~4x
@@ -76,8 +80,8 @@ source, not established. No tuning to Table 6.
 
 ## Cost
 
-64.4 node-hours = 8,250 physical core-h up to L3 segment 1 (L3 segment 1:
-36 node-hours); segment 2 ~15 node-hours.
+73.0 node-hours = 9,350 physical core-h (node-hours x 128) in total; L3 44.6
+node-hours (segment 1 36.0, segment 2 8.6).
 
 ## Astra
 
