@@ -42,14 +42,44 @@ comparison with Richter is made only after our own sequence is resolved.
 5. The steady state depends on dt through Rhie-Chow (FSI L1: ~1e-3 for dt x2
    or /2; rigid: 1e-4 (L1), 2-4e-5 (L2), 3e-6 (L3)); dt = 0.00625 fixed.
 
-## Production sequence (L0-L2)
+## Production sequence (L0-L3)
 
 | level | u_x(A) (m) | u_y(A) (m) | u_z(A) (m) | F_x (N) | F_y (N) |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | L0 | 8.13919e-5 | 1.95723e-6 | -2.03080e-6 | 2.15736 | 0.32694 |
 | L1 | 9.62607e-5 | 1.94057e-6 | -2.15035e-6 | 2.30568 | 0.33773 |
 | L2 | 1.024547e-4 | 1.92632e-6 | -2.20300e-6 | 2.36363 | 0.34428 |
+| L3* | 1.04477e-4 | 1.91581e-6 | -2.21533e-6 | 2.38303 | 0.34575 |
 
-Observed orders from three levels: u_x 1.26, F_x 1.36, F_y 0.72, u_z 1.18,
-u_y 0.23 — not asymptotic; no GCI. Rigid-beam F_x (L0-L3): 2.16786, 2.30675,
-2.36103, 2.37955 N (orders 1.36, 1.55).
+*L3: mean over t = 3.0-3.5 s from the converged rigid flow; a decaying 8 Hz
+fluid-loaded bending oscillation (relative amplitude ~1e-4, decaying ~4.7x per
+0.5 s, as at L2) remains; segment 2 (to 4.5 s, job 5336554) queued.
+
+Increments L0-1/1-2/2-3: u_x 15.4/6.0/1.9 %, F_x 6.4/2.5/0.81 %. Observed
+orders (L0-L2, L1-L3): u_x 1.26, 1.61; F_x 1.36, 1.58 (rigid-beam F_x 1.36,
+1.55); F_y 0.72, 2.16; u_z 1.18, 2.09; u_y 0.23, 0.44. Wording: monotone,
+orders increasing towards 2, asymptotic regime suggested but not
+demonstrated; no GCI. Conditional Richardson values (L1-L3 order): u_x
+1.0546e-4 m (+0.94 %), F_x 2.3928 N (+0.41 %); with p = 2: 1.0515e-4, 2.3896.
+
+Non-spatial errors: coupling <= 2e-6, history <= 1.6e-6, steadiness 2.5e-7
+(L2), fixed-dt Rhie-Chow sensitivity (dt x2, /2) 2-4e-4 at L2, falling ~4x
+per level.
+
+## Richter comparison
+
+Table 6: drag 1.327 N, u_x(A) 5.924e-5 m. Our printed-inlet (peak 0.3)
+sequence approaches ~2.39 N and ~1.05e-4 m (1.80x, 1.78x), far beyond the
+numerical corrections. Earlier peak-0.2 runs (coarser solid) gave 1.3311 N and
+5.915e-5 m, close to Table 6: a possible inlet-definition mismatch in the
+source, not established. No tuning to Table 6.
+
+## Cost
+
+64.4 node-hours = 8,250 physical core-h up to L3 segment 1 (L3 segment 1:
+36 node-hours); segment 2 ~15 node-hours.
+
+## Astra
+
+Design review and final interpretation in `paper-data/beam_richter/astra/`.
+Open: coupled L3 dt/2 sensitivity (>= 60 node-hours) not run.
