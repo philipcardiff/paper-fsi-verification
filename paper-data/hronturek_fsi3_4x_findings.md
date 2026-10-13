@@ -1582,8 +1582,9 @@ Units: mm, Hz, N/m. The u_x time mean is -2.835/-3.093/-3.087 mm.
 
 - **Displacements.** From 2x' to 4x' u_y amplitude changes by -0.14% and u_x by +0.4%.
   This is of the order of the time and coupling sensitivities, so the spatial order is
-  unresolved; it is a refinement sensitivity, not an error bound. The original
-  first-order behaviour (section 1) is gone; the 1x' level remains pre-asymptotic.
+  unresolved; it is a refinement sensitivity, not an error bound. The 6–10% 2x→4x
+  changes of the tutorial-setup sequence (section 1) do not recur; the 1x' level is
+  still pre-asymptotic (u_y amplitude -4.3% from 2x').
 - **Frequency and lift amplitude** converge monotonically along the joint fluid–solid
   path, at observed orders 1.6 and 1.1. Provisional Richardson values: f → 5.461 Hz
   (GCI 0.27%) and lift amplitude → 156.6 N/m (GCI 6.1%).
