@@ -31,7 +31,7 @@ The observations are specific to this suite and to one code family, and are not 
 		womersleyTube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level & 1.86--2.14 (1.29--1.84 before end-flux fix) & SD; errors vs exact \\
 		collapsibleChannel & 1.7, 2.4, then reference floor & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Hron--Turek FSI1 & 1.5--1.7 & -- & 2-level vs ref.\ (B) \\
-		Hron--Turek FSI3 & displacements 0.9--1.1; drag amplitude 0.74 (scaled) & $\leq1.7\%$ change (2x, $\Delta t$ and tolerance) & SD \\
+		Hron--Turek FSI3 & tutorial set-up: displacements 0.9--1.1; corrected set-up: displacements converged to the time/coupling sensitivity ($\leq0.4\%$), frequency 1.6 & time and coupling $\leq0.4$ of the 2x$'\to$4x$'$ change & SD \\
 		3dTube & $u_{z,\min}$ 0.87, $t_\mathrm{arr}$ 0.72; $u_{r,\max}$ not defined (changes grow) & 0.1--0.2\% change at the fine-level $\Delta t$ & SD \\
 		mokLidDrivenCavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
 		cavityFlexibleBottom$^\ast$ & 1.96 ($u_y$; one triple, level 4 diverged) & -- & SD \\
@@ -54,16 +54,16 @@ In ringAddedMass, by contrast, the exact reference allows the remaining $-0.13\%
 
 \emph{Two levels do not establish convergence, and super-nominal orders are a warning.}
 Third levels changed the conclusions drawn from two in both cases where they were added.
-In Hron--Turek FSI3 the two-level apparent orders of 2.6--3.8 arose from a sequence crossing the reference value, and the three-level observed order of the displacements is about one.
+In Hron--Turek FSI3 the two-level apparent orders of 2.6--3.8 arose from a sequence crossing the reference value, and the three-level observed order of the displacements with the tutorial set-up is about one; with a corrected set-up the displacements are converged at 2x$'$/4x$'$ to within their time-step and coupling sensitivities.
 In 3dTube the small two-level change in $u_{r,\max}$ reported earlier was obtained with an interface interpolation operator that changed between the levels; after correction its changes grow on the third level.
 FSI1 and FSI2 still have two levels, so the most widely used benchmarks in the suite remain the least completely verified.
 Orders well above the formal value (the FSI3 filtered lift amplitude, 3.1; the rigid-flag force amplitudes, 2.8--3.3; the blobInTreacle temporal orders, 2.4--2.5) are interpreted as pre-asymptotic; no super-convergence is claimed, and they are not used for extrapolation.
 
 \emph{Coupled limit-cycle QoIs can converge sub-nominally when the components behave well.}
-In Hron--Turek FSI3 the solid alone approaches second order, the rigid-flag fluid converges to within the reference uncertainty, and the code defects of 3dTube have no effect; yet the coupled displacements converge at an observed order of about one, and the in-phase fluid force under the replayed coupled motion shows the same behaviour under every valid fluid treatment tested (Section~\ref{sec:fsi23}).
+In Hron--Turek FSI3 the solid alone approaches second order, the rigid-flag fluid converges to within the reference uncertainty, and the code defects of 3dTube have no effect; yet the coupled displacements of the tutorial set-up converge at an observed order of about one. The cause was the set-up, not the discretisation: a path-dependent mesh motion that drifts under periodic motion, and a first-order wall-pressure condition (Section~\ref{sec:fsi23}). With these corrected, the displacements converge to within their time-step and coupling sensitivities by 2x$'$, although the in-phase fluid load under a prescribed motion is still changing at 8x$'$.
 A self-excited amplitude is set by a balance of small differences between large loads, so a sub-nominal order in the in-phase load can appear as a sub-nominal order in the amplitude.
 Two statements must therefore be kept apart: ``our result disagrees with the reference'' and ``our result is not yet resolved''.
-At 4x the FSI3 displacements differ from Featflow by more than the reference's level-to-level change, but they are still changing at first order; neither the code nor the reference is shown to be wrong by this comparison.
+With the tutorial set-up, the FSI3 displacements at 4x differ from Featflow but are still changing at first order, so the comparison is not yet meaningful. With the corrected set-up they are resolved, and they differ from Featflow by $3.2\%$ ($u_y$ amplitude) and $6.6\%$ ($u_x$), about twice the reference's own change between its two finest levels. That difference is now a disagreement between resolved solutions, not an unresolved one, but neither solution is shown to be wrong by it.
 
 \emph{Combined space--time refinement conceals the balance of errors.}
 Where space and time have been separated, the balance differs strongly: in 3dTube the temporal error at the fine-level $\Delta t$ ($0.1$--$0.2\%$) is several times smaller than the level-2-to-3 change ($0.3$--$1.0\%$), in mokLidDrivenCavity it is an order of magnitude below the spatial error, in ringAddedMass it dominates the frequency, and in womersleyTube, once the end-flux inconsistency is removed, it is a tenth or less of the finest-mesh error for most QoIs (before, the two were similar).
@@ -87,7 +87,7 @@ In every case with more than one QoI, the QoIs converge at substantially differe
 		\midrule
 		womersleyTube & flow-rate, wall amplitude, wave speed: order $\approx2$, error $\leq0.04\%$ & wall phase (order 1.40); attenuation (error $-0.2\%$, at the linear-theory level) \\
 		Hron--Turek FSI1 (2x) & drag $0.24\%$ & $u_y$ $4.64\%$ \\
-		Hron--Turek FSI3 (4x) & drag mean and frequency: within $0.3\%$ of the reference & displacements: order $\approx1$; force amplitudes $7.6$--$10.4\%$ above the reference, not asymptotic \\
+		Hron--Turek FSI3 (4x$'$, corrected) & drag mean and frequency: within $0.2\%$ of the reference; $u_y$ amplitude $3.2\%$ & $u_x$ $6.6\%$ above the reference; force amplitudes depend on the solid mesh, not converged \\
 		Hron--Turek FSI2 (2x) & drag mean $0.5\%$; $u_y$ amplitude $1.3\%$ & lift amplitude $7.8\%$, not converging \\
 		3dTube & $u_{z,\min}$, $t_\mathrm{arr}$: monotone, orders 0.87, 0.72 & $u_{r,\max}$, $c_p$: changes grow ($u_{r,\max}$ $0.20\%$, $0.60\%$) \\
 		mokLidDrivenCavity & peak (order $\approx1.2$) & trough (order $<0.5$) \\
@@ -101,7 +101,7 @@ Time-mean integrated forces (Hron--Turek drag, cavityFlexibleBottom vertical for
 The slowest are of three kinds:
 (i) oscillation amplitudes of forces that result from near-cancellation of larger contributions, above all the Hron--Turek lift amplitude, which is also the QoI most sensitive to the coupling tolerance;
 (ii) phase- and attenuation-type quantities, or small components, such as the Womersley wall phase and attenuation ($\mathrm{Im}(k)$ is 14\% of $\mathrm{Re}(k)$) and the transverse tip displacement of FSI1; and
-(iii) loads that set a self-excited response, such as the in-phase fluid force on the Hron--Turek flag, which converges at an observed order of about one under a fixed motion although the force amplitude converges quickly.
+(iii) loads that set a self-excited response, such as the in-phase fluid force on the Hron--Turek flag, which under a fixed motion is still changing at the finest replay level ($-2.7\%$ from 4x$'$ to 8x$'$) although the force amplitude changes little.
 A benchmark should therefore report several QoI types (a displacement, a mean force, an oscillatory force amplitude or phase, and a frequency where applicable), and the slowest QoI on which a claim is made determines the resolution required.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -234,5 +234,5 @@ Disagreements between codes can originate in the discretisation of the reference
 
 Cost rises by roughly four orders of magnitude from the exact-reference problems to the finest three-dimensional calculations (Table~\ref{tab:cost}), and the completeness of the evidence falls in the opposite direction: the inexpensive two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have three levels with sub-nominal or undefined orders (3dTube) or, so far, no completed study (beamInCrossFlow, Hessenthaler). Even in two dimensions a third level can cost an order of magnitude more than the second (Hron--Turek FSI3: 40.8\,h on 32 ranks at 4x, without further strong scaling).
 This illustrates one practical reason why rigorous convergence evidence becomes scarcer as geometric and computational complexity increase, and it motivates a tiered suite (Section~\ref{sec:recommended_suite}).
-Which error source dominates is case dependent: in the thin-walled two-dimensional collapsibleChannel the solid discretisation can dominate ($17.4\%$ versus $0.44\%$ for linear versus cubic solid), whereas in Hron--Turek FSI3 refining the solid alone accounts for only $\approx5\%$ of the change in the $u_y$ amplitude.
+Which error source dominates is case dependent: in the thin-walled two-dimensional collapsibleChannel the solid discretisation can dominate ($17.4\%$ versus $0.44\%$ for linear versus cubic solid), whereas in Hron--Turek FSI3 refining the solid alone accounts for only $\approx5\%$ of the change in the $u_y$ amplitude but for more than half of the change in the force amplitudes.
 \todo{Revisit once the beamInCrossFlow and Hessenthaler campaigns are complete; add cost per degree of freedom and per time step if comparable hardware is used.}
