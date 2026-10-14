@@ -200,12 +200,30 @@ Steady tip y (mm), strict test, Δt = 0.002 s:
 
 | | S1 | S2 | S3 |
 | --- | --- | --- | --- |
-| F1 | 16.196 (30 s, drift 1e-3 mm/s) | 16.6550 (45 s) | running |
-| F2 | | 16.688 (32 s, drift 1e-3 mm/s; 45 s running) | |
-| F3 | | running | |
+| F1 | 16.2006 (40 s) | 16.6550 (45 s) | 16.7529 (45 s) |
+| F2 | | 16.692 (45 s) | |
+| F3 | | running (restarted after a walltime limit) | F3S3 running |
 
-The orders, Richardson estimates and uncertainties will be added when
-F1S3, F3S2 and the F2S2 extension complete.
+All values are means over the last 3-5 s, with drift below 1e-4 mm/s.
+
+**Solid refinement (F1; S1 → S2 → S3, ratio 2).**
+- Differences: +0.4544 and +0.0979 mm. The convergence ratio is 0.215,
+  giving an observed order p = 2.21: monotone and consistent with the
+  formal second order.
+- Richardson limit: 16.7798 mm. Fine-level GCI (Fs = 1.25): 0.034 mm
+  (0.20 %) on S3.
+- The S2 stabilisation sensitivity (+0.050 mm, Section 7) is part of
+  the S2 → S3 change.
+
+**Fluid refinement (S2; F1 → F2 → F3, ratio √2).** F1 → F2 is +0.037 mm.
+F3S2 is pending. Upstream fluid quantities converge at about second order
+(F1/F2/F3, F3 at 15 s):
+- lower-jet peak at z = 10 mm: 572.1, 576.9, 579.4 mm/s (p ≈ 2.0);
+- upper inlet pressure: 3.50, 2.59, 2.29 Pa (p ≈ 3.1);
+- lower inlet pressure: 3.33, 2.54, 1.96 Pa (p ≈ 0.9, the slowest);
+- the lateral flap force is unchanged.
+
+The F1 → F2 tip change follows the lower-jet strengthening.
 
 ## 9. Finding: the default FSI convergence test accumulates an iterative error
 
