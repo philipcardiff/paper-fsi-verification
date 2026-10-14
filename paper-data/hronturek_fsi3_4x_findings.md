@@ -1586,11 +1586,26 @@ Units: mm, Hz, N/m. The u_x time mean is -2.835/-3.093/-3.087 mm.
   changes of the tutorial-setup sequence (section 1) do not recur; the 1x' level is
   still pre-asymptotic (u_y amplitude -4.3% from 2x').
 - **Frequency and lift amplitude** converge monotonically along the joint fluid–solid
-  path, at observed orders 1.6 and 1.1. Provisional Richardson values: f → 5.461 Hz
-  (GCI 0.27%) and lift amplitude → 156.6 N/m (GCI 6.1%).
-- **The lift amplitude is dominated by the solid.** At fluid 1x', solid 2x→4x alone
-  changes it by -18 N/m. A fluid 2x'/solid 8x cross run is in progress to separate the
-  solid and fluid shares of the 2x'→4x' change.
+  path, at observed orders 1.6 and 1.1. A provisional Richardson value for the
+  frequency is 5.461 Hz (GCI 0.27%). The earlier provisional lift-amplitude value
+  (156.6 N/m) is withdrawn after the cross run below.
+- **Solid and fluid shares (cross run: fluid 2x', solid 8x; same window).** The
+  2x'/s4x → 4x'/s8x change splits as follows (`hronturek_production_cross_run.csv`):
+
+  | | 2x'/s4x | 2x'/s8x | 4x'/s8x | solid share | fluid share |
+  | --- | ---: | ---: | ---: | ---: | ---: |
+  | lift amplitude (N/m) | 174.41 | 169.10 | 164.93 | -5.31 | -4.17 |
+  | frequency (Hz) | 5.4969 | 5.4886 | 5.4728 | -0.0083 | -0.0158 |
+  | drag amplitude (N/m) | 30.367 | 29.968 | 29.789 | -0.399 | -0.179 |
+  | u_y amplitude (mm) | 36.173 | 36.218 | 36.122 | +0.045 | -0.096 |
+  | u_x (max+min)/2 (mm) | -3.0818 | -3.0844 | -3.0687 | -0.003 | +0.016 |
+
+  - The force amplitudes are dominated by the solid: solid refinement alone moves the
+    lift amplitude by -3.0% and the drag amplitude by -1.3%. They are not converged in
+    the solid, and no joint-path order or extrapolation is valid for them.
+  - The frequency change is two-thirds fluid.
+  - Both shares of the displacement changes are of the size of the time and coupling
+    sensitivities, consistent with displacements converged to that level.
 - **Drag and lift means** change by less than their temporal or coupling sensitivities
   from 2x' to 4x'.
 - **Featflow**, compared only after the sequence was characterised: u_y amplitude +3.2%,
@@ -1603,4 +1618,4 @@ Units: mm, Hz, N/m. The u_x time mean is -2.835/-3.093/-3.087 mm.
 - **Open:** the replay load still moves at 8x', but no coupled 8x' level exists to show
   whether the displacements respond to it.
 
-Cost: about 4 900 core-hours, plus about 600 for the cross run.
+Cost: about 5 340 core-hours (including the cross run, about 420).
