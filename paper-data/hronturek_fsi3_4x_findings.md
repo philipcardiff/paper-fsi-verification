@@ -1611,8 +1611,8 @@ Units: mm, Hz, N/m. The u_x time mean is -2.835/-3.093/-3.087 mm.
 - **Featflow**, compared only after the sequence was characterised: u_y amplitude +3.2%,
   u_x +6.6%, f +0.2%, drag mean +0.2%, lift mean 2.54 against 2.50. The corrected setup
   does not close the displacement gap, and our sequence no longer moves towards Featflow.
-  - The u_y difference is within Featflow's own 3–5% uncertainty; the u_x difference
-    exceeds it.
+  - Both differences are about twice Featflow's own change between its two finest
+    levels (u_y amplitude 1.6%, u_x 3.8–4.0%).
   - This is a persistent difference between the tested solutions. It is not shown to be a
     continuum discrepancy or a bias of the method.
 - **Open:** the replay load still moves at 8x', but no coupled 8x' level exists to show
