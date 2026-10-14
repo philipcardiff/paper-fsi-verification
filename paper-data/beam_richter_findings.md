@@ -13,15 +13,18 @@ the solids4foam build `aee0c8e350267` (-O2). One build for all definitive runs.
 
 ## Definition
 
-Richter (2012) section 7.2: duct (0,1.5)x(0,0.4)x(-0.4,0.4) m, z = 0
+Richter (2012, CMAME 223-224, section 6.2; preprint section 7.2): duct (0,1.5)x(0,0.4)x(-0.4,0.4) m, z = 0
 symmetry half; St Venant-Kirchhoff beam (0.4,0.5)x(0,0.2)x(-0.2,0.2),
 E = 1.4 MPa, nu = 0.4; fluid rho = 1000, nu = 1e-3; printed bi-parabolic inlet
-with peak 0.3 m/s (area mean 0.133 m/s; Richter's "mean 0.2, Re = 40" is
-inconsistent with the printed profile). Point A = (0.45, 0.15, -0.15) on the
+with peak 0.3 m/s (area mean exactly 0.133 m/s). The published text states
+an average of 0.15 (Re ~ 25) and the preprint 0.2 (Re = 40); neither follows
+from a 0.3 peak, so the published definition is internally inconsistent: the
+stated peak and average cannot both hold. Primary sequence: the printed
+0.3 m/s peak. Point A = (0.45, 0.15, -0.15) on the
 computed half; F = traction integral on the half interface. Transient-to-steady
 partitioned continuation (IQN-ILS, PIMPLE, velocity-Laplacian ALE, Newton solid).
-Caveat: an earlier 0.2 m/s peak sequence landed near Richter's Table 6; the
-comparison with Richter is made only after our own sequence is resolved.
+The comparison with Richter is made only after our own sequence is resolved;
+nothing is tuned to the reference values.
 
 ## Key findings
 
@@ -67,23 +70,57 @@ demonstrated; no GCI. Conditional Richardson values (L1-L3 order): u_x
 2.3895 (+0.27 %). F_z orders 0.73, 1.84.
 
 Non-spatial errors: coupling <= 2e-6, history <= 1.6e-6, steadiness 2.5e-7
-(L2), fixed-dt Rhie-Chow sensitivity (dt x2, /2) 2-4e-4 at L2, falling ~4x
-per level.
+(L2), fixed-dt Rhie-Chow sensitivity (dt/2): 1.4e-3, 3.9e-4 and 8.35e-5 in
+u_x(A) at L1, L2, L3 (F_x 8.7e-4, 2.4e-4, 5.2e-5), falling ~4-5x per level;
+at L3 it is ~1/20 of the L2-L3 increment. The L3 dt/2 run continued from the
+converged L3 state; its switch transient settled by ~1 s
+(`beam_richter/l3_dt2_windows.csv`).
 
 ## Richter comparison
 
-Table 6: drag 1.327 N, u_x(A) 5.924e-5 m. Our printed-inlet (peak 0.3)
-sequence approaches ~2.39 N and ~1.05e-4 m (1.80x, 1.78x), far beyond the
-numerical corrections. Earlier peak-0.2 runs (coarser solid) gave 1.3311 N and
-5.915e-5 m, close to Table 6: a possible inlet-definition mismatch in the
-source, not established. No tuning to Table 6.
+Published Table 3: drag 1.33, u_x(A) 5.95e-5 m, each "accuracy 1 %"
+(preprint Table 6: 1.327 +- 0.01, 5.924e-5 +- 1e-7), extrapolated from the
+finest three of Richter's uniform meshes, which converge cleanly (4.93, 5.57,
+5.85, 5.908, 5.920e-5 m). Our printed-inlet (peak 0.3) sequence approaches
+~2.39 N and ~1.05e-4 m: 1.8x the reference values, far beyond the numerical
+uncertainty on either side.
+
+Diagnostic of the reference values (labelled; not a benchmark variant):
+peak 0.2 m/s with the production setup unchanged otherwise
+(`beam_richter/r02_diagnostic.csv`).
+
+| level | u_x(A) (m) | F_x (N) |
+| --- | ---: | ---: |
+| L0 | 4.61683e-5 | 1.19882 |
+| L1 | 5.47934e-5 | 1.28437 |
+| L2 | 5.83121e-5 | 1.31658 |
+
+Orders 1.29 (u_x) and 1.41 (F_x), as for the primary L0-L2. Extrapolated with
+p = 2: 5.9485e-5 m and 1.3273 N; the primary sequence's L2-L3/L1-L2 ratio
+(~1/3) gives an estimated L3 of 5.946e-5 m and 1.3274 N. Both match the
+reference values to 0.2-0.4 %. F_y at L2 is 0.1051 N.
+
+Tukovic et al. (2018, Trans. FAMENA 42(3), section 4.5), same code lineage:
+peak 0.2 m/s ("Re = 40 w.r.t. plate height"), one polyhedral mesh (273,539
+fluid / 6,661 solid cells), u_x(A) 5.93e-5 m, F_x 1.31 N, F_y 0.1055 N
+against the benchmark 5.95e-5 / 1.33. Their point A is called an interface
+point, which implies a plate at x = 0.45-0.55 (as in the earlier solids4foam
+tutorial) rather than 0.4-0.5; their u_y(A) = 2.40e-5 m (about 12x ours) is
+consistent with that. Single-mesh agreement, not convergence evidence.
+
+Reading: the reference values very likely correspond to a 0.2 m/s velocity
+scale (Re = 40 with the plate height), not to the printed 0.3 m/s peak. This
+is strongly suggested but not established; clarification is being sought
+from the author. If a 0.2 m/s peak is confirmed, the definitive sequence
+(L0-L3 with dt and coupling checks) is rerun at 0.2 m/s.
 
 ## Cost
 
-73.0 node-hours = 9,350 physical core-h (node-hours x 128) in total; L3 44.6
-node-hours (segment 1 36.0, segment 2 8.6).
+104.6 node-hours = 13,390 physical core-h (node-hours x 128) in total: the
+campaign to L3 73.0 (L3 44.6: segment 1 36.0, segment 2 8.6), the L3 dt/2
+check 21.1, the 0.2 m/s diagnostic 10.5.
 
 ## Astra
 
 Design review and final interpretation in `paper-data/beam_richter/astra/`.
-Open: coupled L3 dt/2 sensitivity (>= 60 node-hours) not run.
+The coupled L3 dt/2 sensitivity it recommended has been run (above).
