@@ -13,7 +13,8 @@ the solids4foam build `aee0c8e350267` (-O2). One build for all definitive runs.
 
 ## Definition
 
-Richter (2012, CMAME 223-224, section 6.2; preprint section 7.2): duct (0,1.5)x(0,0.4)x(-0.4,0.4) m, z = 0
+Richter (2012, CMAME 223-224, section 6.2; preprint section 7.2): duct
+(0,1.5)x(0,0.4)x(-0.4,0.4) m, z = 0
 symmetry half; St Venant-Kirchhoff beam (0.4,0.5)x(0,0.2)x(-0.2,0.2),
 E = 1.4 MPa, nu = 0.4; fluid rho = 1000, nu = 1e-3; printed bi-parabolic inlet
 with peak 0.3 m/s (area mean exactly 0.133 m/s). The published text states
