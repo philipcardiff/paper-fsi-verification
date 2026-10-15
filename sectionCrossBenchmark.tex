@@ -136,7 +136,7 @@ This bounds the iterative error relative to these differences and checks the imp
 FSI3 shows that the two need not agree to the coupling tolerance when the Robin--Neumann scheme modifies the discrete interface condition.
 
 \emph{Coupling algorithms can affect solution quality as well as cost.}
-In ringAddedMass, IQN-ILS produces a mesh-dependent amplitude loss that Robin--Neumann does not (mechanism unknown), and the first version of the quasi-monolithic solver a first-order, mesh-independent loss an order of magnitude larger, from a time-level error that was then corrected (Section~\ref{sec:ring}); and the cheaper algorithm is case dependent (IQN-ILS in ringAddedMass and FSI3, Robin--Neumann in womersleyTube and 3dTube).
+In ringAddedMass, IQN-ILS produces a mesh-dependent amplitude loss that Robin--Neumann does not (mechanism unknown), the first version of the quasi-monolithic solver a first-order, mesh-independent loss an order of magnitude larger, from a time-level error, and the corrected solver adds no dissipation at all (Section~\ref{sec:ring}); and the cheaper algorithm is case dependent (IQN-ILS in ringAddedMass and FSI3, Robin--Neumann in womersleyTube and 3dTube).
 
 \todo{ESSENTIAL: one or two representative coupling-tolerance sweeps (at least two decades, strict test) at fixed discretisation, e.g.\ ringAddedMass (strong level) and collapsibleChannel, so that the claim ``iterative error $\ll$ discretisation error'' rests on more than the Hron--Turek cases; and the $r_1$-at-acceptance audit of Section~\ref{sec:convergence_method}.}
 
@@ -160,7 +160,7 @@ Five defects or hazards in the code under test were found by the studies of Sect
 		3dTube & wall viscous force miscompiled at \texttt{-O3} (temporary-storage aliasing under \texttt{\_\_restrict\_\_}) & deterministic $1.5$--$3\%$ difference in one QoI between two platforms \\
 		3dTube & degenerate barycentric weights below a fixed absolute area threshold; interpolation operator changed with mesh level & first divergence after the fix above; broken symmetry and rank dependence \\
 		Hessenthaler & legacy coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\
-		ringAddedMass & one-step lag of the interface force in the experimental quasi-monolithic solver (first-order dissipation proportional to the added mass); with the lag removed, a non-dissipative solid time scheme & amplitude loss of an undamped exact solution falling at first order in $\Delta t$, while the frequency converged at second order; then a growing high-frequency mode in blobInTreacle \\
+		ringAddedMass & experimental quasi-monolithic solver: one-step lag of the interface force (first-order dissipation proportional to the added mass); with the lag removed, a non-dissipative solid time scheme; a zero-gradient interface pressure (first-order added-mass error in space) & amplitude loss of an undamped exact solution falling at first order in $\Delta t$, while the frequency converged at second order; a growing high-frequency mode in blobInTreacle; the wet/dry ratio converging at first order under mesh refinement \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -171,7 +171,7 @@ The 3dTube aliasing defect produced a reproducible difference between two platfo
 Its root cause lies in the reuse of temporary storage by OpenFOAM's field products combined with \texttt{\_\_restrict\_\_}, so it is not specific to solids4foam; the audit for the fix found about 15 further sites of the same mechanism in solids4foam.
 Second, a defect can switch on with refinement: the barycentric degeneracy affected levels 2 and 3 of 3dTube but not level 1, so the mesh study compared different interpolation operators, and its apparent convergence of the peak displacement was not evidence about the discretisation.
 Cross-platform replication, decomposition invariance and symmetry checks are inexpensive and were decisive; they should accompany refinement studies of coupled codes.
-Third, a fix can expose a second defect: removing the lag of the ringAddedMass interface force left a solid time scheme that is second order but dissipates nothing at any frequency, and a high-frequency mode then grew in blobInTreacle, so the corrected scheme had to be checked on a second case with stiff, viscous dynamics as well as against the exact solution.
+Third, a fix can expose a further defect: removing the lag of the ringAddedMass interface force left a solid time scheme that is second order but dissipates nothing at any frequency, and a high-frequency mode then grew in blobInTreacle, so the corrected scheme had to be checked on a second case with stiff, viscous dynamics as well as against the exact solution; and only once the larger temporal error was removed did the first-order spatial error of the interface pressure become visible.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reliability of published benchmark values}\label{sec:published_reliability}
