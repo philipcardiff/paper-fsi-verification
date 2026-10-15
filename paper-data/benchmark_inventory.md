@@ -101,7 +101,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
   - Recorded on v2412 only. The v2412 regression references fail on v2512 by 0.05% in half-period while passing against the exact value (PR #510 caveats).
   - Frequency mesh order not measurable (already converged).
 - **Unique contribution:** the only case with an exact reference *and* a swept added-mass ratio over two decades; separates coupling, solid and time errors cleanly.
-- **Would strengthen it:** v2512 rerun; explanation of IQN-ILS amplitude decay; optionally n = 3 and a thinner ring (h/a) to show the O((h/a)²) thin-ring trend; monolithic solver (PR #233) on the strong level.
+- **Would strengthen it:** v2512 rerun; explanation of IQN-ILS amplitude decay; optionally n = 3 and a thinner ring (h/a) to show the O((h/a)²) thin-ring trend; monolithic solver (PR #233) on the strong level (done 2026-10-15/16 at all three levels: it exposed a one-step lag of the interface force (first-order amplitude loss of 2-18% per period) and then a first-order spatial error from the zero-gradient interface pressure, both corrected; the corrected solver is within 0.007% of the exact wet/dry ratio and adds no dissipation; see [`ringAddedMass_monolithic_findings.md`](ringAddedMass_monolithic_findings.md)).
 
 ### 2. womersleyTube
 

@@ -94,11 +94,35 @@ Meshes are refined by factors 1, 2 and 4 at 100 steps per period, and 25--100 st
 	\item \emph{Space.} With the high-order solid the frequency changes by at most $0.06\%$ between meshes, too little to define an order (the slight growth of $|\text{error}|$ reflects removal of a small offsetting spatial error). The wet/dry ratio, in which the common time error cancels, converges at orders 1.77, 1.73 and 1.68 to within $+0.006\%$.
 	\item \emph{Solid discretisation.} The standard second-order solid is $20.7\%$ too stiff in bending on the coarsest mesh and $1.6\%$ on the finest (order 1.66), the high-order solid within $0.13\%$ on every mesh; yet the wet/dry ratios of the two solids agree to $0.003\%$ on the finest mesh.
 	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.03\%$ in frequency; Robin--Neumann needs 2.5 times as many iterations at the strong level (12.3 against 4.9 per step). IQN-ILS solutions lose amplitude (up to $2.1\%$ per period on the coarsest mesh at the strong level, halving with each refinement), whereas Robin--Neumann solutions are almost undamped ($\leq0.05\%$ per period); the mechanism has not been identified, and the frequency is unaffected at the reported precision.
+	\item \emph{Quasi-monolithic coupling.} The experimental quasi-monolithic Newton solver of solids4foam (PR \#233), which solves the fluid velocity, fluid pressure and solid velocity in one nonlinear system, was run with the standard solid, the only one it supports, against IQN-ILS with the same solid, on the middle mesh at 25--100 steps per period (Table~\ref{tab:ring_mono}); the comparison is through the wet/dry ratio, which is insensitive to the solid model. The study exposed two defects, both since corrected. (i)~The first version reproduced the frequency but lost $2.0\%$, $10.6\%$ and $18.3\%$ of the amplitude per period at 100 steps per period (IQN-ILS: $0.16\%$, $0.65\%$, $1.15\%$), a loss that grew with the added mass, fell only at first order in $\Delta t$ and hardly depended on the mesh. The interface force in the solid residual lagged by one time step, which acts as a damper of coefficient $m_a\omega^2\Delta t$ and predicts a loss of $\pi(m_a/M)\,\omega\Delta t$ per period, $1.8\%$, $9.9\%$ and $17.9\%$ here. Removing the lag left a centred solid time scheme without numerical dissipation, under which a high-frequency mode grew in the blobInTreacle case, so the solid now integrates its displacement with the backward (BDF2) scheme of its acceleration. (ii)~The amplitude loss then matched IQN-ILS, but the wet/dry ratio converged only at first order in space ($-0.36\%$, $-0.21\%$ and $-0.12\%$ on meshes 1, 2 and 4 at the strong level): a zero-gradient pressure on the moving interface halves the normal pressure gradient that the least-squares gradient gives in the adjacent fluid cells and makes the cell-centre pressure the interface pressure, two first-order errors that partly cancel. Setting the interface pressure gradient from the normal momentum equation at the no-slip wall, $\partial p/\partial n = \bb{n}\cdot(\nu\nabla^2\bb{v}_F - \bb{a})$ with $\bb{a}$ the wall acceleration, removes both. The corrected solver's wet/dry ratio is within $0.007\%$ of the exact value at every level and time step, and on meshes 1, 2 and 4 it falls from $-0.031\%$ to $-0.004\%$ and $-0.0004\%$ at the strong level (IQN-ILS: $+0.12\%$, $+0.03\%$, $+0.009\%$), faster than the formal second order as the finest values reach the precision of the frequency measurement. Its amplitude loss, $2.57\%$, $0.36\%$ and $0.045\%$ per period at 25, 50 and 100 steps per period at every level, equals that of the dry ring: the coupling adds no dissipation, whereas IQN-ILS adds up to $1.1\%$ per period. Each step converges in two Newton iterations (the problem is linear), against 3--5 IQN-ILS iterations.
 \end{itemize}
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\setlength{\tabcolsep}{5pt}
+	\caption{ringAddedMass: quasi-monolithic Newton against IQN-ILS coupling, standard solid, refinement-factor-2 mesh. Ratio: error of the wet/dry frequency ratio against the exact value; loss: amplitude loss per period (dry ring: $2.57\%$, $0.36\%$, $0.046\%$ at 25, 50, 100 steps). First version: with the one-step lag of the interface force; corrected: backward (BDF2) solid and interface pressure gradient from the normal momentum equation. Source: solids4foam \texttt{ringAddedMass/verification/README.md} (\texttt{Allverify --study monolithic}); \texttt{paper-data/ringAddedMass\_monolithic\_runs*.csv}.}
+	\label{tab:ring_mono}
+	\begin{tabular}{lrrrrrr}
+		\toprule
+		 & & \multicolumn{2}{c}{IQN-ILS} & First version & \multicolumn{2}{c}{Corrected} \\
+		\cmidrule(lr){3-4}\cmidrule(lr){5-5}\cmidrule(lr){6-7}
+		Level & Steps & Ratio & Loss & Loss & Ratio & Loss \\
+		\midrule
+		weak & 100 & $+0.004\%$ & $0.16\%$ & $2.01\%$ & $-0.000\%$ & $0.045\%$ \\
+		moderate & 100 & $+0.018\%$ & $0.65\%$ & $10.6\%$ & $-0.002\%$ & $0.040\%$ \\
+		strong & 25 & $+0.126\%$ & $3.77\%$ & $54.1\%$ & $-0.007\%$ & $2.57\%$ \\
+		strong & 50 & $+0.101\%$ & $1.50\%$ & $32.7\%$ & $-0.005\%$ & $0.36\%$ \\
+		strong & 100 & $+0.033\%$ & $1.15\%$ & $18.3\%$ & $-0.004\%$ & $0.049\%$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \paragraph{Lesson.}
 The wet/dry ratio isolates the added-mass coupling from solid and temporal errors, which the two runs share, and so verifies it independently of the accuracy of the solid; the exact reference attributes the remaining error to a single source.
+Because the exact solution is undamped, the amplitude loss is a second, independent check: in the first version of the quasi-monolithic solver it revealed a time-level error in the interface force through an order of magnitude more dissipation and a first order of convergence, while the frequency, the usual benchmark quantity, was accurate. The wet/dry ratio then exposed a first-order spatial error in the interface pressure that was too small to see in the frequency of a single mesh, $0.2\%$ at the strong level.
 Viscous and large-amplitude effects are, by design, not tested.
+\todo{The quasi-monolithic solver is described only outside the build (sectionNumericalModelQuasiMonolithic.tex), and its solid time scheme there (centred stress average with Adams--Bashforth displacement) is the lagged first version; describe the corrected backward (BDF2) solid and the interface pressure condition in Section~\ref{sec:numerical_methods}, or point to them, before submission. Corrected solver: solids4foam PR \#582.}
 
 %%-------------------------------------------------------------------
 \subsubsection{Pulsatile compliant tube}\label{sec:womersley}
