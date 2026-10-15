@@ -1,0 +1,7 @@
+name,level,coupling,solid,factor,steps,periods,omega,loss_per_period,mean_iterations,execution_time
+wet_moderate_monolithic_standard_m1_n100_p4,moderate,monolithic,standard,1,100,4,2.17581,0.12450,2.00,23
+wet_moderate_monolithic_standard_m2_n100_p4,moderate,monolithic,standard,2,100,4,1.91536,0.105935,2.00,92
+wet_moderate_monolithic_standard_m4_n100_p4,moderate,monolithic,standard,4,100,4,1.83339,0.09903,2.00,333
+wet_moderate_iqnils_standard_m1_n100_p4,moderate,iqnils,standard,1,100,4,2.17881,0.01218,4.03,23
+wet_moderate_iqnils_standard_m2_n100_p4,moderate,iqnils,standard,2,100,4,1.91612,0.00645822,3.98,74
+wet_moderate_iqnils_standard_m4_n100_p4,moderate,iqnils,standard,4,100,4,1.83303,0.00356,3.92,291
