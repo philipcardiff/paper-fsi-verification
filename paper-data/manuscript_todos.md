@@ -10,9 +10,11 @@ because the section numbers may change.
 
 Ground rules:
 
-- **Monolithic results are not used.** The quasi-monolithic solver (open PR
-  #233) and all of its results, including `simulationData/cavityFlexibleBottom/`
-  and the parent paper's Case 1 figures, are not evidence for anything.
+- **Monolithic results are used only for ringAddedMass.** The quasi-monolithic
+  solver (open PR #233, ported to `development` in PR #580) is compared with
+  IQN-ILS on ringAddedMass only (`paper-data/ringAddedMass_monolithic_findings.md`).
+  Its other results, including `simulationData/cavityFlexibleBottom/` and the
+  parent paper's Case 1 figures, are not evidence for anything.
 - **Proportionate verification.** For each benchmark and QoI, show that the
   error sources that materially affect that QoI are controlled. Do not fill a
   full mesh × Δt × coupling × tolerance matrix for every case.
