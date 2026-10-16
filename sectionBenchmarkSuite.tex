@@ -24,20 +24,21 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		\toprule
 		Case & Dim. & Regime & Solid & Ref. & Mesh & $\Delta t$ & Coupling \\
 		\midrule
-		ringAddedMass & 2-D & free vibration & small & A & 3 & 3 & IQN-ILS/RN \\
+		ringAddedMass & 2-D & free vibration & small & A & 3 & 3 & IQN-ILS/RN/QM \\
 		womersleyTube & axisym. & periodic (forced) & small & A & 3 & 3 & IQN-ILS/RN \\
 		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN; $\rho_s$ sweep \\
 		Hron--Turek FSI1 & 2-D & steady & large & B & 2 & 2 & IQN-ILS/RN \\
 		Hron--Turek FSI3 & 2-D & self-excited & large & C & 3 & scaled; 2 (2x) & IQN-ILS/RN; tolerance pair \\
 		Hron--Turek FSI2 & 2-D & self-excited & large & C & 2 & scaled & tolerance sweep \\
 		3dTube & 3-D & transient pulse & small & C-weak & 3 & 4 & IQN-ILS/RN \\
-		mokLidDrivenCavity & 2-D & periodic (forced) & large & C-weak & 4 & 3 & IQN-ILS/Aitken$^\dagger$ \\
-		cavityFlexibleBottom$^\ast$ & 2-D & steady & large & C-weak & 3 & -- & none \\
+		mokLidDrivenCavity & 2-D & periodic (forced) & large & C-weak & 4 & 3 & IQN-ILS/Aitken$^\dagger$/QM \\
+		cavityFlexibleBottom$^\ast$ & 2-D & steady & large & C-weak & 3 & -- & Aitken/QM \\
 		beamInCrossFlow$^\ast$ & 3-D & steady & small & C & \multicolumn{3}{l}{in progress (Richter definition)} \\
 		Hessenthaler$^\ast$ & 3-D & steady (Phase I) & large & -- & \multicolumn{3}{l}{in progress; validation case} \\
-		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & C-weak & 4 & 4 & none \\
+		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & C-weak & 4 & 4 & IQN-ILS/QM \\
 		\bottomrule
-		\multicolumn{8}{l}{$^\ast$ Provisional or in progress (Section~\ref{sec:provisional}). $^\dagger$ Iteration counts only; no quantitative difference recorded.}
+		\multicolumn{8}{l}{$^\ast$ Provisional or in progress (Section~\ref{sec:provisional}). $^\dagger$ Iteration counts only; no quantitative difference recorded.} \\
+		\multicolumn{8}{l}{QM: quasi-monolithic coupling (Sections~\ref{sec:ring}, \ref{sec:mok}, \ref{sec:cavity}, \ref{sec:blob}).}
 	\end{tabular}
 \end{table}
 
@@ -122,7 +123,7 @@ Meshes are refined by factors 1, 2 and 4 at 100 steps per period, and 25--100 st
 The wet/dry ratio isolates the added-mass coupling from solid and temporal errors, which the two runs share, and so verifies it independently of the accuracy of the solid; the exact reference attributes the remaining error to a single source.
 Because the exact solution is undamped, the amplitude loss is a second, independent check: in the first version of the quasi-monolithic solver it revealed a time-level error in the interface force through an order of magnitude more dissipation and a first order of convergence, while the frequency, the usual benchmark quantity, was accurate. The wet/dry ratio then exposed a first-order spatial error in the interface pressure that was too small to see in the frequency of a single mesh, $0.2\%$ at the strong level.
 Viscous and large-amplitude effects are, by design, not tested.
-\todo{The quasi-monolithic solver is described only outside the build (sectionNumericalModelQuasiMonolithic.tex), and its solid time scheme there (centred stress average with Adams--Bashforth displacement) is the lagged first version; describe the corrected backward (BDF2) solid and the interface pressure condition in Section~\ref{sec:numerical_methods}, or point to them, before submission. Corrected solver: solids4foam PR \#582.}
+\todo{The quasi-monolithic solver is described only outside the build (sectionNumericalModelQuasiMonolithic.tex), and its solid time scheme there (centred stress average with Adams--Bashforth displacement) is the lagged first version; describe the corrected backward (BDF2) solid, the interface pressure condition and the interface traction (the wall flux of the fluid momentum equation) in Section~\ref{sec:numerical_methods}, or point to them, before submission. Corrected solver: solids4foam PR \#582. The ringAddedMass results pre-date the traction correction (dbfda65ba), which should be immaterial at $\nu = 10^{-7}\,\mathrm{m^2/s}$; confirm by a rerun.}
 
 %%-------------------------------------------------------------------
 \subsubsection{Pulsatile compliant tube}\label{sec:womersley}
@@ -473,38 +474,43 @@ The reference is C-weak, and no published value is treated as the correct one.
 \todo{Replace Figure~\ref{fig:mok_refs} with a publication-quality figure that adds the converged ($96\times96$) solids4foam history and the group-B envelope, and drops the traction-free pilot or moves it to a separate panel. Confirm the extraction method and calibration of every curve; the Kratos curve is raster-digitised (about $0.5\%$ of peak).}
 
 \paragraph{Evidence.}
-Midpoint statistics over $t = 20$--$70\,\mathrm{s}$ under combined mesh and time refinement are given in Table~\ref{tab:mok}; a $128^2$ run diverged (cause not isolated).
+Midpoint statistics over $t = 20$--$70\,\mathrm{s}$ under combined mesh and time refinement are given in Table~\ref{tab:mok} for the partitioned coupling and, as a cross-check, for the corrected quasi-monolithic Newton coupling of Section~\ref{sec:ring} (standard solid, serial, solids4foam PR \#582); a partitioned $128^2$ run diverged (cause not isolated), whereas the quasi-monolithic $128^2$ run completed.
 
 \begin{table}[htbp]
 	\centering
 	\small
-	\setlength{\tabcolsep}{5pt}
-	\caption{mokLidDrivenCavity: membrane-midpoint statistics (m) under combined mesh and time-step refinement, and the published group-B envelope. Group A peaks lie between 0.177 and 0.215\,m.}
+	\setlength{\tabcolsep}{4pt}
+	\caption{mokLidDrivenCavity: membrane-midpoint statistics (m) under combined mesh and time-step refinement with the partitioned and the quasi-monolithic coupling, and the published group-B envelope. Group A peaks lie between 0.177 and 0.215\,m. Quasi-monolithic: standard solid, OpenFOAM v2512, serial; source: solids4foam \texttt{mokLidDrivenCavity/verification/README.md} (PR \#582), \texttt{paper-data/mokLidDrivenCavity\_monolithic.csv}.}
 	\label{tab:mok}
-	\begin{tabular}{lrrr}
+	\begin{tabular}{lrrrrrr}
 		\toprule
-		Mesh ($\Delta t$) & Peak & Trough & Mean \\
+		 & \multicolumn{3}{c}{Partitioned} & \multicolumn{3}{c}{Quasi-monolithic} \\
+		\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+		Mesh ($\Delta t$) & Peak & Trough & Mean & Peak & Trough & Mean \\
 		\midrule
-		$16^2$ (0.2\,s) & 0.2934 & 0.1942 & 0.2426 \\
-		$32^2$ (0.1\,s) & 0.2890 & 0.1986 & 0.2427 \\
-		$64^2$ (0.05\,s) & 0.2870 & 0.2022 & 0.2437 \\
-		$96^2$ (0.025\,s) & 0.2861 & 0.2044 & 0.2445 \\
+		$16^2$ (0.2\,s) & 0.2934 & 0.1942 & 0.2426 & 0.2950 & 0.2053 & 0.2495 \\
+		$32^2$ (0.1\,s) & 0.2890 & 0.1986 & 0.2427 & 0.2903 & 0.2027 & 0.2460 \\
+		$64^2$ (0.05\,s) & 0.2870 & 0.2022 & 0.2437 & 0.2877 & 0.2026 & 0.2447 \\
+		$96^2$ (0.025\,s) & 0.2861 & 0.2044 & 0.2445 & 0.2867 & 0.2025 & 0.2441 \\
+		$128^2$ (0.0125\,s) & \multicolumn{3}{c}{diverged} & 0.2860 & 0.2025 & 0.2438 \\
 		\midrule
-		Group B envelope & 0.2619--0.2769 & 0.1967--0.2033 & 0.2316--0.2466 \\
+		Group B envelope & \multicolumn{6}{l}{peak 0.2619--0.2769, trough 0.1967--0.2033, mean 0.2316--0.2466} \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \begin{itemize}
 	\item \emph{Self-convergence.} Successive changes in the peak are $1.56\%$, $1.26\%$ and $0.78\%$; the observed order of the peak is $\approx1.2$ (non-uniform final ratio) and that of the trough below 0.5, so neither sequence is shown to be asymptotic and no limit is extrapolated; the trough is uncertain by at least $\approx1$--$2\%$. A separate time-step study on $64^2$ changes the response by $0.17\%$ and $0.04\%$ of the peak, so the error is dominated by the mesh.
-	\item \emph{Comparison.} On $96^2$ the trough and mean lie within or just outside the group-B envelope, and the peak is $3.3\%$ above the largest group-B peak; since the group-B values are single-mesh results differing by $5.7\%$, this cannot be attributed to either side.
+	\item \emph{Quasi-monolithic cross-check.} The quasi-monolithic trough is mesh independent to $0.1\%$ from $32^2$ on ($0.2025\,\mathrm{m}$), whereas the partitioned trough is still rising and passes it on $96^2$ ($0.9\%$ above): the slow convergence of the trough is a property of the partitioned solution, not of the benchmark. The peaks of the two couplings agree to $0.2\%$ on $96^2$, but the quasi-monolithic peak also converges at an observed order below one (changes of $0.0047$ and $0.0026\,\mathrm{m}$ from $16^2$ to $64^2$, then $0.0017\,\mathrm{m}$ from $64^2$ to $128^2$), so no Richardson estimate is made for either coupling. The means approach $\approx0.244\,\mathrm{m}$ from either side. The $128^2$ level, on which the partitioned coupling diverges, runs to completion with the quasi-monolithic coupling ($9\,109\,\mathrm{s}$ serial).
+	\item \emph{Comparison.} On $96^2$ the trough and mean lie within or just outside the group-B envelope, and the peak is $3.3\%$ above the largest group-B peak; since the group-B values are single-mesh results differing by $5.7\%$, this cannot be attributed to either side. The quasi-monolithic $128^2$ trough and mean lie inside the envelope and its peak $3.3\%$ above it.
 	\item \emph{Solid and coupling.} The standard and high-order solids agree to $0.04\%$: for a tension-dominated membrane the high-order solid gives no benefit, unlike the bending-dominated collapsible channel. IQN-ILS and Aitken give the same response (difference not quantified).
 \end{itemize}
 
 \paragraph{Lesson.}
 A long-established benchmark can be ill defined.
 The present results are a self-convergence sequence for the fully specified group-B definition (last change $0.78\%$ in the peak; the trough less certain), not verification against an external reference.
-\todo{HIGH-VALUE: an independent converged solution (COMSOL or another code) of the group-B definition, with its own mesh and time study, would make this a category-B case. Also: diagnose the $128^2$ divergence; quantify the IQN-ILS/Aitken difference. No Richardson estimate is justified by the present (sub-nominal, non-uniform) sequence.}
+A second coupling algorithm in the same code showed that the slow convergence of the trough belongs to the partitioned solution rather than to the problem; sharing most of the discretisation, it is no substitute for an independent reference.
+\todo{HIGH-VALUE: an independent converged solution (COMSOL or another code) of the group-B definition, with its own mesh and time study, would make this a category-B case; an ANSYS solution has been requested from E.~Tandis (paper PR \#12). Also: the $128^2$ divergence is specific to the partitioned coupling (the quasi-monolithic run completes); diagnose it; explain why the partitioned trough moves past the quasi-monolithic value ($0.9\%$ above on $96^2$; the solid model accounts for $0.04\%$ only); quantify the IQN-ILS/Aitken difference. No Richardson estimate is justified by either (sub-nominal, non-uniform) sequence.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -517,7 +523,7 @@ Each of the four cases below would add a feature not otherwise covered, but none
 \subsubsection{Flexible-bottom cavity [PROVISIONAL]}\label{sec:cavity}
 %%-------------------------------------------------------------------
 
-\todo{PROVISIONAL BENCHMARK: retain in main text only if (i) a clean partitioned mesh study with at least three levels in the asymptotic range is completed, including level 4 ($\Delta x = 0.0125$) at a reduced time step, together with a pseudo-time-step and coupling-tolerance check; and (ii) an independent converged reference (e.g.\ COMSOL, with its own mesh study) is obtained. All quasi-monolithic results for this case (simulationData/cavityFlexibleBottom, parent-paper Case~1) are deliberately NOT used as evidence. Otherwise move to supplementary material or drop.}
+\todo{PROVISIONAL BENCHMARK: retain in main text only if (i) a clean partitioned mesh study with at least three levels in the asymptotic range is completed, including level 4 ($\Delta x = 0.0125$) at a reduced time step, together with a pseudo-time-step and coupling-tolerance check (or decide whether the four-level quasi-monolithic study below may stand in for the partitioned level 4); and (ii) the $\approx5\%$ offset from the published curve is settled by an independent converged reference of the identical set-up. The 24\% partitioned/quasi-monolithic $u_y$ difference that kept this case provisional is resolved: it came from the old quasi-monolithic campaign (simulationData/cavityFlexibleBottom, parent-paper Case~1, $-0.29192\,\mathrm{m}$ at $\Delta x = 0.025$), which pre-dates the solver corrections of PR \#582 and remains unused; the corrected solver agrees with the partitioned coupling to $0.02\%$. The remaining $5\%$ is a case-definition question: an independent ANSYS calculation (E.~Tandis, paper PR \#12) gives $u_y \approx -0.250$, $-0.2535$, $-0.2525\,\mathrm{m}$ (finest mesh not yet steady), close to \citet{Tukovic2018}, but its horizontal displacement at the monitor point ($+0.0325\,\mathrm{m}$, against $-1.7\times10^{-4}\,\mathrm{m}$ here) suggests a different monitor point or definition; clarification is pending on PR \#12. Otherwise move to supplementary material or drop.}
 
 \begin{figure}[htbp]
 	\centering
@@ -534,9 +540,14 @@ The reference is the mesh study of~\citet{Tukovic2018}, digitised from figures a
 A partitioned (Aitken) study on three levels ($\Delta x = 0.1$, $0.05$, $0.025\,\mathrm{m}$) gives steady $u_y = -0.20246$, $-0.22883$ and $-0.23563\,\mathrm{m}$ at the monitoring point ($13.2\%$, $6.88\%$ and $5.59\%$ from the published values at the same spacing; net observed order 1.96), while the interface force agrees with the published values to within $0.2\%$ on every level.
 The displacement changes decrease monotonically over these three levels (a single net observed order of 1.96), but with only one triple and the fourth level diverged (below), second-order convergence is not established; the finest value is $\approx5\%$ from the published curve at equal force.
 
+\paragraph{Quasi-monolithic cross-check.}
+The corrected quasi-monolithic Newton coupling of Section~\ref{sec:ring} (solids4foam PR \#582; inlet ramped in over the first $20\,\mathrm{s}$, which leaves the steady state unchanged) reaches level 4 and gives $u_y = -0.20156$, $-0.22882$, $-0.23568$ and $-0.23734\,\mathrm{m}$.
+On levels 2 and 3 it agrees with the partitioned coupling to $0.02\%$ in $u_y$ and $F_y$ (level 1: $0.5\%$ and $0.6\%$), and $u_y$ converges at observed orders 1.99 and 2.05 to an extrapolated $-0.23787\,\mathrm{m}$, about $5\%$ smaller in magnitude than the published values, whose forces it matches to $0.1$--$0.2\%$.
+Both couplings therefore converge to the same solution, and the offset from the published curve is not a discretisation or coupling error of either; whether it reflects a difference in the case definition is open.
+
 \paragraph{Missing evidence.}
-Level 4 diverges at the tutorial pseudo-time step with both Aitken and IQN-ILS; there is no coupling, tolerance or pseudo-time-step study; and the $5\%$ offset is unexplained (an earlier solids4foam version gave $-0.219\,\mathrm{m}$ on the coarsest mesh, against $-0.20246\,\mathrm{m}$ now).
-The route to rehabilitation is an improved partitioned study plus an independent COMSOL solution of the identical set-up, which would show either that the same-lineage published curve is inaccurate or that a set-up difference exists; neither can be claimed now.
+Partitioned level 4 diverges at the tutorial pseudo-time step with both Aitken and IQN-ILS; apart from the quasi-monolithic comparison there is no coupling, tolerance or pseudo-time-step study; and the $5\%$ offset, common to both couplings, is unexplained (an earlier solids4foam version gave $-0.219\,\mathrm{m}$ on the coarsest mesh, against $-0.20246\,\mathrm{m}$ now).
+The route to rehabilitation is an improved partitioned study plus an independent solution (COMSOL or ANSYS) of the identical set-up, which would show either that the same-lineage published curve is inaccurate or that a set-up difference exists; neither can be claimed now.
 
 %%-------------------------------------------------------------------
 \subsubsection{Beam in cross-flow [IN PROGRESS]}\label{sec:beam}
@@ -595,5 +606,7 @@ The reference is C-weak: \citet{Liu2014} report only self-convergence norms, and
 At $t = 1\,\mathrm{s}$, $\Delta t = 0.25$ to $0.03125\,\mathrm{s}$ gives top-point $u_x = 0.0558737$, $0.0564184$, $0.0565219$ and $0.0565398\,\mathrm{m}$, with observed orders 2.39 and 2.54 ($u_x$) and 2.39 and 2.41 (interface shape); below $\Delta t = 0.03125\,\mathrm{s}$ the changes reach the coupling/solver-tolerance level ($\approx10^{-5}\,\mathrm{m}$).
 Orders above the formal value indicate a pre-asymptotic sequence; they are reported as observed self-convergence behaviour, not as a measured order.
 Four mesh levels give steady $u_x$ from $0.108206$ to $0.120152\,\mathrm{m}$ with decreasing changes (observed order 2.40, above the formal value); no extrapolated value is given.
+The corrected quasi-monolithic coupling (Section~\ref{sec:ring}, including the interface-traction correction of Section~\ref{sec:defects}) gives $0.117429$, $0.119524$ and $0.120053\,\mathrm{m}$ on the three finest levels (observed order 2.0), within $0.15\%$ of the partitioned values on each; extrapolated from runs on one platform, the limits of the two couplings agree to $0.12\%$.
+\todo{The partitioned finest-level value is $0.120152\,\mathrm{m}$ on Linux and $0.120224\,\mathrm{m}$ in the macOS rerun used for the same-platform comparison (a $0.06\%$ difference); record which run each value comes from. Source: paper-data/blobInTreacle\_monolithic.csv.}
 The $t = 1\,\mathrm{s}$ interface shape is within $1.6\%$ of the preprint, inside its own time error; at steady state $u_x$ is $7.4\%$ smaller and $|u_y|$ $20\%$ larger, an offset not yet explained (reference-mesh coarseness is plausible but unconfirmed).
-No coupling study exists, and the temporal-order contribution partly overlaps with ringAddedMass and collapsibleChannel.
+Apart from this comparison no coupling study exists, and the temporal-order contribution partly overlaps with ringAddedMass and collapsibleChannel.

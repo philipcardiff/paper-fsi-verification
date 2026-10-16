@@ -1,0 +1,17 @@
+# mokLidDrivenCavity: membrane-midpoint statistics over t = 20-70 s, combined mesh and time-step refinement.
+# coupling = monolithic: quasi-monolithic Newton (standard-residual velocity solid), solids4foam
+#   feature-ring-monolithic-verification (PR #582) at 22c123755, OpenFOAM v2512, macOS, serial;
+#   tutorial verification/README.md (c0c91c76b, 22c123755). execution_time_s indicative only.
+# coupling = partitioned: values of Table tab:mok (tutorial verification/README.md, PR #497); 128 diverged.
+# See monolithic_findings_2026-10-16.md.
+coupling,mesh,deltaT_s,peak_m,trough_m,mean_m,execution_time_s
+monolithic,16,0.2,0.2950,0.2053,0.2495,16
+monolithic,32,0.1,0.2903,0.2027,0.2460,96
+monolithic,64,0.05,0.2877,0.2026,0.2447,606
+monolithic,96,0.025,0.2867,0.2025,0.2441,2499
+monolithic,128,0.0125,0.2860,0.2025,0.2438,9109
+partitioned,16,0.2,0.2934,0.1942,0.2426,
+partitioned,32,0.1,0.2890,0.1986,0.2427,
+partitioned,64,0.05,0.2870,0.2022,0.2437,
+partitioned,96,0.025,0.2861,0.2044,0.2445,
+partitioned,128,0.0125,,,,

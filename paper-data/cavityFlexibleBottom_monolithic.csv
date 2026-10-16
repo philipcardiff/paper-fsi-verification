@@ -1,0 +1,14 @@
+# cavityFlexibleBottom: steady u_y at the monitor point (4, -1) m and interface F_y (N, 1 m depth).
+# monolithic: quasi-monolithic Newton, deltaT = 0.5 s, inlet ramped over the first 20 s
+#   (transitionalParabolicVelocity; steady state unaffected).
+# partitioned: Aitken, local rerun alongside the monolithic runs, deltaT = 0.5 s
+#   (level 3 at 0.25 s, at which the Aitken coupling converges); level 4 not run (diverges at the
+#   tutorial deltaT). The paper's partitioned values (-0.20246, -0.22883, -0.23563 m) are the
+#   tutorial README's and are unchanged.
+# solids4foam feature-ring-monolithic-verification (PR #582) at 291aaa968, OpenFOAM v2512, macOS, serial.
+# See monolithic_findings_2026-10-16.md.
+level,dx_m,Uy_monolithic_m,Uy_partitioned_m,Fy_monolithic_N,Fy_partitioned_N
+1,0.1,-0.201557,-0.202495,-5.1225,-5.1527
+2,0.05,-0.228817,-0.228799,-5.2381,-5.2378
+3,0.025,-0.235676,-0.235628,-5.2576,-5.2564
+4,0.0125,-0.237336,,-5.2606,
