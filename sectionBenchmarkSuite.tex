@@ -25,7 +25,7 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		Case & Dim. & Regime & Solid & Ref. & Mesh & $\Delta t$ & Coupling \\
 		\midrule
 		ringAddedMass & 2-D & free vibration & small & A & 3 & 3 & IQN-ILS/RN/QM \\
-		womersleyTube & axisym. & periodic (forced) & small & A & 3 & 3 & IQN-ILS/RN \\
+		womersleyTube & axisym. & periodic (forced) & small & A & 3 & 3 & IQN-ILS/RN/QM \\
 		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN/QM; $\rho_s$ sweep \\
 		Hron--Turek FSI1 & 2-D & steady & large & B & 2 & 2 & IQN-ILS/RN \\
 		Hron--Turek FSI3 & 2-D & self-excited & large & C & 3 & scaled; 2 (2x) & IQN-ILS/RN; tolerance pair \\
@@ -38,7 +38,7 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & C-weak & 4 & 4 & IQN-ILS/QM \\
 		\bottomrule
 		\multicolumn{8}{l}{$^\ast$ Provisional or in progress (Section~\ref{sec:provisional}). $^\dagger$ Iteration counts only; no quantitative difference recorded.} \\
-		\multicolumn{8}{l}{QM: quasi-monolithic coupling (Sections~\ref{sec:ring}, \ref{sec:mok}, \ref{sec:cavity}, \ref{sec:blob}).}
+		\multicolumn{8}{l}{QM: quasi-monolithic coupling (Sections~\ref{sec:ring}, \ref{sec:womersley}, \ref{sec:collapsible}, \ref{sec:mok}, \ref{sec:cavity}, \ref{sec:blob}).}
 	\end{tabular}
 \end{table}
 
@@ -170,6 +170,7 @@ The tube ends carry the exact pressure and the exact normal velocity gradient, a
 	\item \emph{Start-up.} The tutorial initialisation originally set the old-time solid displacements to the exact solution in the cells but left their boundary values at zero; through the Robin condition, which imposes the solid's boundary acceleration on the fluid, this produced a first-period transient that grew as $\Delta t$ was reduced ($3.4\%$ of the amplitude at 400 steps per period). The tutorial now sets exact boundary values, and the transient is $0.2$--$0.3\%$ from 100 to 400 steps per period. Either way it does not reach the analysed periods 5--6 (effect $<3\times10^{-6}$; period-to-period change $\leq7\times10^{-5}$). It also explains a $0.26\%$ shift of a Robin--Neumann regression value between OpenFOAM-v2412 and v2512, which was confined to the start-up: with exact boundary values the two versions agree to $10^{-8}\,\mathrm{m}$ ($3\times10^{-5}$ of the amplitude).
 	\item \emph{Space--time balance.} At 200 steps per period the remaining time error is a tenth or less of the finest-mesh error for the profile, wall phase and attenuation, comparable for the wall amplitude and flow phase, and larger for the wave speed, whose finest-mesh error is only $1.4\times10^{-5}$.
 	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $2.2\times10^{-4}$ or better in every QoI (14.6 against 9.3 coupling iterations per step).
+	\item \emph{Quasi-monolithic cross-check.} The quasi-monolithic Newton coupling (solids4foam PR \#582; \texttt{Allverify --monolithic}, the same mesh and time-step series and tolerances) is second order in space (2.23 profile, 2.06 flow amplitude, 1.98 wall amplitude, 2.00 wave speed) and in time (1.94--2.07 from 100/200/400 steps per period); on the finest mesh the profile error is $1.0\times10^{-3}$, the wall amplitude $-5.3\times10^{-4}$ and the wave speed $-6.0\times10^{-5}$. On the middle mesh at 100 steps per period it agrees with IQN-ILS to $7.2\times10^{-4}$ or better in every QoI, with 2 Newton iterations per step and $3.5$ times less run time. Its wall amplitude lies $3.3$--$3.5\times10^{-4}$ below the partitioned value at every mesh and step size, a refinement-independent difference of unidentified source that is below the size of the terms the linear theory neglects. The case exposed two defects of the solver (Section~\ref{sec:defects}): its velocity solid dropped the wedge faces from its least-squares gradient stencil, losing most of the hoop strain (a wedge tube was $1.6$ times too compliant, with twice the hoop stress), and the coupling assumed an undeformed initial solid, which this case's exact initial state violates.
 \end{itemize}
 
 \todo{The numbers in Table~\ref{tab:womersley} use the \texttt{pimpleFluid} option \texttt{fluxConsistentPatches} on the tube ends (solids4foam PR \#533, branch \texttt{womersley-temporal-investigation}, commit a507bfd41; OpenFOAM-v2512, Linux), where the option and the exact old-time boundary values are set in the tutorial and the table is the output of the full \texttt{Allverify} on that commit. Not yet merged: confirm the commit hash after merging. Investigation, data and the original-set-up results: \texttt{womersleyTube/verification/womersley\_temporal\_investigation.md} (formal order of the end treatment: Section 15 there).}
