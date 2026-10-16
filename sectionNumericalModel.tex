@@ -6,14 +6,14 @@
 % IQNILS; Robin condition elasticWallPressure). The experimental
 % quasi-monolithic solver of the parent paper (corrected in solids4foam PR
 % #582) is used only for the ringAddedMass comparison (Section sec:ring) and
-% as a cross-check for mokLidDrivenCavity, cavityFlexibleBottom and
-% blobInTreacle; its description is preserved, outside the build, in
+% as a cross-check for mokLidDrivenCavity, cavityFlexibleBottom,
+% blobInTreacle and collapsibleChannel; its description is preserved, outside the build, in
 % sectionNumericalModelQuasiMonolithic.tex.
 % Source checked: solids4foam development (src/solids4FoamModels:
 % fluidModels/pimpleFluid, solidModels, fluidSolidInterfaces) and the case
 % dictionaries of the tutorials in Section 5.
 
-\todo{Except the quasi-monolithic comparison of Section~\ref{sec:ring} and the quasi-monolithic cross-checks of Sections~\ref{sec:mok}, \ref{sec:cavity} and~\ref{sec:blob}; update this sentence when the methods are revised.}
+\todo{Except the quasi-monolithic comparison of Section~\ref{sec:ring} and the quasi-monolithic cross-checks of Sections~\ref{sec:collapsible}, \ref{sec:mok}, \ref{sec:cavity} and~\ref{sec:blob}; update this sentence when the methods are revised.}
 All results in this paper were obtained with the partitioned fluid--solid interaction framework of the open-source toolbox solids4foam~\citep{Cardiff2025}, which builds on the OpenFOAM finite volume library~\citep{Weller1998} and follows the partitioned approach of \citet{Tukovic2018}.
 The fluid and the solid are discretised on separate cell-centred finite volume meshes and solved by separate field solvers, which exchange interface displacements and tractions within each time step.
 This section summarises the components that determine the discretisation, temporal and iterative errors studied in Sections~\ref{sec:verification_methodology}--\ref{sec:cross_benchmark}; implementation detail is in the solids4foam source and in the case dictionaries that accompany each benchmark.

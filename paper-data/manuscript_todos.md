@@ -10,13 +10,14 @@ because the section numbers may change.
 
 Ground rules:
 
-- **Monolithic results: ringAddedMass, plus cross-checks of three cases.** The
+- **Monolithic results: ringAddedMass, plus cross-checks of four cases.** The
   corrected quasi-monolithic solver (open PR #233, ported to `development` in
   PR #580, corrected in PR #582) is compared with IQN-ILS on ringAddedMass
   (`paper-data/ringAddedMass_monolithic_findings.md`) and, since 2026-10-16,
   used as a cross-check of the partitioned results for mokLidDrivenCavity,
   cavityFlexibleBottom and blobInTreacle
-  (`paper-data/monolithic_findings_2026-10-16.md`). It never replaces the
+  (`paper-data/monolithic_findings_2026-10-16.md`) and collapsibleChannel
+  (`paper-data/collapsibleChannel_monolithic.csv`). It never replaces the
   partitioned results or the reference. Results of the first (uncorrected)
   version, including `simulationData/cavityFlexibleBottom/` and the parent
   paper's Case 1 figures, are not evidence for anything.

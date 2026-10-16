@@ -26,7 +26,7 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		\midrule
 		ringAddedMass & 2-D & free vibration & small & A & 3 & 3 & IQN-ILS/RN/QM \\
 		womersleyTube & axisym. & periodic (forced) & small & A & 3 & 3 & IQN-ILS/RN \\
-		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN; $\rho_s$ sweep \\
+		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN/QM; $\rho_s$ sweep \\
 		Hron--Turek FSI1 & 2-D & steady & large & B & 2 & 2 & IQN-ILS/RN \\
 		Hron--Turek FSI3 & 2-D & self-excited & large & C & 3 & scaled; 2 (2x) & IQN-ILS/RN; tolerance pair \\
 		Hron--Turek FSI2 & 2-D & self-excited & large & C & 2 & scaled & tolerance sweep \\
@@ -218,6 +218,7 @@ The QoI is the wall-midpoint vertical displacement history, with the first troug
 	\item \emph{Fluid mesh.} Four levels (3\,200 to 51\,200 cells, fixed $\Delta t = 0.00625\,\mathrm{s}$, compared with oomph-lib at the same $\Delta t$): the error falls from $4.65\%$ to $1.43\%$, $0.53\%$ and $0.50\%$ of the peak (orders 1.7 and 2.4, then a floor; Fig.~\ref{fig:collapsible_mesh}). The floor is of the size of the reference uncertainty plus the model-form contribution; the finest first trough is $-0.21610\,\mathrm{m}$ against $-0.2160\,\mathrm{m}$ for the converged reference.
 	\item \emph{Time.} On the coarsest fluid mesh, successive differences of $4.56\%$, $1.33\%$ and $0.34\%$ give orders 1.8 and 2.0 (oomph-lib itself: 1.8 and 1.9).
 	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.08$--$0.23\%$ of the peak, but this gap does \emph{not} decrease with mesh refinement and is of the size expected from the coupling tolerance. In a wall-density sweep ($\rho_s/\rho_f = 0$--3) IQN-ILS fails to complete for part of the range, whereas Robin--Neumann completes for all $\rho_s/\rho_f \geq 1$.
+	\item \emph{Quasi-monolithic cross-check.} The quasi-monolithic Newton solver (solids4foam PR \#582) needs matching interface meshes and has only the second-order (linear) velocity solid, so its solid mesh is refined with the fluid mesh ($80\times8$, $160\times8$, $320\times8$ on fluid levels 1, 2, 4). It completes every run attempted, including the massless wall of the published problem ($\rho_s = 0$), $\Delta t = 0.003125\,\mathrm{s}$ and fluid level 4, on which the partitioned couplings fail; the massless and $\rho_s/\rho_f = 1$ first troughs agree to within $0.2\%$, as the two oomph-lib references do, so the regularising density is unnecessary for this coupling. Its first-trough error against oomph-lib at $\Delta t = 0.00625\,\mathrm{s}$ falls from $9.1\%$ to $4.1\%$ and $2.4\%$ (order 1.5), limited by the linear solid as for the partitioned linear solid; on level 2 the time step converges at order 1.7 ($0.0125$ to $0.003125\,\mathrm{s}$). At $\Delta t = 0.025\,\mathrm{s}$ on level 2 its fluid mesh motion fails during the collapse.
 \end{itemize}
 
 \paragraph{Lesson.}
