@@ -15,10 +15,6 @@ Compact data:
 
 They are generated from the tip histories of the runs listed in Section 2.
 
-Values marked † are provisional and are refreshed when the run completes:
-F3S2 (at 36 of 40 s, drift 3e-4 mm/s) and the wall diagnostic (at 31 of
-40 s).
-
 ## 1. Executive scientific conclusion
 
 - **What is verified.** Phase I is used as a solution-verification case: one
@@ -41,22 +37,22 @@ F3S2 (at 36 of 40 s, drift 3e-4 mm/s) and the wall diagnostic (at 31 of
     are strict-test runs from t = 0, run to a steady state.
 - **Solid refinement.** At fixed F1 and material parameters, the tip shows
   monotone solid-mesh convergence consistent with approximately second
-  order (p = 2.22). The conditional GCI estimate on S3 is 0.033 mm
+  order (p = 2.21). The conditional GCI estimate on S3 is 0.034 mm
   (0.20 %).
 - **Fluid refinement.** Asymptotic convergence has not been established.
   - F1 → F2 → F3 shows a monotone but slow decrease of the differences
-    (ratio 0.79, p_obs = 0.70†, formal order 2).
+    (ratio 0.81, p_obs = 0.62, formal order 2).
   - A provisional Richardson-based GCI indicator (p_obs, Fs = 1.25) is
-    0.13 mm†. It dominates the budget.
+    0.16 mm. It dominates the budget.
   - Upstream flow quantities converge at about second order. Refining only
-    the walls explains about 15 %† of the fluid effect on the tip.
+    the walls explains about 20 % of the fluid effect on the tip.
 - **Temporal, iterative and end-state effects are small.** The Δt
   sensitivity of the steady tip is ≤ 0.004 mm (0.02 %). The coupling
   tolerance changes it by ≤ 0.0004 mm, both at the end state and along the
   path. After about 40 s the remaining drift is < 1e-4 mm/s.
 - **Best-resolved solution.** F3S3 gives a tip y of 16.8133 mm (16.819 mm
   after the PR #546 correction, Section 15).
-  - Provisional linear aggregate allowance: about 0.17 mm (1 %), dominated
+  - Provisional linear aggregate allowance: about 0.20 mm (1.2 %), dominated
     by the fluid discretisation.
   - This is a conditional estimate, not a guaranteed bound or a confidence
     interval.
@@ -164,7 +160,7 @@ S1-S4 (ratio 2):
 - **Control restart.** An unchanged restart from 45 to 55 s stays at
   16.6551 mm, with a drift of −5e-7 mm/s.
 - **End-of-run drift.** Every steady value in Section 8 is a 4-s mean with a
-  final drift below 1e-4 mm/s. The one exception is F3S2† at 3e-4 mm/s.
+  final drift of at most about 1e-4 mm/s.
 - **Settling time.** The coarse levels need 35-40 s and the finer ones up to
   40-45 s. The tutorial's 10 s end time is far from steady: at 10 s the F1S2
   tip is still 0.25 mm below its steady value.
@@ -207,26 +203,26 @@ Steady tip y (mm), strict test, Δt = 0.002 s:
 
 | | S1 | S2 | S3 |
 | --- | --- | --- | --- |
-| F1 | 16.2006 | 16.6550 | 16.7527 |
+| F1 | 16.2006 | 16.6550 | 16.7530 |
 | F2 | | 16.6920 | |
-| F3 | | 16.7211† | 16.8133 (tolerance 1e-3) |
+| F3 | | 16.7219 | 16.8133 (tolerance 1e-3) |
 
 **Solid refinement (F1; S1 → S2 → S3, ratio 2).**
-- Differences: +0.4544 and +0.0977 mm. The convergence ratio is 0.215, so
-  p = 2.22.
-- Richardson: 16.7795 mm. GCI on S3 (Fs = 1.25): 0.033 mm (0.20 %).
+- Differences: +0.4544 and +0.0979 mm. The convergence ratio is 0.215, so
+  p = 2.21.
+- Richardson: 16.7799 mm. GCI on S3 (Fs = 1.25): 0.034 mm (0.20 %).
 - Statement: at fixed F1 and material parameters, the tip shows monotone
   solid-mesh convergence consistent with approximately second-order
-  accuracy, with a conditional S3 GCI estimate of 0.033 mm.
+  accuracy, with a conditional S3 GCI estimate of 0.034 mm.
 
 **Fluid refinement (S2; F1 → F2 → F3, ratio √2).**
-- Differences: +0.0370 and +0.0291† mm. The convergence ratio is 0.79†, so
-  p_obs = 0.70† against a formal order of 2.
-- Richardson(p_obs): 16.827† mm.
-- Provisional GCI indicator (Fs = 1.25): 0.13† mm.
+- Differences: +0.0370 and +0.0299 mm. The convergence ratio is 0.81, so
+  p_obs = 0.62 against a formal order of 2.
+- Richardson(p_obs): 16.847 mm.
+- Provisional GCI indicator (Fs = 1.25): 0.16 mm.
 - Asymptotic convergence has not been established. Alternative rules give
-  smaller values that rest on unsupported assumptions: 3|Δ32| = 0.087 mm,
-  or 0.070-0.088 mm with p = 1 assumed. The p_obs-based 0.13 mm is
+  smaller values that rest on unsupported assumptions: 3|Δ32| = 0.090 mm,
+  or 0.072-0.090 mm with p = 1 assumed. The p_obs-based 0.16 mm is
   retained as the indicator.
 - Supporting evidence (it shows where the fluid error is not, but does not
   establish tip convergence):
@@ -234,13 +230,13 @@ Steady tip y (mm), strict test, Δt = 0.002 s:
     z = 10 mm: 572.1, 576.9, 579.4 mm/s (p ≈ 2.0). Upper inlet pressure:
     3.50, 2.59, 2.29 Pa (p ≈ 3.1). The lower inlet pressure is the slowest:
     3.33, 2.54, 1.96 Pa (p ≈ 0.9).
-  - Refining only the F1 walls to F3 size shifts the tip by +0.010 mm†,
-    about 15 % of F1 → F3 (0.066 mm). Wall resolution alone does not drive
+  - Refining only the F1 walls to F3 size shifts the tip by +0.013 mm,
+    about 20 % of F1 → F3 (0.067 mm). Wall resolution alone does not drive
     the fluid error. This does not allocate the remaining error uniquely.
 
 **Additivity.**
-- F3S3 = 16.8133 mm, against F3S2 + (F1S3 − F1S2) = 16.8188† mm. The
-  interaction is −0.006† mm.
+- F3S3 = 16.8133 mm, against F3S2 + (F1S3 − F1S2) = 16.8198 mm. The
+  interaction is −0.0065 mm.
 - The solid and fluid corrections are approximately additive over the
   tested rectangle. This does not bound the interaction in the continuum
   limit.
@@ -320,20 +316,20 @@ errors, so no RSS is used.
 
 | Contribution | Value (mm) | Basis |
 | --- | --- | --- |
-| Fluid discretisation | 0.13† | provisional Richardson-based GCI indicator, p_obs = 0.70, Fs = 1.25; asymptotic range not established |
-| Solid discretisation | 0.033 | GCI on S3 (F1), p = 2.22; transfer to F3 supported by the −0.006 mm interaction |
+| Fluid discretisation | 0.16 | provisional Richardson-based GCI indicator, p_obs = 0.62, Fs = 1.25; asymptotic range not established |
+| Solid discretisation | 0.034 | GCI on S3 (F1), p = 2.21; transfer to F3 supported by the −0.0065 mm interaction |
 | Δt | 0.004 | steady-state Δt sensitivity (Section 7) |
 | Coupling / iterative | 0.0004 | tolerance 1e-3 vs 1e-4 from t = 0 |
 | End state | ≤ 0.001 | final drift < 1e-4 mm/s; control restart |
-| Aggregate allowance | ≈ 0.17 (1.0 %) | conditional and provisional |
+| Aggregate allowance | ≈ 0.20 (1.2 %) | conditional and provisional |
 
 - **Bias correction.** The PR #546 transfer-weight defect is a known bias,
   not an uncertainty. It is corrected: +0.006 mm on S3 levels, so F3S3
   becomes 16.819 mm (Section 15).
 - **Extrapolation scenario (not an established interval).** F3S3 + the
-  solid correction (+0.027) + the fluid correction (+0.03 to +0.11) gives
-  a continuum tip of about 16.87-16.95 mm for μ* = 64.2 kPa.
-- **Wording.** The tip is numerically resolved to about 1 % (conditional),
+  solid correction (+0.027) + the fluid correction (+0.030 to +0.125)
+  gives a continuum tip of about 16.88-16.97 mm for μ* = 64.2 kPa.
+- **Wording.** The tip is numerically resolved to about 1.2 % (conditional),
   with the fluid discretisation dominant. Δt and iterative contributions
   are below 0.03 % and 0.003 %.
 
@@ -353,7 +349,7 @@ voxel velocities of each strict run. The MRI tip is 16.41 mm.
 - **Tip and centreline.** Every refinement moves the tip, and the
   centreline, further from the measurement. With the extrapolation
   scenario of Section 12, the discrepancy of the continuum model would be
-  about 0.46-0.54 mm (2.8-3.3 %).
+  about 0.47-0.56 mm (2.8-3.4 %).
 - **Velocities.** The velocity metrics barely change with refinement.
 - **What this shows.** Agreement with the MRI does not indicate numerical
   convergence, and the coarse-mesh agreement is partly a cancellation of
@@ -402,20 +398,20 @@ May claim:
   strict test removes it. This is an example of a converged-looking QoI
   that is not converged.
 - At fixed F1, solid refinement converges monotonically at about second
-  order (S3 GCI 0.033 mm). Under fluid refinement the tip converges
-  monotonically but slowly (p_obs ≈ 0.7). Its provisional GCI indicator
-  (0.13 mm) dominates the budget.
+  order (S3 GCI 0.034 mm). Under fluid refinement the tip converges
+  monotonically but slowly (p_obs ≈ 0.6). Its provisional GCI indicator
+  (0.16 mm) dominates the budget.
 - Δt and coupling contributions are negligible (≤ 0.004 and ≤ 0.0004 mm).
 - The best-resolved tip is 16.81 mm (16.82 mm with the PR #546
-  correction), numerically resolved to about 1 % (conditional).
+  correction), numerically resolved to about 1.2 % (conditional).
 - Refinement moves the solution away from the MRI tip. The best-resolved
   model lies about 0.4 mm (2.5 %) above it.
 
 Must not claim:
-- A demonstrated total numerical accuracy of 1 %, or a statistically
+- A demonstrated total numerical accuracy of 1.2 %, or a statistically
   justified (RSS) uncertainty.
 - Asymptotic fluid convergence, or an established continuum interval. The
-  continuum extrapolation (16.87-16.95 mm) is a scenario only.
+  continuum extrapolation (16.88-16.97 mm) is a scenario only.
 - Validation on the grounds that the discrepancy is "within one voxel".
 - A single Richardson order from the mixed-ratio matched sequence.
 - That the coarse-mesh agreement with the MRI (16.5-16.7 mm in the
