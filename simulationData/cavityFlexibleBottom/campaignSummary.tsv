@@ -1,0 +1,21 @@
+# Study Method Variant Case Mesh DeltaX DeltaT Status CellsFluid CellsSolid WallTime MaxMemoryMb SteadyTime Uy Fy DisplacementRelChange ForceRelChange Consecutive
+all monolithic default monolithic_default.m1.dt0p5 1 0.1 0.5 steady 1688 160 133.51 618 191 -0.244682 -5.12266 1.0731e-06 3.88273e-06 3
+all monolithic default monolithic_default.m1.dt1 1 0.1 1 steady 1688 160 91.83 618 221 -0.244622 -5.12088 4.53524e-06 1.94694e-06 3
+all monolithic default monolithic_default.m1.dt2p5 1 0.1 2.5 steady 1688 160 60.21 618 265 -0.244558 -5.11966 9.71281e-06 3.91433e-06 3
+all monolithic default monolithic_default.m1.dt5 1 0.1 5 steady 1688 160 120.28 618 955 -0.244539 -5.11923 9.01207e-06 3.89901e-06 3
+all monolithic default monolithic_default.m1.dt10 1 0.1 10 steady 1688 160 121.83 618 1750 -0.244529 -5.11902 3.94169e-06 1.95154e-06 3
+all monolithic default monolithic_default.m1.dt20 1 0.1 20 steady 1688 160 203.59 618 5760 -0.244523 -5.11891 7.16883e-06 3.90708e-09 3
+all monolithic default monolithic_default.m1.dt40 1 0.1 40 hitEndTime 1688 160 189.75 618 10000 -0.24452 -5.11886 1.2436e-05 1.96919e-06 0
+all monolithic default monolithic_default.m2.dt0p5 2 0.05 0.5 steady 6752 640 595.98 618 202 -0.280336 -5.23412 3.53818e-06 3.80961e-06 3
+all monolithic default monolithic_default.m2.dt1 2 0.05 1 steady 6752 640 375.91 618 207 -0.280326 -5.23387 5.90557e-06 7.61764e-06 3
+all monolithic default monolithic_default.m2.dt2p5 2 0.05 2.5 steady 6752 640 289.06 618 275 -0.280329 -5.23375 2.09095e-06 1.90685e-06 3
+all monolithic default monolithic_default.m2.dt5 2 0.05 5 steady 6752 640 403.34 618 585 -0.280328 -5.23369 3.27669e-06 1.90687e-06 3
+all monolithic default monolithic_default.m2.dt10 2 0.05 10 steady 6752 640 1063.22 618 4070 -0.280325 -5.23368 3.84682e-06 1.71963e-08 3
+all monolithic default monolithic_default.m2.dt20 2 0.05 20 steady 6752 640 1300.25 618 5920 -0.280325 -5.23367 6.50028e-06 4.77677e-08 3
+all monolithic default monolithic_default.m2.dt40 2 0.05 40 hitEndTime 6752 640 1189.53 618 10000 -0.280329 -5.23367 4.01173e-05 3.7985e-06 0
+all monolithic default monolithic_default.m3.dt0p5 3 0.025 0.5 steady 27008 2560 3387.89 913 205 -0.291921 -5.25227 6.68941e-06 1.91346e-06 3
+all monolithic default monolithic_default.m3.dt1 3 0.025 1 steady 27008 2560 2390.91 937 211 -0.291922 -5.2522 5.75081e-06 7.59485e-06 3
+all monolithic default monolithic_default.m3.dt2p5 3 0.025 2.5 steady 27008 2560 2088.68 944 300 -0.291928 -5.25221 3.75182e-06 1.90396e-09 3
+all monolithic default monolithic_default.m3.dt5 3 0.025 5 steady 27008 2560 3027.78 937 600 -0.291929 -5.25221 4.90655e-06 1.90586e-06 3
+all monolithic default monolithic_default.m3.dt10 3 0.025 10 steady 27008 2560 6868.39 928 2040 -0.29193 -5.2522 5.70421e-06 1.90396e-09 3
+all monolithic default monolithic_default.m3.dt20 3 0.025 20 steady 27008 2560 16483.66 933 6500 -0.291931 -5.2522 5.78633e-06 7.61585e-09 3
