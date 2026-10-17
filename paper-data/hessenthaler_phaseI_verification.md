@@ -61,8 +61,10 @@ They are generated from the tip histories of the runs listed in Section 2.
 
 ## 2. Provenance
 
-- **solids4foam.** Branch `verification/hessenthaler-phaseI`, from the
-  PR #535 head `4f549b500`. `src/` is unchanged. Verification driver
+- **solids4foam.** Branch `verification/hessenthaler-phaseI`, draft PR #585,
+  final commit `f7f1489e6`. It is based on the PR #535 head `4f549b500`,
+  and `development` was merged in after #535 merged. `src/` is unchanged.
+  The compact results are in `verification/results/`. Verification driver
   (`tutorials/fluidSolidInteraction/hessenthalerFsi/verification/`):
   - spec keys `fsitest=strict` (`a2ccaf64c`), `reuse=0` (`735e525c8`) and
     `wall=<level>` (`c68379d08`);
