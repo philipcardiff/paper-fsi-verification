@@ -295,7 +295,10 @@ single Richardson order is derived from it.
   - Recommendation: use the strict test with a tolerance above the noise
     floor (1e-3 here).
 - **Scope.** This is solids4foam issue #552. Any steady or slowly varying
-  FSI case with a large total interface displacement is exposed.
+  FSI case with a large total interface displacement is exposed. The
+  robustness of `couplingReuse` under the strict test is issue #587: reuse
+  5 cut iterations by about 40 % while it worked, but diverged in 4 of 6
+  strict runs.
 
 ## 10. Default-test results (superseded, kept as the record)
 
@@ -379,10 +382,21 @@ No COMSOL solution is available.
 
 ## 16. Limitations
 
-- **Fluid convergence.** The fluid meshes are not nested, and the tip's
-  fluid convergence is not demonstrated to be asymptotic. A fourth fluid
-  level (4.2 M cells, about 800 node-hours with the strict test) was not
-  affordable.
+- **Fluid convergence (deferred, to revisit).** The fluid meshes are not
+  nested, and the tip's fluid convergence is not demonstrated to be
+  asymptotic.
+  - A fourth uniform level (F4, 4.2 M cells, about 800 node-hours with the
+    strict test) was deliberately not run. The manuscript flags this as
+    open.
+  - Proposed route: a locally refined fluid family, run as a new mesh
+    series. Keep the far field and the 250 mm outlet extension fixed, and
+    refine by √2 per level only the flap-sweep, interface and merging
+    regions, plus possibly the inlet jets.
+  - The evidence points to those regions. Refining only the walls explains
+    about 20 % of the F1 → F3 tip change, and the upstream jets already
+    converge at about second order.
+  - Such a family should reach a fourth effective level for a fraction of
+    F4's cost.
 - **Additivity.** It is checked on the F1-F3 x S2-S3 rectangle only.
 - **Cost.** Hessenthaler Phase I needs runs far longer than the tutorial's
   10 s, and the strict convergence test (or an equivalent absolute
@@ -413,7 +427,9 @@ Must not claim:
 - A demonstrated total numerical accuracy of 1.2 %, or a statistically
   justified (RSS) uncertainty.
 - Asymptotic fluid convergence, or an established continuum interval. The
-  continuum extrapolation (16.88-16.97 mm) is a scenario only.
+  continuum extrapolation (16.88-16.97 mm) is a scenario only. The
+  manuscript should flag the fluid convergence as open, pending a further
+  fluid level (or a locally refined fluid series, Section 16).
 - Validation on the grounds that the discrepancy is "within one voxel".
 - A single Richardson order from the mixed-ratio matched sequence.
 - That the coarse-mesh agreement with the MRI (16.5-16.7 mm in the
