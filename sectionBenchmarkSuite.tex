@@ -493,7 +493,7 @@ Each of the four cases below would add a feature not otherwise covered, but none
 \subsubsection{Flexible-bottom cavity [PROVISIONAL]}\label{sec:cavity}
 %%-------------------------------------------------------------------
 
-\todo{PROVISIONAL BENCHMARK: retain in main text only if (i) a clean partitioned mesh study with at least three levels in the asymptotic range is completed, including level 4 ($\Delta x = 0.0125$) at a reduced time step, together with a pseudo-time-step and coupling-tolerance check; and (ii) an independent converged reference (e.g.\ COMSOL, with its own mesh study) is obtained. All quasi-monolithic results for this case (simulationData/cavityFlexibleBottom, parent-paper Case~1) are deliberately NOT used as evidence. Otherwise move to supplementary material or drop.}
+\todo{PROVISIONAL BENCHMARK. Partitioned and quasi-monolithic four-level studies are complete (below); retain in the main text if the independent ANSYS solution (paper repository PR \#12, E.~Tandis) converges and the solid-model difference identified below is resolved. Otherwise move to supplementary material.}
 
 \begin{figure}[htbp]
 	\centering
@@ -505,14 +505,17 @@ Each of the four cases below would add a feature not otherwise covered, but none
 \paragraph{Potential value.}
 Steady channel flow over a cavity with a flexible floor~\citep{Tukovic2018} (Fig.~\ref{fig:cavity_geom_v}), derived from a fluid benchmark~\citep{Juretic2010}, is the only steady internal-flow problem in the suite, with large floor deformation ($u_y \approx -0.24\,\mathrm{m}$) at $Re = 100$.
 
-\paragraph{Existing (partitioned) evidence.}
-The reference is the mesh study of~\citet{Tukovic2018}, digitised from figures and computed with an earlier version of the same code family (C-weak).
-A partitioned (Aitken) study on three levels ($\Delta x = 0.1$, $0.05$, $0.025\,\mathrm{m}$) gives steady $u_y = -0.20246$, $-0.22883$ and $-0.23563\,\mathrm{m}$ at the monitoring point ($13.2\%$, $6.88\%$ and $5.59\%$ from the published values at the same spacing; net observed order 1.96), while the interface force agrees with the published values to within $0.2\%$ on every level.
-The displacement changes decrease monotonically over these three levels (a single net observed order of 1.96), but with only one triple and the fourth level diverged (below), second-order convergence is not established; the finest value is $\approx5\%$ from the published curve at equal force.
+\paragraph{Monitoring point.}
+Point A of~\citet{Tukovic2018} lies on the top (wetted) surface of the plate. The solids4foam tutorial specified it at a location outside the solid, so the recorded displacement was that of the nearest node on the plate underside; the values below are for point A on the top surface (solids4foam PR \#584). The top-surface and mid-thickness values differ by $0.5\%$, and the underside value is $1.2\%$ smaller in magnitude than the top-surface value on the finest mesh.
 
-\paragraph{Missing evidence.}
-Level 4 diverges at the tutorial pseudo-time step with both Aitken and IQN-ILS; there is no coupling, tolerance or pseudo-time-step study; and the $5\%$ offset is unexplained (an earlier solids4foam version gave $-0.219\,\mathrm{m}$ on the coarsest mesh, against $-0.20246\,\mathrm{m}$ now).
-The route to rehabilitation is an improved partitioned study plus an independent COMSOL solution of the identical set-up, which would show either that the same-lineage published curve is inaccurate or that a set-up difference exists; neither can be claimed now.
+\paragraph{Evidence.}
+Four uniformly refined levels ($\Delta x = 0.1$, $0.05$, $0.025$, $0.0125\,\mathrm{m}$) were computed with the partitioned solver (Aitken; strict coupling test on the finest level, Section~\ref{sec:iterative_errors}) and with the quasi-monolithic solver. The two agree to $0.01$--$0.02\%$ in $u_y$ and $F_y$ on the two finest levels. The quasi-monolithic solver shares much of its code with the partitioned one, so this agreement is a consistency check between formulations, not an independent reference.
+The steady top-surface $u_y$ at point A is $-0.2036$, $-0.2314$, $-0.2385$ and $-0.2401\,\mathrm{m}$, converging monotonically at observed orders $1.95$--$2.05$; the extrapolated value ($p = 2$) is $-0.2407\,\mathrm{m}$. The interface force converges to $F_y \approx -5.26\,\mathrm{N/m}$ (orders 2.2--2.7, not constant).
+The finest level needed a smaller pseudo-time step than the tutorial; on the coarser levels the smaller step changes the steady state by at most $0.014\%$. The recorded coarser-level runs used the default coupling test and accepted many steps with $r_1$ above the tolerance; reruns with the strict test agree with them to $0.02\%$.
+
+\paragraph{Comparison with the references.}
+The interface force agrees with the published values of~\citet{Tukovic2018} to within $0.2\%$ on every level, and with an independent ANSYS solution (finite element, depth-corrected) to within $0.2$--$0.4\%$. The displacement does not: the published finest value ($-0.2506\,\mathrm{m}$) is $4.2\%$ larger in magnitude than our extrapolated top-surface value, and the ANSYS mid-thickness values ($-0.2502$ and $-0.2535\,\mathrm{m}$ on the two coarser meshes, not yet converged on the finer) exceed ours at the same point by $18\%$ and $8\%$ and change little with refinement, while our horizontal displacement at the point is below $1.1\times10^{-4}\,\mathrm{m}$ against $0.033\,\mathrm{m}$ in the ANSYS solution.
+Agreement in force with disagreement in displacement points to a difference in the structural model (for example plane strain versus plane stress, which differ by a factor $1/(1-\nu^2) \approx 1.19$ in stiffness at $\nu = 0.4$, or the support of the plate ends), not to a fluid or coupling error. The definition is being checked with the ANSYS author; until it is resolved the case remains category C-weak.
 
 %%-------------------------------------------------------------------
 \subsubsection{Beam in cross-flow [IN PROGRESS]}\label{sec:beam}
