@@ -99,9 +99,8 @@ new):
 apply to it.
 
 `3dTube/regressionTest.sh` (`couplingReuse 2`) passes with the fix.
-`mokLidDrivenCavity` was not tested, because its tutorial boundary-condition
-library does not compile on OpenFOAM-v2412 (`mathematicalConstant`), on
-`development` too.
+`mokLidDrivenCavity` is covered in
+[Tutorial defaults changed](#tutorial-defaults-changed).
 
 **preCICE comparison** (`turek-hron-fsi3`, OpenFOAM `pimpleFoam` + the
 solids4foam solid of precice/tutorials#915, preCICE 3.4.1, IQN-ILS):
@@ -153,10 +152,67 @@ set `couplingReuse > 0`.
   `couplingReuse > 0`. Once the fix is merged, `couplingReuse 0` is no longer
   needed for robustness, if the text recommends it anywhere.
 
-Unaffected, if run with the tutorial settings (`couplingReuse 0`):
-ringAddedMass, womersleyTube, collapsibleChannel, Hron–Turek FSI1/FSI2/FSI3
-(the FSI3 4x study used "no reuse": `hronturek_fsi3_4x_findings.md`), Mok,
-and the Robin-Neumann results throughout.
+Unaffected, because they were run with `couplingReuse 0`: ringAddedMass,
+womersleyTube, collapsibleChannel, Hron–Turek FSI1/FSI2/FSI3 (the FSI3 4x
+study used "no reuse": `hronturek_fsi3_4x_findings.md`), Mok, and the
+Robin-Neumann results throughout. **However, several of these tutorials now
+default to `couplingReuse 5`**, so a rerun from the current tutorial settings
+no longer reproduces them; see the next section.
+
+## Tutorial defaults changed
+
+PR #598 also sets `couplingReuse 5` in the IQN-ILS set-ups of six tutorials,
+four of which are paper cases:
+
+- `ringAddedMass`;
+- `womersleyTube`;
+- `TurekHron2006` (Hron–Turek), which covers FSI1, FSI2 and FSI3, because
+  `Allrun fsi1|fsi2` edit the same `fsiProperties.iqnils`;
+- `mokLidDrivenCavity`;
+- `membraneRoof` and `blobInTreacle`, which are not paper cases.
+
+Full tutorial runs (OpenFOAM-v2512, Linux, serial), mean coupling iterations
+per time step:
+
+| Tutorial | `couplingReuse 0` | `couplingReuse 5` |
+| --- | --- | --- |
+| `TurekHron2006` (FSI3, 6 s, incl. the uncoupled 0–2 s) | 5.0 | 2.6 |
+| `TurekHron2006 fsi1` (30 s; t ≥ 2 s) | 3.7 | 2.4 |
+| `TurekHron2006 fsi2` (10.5 s; t ≥ 2 s) | 4.6 | 2.6 |
+| `ringAddedMass` | 4.0 | 2.4 |
+| `womersleyTube` | 14.6 | 8.4 |
+| `mokLidDrivenCavity` | 4.3 | 2.6 |
+| `membraneRoof` | 5.9 | 2.7 |
+| `blobInTreacle` | 6.2 | 4.2 |
+
+All six regression tests pass unchanged with reuse, so the QoIs move only at
+the coupling-tolerance level: for example, the final FSI1 tip displacement
+changes by 0.01%, and the FSI2 `u_y` range over 9.5–10.5 s by about 0.1%. But:
+
+- **Results are no longer reproduced from the tutorial settings.** A paper
+  result from these tutorials, computed with `couplingReuse 0`, is reproduced
+  only with `couplingReuse 0`. Either state the coupling settings with each
+  result, or regenerate with the new defaults.
+- **Iteration counts change.** Every IQN-ILS iteration count in the paper for
+  these cases (for example ringAddedMass 2.99/3.95/4.91, womersleyTube 14.6 or
+  14.8, FSI3 about 7–9, and the IQN-ILS vs Robin-Neumann cost comparisons)
+  corresponds to `couplingReuse 0`. With reuse, IQN-ILS needs 35–50% fewer
+  iterations, which changes the Robin-Neumann/IQN-ILS cost comparisons. For
+  example, in womersleyTube IQN-ILS with reuse took 8.4 iterations per step
+  in this run, against 9.3 quoted in the paper for Robin-Neumann and 14.6 for
+  IQN-ILS without reuse.
+- **The `verification/` READMEs and `Allverify` studies** of these tutorials
+  were computed without reuse and have not been regenerated. `Allverify`
+  `--reuse` treats changed tutorial files as new settings, so a rerun
+  recomputes them with reuse.
+- **ringAddedMass amplitude loss.** The unexplained mesh-dependent IQN-ILS
+  amplitude loss (`benchmark_inventory.md`) was observed without reuse, and
+  has not been re-examined with it.
+
+`beamInCrossFlow`, `collapsibleChannel` (paper case), `fillingElasticContainer`
+and `perpendicularFlap` keep `couplingReuse 0`: reuse gave about 9% fewer
+iterations or none, and `collapsibleChannel`'s worst step went from 36 to 59
+iterations.
 
 ## Manuscript text to revisit
 
