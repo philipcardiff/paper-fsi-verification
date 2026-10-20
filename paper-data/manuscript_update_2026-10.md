@@ -185,3 +185,16 @@ The beam A/B (face-size check) is still outstanding. The two related `\todo` not
   - An inactive limiter.
   - With the fixes, the standard family has order 2.5 and the refined family is flat; the 3.4% gap between the families is open.
   - Production runs are pending.
+
+## Addendum (2026-10-20): separation from the companion solver paper
+
+The verification paper now stays partitioned-only and shares notation with the solver paper (paper-monolithic-fsi, `manuscript/d3-governing-equations`).
+
+- Introduction: five paragraphs classifying FSI methods (Eulerian/Lagrangian/mixed, weak vs strong, partitioned vs monolithic) → three sentences positioning the paper (strongly coupled, ALE fluid, partitioned finite volume) and citing the companion paper (`\citetodo{companion solver paper}`) for the methods landscape. Thesis and contributions unchanged.
+- cavityFlexibleBottom: "Partitioned and quasi-monolithic four-level studies are complete" → "The partitioned four-level study is complete"; the quasi-monolithic agreement sentence (0.01–0.02% in u_y and F_y) → one sentence that a consistency check against a quasi-monolithic coupling sharing much of the code is reported in the companion paper. Partitioned numbers unchanged.
+- Table `tab:orders`, cavityFlexibleBottom row: "four levels; partitioned and quasi-monolithic" → "four levels".
+- Hron–Turek, "Diagnosis of the FSI3 displacement order": new `\todo` for the planned sentence on the companion quasi-monolithic FSI3 sequence (pending a rerun after solids4foam PR #597). No quasi-monolithic numbers are quoted.
+- Notation: ρ_s, ρ_f → ρ_S, ρ_F in the case sections; Poisson's ratio ν → ν_S and Young's modulus E → E_S in the case sections; bold Γ → Γ in the Figure `fig:fsi_problem` captions (bold Γ_f is the face area vector).
+- ringAddedMass mass ratio μ → m* (text, Table `tab:ring`, recommended-suite table), to avoid a clash with the Lamé parameter μ_S.
+- Section `sec:math_model`: added that the partitioned solids take D_S as the primary unknown, with v_S = ∂D_S/∂t (inertia ρ_{S,0} ∂²D_S/∂t²), and a small-strain (linear geometry) sentence; the front-matter `\todo` on Section 2 consistency updated accordingly.
+- Independent monolithic reference codes (oomph-lib, Richter, Lozovskiy, Eken) are still named as such.
