@@ -115,9 +115,44 @@ is strongly suggested but not established; clarification is being sought
 from the author. If a 0.2 m/s peak is confirmed, the definitive sequence
 (L0-L3 with dt and coupling checks) is rerun at 0.2 m/s.
 
+## 0.2 m/s sequence to L3 (anticipating author confirmation)
+
+Richter geometry, production set-up, inlet peak 0.2 m/s; L3 from the
+converged rigid L3 flow (as the primary L3), one 5 s segment, no restart
+(`beam_richter/r02_sequence.csv`). History independence (rigid-flow start
+against start from rest, L0-L2) is within 1.3e-6 in u_x(A) and F_x. The L3
+beam mode decays to an F_x half-amplitude of 6.4e-7; the drift is below
+3e-6 per second.
+
+| level | u_x(A) (m) | F_x (N) | F_y (N) |
+| --- | ---: | ---: | ---: |
+| L0 | 4.61683e-5 | 1.19882 | 0.099031 |
+| L1 | 5.47934e-5 | 1.28437 | 0.102773 |
+| L2 | 5.83121e-5 | 1.31657 | 0.105056 |
+| L3 | 5.94427e-5 | 1.32723 | 0.105227 |
+
+Orders (L0-L2, L1-L3): u_x 1.29, 1.64; F_x 1.41, 1.60, the same as the
+0.3 m/s sequence. Conditional Richardson values from L1-L3: u_x 5.998e-5 m
+(observed order) or 5.982e-5 m (p = 2); F_x 1.3325 or 1.3308 N.
+
+After the sequence was characterised: the L3 values are within 0.1 % (u_x)
+and 0.2 % (F_x) of Richter's published Table 3 (5.95e-5, 1.33), and the
+extrapolations are 0.5-0.8 % above it, inside its stated 1 %. F_y is within
+0.3 % of Tukovic et al. (0.1055 N). Richter's reference values are thus
+consistent, to their stated accuracy, with a 0.2 m/s peak at his geometry,
+not with the printed 0.3 m/s. The 0.3 m/s sequence remains primary until
+the author confirms the inflow.
+
+L4 (estimate, not run): about 33M fluid and 2.1M solid cells on ~24 nodes;
+Courant ~4 at dt = 0.00625 (a rigid L3 run was unstable near 3), so L4 may
+need dt/2; 340-930 node-hours (44k-120k core-hours) per inlet; collated
+output needed for the file quota. A short multi-node feasibility test should
+come first, and only once the inflow is confirmed.
+
 ## Cost
 
-104.6 node-hours = 13,390 physical core-h (node-hours x 128) in total: the
+157.8 node-hours = 20,200 physical core-h (node-hours x 128) in total: the 0.2 m/s
+sequence to L3 53.2, the
 campaign to L3 73.0 (L3 44.6: segment 1 36.0, segment 2 8.6), the L3 dt/2
 check 21.1, the 0.2 m/s diagnostic 10.5.
 
