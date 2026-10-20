@@ -274,6 +274,18 @@ single Richardson order is derived from it.
 - **Strict test.** 10-15 iterations per step, median r1 5e-5. On F1S2 the
   mean interface gap is 0.0045 mm with no systematic offset. The 32- and
   48-rank replicates agree to 0.001 mm.
+- **Not the reuse defect (#587/#598).** The default-test runs used
+  `couplingReuse 5`. From the same default-test F2S2 state at 80 s,
+  default test, 80-90 s:
+  - reuse 5 creeps at +0.0052 mm/s (r1 median 6.9e-2 at acceptance);
+  - reuse 5 with the #598 fix creeps at +0.0050 mm/s;
+  - reuse 0 creeps at +0.0195 mm/s (r1 median 3.6e-2, with 100 % of steps
+    at r1 > 1e-2).
+
+  The creep is therefore caused by the convergence test. The strict
+  reference runs all use reuse 0. The strict restarts from default-test
+  states (Section 9, "restarts keep history") used reuse 5 and serve only
+  as qualitative evidence.
 - **Diagnosis.** Neither component drifts on its own:
   - with the geometry frozen, the fluid settles in about 2 s;
   - the solid alone is constant to 1e-15 mm.
