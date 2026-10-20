@@ -28,15 +28,15 @@ The observations are specific to this suite and to one code family, and are not 
 		Case & Space & Time & Basis \\
 		\midrule
 		ringAddedMass & freq.\ converged on coarsest mesh; ratio 1.68--1.77; standard solid 1.66 & 1.90--2.14 & vs exact; Richardson \\
-		womersleyTube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level & 1.86--2.14 (1.29--1.84 before end-flux fix) & SD; errors vs exact \\
+		womersleyTube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level; quasi-monolithic 1.98--2.23 & 1.86--2.14 (1.29--1.84 before end-flux fix); quasi-monolithic 1.94--2.07 & SD; errors vs exact \\
 		collapsibleChannel & 1.7, 2.4, then reference floor & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Hron--Turek FSI1 & 1.5--1.7 & -- & 2-level vs ref.\ (B) \\
 		Hron--Turek FSI3 & tutorial set-up: displacements 0.9--1.1; corrected set-up: displacements converged to the time/coupling sensitivity ($\leq0.4\%$), frequency 1.6 & time and coupling $\leq0.4$ of the 2x$'\to$4x$'$ change & SD \\
 		3dTube & $u_{z,\min}$ 0.87, $t_\mathrm{arr}$ 0.72; $u_{r,\max}$ not defined (changes grow) & 0.1--0.2\% change at the fine-level $\Delta t$ & SD \\
-		mokLidDrivenCavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
+		mokLidDrivenCavity & peak $\approx1.2$; trough $<0.5$ (scaled); quasi-monolithic: peak $<1$, trough converged from $32^2$ & changes $0.17$, $0.04\%$ & SD \\
 		cavityFlexibleBottom$^\ast$ & 1.95--2.05 ($u_y$, four levels; partitioned and quasi-monolithic) & pseudo-time step $\leq0.014\%$; strict vs default coupling test $\leq0.02\%$ & SD \\
 		beamInCrossFlow$^\ast$ & in progress & -- & -- \\
-		blobInTreacle$^\ast$ & 2.40 (super-nominal) & 2.39--2.54 (super-nominal) & SD \\
+		blobInTreacle$^\ast$ & 2.40 (super-nominal); quasi-monolithic 2.0 & 2.39--2.54 (super-nominal) & SD \\
 		\bottomrule
 		\multicolumn{4}{l}{$^\ast$ Provisional cases.}
 	\end{tabular}
@@ -90,7 +90,7 @@ In every case with more than one QoI, the QoIs converge at substantially differe
 		Hron--Turek FSI3 (4x$'$, corrected) & drag mean and frequency: within $0.2\%$ of the reference; $u_y$ amplitude $3.2\%$ & $u_x$ $6.6\%$ above the reference; force amplitudes depend on the solid mesh, not converged \\
 		Hron--Turek FSI2 (2x) & drag mean $0.5\%$; $u_y$ amplitude $1.3\%$ & lift amplitude $7.8\%$, not converging \\
 		3dTube & $u_{z,\min}$, $t_\mathrm{arr}$: monotone, orders 0.87, 0.72 & $u_{r,\max}$, $c_p$: changes grow ($u_{r,\max}$ $0.20\%$, $0.60\%$) \\
-		mokLidDrivenCavity & peak (order $\approx1.2$) & trough (order $<0.5$) \\
+		mokLidDrivenCavity & peak (order $\approx1.2$) & trough (order $<0.5$; quasi-monolithic: converged from $32^2$) \\
 		cavityFlexibleBottom$^\ast$ & $F_y$: within $0.2\%$ of the published values and $0.4\%$ of ANSYS & $u_y$: $4.2\%$ below the published value; ANSYS differs more (structural-model difference under investigation) \\
 				\bottomrule
 	\end{tabular}
@@ -131,12 +131,12 @@ In collapsibleChannel the IQN-ILS/Robin--Neumann difference does not decrease wi
 In both, the iterative error rather than the discretisation bounds what can be verified.
 
 \emph{Internal agreement is not external verification.}
-IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.2\times10^{-4}$ (womersleyTube), $0.01\%$ (FSI1), and $0.07\%$ (3dTube QoIs).
-This bounds the iterative error relative to these differences and checks the implementations against each other; it says nothing about the shared discretisation error, nor about whether the common limit is the continuum solution.
+IQN-ILS and Robin--Neumann agree to $0.03\%$ (ringAddedMass frequency), $2.2\times10^{-4}$ (womersleyTube; the quasi-monolithic coupling agrees with IQN-ILS to $7.2\times10^{-4}$), $0.01\%$ (FSI1), and $0.07\%$ (3dTube QoIs).
+This bounds the iterative error relative to these differences and checks the implementations against each other; it says nothing about the shared discretisation error, nor about whether the common limit is the continuum solution. In cavityFlexibleBottom the partitioned and quasi-monolithic couplings agree to $0.02\%$ and both lie $\approx5\%$ from the published curve.
 FSI3 shows that the two need not agree to the coupling tolerance when the Robin--Neumann scheme modifies the discrete interface condition.
 
 \emph{Coupling algorithms can affect solution quality as well as cost.}
-In ringAddedMass, IQN-ILS produces a mesh-dependent amplitude loss that Robin--Neumann does not (mechanism unknown); and the cheaper algorithm is case dependent (IQN-ILS in ringAddedMass and FSI3, Robin--Neumann in womersleyTube and 3dTube).
+In ringAddedMass, IQN-ILS produces a mesh-dependent amplitude loss that Robin--Neumann does not (mechanism unknown), the first version of the quasi-monolithic solver a first-order, mesh-independent loss an order of magnitude larger, from a time-level error, and the corrected solver adds no dissipation at all (Section~\ref{sec:ring}); in mokLidDrivenCavity the partitioned trough is still changing on the finest mesh, whereas the quasi-monolithic trough is mesh independent from $32^2$ (Section~\ref{sec:mok}); and the cheaper algorithm is case dependent (IQN-ILS in ringAddedMass and FSI3, Robin--Neumann in womersleyTube and 3dTube).
 
 \todo{ESSENTIAL: one or two representative coupling-tolerance sweeps (at least two decades, strict test) at fixed discretisation, e.g.\ ringAddedMass (strong level) and collapsibleChannel, so that the claim ``iterative error $\ll$ discretisation error'' rests on more than the Hron--Turek cases; and the $r_1$-at-acceptance audit of Section~\ref{sec:convergence_method}.}
 
@@ -144,7 +144,7 @@ In ringAddedMass, IQN-ILS produces a mesh-dependent amplitude loss that Robin--N
 \subsection{Defects exposed by verification}\label{sec:defects}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Four defects or hazards in the code under test were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}).
+Six defects or hazards in the code under test were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}).
 
 \begin{table}[htbp]
 	\centering
@@ -160,16 +160,22 @@ Four defects or hazards in the code under test were found by the studies of Sect
 		3dTube & wall viscous force miscompiled at \texttt{-O3} (temporary-storage aliasing under \texttt{\_\_restrict\_\_}) & deterministic $1.5$--$3\%$ difference in one QoI between two platforms \\
 		3dTube & degenerate barycentric weights below a fixed absolute area threshold; interpolation operator changed with mesh level & first divergence after the fix above; broken symmetry and rank dependence \\
 		Hessenthaler & legacy coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\
+		ringAddedMass & experimental quasi-monolithic solver: one-step lag of the interface force (first-order dissipation proportional to the added mass); with the lag removed, a non-dissipative solid time scheme; a zero-gradient interface pressure (first-order added-mass error in space) & amplitude loss of an undamped exact solution falling at first order in $\Delta t$, while the frequency converged at second order; a growing high-frequency mode in blobInTreacle; the wet/dry ratio converging at first order under mesh refinement \\
+		womersleyTube & experimental quasi-monolithic solver: velocity solid's least-squares gradient stencil omitted the wedge faces (hoop strain lost; wall $1.6$ times too compliant); coupling assumed an undeformed initial solid & monolithic wall amplitude $142\%$ too large against the exact solution; a static wedge test against the displacement-based solid \\
+		Hron--Turek & experimental quasi-monolithic solver: \texttt{newtonIcoFluid} continuity from \texttt{div(U)} with its own interpolation, while momentum is convected with the \texttt{interpolate(U)} face flux; the convecting flux was not the one continuity constrains (solids4foam PR \#597) & FSI3 amplitude $7.7\%$ below IQN-ILS on identical meshes; a rigid-plate vortex street decaying from a shedding restart \\
+		blobInTreacle & experimental quasi-monolithic solver: interface viscous traction from the deviatoric stress ($\bb{n}\cdot$\texttt{devReff}), whereas the fluid momentum equation contains only $\nabla\cdot(\nu_\mathrm{eff}\nabla\bb{v})$, whose wall flux is $\nu_\mathrm{eff}\,\partial\bb{v}/\partial n$: a first-order force absent from the fluid's momentum balance & steady displacement not converging at second order under mesh refinement, unlike the partitioned solution \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-Two observations follow.
+Three observations follow.
 First, the toolchain belongs in the verification matrix.
 The 3dTube aliasing defect produced a reproducible difference between two platforms that looked like a platform or round-off effect, and a study on one platform, at any resolution, would have reported either the correct or the incorrect result without warning.
 Its root cause lies in the reuse of temporary storage by OpenFOAM's field products combined with \texttt{\_\_restrict\_\_}, so it is not specific to solids4foam; the audit for the fix found about 15 further sites of the same mechanism in solids4foam.
 Second, a defect can switch on with refinement: the barycentric degeneracy affected levels 2 and 3 of 3dTube but not level 1, so the mesh study compared different interpolation operators, and its apparent convergence of the peak displacement was not evidence about the discretisation.
 Cross-platform replication, decomposition invariance and symmetry checks are inexpensive and were decisive; they should accompany refinement studies of coupled codes.
+Third, a fix can expose a further defect: removing the lag of the ringAddedMass interface force left a solid time scheme that is second order but dissipates nothing at any frequency, and a high-frequency mode then grew in blobInTreacle, so the corrected scheme had to be checked on a second case with stiff, viscous dynamics as well as against the exact solution; and only once the larger temporal error was removed did the first-order spatial error of the interface pressure become visible.
+The traction defect became visible in blobInTreacle, a highly viscous case, and its lesson is that the traction passed to the solid must be built from exactly the operators and boundary values of the fluid's momentum equation: a quadratic wall-shear estimate through the cell values, apparently more accurate, degraded the partitioned blobInTreacle mesh convergence to first order in a trial (errors against $0.1204\,\mathrm{m}$ from $3.1$, $0.70$, $0.18\times10^{-3}\,\mathrm{m}$ to $3.3$, $2.7$, $1.5\times10^{-3}\,\mathrm{m}$), because in a converged conservative finite volume solution the one-sided wall flux converges at second order (supraconvergence), whereas a fit through cell values is not conservative; the trial was not adopted and does not affect the partitioned results.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reliability of published benchmark values}\label{sec:published_reliability}
@@ -217,14 +223,14 @@ Disagreements between codes can originate in the discretisation of the reference
 		\toprule
 		Case & Recorded cost \\
 		\midrule
-		ringAddedMass & tutorial $\approx75$\,s serial; full study (35 runs) $\approx30$\,min with 32 concurrent serial runs \\
-		womersleyTube & runs 2.5--25\,min serial; full study $\approx30$\,min on 5 cores \\
+		ringAddedMass & tutorial $\approx75$\,s serial; full study (35 runs) $\approx30$\,min with 32 concurrent serial runs; quasi-monolithic study (21 runs) $\approx2$\,min with 14 concurrent serial runs \\
+		womersleyTube & runs 2.5--25\,min serial; full study $\approx30$\,min on 5 cores; quasi-monolithic runs 1.3--18\,min serial, study $\approx30$\,min with 4 concurrent runs \\
 		collapsibleChannel & tutorial $\approx10$\,min; finest fluid mesh 70\,min; full sweep $\approx2.5$\,h (one case per core); serial only \\
 		Hron--Turek FSI1 & 1x 781\,s serial; 2x 3\,062\,s on 2 ranks; 4x estimated $>14$\,h on 3 ranks \\
 		Hron--Turek FSI3 & 1x 1.4\,h serial; 2x 5.5\,h on 8 ranks; 4x 40.8\,h on 32 ranks (no speed-up beyond 32 ranks); OpenFOAM-v2512 \\
 		Hron--Turek FSI2 & 1x 1.1--1.2\,h serial; 2x 4.0--4.1\,h on 7--8 ranks \\
 		3dTube & level 1 504\,s on 4 ranks; level 2 3\,641\,s on 8 ranks; level 3 22\,502\,s (6.25\,h) on 32 ranks ($\approx720$ core-hours) \\
-		mokLidDrivenCavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
+		mokLidDrivenCavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min; quasi-monolithic $96^2$ 2\,499\,s, $128^2$ 9\,109\,s serial \\
 		cavityFlexibleBottom$^\ast$ & three-level sweep $\approx10$\,min serial \\
 		beamInCrossFlow$^\ast$ & in progress \\
 		blobInTreacle$^\ast$ & full study $\approx33$\,min \\

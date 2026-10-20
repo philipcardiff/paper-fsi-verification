@@ -1,0 +1,15 @@
+# Quasi-monolithic Newton coupling (solids4foam PR #582, commits 1688350ae, e069b5119),
+# OpenFOAM v2512, macOS, serial, t <= 1.5 s, second-order (linear) velocity solid,
+# solid mesh 80*fluidLevel x 8 (matching interfaces). Trough: first trough of the
+# wall-midpoint vertical displacement in 0.2 <= t <= 0.8 s. oomph-lib at dt = 0.00625: -0.21572.
+fluid_level,solid_mesh,delta_t,rho_ratio,trough_m,trough_time_s,error_vs_oomph,run_s
+1,80x8,0.00625,1,-0.19619,0.4606,-0.091,553
+2,160x8,0.00625,1,-0.20691,0.4634,-0.041,2008
+4,320x8,0.00625,1,-0.21063,0.4661,-0.024,7901
+2,160x8,0.0125,1,-0.20361,0.4619,,1072
+2,160x8,0.003125,1,-0.20795,0.4650,-0.037,2896
+1,80x8,0.003125,0,-0.19759,0.4615,,766
+2,160x8,0.00625,0,-0.20689,0.4632,,2072
+2,160x8,0.003125,0,-0.20835,0.4644,,2771
+4,320x8,0.00625,0,-0.21061,0.4659,-0.025,7796
+2,160x8,0.025,1,failed (fluid mesh motion inverted a cell at t = 0.25 s),,,117

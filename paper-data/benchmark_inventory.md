@@ -64,11 +64,11 @@ evidence is on `development`.
 | HronTurek FSI3 | 2-D | periodic (self-excited) | large (StVK) | low mass ratio, vortex-induced oscillation | **C** (Featflow L4) | 2 levels (Δt scaled) | none separate | IQN-ILS vs Robin (transient) | 2-level vs Featflow: 1.1–3.8 *(derived here)* | ≤3.1% except lift amp 13.3% | **Main, 4.3** (needs 4x) |
 | HronTurek FSI2 | 2-D | periodic (self-excited) | large (StVK) | large-amplitude flapping, mesh motion | **C** (Featflow L4) | 2 levels (Δt scaled) | none separate | tolerance 1e-5/1e-6/1e-7 | 2-level: errors fall 4–10× except lift amp | ≤3.6% except lift amp 7.8% | **Main, 4.3** (with FSI3) |
 | 3dTube | **3-D** | transient pulse | small (Hookean) | 3-D pressure-wave propagation, added mass | **C-weak** (digitised figures) | 2 levels | 4 levels | Robin vs IQN-ILS | not defined (2 mesh levels); Δt changes 1.74→0.83→0.016% | u_r,max 1.8% from Tuković 2018 | **Main, 4.3** (needs 3rd level) |
-| mokLidDrivenCavity | 2-D | periodic (forced) | large (TL), membrane | enclosed-ish cavity, tension-dominated membrane | **C-weak** (two inconsistent groups) | 4 levels | 3 levels | IQN-ILS vs Aitken (iterations only) | peak ≈1.2; trough <0.5 | trough, mean in group-B envelope; peak 3.3% above | **Main, 4.3** ("revisited") |
+| mokLidDrivenCavity | 2-D | periodic (forced) | large (TL), membrane | enclosed-ish cavity, tension-dominated membrane | **C-weak** (two inconsistent groups) | 4 levels | 3 levels | IQN-ILS vs Aitken (iterations only); quasi-monolithic cross-check | peak ≈1.2; trough <0.5 (quasi-monolithic: trough converged from 32²) | trough, mean in group-B envelope; peak 3.3% above | **Main, 4.3** ("revisited") |
 | beamInCrossFlow (original) | **3-D** (half) | steady | StVK (small strains) | 3-D external flow, fluid-force resolution | **C** (Richter 2015) | 4 levels | none | Robin vs IQN-ILS (≤0.4%) | not asymptotic | u_x(A) 0.07%, F_x −1.4% vs Richter | **Supplementary** |
 | beamInCrossFlow (modified) | **3-D** (half) | steady | **large** (StVK) | 3-D large deformation + mesh motion | **C-weak** (Tuković 2018 Fig. 28, same code lineage) | 5 levels | none | Robin vs IQN-ILS (≤0.4%) | not asymptotic (finest change ≈4.6%) | u_x −2.3%, u_y −0.7%, 2u_z +2.3% | **Supplementary** (main only if converged + independent ref.) |
-| cavityFlexibleBottom | 2-D | steady (pseudo-transient) | large (TL, StVK) | internal flow over flexible cavity floor | **C-weak** (Tuković 2018, digitised) | 3 levels | pseudo-Δt (paper data, monolithic) | none recorded | u_y net 1.96 | F_y ≤0.2%; u_y converges to ≈5% offset | **Exclude until discrepancy resolved** |
-| blobInTreacle | 2-D | transient → steady | large (TL, StVK) | viscous, strongly damped; 2nd-order time accuracy | **C-weak** (preprint figures, coarse) | 4 levels | 4 levels | none | Δt 2.39–2.54; mesh 2.40 | t = 1 s shape 1.6%; steady u_x −7.4% | **Supplementary** |
+| cavityFlexibleBottom | 2-D | steady (pseudo-transient) | large (TL, StVK) | internal flow over flexible cavity floor | **C-weak** (Tuković 2018, digitised) | 3 levels (+4 quasi-monolithic) | pseudo-Δt (paper data, old monolithic) | Aitken vs quasi-monolithic (0.02%) | u_y net 1.96; quasi-monolithic 1.99, 2.05 | F_y ≤0.2%; u_y converges to ≈5% offset (both couplings) | **Provisional** (24% discrepancy resolved; 5% offset open) |
+| blobInTreacle | 2-D | transient → steady | large (TL, StVK) | viscous, strongly damped; 2nd-order time accuracy | **C-weak** (preprint figures, coarse) | 4 levels | 4 levels | IQN-ILS vs quasi-monolithic (limits 0.12%) | Δt 2.39–2.54; mesh 2.40 (quasi-monolithic 2.0) | t = 1 s shape 1.6%; steady u_x −7.4% | **Supplementary** |
 
 Immersed-boundary FSI2, membraneRoof, flexibleDamBreak, fillingElasticContainer,
 perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
@@ -101,7 +101,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
   - Recorded on v2412 only. The v2412 regression references fail on v2512 by 0.05% in half-period while passing against the exact value (PR #510 caveats).
   - Frequency mesh order not measurable (already converged).
 - **Unique contribution:** the only case with an exact reference *and* a swept added-mass ratio over two decades; separates coupling, solid and time errors cleanly.
-- **Would strengthen it:** v2512 rerun; explanation of IQN-ILS amplitude decay; optionally n = 3 and a thinner ring (h/a) to show the O((h/a)²) thin-ring trend; monolithic solver (PR #233) on the strong level.
+- **Would strengthen it:** v2512 rerun; explanation of IQN-ILS amplitude decay; optionally n = 3 and a thinner ring (h/a) to show the O((h/a)²) thin-ring trend; monolithic solver (PR #233) on the strong level (done 2026-10-15/16 at all three levels: it exposed a one-step lag of the interface force (first-order amplitude loss of 2-18% per period) and then a first-order spatial error from the zero-gradient interface pressure, both corrected; the corrected solver is within 0.007% of the exact wet/dry ratio and adds no dissipation; see [`ringAddedMass_monolithic_findings.md`](ringAddedMass_monolithic_findings.md)).
 
 ### 2. womersleyTube
 
@@ -266,7 +266,8 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
   - foam-extend differs by 3% in midpoint displacement at t = 5 s.
   - OpenFOAM-9 regression values differ ≈1% between machines (PR #497 comment).
 - **Unique contribution:** an "anatomy of a benchmark" case: shows the literature definitions disagree and that solids4foam is converged where references are not. Also the tension-dominated counterpoint to collapsibleChannel's bending wall.
-- **Would strengthen it:** independent converged reference (COMSOL/other); diagnosis of the 128² divergence; Richardson estimate for peak and trough.
+- **Quasi-monolithic cross-check (2026-10-16, `monolithic_findings_2026-10-16.md`):** 16²–128², same Δt. Trough mesh-independent to 0.1% from 32² (0.2025 m); the partitioned trough passes it on 96² (0.9% above), so its slow convergence is a property of the partitioned solution, not of the benchmark. Peaks agree to 0.2% on 96²; the monolithic peak also converges at order < 1 (changes 0.0047, 0.0026 m, then 0.0017 m from 64² to 128²). Means → ≈0.244 m from either side. 128² completes (9109 s serial): the divergence is partitioned-specific.
+- **Would strengthen it:** independent converged reference (COMSOL/other; ANSYS requested, paper PR #12); diagnosis of the partitioned 128² divergence and of the partitioned/monolithic trough difference; Richardson estimate for peak and trough.
 
 ### 7. beamInCrossFlow (original small-deformation and modified large-deformation forms)
 
@@ -309,8 +310,10 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
 - **QoIs:** steady u_y at (4, −1, 0.5); steady interface F_y.
 - **Mesh study (partitioned, Aitken, v2512):** Δx 0.1/0.05/0.025. u_y −0.20246, −0.22883, −0.23563 (errors 13.2, 6.88, 5.59%); net order 1.96 **towards a value ≈5% from the published curve**. F_y within 0.2% on all levels. Level 4 diverges at the tutorial Δt.
 - **Pseudo-time-step study (monolithic, paper repo data):** Δt 0.5–40 s on 3 meshes; u_y and F_y insensitive to Δt (e.g. m3: −0.29192 to −0.29193).
-- **Coupling study:** none recorded (IQN-ILS variant exists).
-- **⚠ Unresolved discrepancy (found in this inventory):**
+- **Coupling study:** none recorded (IQN-ILS variant exists); Aitken vs corrected quasi-monolithic agree to 0.02% (2026-10-16).
+- **Quasi-monolithic cross-check (2026-10-16, `monolithic_findings_2026-10-16.md`):** corrected solver (PR #582), Δt = 0.5, inlet ramped over 20 s. u_y −0.201557, −0.228817, −0.235676, −0.237336 m on levels 1–4; agrees with Aitken to 0.02% (u_y, F_y) on level 3; orders 1.99, 2.05; extrapolated −0.23787 m, ≈5% below Tuković in magnitude; F_y within 0.1–0.2% of Tuković.
+- **ANSYS (E. Tandis, paper PR #12, preliminary):** u_y ≈ −0.250, −0.2535, −0.2525 m (finest not yet steady), close to Tuković, but u_x at the monitor point +0.0325 m against −1.7e-4 m here: monitor point or definition probably differ; open on PR #12.
+- **~~Unresolved discrepancy~~ Resolved (2026-10-16):** the 24% difference below came from the old monolithic campaign, which pre-dates the solver corrections of PR #582; the corrected solver agrees with the partitioned coupling to 0.02%. The remaining ≈5% offset from Tuković (2018) is common to both couplings and is a case-definition question. Original note:
   - At Δx = 0.025 the monolithic campaign in `simulationData/` gives u_y = −0.29192 m and F_y = −5.25227 N.
   - The partitioned verification gives u_y = −0.23563 m and F_y = −5.25632 N.
   - The **forces agree to 0.08% but the displacements differ by 24%** *(derived here)*, and the published curve (≈ −0.2496 at 0.025) lies between them.
@@ -318,7 +321,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
   - The tutorial README also quotes an earlier solids4foam coarse-mesh value of −0.219 m vs −0.20246 m now.
 - **Cost:** default partitioned sweep ≈10 min serial; monolithic m3 runs 2,000–16,000 s.
 - **Unique contribution:** steady internal flow; currently the parent paper's Case 1 and the only case with a monolithic-solver dataset.
-- **Recommendation:** exclude from the verification suite until the discrepancy is resolved. Even then the reference is same-lineage and digitised, so at most supplementary.
+- **Recommendation:** keep provisional. The monolithic/partitioned discrepancy is resolved; the ≈5% offset from the same-lineage, digitised reference remains open pending the ANSYS clarification, so at most supplementary until an independent reference of the identical set-up agrees.
 
 ### 9. blobInTreacle
 
@@ -340,7 +343,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
   - Steady-state offset (6–7%) attributed to the coarse reference but unconfirmed.
   - Time study only at t = 1 s during the ramp, with large Δt (the tolerance floor limits smaller Δt).
   - Finest mesh needs Δt = 0.005 (IQN-ILS stagnation).
-  - Not cross-checked against the quasi-monolithic solver after the StVK change (PR #498).
+  - ~~Not cross-checked against the quasi-monolithic solver after the StVK change (PR #498).~~ Cross-checked 2026-10-16 (`monolithic_findings_2026-10-16.md`): corrected quasi-monolithic u_x 0.117429, 0.119524, 0.120053 m (x1/x2/x4, order 2.0, extrapolated 0.12023 m) against a same-platform partitioned rerun 0.117301, 0.119696, 0.120224 m (order 2.2, extrapolated 0.12037 m): limits agree to 0.12%. The cross-check exposed a traction defect in the quasi-monolithic solver (interface traction not the momentum equation's wall flux; fixed in PR #582, issue #583). The partitioned x4 value differs by 0.06% between Linux (0.120152) and macOS (0.120224).
 - **Unique contribution:** clean demonstration of second-order temporal accuracy in a viscous, large-deformation FSI problem.
 - **Would strengthen it:** independent converged reference; time study with tightened coupling/solver tolerances to extend below Δt = 0.03125.
 
@@ -373,8 +376,9 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
    cavityFlexibleBottom and modified beamInCrossFlow, and the principal
    converged reference for 3dTube. It is an earlier version of the same code
    family and must not be presented as independent.
-4. **Coupling-error evidence is uneven.** Every case except cavityFlexibleBottom
-   and blobInTreacle compares two converged couplings. Only HronTurek FSI2
+4. **Coupling-error evidence is uneven.** Every case compares two converged
+   couplings (cavityFlexibleBottom and blobInTreacle only through the
+   quasi-monolithic cross-check of 2026-10-16). Only HronTurek FSI2
    (outerCorrTolerance 1e-5/1e-6/1e-7) and FSI1 (fluid solver tolerance) vary a
    tolerance systematically. collapsibleChannel shows a Robin–IQN-ILS gap of
    0.1–0.2% that does not shrink with refinement.
@@ -424,7 +428,7 @@ A commented LaTeX version is in [`section4_outline.tex`](section4_outline.tex).
 | 4.3.3 mokLidDrivenCavity | **Main paper** | Literature definitions inconsistent; solids4foam converged where references are not; tension-dominated counterpoint. |
 | 4.3.4 beamInCrossFlow (original + modified) | **Supplementary** (promote modified form to main only if asymptotic convergence and an independent reference are obtained) | 3-D steady; geometric nonlinearity. |
 | 4.3.5 blobInTreacle | **Supplementary** | Second-order temporal accuracy; weak reference. |
-| cavityFlexibleBottom | **Exclude** (revisit after the discrepancy is resolved; then at most supplementary) | Same-lineage digitised reference; unexplained monolithic/partitioned difference. |
+| cavityFlexibleBottom | **Provisional / at most supplementary** (monolithic/partitioned discrepancy resolved 2026-10-16; ≈5% offset from the reference open) | Same-lineage digitised reference; both couplings agree, ≈5% from it. |
 | immersedHronTurekFsi2, membraneRoof, flexibleDamBreak, fillingElasticContainer, others | **Exclude** | See table above. |
 
 A closing **4.4 Summary table** would list, per case: reference category,
@@ -437,8 +441,11 @@ observed orders, finest error, coupling agreement and cost. This is the
 
 ### Essential before publication
 
-1. **Resolve the cavityFlexibleBottom monolithic vs partitioned u_y discrepancy**
-   (24% at equal force). Start by diffing the two case set-ups (solid model,
+1. ~~**Resolve the cavityFlexibleBottom monolithic vs partitioned u_y discrepancy**
+   (24% at equal force).~~ Resolved 2026-10-16: old monolithic data pre-dated
+   the solver corrections; the corrected solver agrees to 0.02%. Remaining: the
+   ≈5% offset from Tuković (2018), common to both couplings (ANSYS
+   clarification on paper PR #12). Original note: Start by diffing the two case set-ups (solid model,
    E, ν, monitor point z, boundary conditions, `dampingCoeff`); no new runs
    needed initially. This affects the parent paper's Case 1 as well.
 2. ~~**Diagnose the womersleyTube temporal order (1.3–1.8).**~~ Done
@@ -472,10 +479,15 @@ observed orders, finest error, coupling agreement and cost. This is the
 4. Quasi-monolithic solver (open PR #233) on ringAddedMass (strong),
    collapsibleChannel (including massless ρ_s = 0) and womersleyTube: a
    same-code but different-algorithm cross-check that also shows robustness.
+   Done for ringAddedMass (all levels), and as a cross-check for
+   mokLidDrivenCavity, cavityFlexibleBottom and blobInTreacle (2026-10-16,
+   `monolithic_findings_2026-10-16.md`); collapsibleChannel and womersleyTube
+   not run.
 5. ringAddedMass: explain the mesh-dependent IQN-ILS amplitude loss that Robin
    does not show.
-6. mokLidDrivenCavity: diagnose the 128² divergence; Richardson estimate of the
-   trough.
+6. mokLidDrivenCavity: diagnose the 128² divergence (partitioned only; the
+   quasi-monolithic run completes); explain the partitioned/quasi-monolithic
+   trough difference; Richardson estimate of the trough.
 7. beamInCrossFlow: graded fluid-mesh family reaching the asymptotic range;
    tabulate per-level values; check Gillebaart et al. (2016) for an
    independent modified-form value.

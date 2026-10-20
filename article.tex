@@ -149,8 +149,11 @@ The suite, its drivers and its machine-readable references are released so that 
 % Sections 4--8: verification-benchmark paper.
 % The parent (monolithic-solver) test-case section is preserved unchanged in
 % sectionTestCases.tex but is no longer part of the build: its results come
-% from the experimental quasi-monolithic solver, which is not used as
-% verification evidence in this paper.
+% from the first version of the experimental quasi-monolithic solver. The
+% corrected solver (solids4foam PR #582) is used only for the ringAddedMass
+% comparison (Section sec:ring) and as a cross-check of the partitioned
+% results for collapsibleChannel, mokLidDrivenCavity, cavityFlexibleBottom
+% and blobInTreacle.
 %\input{sectionTestCases.tex}
 \input{sectionVerificationMethodology.tex}
 \input{sectionBenchmarkSuite.tex}

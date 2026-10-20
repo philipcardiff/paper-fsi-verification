@@ -1,0 +1,10 @@
+# blobInTreacle: steady top-point u_x (m), mesh levels x1/x2/x4 with the time steps of the mesh study.
+# monolithic: corrected quasi-monolithic Newton (interface traction = momentum-equation wall flux, dbfda65ba).
+# partitioned_macos: local partitioned rerun on the same platform (the paper's Linux values, from the
+#   tutorial README, are 0.117301, 0.119698, 0.120152 and are unchanged).
+# solids4foam feature-ring-monolithic-verification (PR #582) at ba69872bd/dbfda65ba, OpenFOAM v2512, macOS.
+# See monolithic_findings_2026-10-16.md.
+level,ux_monolithic_m,ux_partitioned_macos_m,ux_partitioned_paper_m
+x1,0.117429,0.117301,0.117301
+x2,0.119524,0.119696,0.119698
+x4,0.120053,0.120224,0.120152

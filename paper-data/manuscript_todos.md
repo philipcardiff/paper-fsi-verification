@@ -10,9 +10,17 @@ because the section numbers may change.
 
 Ground rules:
 
-- **Monolithic results are not used.** The quasi-monolithic solver (open PR
-  #233) and all of its results, including `simulationData/cavityFlexibleBottom/`
-  and the parent paper's Case 1 figures, are not evidence for anything.
+- **Monolithic results: ringAddedMass, plus cross-checks of four cases.** The
+  corrected quasi-monolithic solver (open PR #233, ported to `development` in
+  PR #580, corrected in PR #582) is compared with IQN-ILS on ringAddedMass
+  (`paper-data/ringAddedMass_monolithic_findings.md`) and, since 2026-10-16,
+  used as a cross-check of the partitioned results for mokLidDrivenCavity,
+  cavityFlexibleBottom and blobInTreacle
+  (`paper-data/monolithic_findings_2026-10-16.md`) and collapsibleChannel
+  (`paper-data/collapsibleChannel_monolithic.csv`). It never replaces the
+  partitioned results or the reference. Results of the first (uncorrected)
+  version, including `simulationData/cavityFlexibleBottom/` and the parent
+  paper's Case 1 figures, are not evidence for anything.
 - **Proportionate verification.** For each benchmark and QoI, show that the
   error sources that materially affect that QoI are controlled. Do not fill a
   full mesh × Δt × coupling × tolerance matrix for every case.
@@ -60,8 +68,8 @@ must contain no numbers until this exists.
 | S1 | Hron–Turek FSI1 | 4x level (>14 h on 3 ranks). | Gives a reference-free order for u_y. Until then, write "converging towards Featflow". |
 | S2 | collapsibleChannel | Δt study on fluid level 3 or 4. | The finer-mesh temporal error is unmeasured. |
 | S3 | Hron–Turek FSI3 | Independent Δt study on 2x. | There is no separate Δt study for FSI2/3. |
-| S4 | mokLidDrivenCavity | Diagnose the 128² divergence. Compute Richardson estimates for peak and trough, and quantify the IQN-ILS vs Aitken difference. | The trough order (<0.5) is poorly established. |
-| S5 | cavityFlexibleBottom | Partitioned level 4 at reduced pseudo-Δt, a pseudo-Δt check and a coupling comparison. Explain the ~5% u_y offset at equal F_y by diffing the set-up against Tuković (2018). | This is the rehabilitation route, together with a COMSOL reference. Partitioned evidence only. |
+| S4 | mokLidDrivenCavity | Diagnose the 128² divergence (partitioned-specific: the quasi-monolithic 128² run completes). Explain why the partitioned trough moves past the quasi-monolithic one (0.2025 m, converged from 32²). Compute Richardson estimates for peak and trough, and quantify the IQN-ILS vs Aitken difference. | The trough order (<0.5) is poorly established. |
+| S5 | cavityFlexibleBottom | Partitioned level 4 at reduced pseudo-Δt, a pseudo-Δt check and a coupling comparison. Explain the ~5% u_y offset at equal F_y by diffing the set-up against Tuković (2018). The offset is common to the partitioned and corrected quasi-monolithic couplings (0.02% apart on level 3); the ANSYS set-up (paper PR #12) is being clarified. | This is the rehabilitation route, together with a COMSOL reference. Partitioned evidence only. |
 | S6 | blobInTreacle | Time study below Δt = 0.03125 s with tolerances tightened by about two decades. | The present orders (2.4–2.5) are super-nominal and limited by the tolerance floor. |
 | S7 | ringAddedMass | Investigate the mesh-dependent IQN-ILS amplitude loss. | Links to item 4. |
 

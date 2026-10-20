@@ -24,20 +24,21 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		\toprule
 		Case & Dim. & Regime & Solid & Ref. & Mesh & $\Delta t$ & Coupling \\
 		\midrule
-		ringAddedMass & 2-D & free vibration & small & A & 3 & 3 & IQN-ILS/RN \\
-		womersleyTube & axisym. & periodic (forced) & small & A & 3 & 3 & IQN-ILS/RN \\
-		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN; $\rho_s$ sweep \\
-		Hron--Turek FSI1 & 2-D & steady & large & B & 2 & 2 & IQN-ILS/RN \\
-		Hron--Turek FSI3 & 2-D & self-excited & large & C & 3 & scaled; 2 (2x) & IQN-ILS/RN; tolerance pair \\
+		ringAddedMass & 2-D & free vibration & small & A & 3 & 3 & IQN-ILS/RN/QM \\
+		womersleyTube & axisym. & periodic (forced) & small & A & 3 & 3 & IQN-ILS/RN/QM \\
+		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN/QM; $\rho_s$ sweep \\
+		Hron--Turek FSI1 & 2-D & steady & large & B & 2 & 2 & IQN-ILS/RN/QM \\
+		Hron--Turek FSI3 & 2-D & self-excited & large & C & 3 & scaled; 2 (2x) & IQN-ILS/RN/QM; tolerance pair \\
 		Hron--Turek FSI2 & 2-D & self-excited & large & C & 2 & scaled & tolerance sweep \\
-		3dTube & 3-D & transient pulse & small & C-weak & 3 & 4 & IQN-ILS/RN \\
-		mokLidDrivenCavity & 2-D & periodic (forced) & large & C-weak & 4 & 3 & IQN-ILS/Aitken$^\dagger$ \\
-		cavityFlexibleBottom$^\ast$ & 2-D & steady & large & C-weak & 3 & -- & none \\
+		3dTube & 3-D & transient pulse & small & C-weak & 3 & 4 & IQN-ILS/RN/QM \\
+		mokLidDrivenCavity & 2-D & periodic (forced) & large & C-weak & 4 & 3 & IQN-ILS/Aitken$^\dagger$/QM \\
+		cavityFlexibleBottom$^\ast$ & 2-D & steady & large & C-weak & 3 & -- & Aitken/QM \\
 		beamInCrossFlow$^\ast$ & 3-D & steady & small & C & \multicolumn{3}{l}{in progress (Richter definition)} \\
 		Hessenthaler$^\ast$ & 3-D & steady (Phase I) & large & -- & \multicolumn{3}{l}{in progress; validation case} \\
-		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & C-weak & 4 & 4 & none \\
+		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & C-weak & 4 & 4 & IQN-ILS/QM \\
 		\bottomrule
-		\multicolumn{8}{l}{$^\ast$ Provisional or in progress (Section~\ref{sec:provisional}). $^\dagger$ Iteration counts only; no quantitative difference recorded.}
+		\multicolumn{8}{l}{$^\ast$ Provisional or in progress (Section~\ref{sec:provisional}). $^\dagger$ Iteration counts only; no quantitative difference recorded.} \\
+		\multicolumn{8}{l}{QM: quasi-monolithic coupling (Sections~\ref{sec:ring}, \ref{sec:womersley}, \ref{sec:collapsible}, \ref{sec:fsi1}, \ref{sec:3dtube}, \ref{sec:mok}, \ref{sec:cavity}, \ref{sec:blob}).}
 	\end{tabular}
 \end{table}
 
@@ -94,11 +95,35 @@ Meshes are refined by factors 1, 2 and 4 at 100 steps per period, and 25--100 st
 	\item \emph{Space.} With the high-order solid the frequency changes by at most $0.06\%$ between meshes, too little to define an order (the slight growth of $|\text{error}|$ reflects removal of a small offsetting spatial error). The wet/dry ratio, in which the common time error cancels, converges at orders 1.77, 1.73 and 1.68 to within $+0.006\%$.
 	\item \emph{Solid discretisation.} The standard second-order solid is $20.7\%$ too stiff in bending on the coarsest mesh and $1.6\%$ on the finest (order 1.66), the high-order solid within $0.13\%$ on every mesh; yet the wet/dry ratios of the two solids agree to $0.003\%$ on the finest mesh.
 	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.03\%$ in frequency; Robin--Neumann needs 2.5 times as many iterations at the strong level (12.3 against 4.9 per step). IQN-ILS solutions lose amplitude (up to $2.1\%$ per period on the coarsest mesh at the strong level, halving with each refinement), whereas Robin--Neumann solutions are almost undamped ($\leq0.05\%$ per period); the mechanism has not been identified, and the frequency is unaffected at the reported precision.
+	\item \emph{Quasi-monolithic coupling.} The experimental quasi-monolithic Newton solver of solids4foam (PR \#233), which solves the fluid velocity, fluid pressure and solid velocity in one nonlinear system, was run with the standard solid, the only one it supports, against IQN-ILS with the same solid, on the middle mesh at 25--100 steps per period (Table~\ref{tab:ring_mono}); the comparison is through the wet/dry ratio, which is insensitive to the solid model. The study exposed two defects, both since corrected. (i)~The first version reproduced the frequency but lost $2.0\%$, $10.6\%$ and $18.3\%$ of the amplitude per period at 100 steps per period (IQN-ILS: $0.16\%$, $0.65\%$, $1.15\%$), a loss that grew with the added mass, fell only at first order in $\Delta t$ and hardly depended on the mesh. The interface force in the solid residual lagged by one time step, which acts as a damper of coefficient $m_a\omega^2\Delta t$ and predicts a loss of $\pi(m_a/M)\,\omega\Delta t$ per period, $1.8\%$, $9.9\%$ and $17.9\%$ here. Removing the lag left a centred solid time scheme without numerical dissipation, under which a high-frequency mode grew in the blobInTreacle case, so the solid now integrates its displacement with the backward (BDF2) scheme of its acceleration. (ii)~The amplitude loss then matched IQN-ILS, but the wet/dry ratio converged only at first order in space ($-0.36\%$, $-0.21\%$ and $-0.12\%$ on meshes 1, 2 and 4 at the strong level): a zero-gradient pressure on the moving interface halves the normal pressure gradient that the least-squares gradient gives in the adjacent fluid cells and makes the cell-centre pressure the interface pressure, two first-order errors that partly cancel. Setting the interface pressure gradient from the normal momentum equation at the no-slip wall, $\partial p/\partial n = \bb{n}\cdot(\nu\nabla^2\bb{v}_F - \bb{a})$ with $\bb{a}$ the wall acceleration, removes both. The corrected solver's wet/dry ratio is within $0.007\%$ of the exact value at every level and time step, and on meshes 1, 2 and 4 it falls from $-0.031\%$ to $-0.004\%$ and $-0.0004\%$ at the strong level (IQN-ILS: $+0.12\%$, $+0.03\%$, $+0.009\%$), faster than the formal second order as the finest values reach the precision of the frequency measurement. Its amplitude loss, $2.57\%$, $0.36\%$ and $0.045\%$ per period at 25, 50 and 100 steps per period at every level, equals that of the dry ring: the coupling adds no dissipation, whereas IQN-ILS adds up to $1.1\%$ per period. Each step converges in two Newton iterations (the problem is linear), against 3--5 IQN-ILS iterations.
 \end{itemize}
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\setlength{\tabcolsep}{5pt}
+	\caption{ringAddedMass: quasi-monolithic Newton against IQN-ILS coupling, standard solid, refinement-factor-2 mesh. Ratio: error of the wet/dry frequency ratio against the exact value; loss: amplitude loss per period (dry ring: $2.57\%$, $0.36\%$, $0.046\%$ at 25, 50, 100 steps). First version: with the one-step lag of the interface force; corrected: backward (BDF2) solid and interface pressure gradient from the normal momentum equation. Source: solids4foam \texttt{ringAddedMass/verification/README.md} (\texttt{Allverify --study monolithic}); \texttt{paper-data/ringAddedMass\_monolithic\_runs*.csv}.}
+	\label{tab:ring_mono}
+	\begin{tabular}{lrrrrrr}
+		\toprule
+		 & & \multicolumn{2}{c}{IQN-ILS} & First version & \multicolumn{2}{c}{Corrected} \\
+		\cmidrule(lr){3-4}\cmidrule(lr){5-5}\cmidrule(lr){6-7}
+		Level & Steps & Ratio & Loss & Loss & Ratio & Loss \\
+		\midrule
+		weak & 100 & $+0.004\%$ & $0.16\%$ & $2.01\%$ & $-0.000\%$ & $0.045\%$ \\
+		moderate & 100 & $+0.018\%$ & $0.65\%$ & $10.6\%$ & $-0.002\%$ & $0.040\%$ \\
+		strong & 25 & $+0.126\%$ & $3.77\%$ & $54.1\%$ & $-0.007\%$ & $2.57\%$ \\
+		strong & 50 & $+0.101\%$ & $1.50\%$ & $32.7\%$ & $-0.005\%$ & $0.36\%$ \\
+		strong & 100 & $+0.033\%$ & $1.15\%$ & $18.3\%$ & $-0.004\%$ & $0.049\%$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \paragraph{Lesson.}
 The wet/dry ratio isolates the added-mass coupling from solid and temporal errors, which the two runs share, and so verifies it independently of the accuracy of the solid; the exact reference attributes the remaining error to a single source.
+Because the exact solution is undamped, the amplitude loss is a second, independent check: in the first version of the quasi-monolithic solver it revealed a time-level error in the interface force through an order of magnitude more dissipation and a first order of convergence, while the frequency, the usual benchmark quantity, was accurate. The wet/dry ratio then exposed a first-order spatial error in the interface pressure that was too small to see in the frequency of a single mesh, $0.2\%$ at the strong level.
 Viscous and large-amplitude effects are, by design, not tested.
+\todo{The quasi-monolithic solver is described only outside the build (sectionNumericalModelQuasiMonolithic.tex), and its solid time scheme there (centred stress average with Adams--Bashforth displacement) is the lagged first version; describe the corrected backward (BDF2) solid, the interface pressure condition and the interface traction (the wall flux of the fluid momentum equation) in Section~\ref{sec:numerical_methods}, or point to them, before submission. Corrected solver: solids4foam PR \#582. The ringAddedMass results pre-date the traction correction (dbfda65ba), which should be immaterial at $\nu = 10^{-7}\,\mathrm{m^2/s}$; confirm by a rerun.}
 
 %%-------------------------------------------------------------------
 \subsubsection{Pulsatile compliant tube}\label{sec:womersley}
@@ -145,6 +170,7 @@ The tube ends carry the exact pressure and the exact normal velocity gradient, a
 	\item \emph{Start-up.} The tutorial initialisation originally set the old-time solid displacements to the exact solution in the cells but left their boundary values at zero; through the Robin condition, which imposes the solid's boundary acceleration on the fluid, this produced a first-period transient that grew as $\Delta t$ was reduced ($3.4\%$ of the amplitude at 400 steps per period). The tutorial now sets exact boundary values, and the transient is $0.2$--$0.3\%$ from 100 to 400 steps per period. Either way it does not reach the analysed periods 5--6 (effect $<3\times10^{-6}$; period-to-period change $\leq7\times10^{-5}$). It also explains a $0.26\%$ shift of a Robin--Neumann regression value between OpenFOAM-v2412 and v2512, which was confined to the start-up: with exact boundary values the two versions agree to $10^{-8}\,\mathrm{m}$ ($3\times10^{-5}$ of the amplitude).
 	\item \emph{Space--time balance.} At 200 steps per period the remaining time error is a tenth or less of the finest-mesh error for the profile, wall phase and attenuation, comparable for the wall amplitude and flow phase, and larger for the wave speed, whose finest-mesh error is only $1.4\times10^{-5}$.
 	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $2.2\times10^{-4}$ or better in every QoI (14.6 against 9.3 coupling iterations per step).
+	\item \emph{Quasi-monolithic cross-check.} The quasi-monolithic Newton coupling (solids4foam PR \#582; \texttt{Allverify --monolithic}, the same mesh and time-step series and tolerances) is second order in space (2.23 profile, 2.06 flow amplitude, 1.98 wall amplitude, 2.00 wave speed) and in time (1.94--2.07 from 100/200/400 steps per period); on the finest mesh the profile error is $1.0\times10^{-3}$, the wall amplitude $-5.3\times10^{-4}$ and the wave speed $-6.0\times10^{-5}$. On the middle mesh at 100 steps per period it agrees with IQN-ILS to $7.2\times10^{-4}$ or better in every QoI, with 2 Newton iterations per step and $3.5$ times less run time. Its wall amplitude lies $3.3$--$3.5\times10^{-4}$ below the partitioned value at every mesh and step size, a refinement-independent difference of unidentified source that is below the size of the terms the linear theory neglects. The case exposed two defects of the solver (Section~\ref{sec:defects}): its velocity solid dropped the wedge faces from its least-squares gradient stencil, losing most of the hoop strain (a wedge tube was $1.6$ times too compliant, with twice the hoop stress), and the coupling assumed an undeformed initial solid, which this case's exact initial state violates.
 \end{itemize}
 
 \todo{The numbers in Table~\ref{tab:womersley} use the \texttt{pimpleFluid} option \texttt{fluxConsistentPatches} on the tube ends (solids4foam PR \#533, branch \texttt{womersley-temporal-investigation}, commit a507bfd41; OpenFOAM-v2512, Linux), where the option and the exact old-time boundary values are set in the tutorial and the table is the output of the full \texttt{Allverify} on that commit. Not yet merged: confirm the commit hash after merging. Investigation, data and the original-set-up results: \texttt{womersleyTube/verification/womersley\_temporal\_investigation.md} (formal order of the end treatment: Section 15 there).}
@@ -193,7 +219,9 @@ The QoI is the wall-midpoint vertical displacement history, with the first troug
 	\item \emph{Fluid mesh.} Four levels (3\,200 to 51\,200 cells, fixed $\Delta t = 0.00625\,\mathrm{s}$, compared with oomph-lib at the same $\Delta t$): the error falls from $4.65\%$ to $1.43\%$, $0.53\%$ and $0.50\%$ of the peak (orders 1.7 and 2.4, then a floor; Fig.~\ref{fig:collapsible_mesh}). The floor is of the size of the reference uncertainty plus the model-form contribution; the finest first trough is $-0.21610\,\mathrm{m}$ against $-0.2160\,\mathrm{m}$ for the converged reference.
 	\item \emph{Time.} On the coarsest fluid mesh, successive differences of $4.56\%$, $1.33\%$ and $0.34\%$ give orders 1.8 and 2.0 (oomph-lib itself: 1.8 and 1.9).
 	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.08$--$0.23\%$ of the peak, but this gap does \emph{not} decrease with mesh refinement and is of the size expected from the coupling tolerance. In a wall-density sweep ($\rho_s/\rho_f = 0$--3) IQN-ILS fails to complete for part of the range, whereas Robin--Neumann completes for all $\rho_s/\rho_f \geq 1$.
+	\item \emph{Quasi-monolithic cross-check.} The quasi-monolithic Newton solver (solids4foam PR \#582) needs matching interface meshes and has only the second-order (linear) velocity solid, so its solid mesh is refined with the fluid mesh ($80\times8$, $160\times8$, $320\times8$ on fluid levels 1, 2, 4). It completes every run attempted, including the massless wall of the published problem ($\rho_s = 0$), $\Delta t = 0.003125\,\mathrm{s}$ and fluid level 4, on which the partitioned couplings fail; the massless and $\rho_s/\rho_f = 1$ first troughs agree to within $0.2\%$, as the two oomph-lib references do, so the regularising density is unnecessary for this coupling. Its first-trough error against oomph-lib at $\Delta t = 0.00625\,\mathrm{s}$ falls from $9.1\%$ to $4.1\%$ and $2.4\%$ (order 1.5), limited by the linear solid as for the partitioned linear solid; on level 2 the time step converges at order 1.7 ($0.0125$ to $0.003125\,\mathrm{s}$). At $\Delta t = 0.025\,\mathrm{s}$ on level 2 its fluid mesh motion fails during the collapse.
 \end{itemize}
+\todo{A high-order (cubic) residual for the quasi-monolithic velocity solid, as for the partitioned solid, would remove the solid-discretisation limit of this cross-check (the partitioned cubic solid is within $0.5\%$ of oomph-lib on the tutorial solid mesh); planned in solids4foam, not yet implemented.}
 
 \paragraph{Lesson.}
 This is the strongest independent-code comparison in the suite.
@@ -336,6 +364,7 @@ This sequence uses the tutorial set-up (velocity-based Laplacian mesh motion, ze
 	\item \emph{Lift amplitude (FSI2).} The error is $7.9\%$ and $7.8\%$, i.e.\ not converging over this range, of which $\approx2.4$ percentage points are attributed to coupling-iteration noise.
 	\item \emph{Coupling tolerance (FSI2).} With a coupling tolerance of $10^{-5}$ the lift amplitude is inflated by $13\%$ (1x) and $30\%$ (2x) relative to $10^{-6}$ and $10^{-7}$, which agree. A tolerance adequate for displacements is therefore not adequate for the lift, and the inadequacy grows with mesh refinement.
 	\item \emph{Coupling algorithm (FSI3).} Robin--Neumann and IQN-ILS histories differ ($u_x$ $5.1\%$ and $1.9\%$, lift $3.5\%$ and $2.8\%$ on 1x and 2x), but the difference decreases with refinement and is smaller than the 1x$\to$2x change; it is attributed to the different discrete interface condition of the Robin--Neumann scheme, not to iterative error.
+	\item \emph{Quasi-monolithic cross-check (tutorial set-up).} The quasi-monolithic Newton coupling (solids4foam PRs \#582, \#586, \#597, \#608), run on the identical tutorial meshes and time steps through its non-conformal (AMI) interface transfer, gives FSI1 $u_y$ errors of $12.7\%$, $3.87\%$ and $1.07\%$ (1x, 2x, 4x), against $14.2\%$ and $4.64\%$ for IQN-ILS, with the drag within $0.25\%$ on every level. In FSI3 its $u_y$ amplitude is $3.7\%$ (1x) and $3.1\%$ (2x) below that of IQN-ILS, with the frequency within $0.3\%$, the drag mean within $0.7\%$ and the lift amplitude $2$--$3\%$ lower, at 2--3 Newton iterations per step (2x: $1.8\,\mathrm{h}$ on 8 ranks to $t = 7\,\mathrm{s}$). Both couplings converge every step, so the remaining amplitude difference is one of the discretisations (\texttt{newtonIcoFluid} and the velocity-based solid against \texttt{pimpleFluid} and the displacement-based solid); it falls slowly with refinement. Before the continuity fix of Section~\ref{sec:defects} it was $7.7\%$ on the 2x mesh. On its own conformal interface meshes, whose 4x level has the plate resolution of the tutorial 2x mesh, the quasi-monolithic FSI3 $u_y$ amplitude is within $0.6\%$ of Featflow.
 	\item \emph{Mesh motion (FSI2).} Fluid-mesh non-orthogonality reaches $58^\circ$ by $t = 10.5\,\mathrm{s}$, where the analysis window is truncated; IQN-ILS fails at $t \approx 11.4\,\mathrm{s}$ on 2x.
 \end{itemize}
 
@@ -412,6 +441,7 @@ Table~\ref{tab:3dtube} gives the results obtained after correcting the two solve
 	\item \emph{Space.} The axial trough $u_{z,\min}$ and the arrival time $t_\mathrm{arr}$ converge monotonically, at observed orders of about 0.87 and 0.72 (0.98 and 0.65 at a fixed $\Delta t = 2.5\times10^{-5}\,\mathrm{s}$), far below the nominal two; no Richardson estimate is made. The peak radial displacement $u_{r,\max}$ decreases monotonically, but its changes grow ($0.20\%$, then $0.60\%$), so no order can be given; its level-3 uncertainty is at least $\approx0.6\%$, and spatial convergence of $u_{r,\max}$ is not established. The wave speed $c_p$ behaves similarly.
 	\item \emph{Time.} On the finer levels the time step contributes $\approx0.1$--$0.2\%$: halving $\Delta t$ on level 2 changes $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ by $+0.16\%$, $+0.18\%$ and $+0.10\%$, and reducing it from $2.5\times10^{-5}$ to $6.25\times10^{-6}\,\mathrm{s}$ on level 3 by $+0.10\%$, $+0.20\%$ and $+0.17\%$. The scaled path is therefore dominated by the mesh.
 	\item \emph{Coupling.} Robin--Neumann and IQN-ILS agree to $0.07\%$ in the QoIs and $0.26\%$ of the peak in the histories.
+	\item \emph{Quasi-monolithic cross-check.} The quasi-monolithic Newton coupling (solids4foam PRs \#597, \#599, \#604) agrees with Robin--Neumann on level 2 to $0.2\%$ in $u_{r,\max}$, $0.12\%$ in $u_{z,\min}$, $0.07\%$ in $t_\mathrm{arr}$ and $0.02\%$ in $c_p$, with 2 Newton iterations per step. On the same Linux node and 8 ranks it takes $221$ and $3\,398\,\mathrm{s}$ on levels 1 and 2, against $282$ and $3\,214\,\mathrm{s}$ for Robin--Neumann, with an algebraic multigrid preconditioner for its solid block; with the default LU of that block, level 2 takes eight times longer.
 	\item \emph{Two solver defects found by verification.} On two platforms the calculations were deterministic, but $u_{z,\min}$ differed by $1.5\%$ (level 1) to $3\%$ (level 3) while the other QoIs agreed to $0.1$--$0.2\%$. Tracing the first divergence found two independent defects in solids4foam, both fixed in solids4foam PR \#546.
 	(a)~The fluid wall viscous force was evaluated as an inner product of temporary fields, \texttt{nf() \& (-devReff().boundaryField())}. OpenFOAM's field algebra writes such a product into the storage of a temporary operand while the loops access result and operands through \texttt{\_\_restrict\_\_} pointers, so the result aliases an input; with GCC at \texttt{-O3} (the default OpenFOAM build rules) the axial component was formed from already overwritten components, and the first-step axial wall shear was wrong by up to $\approx2.5$ times. Builds at \texttt{-O2} were correct. The root cause is the temporary-reuse mechanism of OpenFOAM's products under \texttt{\_\_restrict\_\_}; the audit carried out for PR \#546 found and fixed about 15 further solids4foam sites with the same mechanism.
 	(b)~The solid-to-fluid point transfer took barycentric weights from a routine that returns the degenerate weights $(1/3, 1/3, 1/3)$ when $4A^2$ ($A$ the triangle area, in $\mathrm{m}^4$) falls below a fixed absolute threshold. On levels 2 and 3, but not on level 1, every interface triangle fell below it, so every interface point was interpolated as a three-point average: the interpolation operator changed with refinement, broke the symmetry of the quarter tube and made results depend on the domain decomposition. The earlier non-monotone two-level sequence was therefore not evidence about the discretisation. The fix computes scale-invariant weights.
@@ -453,38 +483,43 @@ The reference is C-weak, and no published value is treated as the correct one.
 \todo{Replace Figure~\ref{fig:mok_refs} with a publication-quality figure that adds the converged ($96\times96$) solids4foam history and the group-B envelope, and drops the traction-free pilot or moves it to a separate panel. Confirm the extraction method and calibration of every curve; the Kratos curve is raster-digitised (about $0.5\%$ of peak).}
 
 \paragraph{Evidence.}
-Midpoint statistics over $t = 20$--$70\,\mathrm{s}$ under combined mesh and time refinement are given in Table~\ref{tab:mok}; a $128^2$ run diverged (cause not isolated).
+Midpoint statistics over $t = 20$--$70\,\mathrm{s}$ under combined mesh and time refinement are given in Table~\ref{tab:mok} for the partitioned coupling and, as a cross-check, for the corrected quasi-monolithic Newton coupling of Section~\ref{sec:ring} (standard solid, serial, solids4foam PR \#582); a partitioned $128^2$ run diverged (cause not isolated), whereas the quasi-monolithic $128^2$ run completed.
 
 \begin{table}[htbp]
 	\centering
 	\small
-	\setlength{\tabcolsep}{5pt}
-	\caption{mokLidDrivenCavity: membrane-midpoint statistics (m) under combined mesh and time-step refinement, and the published group-B envelope. Group A peaks lie between 0.177 and 0.215\,m.}
+	\setlength{\tabcolsep}{4pt}
+	\caption{mokLidDrivenCavity: membrane-midpoint statistics (m) under combined mesh and time-step refinement with the partitioned and the quasi-monolithic coupling, and the published group-B envelope. Group A peaks lie between 0.177 and 0.215\,m. Quasi-monolithic: standard solid, OpenFOAM v2512, serial; source: solids4foam \texttt{mokLidDrivenCavity/verification/README.md} (PR \#582), \texttt{paper-data/mokLidDrivenCavity\_monolithic.csv}.}
 	\label{tab:mok}
-	\begin{tabular}{lrrr}
+	\begin{tabular}{lrrrrrr}
 		\toprule
-		Mesh ($\Delta t$) & Peak & Trough & Mean \\
+		 & \multicolumn{3}{c}{Partitioned} & \multicolumn{3}{c}{Quasi-monolithic} \\
+		\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+		Mesh ($\Delta t$) & Peak & Trough & Mean & Peak & Trough & Mean \\
 		\midrule
-		$16^2$ (0.2\,s) & 0.2934 & 0.1942 & 0.2426 \\
-		$32^2$ (0.1\,s) & 0.2890 & 0.1986 & 0.2427 \\
-		$64^2$ (0.05\,s) & 0.2870 & 0.2022 & 0.2437 \\
-		$96^2$ (0.025\,s) & 0.2861 & 0.2044 & 0.2445 \\
+		$16^2$ (0.2\,s) & 0.2934 & 0.1942 & 0.2426 & 0.2950 & 0.2053 & 0.2495 \\
+		$32^2$ (0.1\,s) & 0.2890 & 0.1986 & 0.2427 & 0.2903 & 0.2027 & 0.2460 \\
+		$64^2$ (0.05\,s) & 0.2870 & 0.2022 & 0.2437 & 0.2877 & 0.2026 & 0.2447 \\
+		$96^2$ (0.025\,s) & 0.2861 & 0.2044 & 0.2445 & 0.2867 & 0.2025 & 0.2441 \\
+		$128^2$ (0.0125\,s) & \multicolumn{3}{c}{diverged} & 0.2860 & 0.2025 & 0.2438 \\
 		\midrule
-		Group B envelope & 0.2619--0.2769 & 0.1967--0.2033 & 0.2316--0.2466 \\
+		Group B envelope & \multicolumn{6}{l}{peak 0.2619--0.2769, trough 0.1967--0.2033, mean 0.2316--0.2466} \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \begin{itemize}
 	\item \emph{Self-convergence.} Successive changes in the peak are $1.56\%$, $1.26\%$ and $0.78\%$; the observed order of the peak is $\approx1.2$ (non-uniform final ratio) and that of the trough below 0.5, so neither sequence is shown to be asymptotic and no limit is extrapolated; the trough is uncertain by at least $\approx1$--$2\%$. A separate time-step study on $64^2$ changes the response by $0.17\%$ and $0.04\%$ of the peak, so the error is dominated by the mesh.
-	\item \emph{Comparison.} On $96^2$ the trough and mean lie within or just outside the group-B envelope, and the peak is $3.3\%$ above the largest group-B peak; since the group-B values are single-mesh results differing by $5.7\%$, this cannot be attributed to either side.
+	\item \emph{Quasi-monolithic cross-check.} The quasi-monolithic trough is mesh independent to $0.1\%$ from $32^2$ on ($0.2025\,\mathrm{m}$), whereas the partitioned trough is still rising and passes it on $96^2$ ($0.9\%$ above): the slow convergence of the trough is a property of the partitioned solution, not of the benchmark. The peaks of the two couplings agree to $0.2\%$ on $96^2$, but the quasi-monolithic peak also converges at an observed order below one (changes of $0.0047$ and $0.0026\,\mathrm{m}$ from $16^2$ to $64^2$, then $0.0017\,\mathrm{m}$ from $64^2$ to $128^2$), so no Richardson estimate is made for either coupling. The means approach $\approx0.244\,\mathrm{m}$ from either side. The $128^2$ level, on which the partitioned coupling diverges, runs to completion with the quasi-monolithic coupling ($9\,109\,\mathrm{s}$ serial).
+	\item \emph{Comparison.} On $96^2$ the trough and mean lie within or just outside the group-B envelope, and the peak is $3.3\%$ above the largest group-B peak; since the group-B values are single-mesh results differing by $5.7\%$, this cannot be attributed to either side. The quasi-monolithic $128^2$ trough and mean lie inside the envelope and its peak $3.3\%$ above it.
 	\item \emph{Solid and coupling.} The standard and high-order solids agree to $0.04\%$: for a tension-dominated membrane the high-order solid gives no benefit, unlike the bending-dominated collapsible channel. IQN-ILS and Aitken give the same response (difference not quantified).
 \end{itemize}
 
 \paragraph{Lesson.}
 A long-established benchmark can be ill defined.
 The present results are a self-convergence sequence for the fully specified group-B definition (last change $0.78\%$ in the peak; the trough less certain), not verification against an external reference.
-\todo{HIGH-VALUE: an independent converged solution (COMSOL or another code) of the group-B definition, with its own mesh and time study, would make this a category-B case. Also: diagnose the $128^2$ divergence; quantify the IQN-ILS/Aitken difference. No Richardson estimate is justified by the present (sub-nominal, non-uniform) sequence.}
+A second coupling algorithm in the same code showed that the slow convergence of the trough belongs to the partitioned solution rather than to the problem; sharing most of the discretisation, it is no substitute for an independent reference.
+\todo{HIGH-VALUE: an independent converged solution (COMSOL or another code) of the group-B definition, with its own mesh and time study, would make this a category-B case; an ANSYS solution has been requested from E.~Tandis (paper PR \#12). Also: the $128^2$ divergence is specific to the partitioned coupling (the quasi-monolithic run completes); diagnose it; explain why the partitioned trough moves past the quasi-monolithic value ($0.9\%$ above on $96^2$; the solid model accounts for $0.04\%$ only); quantify the IQN-ILS/Aitken difference. No Richardson estimate is justified by either (sub-nominal, non-uniform) sequence.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -578,5 +613,7 @@ The reference is C-weak: \citet{Liu2014} report only self-convergence norms, and
 At $t = 1\,\mathrm{s}$, $\Delta t = 0.25$ to $0.03125\,\mathrm{s}$ gives top-point $u_x = 0.0558737$, $0.0564184$, $0.0565219$ and $0.0565398\,\mathrm{m}$, with observed orders 2.39 and 2.54 ($u_x$) and 2.39 and 2.41 (interface shape); below $\Delta t = 0.03125\,\mathrm{s}$ the changes reach the coupling/solver-tolerance level ($\approx10^{-5}\,\mathrm{m}$).
 Orders above the formal value indicate a pre-asymptotic sequence; they are reported as observed self-convergence behaviour, not as a measured order.
 Four mesh levels give steady $u_x$ from $0.108206$ to $0.120152\,\mathrm{m}$ with decreasing changes (observed order 2.40, above the formal value); no extrapolated value is given.
+The corrected quasi-monolithic coupling (Section~\ref{sec:ring}, including the interface-traction correction of Section~\ref{sec:defects}) gives $0.117429$, $0.119524$ and $0.120053\,\mathrm{m}$ on the three finest levels (observed order 2.0), within $0.15\%$ of the partitioned values on each; extrapolated from runs on one platform, the limits of the two couplings agree to $0.12\%$.
+\todo{The partitioned finest-level value is $0.120152\,\mathrm{m}$ on Linux and $0.120224\,\mathrm{m}$ in the macOS rerun used for the same-platform comparison (a $0.06\%$ difference); record which run each value comes from. Source: paper-data/blobInTreacle\_monolithic.csv.}
 The $t = 1\,\mathrm{s}$ interface shape is within $1.6\%$ of the preprint, inside its own time error; at steady state $u_x$ is $7.4\%$ smaller and $|u_y|$ $20\%$ larger, an offset not yet explained (reference-mesh coarseness is plausible but unconfirmed).
-No coupling study exists, and the temporal-order contribution partly overlaps with ringAddedMass and collapsibleChannel.
+Apart from this comparison no coupling study exists, and the temporal-order contribution partly overlaps with ringAddedMass and collapsibleChannel.
