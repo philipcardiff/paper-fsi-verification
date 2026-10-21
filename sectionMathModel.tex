@@ -31,12 +31,12 @@ moving domains and boundaries is omitted where no ambiguity arises.
 
 \begin{figure}[htbp]
     \centering
-    \subfigure[Initial configurations of the fluid (left) and solid (right) domains, showing the initial volumes $\Omega_0$, boundaries $\bb{\Gamma}_0$ and outward-facing unit normals $\hat{\bb{n}}_0$]
+    \subfigure[Initial configurations of the fluid (left) and solid (right) domains, showing the initial volumes $\Omega_0$, boundaries $\Gamma_0$ and outward-facing unit normals $\hat{\bb{n}}_0$]
     {
         \label{fig:fsi_problem_initial}
         \includegraphics[width=0.8\textwidth]{figures/fsi_problem_initial}
     }
-    \subfigure[Deformed configurations of the fluid (left) and solid (right) domains at time $t$, showing the deformed volumes $\Omega(t)$, boundaries $\bb{\Gamma}(t)$ and outward-facing unit normals $\hat{\bb{n}}(t)$]
+    \subfigure[Deformed configurations of the fluid (left) and solid (right) domains at time $t$, showing the deformed volumes $\Omega(t)$, boundaries $\Gamma(t)$ and outward-facing unit normals $\hat{\bb{n}}(t)$]
     {
         \label{fig:fsi_problem_current}
         \includegraphics[width=0.8\textwidth]{figures/fsi_problem_current}
@@ -73,6 +73,7 @@ $\bb{\sigma}_S$ is the true (Cauchy) stress tensor, and $\bb{b}_S$ is a body for
 
 The solid equations are solved in total Lagrangian form. Let $\bb{D}_S$ denote the solid displacement from the initial configuration
 $\Omega_{S,0}$ to the current configuration $\Omega_S(t)$.
+The partitioned solid models used in this work take $\bb{D}_S$ as the primary unknown, and the solid velocity follows as $\bb{v}_S = \partial \bb{D}_S / \partial t$, the time derivative being taken at fixed initial (material) coordinates, so that the inertia term in Equation~\eqref{eqn:solid_momentum_TL} below is $\rho_{S,0} \, \partial^2 \bb{D}_S / \partial t^2$.
 The deformation gradient and its determinant are
 \begin{equation}
     \bb{F}
@@ -129,6 +130,7 @@ and introducing the first Piola--Kirchhoff stress tensor $\bb{P}_S = J \bb{\sigm
 \end{equation}
 Here $\rho_{S,0}$ is the initial density, and the reference-configuration traction is $\bb{t}_0 = \hat{\bb{n}}_{S,0} \cdot \bb{P}_S^T$.
 The Cauchy stress $\bb{\sigma}_S$ (and hence $\bb{P}_S$) is supplied by the chosen mechanical law; in this work, the considered laws include linear elasticity and two finite-strain hyperelastic laws (neo-Hookean and Saint Venant--Kirchhoff).
+Where the displacement gradient remains small, a small-strain (linear geometry) formulation is used instead: the distinction between the initial and current configurations is neglected in Equation~\eqref{eqn:solid_momentum_TL} ($\bb{F} \approx \bb{I}$, $J \approx 1$, $\bb{P}_S \approx \bb{\sigma}_S$), with the same displacement unknown $\bb{D}_S$, and the stress follows from linear elasticity (Hooke's law) with Lam\'e parameters $\mu_S$ and $\lambda_S$.
 
 The solid boundary conditions considered are prescribed displacement, prescribed traction, and symmetry conditions; interface conditions coupling the solid to the fluid are described in Section~\ref{sec:fsi_interface}.
 \hl{See note on fluid BCs}

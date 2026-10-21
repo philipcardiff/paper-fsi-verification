@@ -26,7 +26,7 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		\midrule
 		ringAddedMass & 2-D & free vibration & small & A & 3 & 3 & IQN-ILS/RN \\
 		womersleyTube & axisym. & periodic (forced) & small & A & 3 & 3 & IQN-ILS/RN \\
-		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN; $\rho_s$ sweep \\
+		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN; $\rho_S$ sweep \\
 		Hron--Turek FSI1 & 2-D & steady & large & B & 2 & 2 & IQN-ILS/RN \\
 		Hron--Turek FSI3 & 2-D & self-excited & large & C & 3 & scaled; 2 (2x) & IQN-ILS/RN; tolerance pair \\
 		Hron--Turek FSI2 & 2-D & self-excited & large & C & 2 & scaled & tolerance sweep \\
@@ -57,8 +57,8 @@ The collocation scripts are stored with the cases and are independent of solids4
 
 \paragraph{What it tests.}
 Added mass, the principal source of instability and slow convergence in partitioned FSI~\citep{Causin2005}, is present in most benchmarks at a fixed, unquantified strength.
-Here an elastic ring vibrates freely in its $n=2$ mode inside a fluid-filled rigid annulus (plane strain, linear geometry, amplitude $\approx5\times10^{-4}$ of the radius, effectively inviscid fluid), with the added-mass ratio varied at fixed solid properties: $\mu = 0.101$, $1.008$, $10.08$ (``weak'', ``moderate'', ``strong''), plus a dry run.
-\todo{Add a short parameter table (ring radii, thickness, $E$, $\nu$, $\rho_s$, outer wall radius) from the tutorial README, and the definition of $\mu$.}
+Here an elastic ring vibrates freely in its $n=2$ mode inside a fluid-filled rigid annulus (plane strain, linear geometry, amplitude $\approx5\times10^{-4}$ of the radius, effectively inviscid fluid), with the added-mass ratio varied at fixed solid properties: $m^* = 0.101$, $1.008$, $10.08$ (``weak'', ``moderate'', ``strong''), plus a dry run.
+\todo{Add a short parameter table (ring radii, thickness, $E_S$, $\nu_S$, $\rho_S$, outer wall radius) from the tutorial README, and the definition of $m^*$.}
 
 \paragraph{Reference.}
 The exact linear eigenvalue of a plane-strain continuum ring loaded by the exact potential-flow added-mass traction, by Chebyshev collocation (refinement changes the frequencies by $\approx5\times10^{-8}$): $\omega_\mathrm{dry} = 2.555042\,\mathrm{rad/s}$ and wet frequencies $2.435615$, $1.804513$ and $0.768654\,\mathrm{rad/s}$.
@@ -80,7 +80,7 @@ Meshes are refined by factors 1, 2 and 4 at 100 steps per period, and 25--100 st
 		dry & 1 & 100 & 2.55254 & $-0.098\%$ & -- \\
 		dry & 4 & 100 & 2.55173 & $-0.129\%$ & -- \\
 		dry & 2 & 25 & 2.50576 & $-1.929\%$ & -- \\
-		strong ($\mu=10.08$) & 1 & 100 & 0.76843 & $-0.029\%$ & $+0.068\%$ \\
+		strong ($m^*=10.08$) & 1 & 100 & 0.76843 & $-0.029\%$ & $+0.068\%$ \\
 		strong & 2 & 100 & 0.76796 & $-0.090\%$ & $+0.021\%$ \\
 		strong & 4 & 100 & 0.76770 & $-0.124\%$ & $+0.006\%$ \\
 		strong & 2 & 25 & 0.75477 & $-1.806\%$ & $+0.125\%$ \\
@@ -107,7 +107,7 @@ Viscous and large-amplitude effects are, by design, not tested.
 \paragraph{What it tests.}
 Pressure-wave propagation in a compliant vessel combines added mass, viscous attenuation and wall compliance.
 Womersley's analysis~\citep{Womersley1955, Womersley1957} has been used to verify FSI codes~\citep{Filonova2020}, usually in a thin-wall, long-wave form whose modelling error is not negligible for a thick wall.
-Here a harmonic wave travels along an untethered axisymmetric tube ($h/R = 0.1$, $L/R = 15$, $\alpha = 5.01$, $\rho_s h/(\rho_f R) = 0.1$), with exact travelling-wave data at both ends (no reflection) and exact initial fields; amplitudes ($\approx5\times10^{-4}R$) are small enough for linear theory to hold to well below $10^{-3}$.
+Here a harmonic wave travels along an untethered axisymmetric tube ($h/R = 0.1$, $L/R = 15$, $\alpha = 5.01$, $\rho_S h/(\rho_F R) = 0.1$), with exact travelling-wave data at both ends (no reflection) and exact initial fields; amplitudes ($\approx5\times10^{-4}R$) are small enough for linear theory to hold to well below $10^{-3}$.
 
 \paragraph{Reference.}
 The exact linear solution for a thick linear-elastic cylinder (Chebyshev collocation; 8 and 24 intervals agree to $\approx10^{-11}$) coupled to the full linearised Navier--Stokes equations: $k = 0.143978 - 0.020727\mathrm{i}\,\mathrm{m^{-1}}$, i.e.\ a wave speed of $0.872796\,\mathrm{m/s}$.
@@ -167,7 +167,7 @@ Limitations: the wall is untethered, unlike Womersley's constrained tube (solids
 \paragraph{What it tests.}
 A thin, very light elastic wall in a channel combines strong added mass, bending-dominated large deformation and fluid-mesh motion, where partitioned methods are least robust~\citep{Jensen2003, Heil2004, Heil2008}.
 An elastic section of the upper wall ($h/L = 0.005$; St Venant--Kirchhoff continuum) collapses under a ramped external pressure to $\approx21\%$ of the channel width and then performs a damped oscillation ($Re = Re\,St = 50$; analysed to $t = 1.5\,\mathrm{s}$).
-The problem \emph{modifies} that of Jensen and Heil (no pre-stress, $h/a = 1/20$, clamped ends, pressure ramp, regularising density $\rho_s = \rho_f$, which shifts the response by $0.28\%$ of the peak) so that it is well posed for a continuum solid and partitioned coupling; the published values are therefore not reproduced.
+The problem \emph{modifies} that of Jensen and Heil (no pre-stress, $h/a = 1/20$, clamped ends, pressure ramp, regularising density $\rho_S = \rho_F$, which shifts the response by $0.28\%$ of the peak) so that it is well posed for a continuum solid and partitioned coupling; the published values are therefore not reproduced.
 
 \paragraph{Reference and model-form difference.}
 The reference (category B) is computed with oomph-lib~\citep{Heil2006}, an independent monolithic Newton finite element code whose driver source is stored with the case.
@@ -192,7 +192,7 @@ The QoI is the wall-midpoint vertical displacement history, with the first troug
 	\item \emph{Solid.} In a static wall test the cubic high-order solid is within $0.25\%$ of oomph-lib on all solid meshes and converges to the $0.05\%$ model-form difference; the linear-reconstruction solid has errors from $-16.7\%$ to $-0.22\%$. In the coupled problem on the tutorial mesh the solid contributes $0.44\%$ (cubic) against $17.4\%$ (linear).
 	\item \emph{Fluid mesh.} Four levels (3\,200 to 51\,200 cells, fixed $\Delta t = 0.00625\,\mathrm{s}$, compared with oomph-lib at the same $\Delta t$): the error falls from $4.65\%$ to $1.43\%$, $0.53\%$ and $0.50\%$ of the peak (orders 1.7 and 2.4, then a floor; Fig.~\ref{fig:collapsible_mesh}). The floor is of the size of the reference uncertainty plus the model-form contribution; the finest first trough is $-0.21610\,\mathrm{m}$ against $-0.2160\,\mathrm{m}$ for the converged reference.
 	\item \emph{Time.} On the coarsest fluid mesh, successive differences of $4.56\%$, $1.33\%$ and $0.34\%$ give orders 1.8 and 2.0 (oomph-lib itself: 1.8 and 1.9).
-	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.08$--$0.23\%$ of the peak, but this gap does \emph{not} decrease with mesh refinement and is of the size expected from the coupling tolerance. In a wall-density sweep ($\rho_s/\rho_f = 0$--3) IQN-ILS fails to complete for part of the range, whereas Robin--Neumann completes for all $\rho_s/\rho_f \geq 1$.
+	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.08$--$0.23\%$ of the peak, but this gap does \emph{not} decrease with mesh refinement and is of the size expected from the coupling tolerance. In a wall-density sweep ($\rho_S/\rho_F = 0$--3) IQN-ILS fails to complete for part of the range, whereas Robin--Neumann completes for all $\rho_S/\rho_F \geq 1$.
 \end{itemize}
 
 \paragraph{Lesson.}
@@ -221,7 +221,7 @@ The present calculations are first assessed by self-convergence, and the compari
 
 \paragraph{What it tests.}
 An elastic flag attached to a rigid cylinder in a channel~\citep{Turek2006} (Fig.~\ref{fig:hronturek_geom}).
-FSI1 ($Re = 20$) is steady, with small but geometrically nonlinear deformation; FSI3 ($Re = 200$, $\rho_s = \rho_f$) is a self-excited, high-frequency oscillation at low mass ratio ($u_y \approx \pm35\,\mathrm{mm}$); FSI2 ($Re = 100$, heavier and softer flag) is a large-amplitude flapping ($u_y \approx \pm80\,\mathrm{mm}$) that strongly distorts the fluid mesh.
+FSI1 ($Re = 20$) is steady, with small but geometrically nonlinear deformation; FSI3 ($Re = 200$, $\rho_S = \rho_F$) is a self-excited, high-frequency oscillation at low mass ratio ($u_y \approx \pm35\,\mathrm{mm}$); FSI2 ($Re = 100$, heavier and softer flag) is a large-amplitude flapping ($u_y \approx \pm80\,\mathrm{mm}$) that strongly distorts the fluid mesh.
 
 \paragraph{Reference.}
 For FSI1 the Featflow results are tabulated on six levels (finest $\approx10^6$ elements), with a spread across levels of $0.73\%$ ($u_x$), $0.19\%$ ($u_y$), $0.14\%$ (drag) and $0.26\%$ (lift); the finest values ($u_x = 2.2705\times10^{-5}\,\mathrm{m}$, $u_y = 8.2088\times10^{-4}\,\mathrm{m}$, drag $14.2943\,\mathrm{N/m}$, lift $0.76375\,\mathrm{N/m}$) are category B.
@@ -358,6 +358,7 @@ The zero-gradient pressure condition on the accelerating flag adds a first-order
 	\item \emph{Comparison with Featflow}, made after the sequence was characterised: the frequency and drag mean agree to $0.2\%$, but the $u_y$ amplitude is $3.2\%$ and $u_x$ $6.6\%$ above Featflow, about twice the reference's own change between its two finest levels ($1.6\%$ and $3.8$--$4.0\%$). Our 4x$'$ values lie just beyond Featflow's level-2 values ($35.73\,\mathrm{mm}$ and $-3.02\,\mathrm{mm}$), within about $1$--$2\%$ of the span of its own levels, and the quantities on which the two agree to $0.2\%$ (frequency, drag mean) are those for which the Featflow sequence is settled. The most plausible reading is that the difference reflects the unresolved state of the reference for these quantities rather than a modelling difference; other explanations (the different discretisations, or the extraction of the statistics) are not excluded.
 \end{itemize}
 Limit-cycle restarts of the solid diverge (the second old-time displacement level is not written; solids4foam issue \#555), so all time-step and tolerance branches are cold runs.
+\todo{Planned sentence: the FSI3 sequence of the companion paper's quasi-monolithic coupling~\citetodo{companion solver paper}, pending a rerun after solids4foam PR \#597, will state whether the order-1 displacement behaviour of the tutorial set-up persists without partitioned coupling iterations. Earlier quasi-monolithic results predate that fix and are not quoted.}
 \todo{Hron--Turek: a coupled 8x$'$ level would show whether the displacements respond to the 4x$'\to$8x$'$ change of the replayed load; FSI1 4x for a reference-free order of $u_y$; FSI2 4x. Evidence: paper-data/hronturek\_fsi3\_4x\_findings.md, Sections 1--20 (Section 12 retracted in Section 13; Section 18 energy balance; Section 19 fluid-side findings; Section 20 production runs and cross run). solids4foam branches verification/hronturek-second-order and verification/hronturek-production. Cite the Featflow CSM/CFD tables.}
 
 \paragraph{Lesson.}
@@ -378,7 +379,7 @@ FSI3 remains category C; FSI1 is converging towards an independent reference, an
 \end{figure}
 
 \paragraph{What it tests.}
-A $3\,\mathrm{ms}$ pressure pulse travelling through a fluid-filled elastic tube (Fig.~\ref{fig:3dtube_geom}; response to $20\,\mathrm{ms}$, including the outlet reflection) is the standard three-dimensional test of partitioned coupling under strong added mass ($\rho_s/\rho_f = 1.2$)~\citep{Formaggia2001, Gerbeau2003, Fernandez2005, kuttler2008fixed, Degroote2009}; most publications report only iteration counts and snapshots.
+A $3\,\mathrm{ms}$ pressure pulse travelling through a fluid-filled elastic tube (Fig.~\ref{fig:3dtube_geom}; response to $20\,\mathrm{ms}$, including the outlet reflection) is the standard three-dimensional test of partitioned coupling under strong added mass ($\rho_S/\rho_F = 1.2$)~\citep{Formaggia2001, Gerbeau2003, Fernandez2005, kuttler2008fixed, Degroote2009}; most publications report only iteration counts and snapshots.
 The solid here is Hookean (small strain), whereas most published calculations use St Venant--Kirchhoff (peak hoop strain $\approx3\%$); a quarter of the tube is computed with symmetry planes, with Robin--Neumann coupling, BDF2 in fluid and solid, and non-conformal (AMI) interface transfer.
 
 \paragraph{Reference.}
@@ -432,7 +433,7 @@ After correction, the axial displacement and arrival time converge at sub-nomina
 
 \paragraph{What it tests.}
 A lid-driven cavity with a flexible membrane bottom~\citep{Wall1999, Mok2001} is one of the oldest partitioned-coupling benchmarks~\citep{Gerbeau2003, kuttler2008fixed, Kassiotis2011}.
-The membrane is tension-dominated ($0.002\,\mathrm{m}$ thick, $E = 250\,\mathrm{Pa}$) and deflects by $\approx0.29\,\mathrm{m}$ in a $1\,\mathrm{m}$ cavity under a periodically forced lid; small openings make the problem well posed for an incompressible fluid.
+The membrane is tension-dominated ($0.002\,\mathrm{m}$ thick, $E_S = 250\,\mathrm{Pa}$) and deflects by $\approx0.29\,\mathrm{m}$ in a $1\,\mathrm{m}$ cavity under a periodically forced lid; small openings make the problem well posed for an incompressible fluid.
 
 \paragraph{Reference: two inconsistent groups.}
 The published midpoint histories fall into two mutually inconsistent groups (Fig.~\ref{fig:mok_refs}).
@@ -519,7 +520,7 @@ The finest level needed a smaller pseudo-time step than the tutorial; on the coa
 
 \paragraph{Comparison with the references.}
 The interface force agrees with the published values of~\citet{Tukovic2018} to within $0.2\%$ on every level, and with an independent ANSYS solution (finite element, depth-corrected) to within $0.2$--$0.4\%$. The displacement does not: the published finest value ($-0.2506\,\mathrm{m}$) is $4.2\%$ larger in magnitude than our extrapolated top-surface value, and the ANSYS mid-thickness values ($-0.2502$ and $-0.2535\,\mathrm{m}$ on the two coarser meshes, not yet converged on the finer) exceed ours at the same point by $18\%$ and $8\%$ and change little with refinement, while our horizontal displacement at the point is below $1.1\times10^{-4}\,\mathrm{m}$ against $0.033\,\mathrm{m}$ in the ANSYS solution.
-Agreement in force with disagreement in displacement points to a difference in the structural model (for example plane strain versus plane stress, which differ by a factor $1/(1-\nu^2) \approx 1.19$ in stiffness at $\nu = 0.4$, or the support of the plate ends), not to a fluid or coupling error. The definition is being checked with the ANSYS author; until it is resolved the case remains category C-weak.
+Agreement in force with disagreement in displacement points to a difference in the structural model (for example plane strain versus plane stress, which differ by a factor $1/(1-\nu_S^2) \approx 1.19$ in stiffness at $\nu_S = 0.4$, or the support of the plate ends), not to a fluid or coupling error. The definition is being checked with the ANSYS author; until it is resolved the case remains category C-weak.
 
 %%-------------------------------------------------------------------
 \subsubsection{Beam in cross-flow [IN PROGRESS]}\label{sec:beam}
@@ -535,14 +536,14 @@ Agreement in force with disagreement in displacement points to a difference in t
 \end{figure}
 
 \paragraph{Potential value.}
-A thick elastic plate clamped in a three-dimensional channel flow (Fig.~\ref{fig:beam_geom}) is the only steady three-dimensional external-flow case in the suite ($E = 1.4\,\mathrm{MPa}$, $Re = 40$).
+A thick elastic plate clamped in a three-dimensional channel flow (Fig.~\ref{fig:beam_geom}) is the only steady three-dimensional external-flow case in the suite ($E_S = 1.4\,\mathrm{MPa}$, $Re = 40$).
 \citet{Richter2012} computed it with an independent monolithic finite element code on five globally refined levels and extrapolated the finest three ($u_x(A) = 5.924\times10^{-5}\,\mathrm{m}$, $F_x = 1.327\,\mathrm{N}$, stated accuracy $\leq1\%$); the frequently quoted values $5.95\times10^{-5}\,\mathrm{m}$ and $1.33\,\mathrm{N}$ are rounded benchmark values, not a single refinement level, and are often attributed to \citet{Richter2015}.
 This makes it a candidate category-C reference with unusually good convergence evidence of its own.
 
 \paragraph{Status.}
 The earlier solids4foam calculations of this case placed the beam $0.05\,\mathrm{m}$ further downstream than \citet{Richter2012}, sampled point A on the upstream face rather than at mid-thickness, used a different peak inflow speed and a transient start-up; they therefore solved a different problem, and their comparison with the Richter values is withdrawn.
 The case has been rebuilt to the geometry and material of \citet{Richter2012}, and a new mesh and time-step campaign is in progress.
-An earlier modified, large-deformation form ($E = 10\,\mathrm{kPa}$) with same-lineage reference values read from a figure of \citet{Tukovic2018} (C-weak) is not pursued here.
+An earlier modified, large-deformation form ($E_S = 10\,\mathrm{kPa}$) with same-lineage reference values read from a figure of \citet{Tukovic2018} (C-weak) is not pursued here.
 
 %%-------------------------------------------------------------------
 \subsubsection{Hessenthaler three-dimensional benchmark [IN PROGRESS]}\label{sec:hessenthaler}

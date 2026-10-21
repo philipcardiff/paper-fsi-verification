@@ -7,25 +7,9 @@ Far fewer of them come with a benchmark \emph{solution} whose own numerical erro
 Agreement with such a value is then weak evidence, and disagreement is ambiguous: it may mean that the code under test is wrong, that the reference is wrong, or that the code's own solution is not yet resolved.
 This paper addresses that gap for continuum FSI with an open, executable verification suite in which the quality of every reference and the spatial, temporal and iterative errors of every result are stated explicitly.
 
-FSI methods can be classified along three axes: the modelling viewpoint (Eulerian, Lagrangian, or mixed), the degree of interface coupling (weak vs.\ strong), and the solver structure (partitioned vs.\ monolithic).
-
-Eulerian approaches treat both solid and fluid domains as ``fluid-like'' (e.g.\ volume-of-fluid~\citep{jain2019conservative}, level-set~\citep{dunne2006eulerian, cottet2008eulerian}), easily allowing arbitrarily large solid deformations, but conservative interface descriptions and the inclusion of advanced solid constitutive laws remain challenging.
-In contrast, Lagrangian (particle-type) approaches treat both domains as ``solid-like'', e.g.\ smooth-particle hydrodynamics, the material point method, and the particle finite element method (PFEM)~\citep{aubry2005particle, aubry2006fractional, cremonesi2020state}.
-These methods are promising for large-deformation problems but typically come with a prohibitive computational cost.
-Mixed Eulerian--Lagrangian approaches treat the solid (and interface) as Lagrangian and the fluid using an arbitrary Lagrangian--Eulerian (ALE) description.
-ALE is effective for small to moderate interface deformations but eventually fails for very large deformations~\citep{wall2006large}, motivating methods that allow the solid to ``float over'' an Eulerian fluid grid, such as immersed boundary/domain~\citep{peskin1977numerical, peskin2002immersed, iaccarino2003immersed}, Chimera/overset~\citep{ge2003three, miller2014overset, li2021fluid, cane2021patient}, and cut-cell methods~\citep{pasquariello2016cut, tao2020new, xie2020cartesian}.
-Of these, overset methods offer large-deformation freedom while retaining orthogonal interface cells suitable for resolving fluid boundary layers, albeit with the downside of greater implementation complexity.
-
-In weakly coupled (loosely coupled) approaches, the fluid and solid are solved once per time step without iteration over the interface conditions~\citep{farhat2000two}.
-This is computationally inexpensive but unstable for strongly coupled systems with significant added-mass effects~\citep{Causin2005, Forster2006}, such as incompressible flows interacting with light, flexible structures.
-Strongly coupled approaches strictly enforce the interface kinematic and dynamic conditions at each time step; the present work focuses on the strongly coupled case.
-
-Strong coupling can be enforced through either a partitioned or a monolithic solver structure.
-In partitioned (staggered, two-system) approaches, separate solvers --- and potentially separate discretisations --- are used for the fluid and solid~\citep{Tukovic2018}, and outer iterations are performed over the interface at each time step.
-These are accelerated using Aitken relaxation~\citep{Degroote2009, bungartz2016precice, irons1969version, kuttler2008fixed}, quasi-Newton schemes~\citep{santiago2020hpc, delaisse2022surrogate}, or Robin-type interface conditions~\citep{Tukovic2018b}.
-The principal limitations are robustness and efficiency: for strongly coupled, highly nonlinear problems, outer-iteration convergence can be slow or fail entirely, particularly under strong added-mass loading.
-In contrast, monolithic approaches treat the fluid and solid as a single system, solved concurrently within the same linearised system~\citep{Degroote2009}.
-This avoids outer iterations and can handle tightly coupled nonlinear problems robustly, at the cost of reduced modularity and a poorly conditioned linear system that is more difficult to solve.
+FSI formulations differ in how the fluid and solid are described (Eulerian, Lagrangian, or an arbitrary Lagrangian--Eulerian (ALE) fluid with a Lagrangian solid), in whether the interface conditions are satisfied at every time step (strong coupling) or only approximately (weak coupling), and in whether the fields are solved separately or as one system (partitioned or monolithic); the companion solver paper~\citetodo{companion solver paper} reviews these choices.
+The present work concerns strongly coupled FSI with a body-fitted ALE fluid and a Lagrangian solid, solved by partitioned finite volume procedures in which separate field solvers are iterated at each time step until the interface conditions are met.
+Weakly coupled schemes are not considered, as they become unstable when the added mass of the fluid is large relative to the inertia of the solid~\citep{Causin2005, Forster2006}.
 
 The verification literature for FSI is smaller than that for its component fields.
 The proposal of \citet{Turek2006} defines the most widely used problems and reports multi-level reference values, and goal-oriented error estimation has been developed for FSI in the finite element setting~\citep{Richter2012, Richter2017}; monolithic finite element and hybrid finite volume/finite element codes have been demonstrated on these and related problems~\citep{Heil2004, Heil2008, Eken2016, Lozovskiy2019}, with convergence evidence that ranges from multi-level studies to single-mesh results.
