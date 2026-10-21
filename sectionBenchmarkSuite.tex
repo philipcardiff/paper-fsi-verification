@@ -62,7 +62,7 @@ Here an elastic ring vibrates freely in its $n=2$ mode inside a fluid-filled rig
 
 \paragraph{Reference.}
 The exact linear eigenvalue of a plane-strain continuum ring loaded by the exact potential-flow added-mass traction, by Chebyshev collocation (refinement changes the frequencies by $\approx5\times10^{-8}$): $\omega_\mathrm{dry} = 2.555042\,\mathrm{rad/s}$ and wet frequencies $2.435615$, $1.804513$ and $0.768654\,\mathrm{rad/s}$.
-The thin-ring frequency with the confined added mass of Brennen~\citetodo{Brennen 1982, NCEL report CR 82.010; not in bibliography} agrees to $O((h/a)^2)$, and a linearised viscous solution shifts the wet frequencies by at most $-0.073\%$, which bounds the effect of the small viscosity.
+The thin-ring frequency with the confined added mass of Brennen~\citep{Brennen1982} agrees to $O((h/a)^2)$, and a linearised viscous solution shifts the wet frequencies by at most $-0.073\%$, which bounds the effect of the small viscosity.
 
 \paragraph{Evidence.}
 Meshes are refined by factors 1, 2 and 4 at 100 steps per period, and 25--100 steps per period are used on the middle mesh (Table~\ref{tab:ring}).
@@ -106,7 +106,7 @@ Viscous and large-amplitude effects are, by design, not tested.
 
 \paragraph{What it tests.}
 Pressure-wave propagation in a compliant vessel combines added mass, viscous attenuation and wall compliance.
-Womersley's analysis~\citetodo{Womersley 1955 Phil.\ Mag.; Womersley 1957 Phys.\ Med.\ Biol.} has been used to verify FSI codes~\citetodo{Filonova et al.\ 2020, IJNMBE e3266}, usually in a thin-wall, long-wave form whose modelling error is not negligible for a thick wall.
+Womersley's analysis~\citep{Womersley1955, Womersley1957} has been used to verify FSI codes~\citep{Filonova2020}, usually in a thin-wall, long-wave form whose modelling error is not negligible for a thick wall.
 Here a harmonic wave travels along an untethered axisymmetric tube ($h/R = 0.1$, $L/R = 15$, $\alpha = 5.01$, $\rho_s h/(\rho_f R) = 0.1$), with exact travelling-wave data at both ends (no reflection) and exact initial fields; amplitudes ($\approx5\times10^{-4}R$) are small enough for linear theory to hold to well below $10^{-3}$.
 
 \paragraph{Reference.}
@@ -165,12 +165,12 @@ Limitations: the wall is untethered, unlike Womersley's constrained tube (solids
 %%-------------------------------------------------------------------
 
 \paragraph{What it tests.}
-A thin, very light elastic wall in a channel combines strong added mass, bending-dominated large deformation and fluid-mesh motion, where partitioned methods are least robust~\citetodo{Jensen \& Heil 2003, J.\ Fluid Mech.}~\citep{Heil2004, Heil2008}.
+A thin, very light elastic wall in a channel combines strong added mass, bending-dominated large deformation and fluid-mesh motion, where partitioned methods are least robust~\citep{Jensen2003, Heil2004, Heil2008}.
 An elastic section of the upper wall ($h/L = 0.005$; St Venant--Kirchhoff continuum) collapses under a ramped external pressure to $\approx21\%$ of the channel width and then performs a damped oscillation ($Re = Re\,St = 50$; analysed to $t = 1.5\,\mathrm{s}$).
 The problem \emph{modifies} that of Jensen and Heil (no pre-stress, $h/a = 1/20$, clamped ends, pressure ramp, regularising density $\rho_s = \rho_f$, which shifts the response by $0.28\%$ of the peak) so that it is well posed for a continuum solid and partitioned coupling; the published values are therefore not reproduced.
 
 \paragraph{Reference and model-form difference.}
-The reference (category B) is computed with oomph-lib\citetodo{Heil \& Hazel 2006, oomph-lib}, an independent monolithic Newton finite element code whose driver source is stored with the case.
+The reference (category B) is computed with oomph-lib~\citep{Heil2006}, an independent monolithic Newton finite element code whose driver source is stored with the case.
 It is Richardson-extrapolated in time, with an uncertainty of $\approx0.3\%$ of the peak displacement dominated by its spatial error (levels 1 and 2 differ by $0.26\%$; Richardson correction $0.06\%$; two fluid element types differ by $<0.001\%$).
 oomph-lib represents the wall as a geometrically nonlinear Kirchhoff--Love \emph{beam}, whereas the code under test resolves it as a two-dimensional continuum.
 This model-form difference is explicitly identified, is of order $h/L$, and is quantified as $0.05\%$ for the static deflection; it is small relative to the numerical errors of interest, which is why the reference is treated as category B.
@@ -378,7 +378,7 @@ FSI3 remains category C; FSI1 is converging towards an independent reference, an
 \end{figure}
 
 \paragraph{What it tests.}
-A $3\,\mathrm{ms}$ pressure pulse travelling through a fluid-filled elastic tube (Fig.~\ref{fig:3dtube_geom}; response to $20\,\mathrm{ms}$, including the outlet reflection) is the standard three-dimensional test of partitioned coupling under strong added mass ($\rho_s/\rho_f = 1.2$)~\citetodo{Formaggia et al.\ 2001; Gerbeau \& Vidrascu 2003; Fern\'andez \& Moubachir 2005}~\citep{kuttler2008fixed, Degroote2009}; most publications report only iteration counts and snapshots.
+A $3\,\mathrm{ms}$ pressure pulse travelling through a fluid-filled elastic tube (Fig.~\ref{fig:3dtube_geom}; response to $20\,\mathrm{ms}$, including the outlet reflection) is the standard three-dimensional test of partitioned coupling under strong added mass ($\rho_s/\rho_f = 1.2$)~\citep{Formaggia2001, Gerbeau2003, Fernandez2005, kuttler2008fixed, Degroote2009}; most publications report only iteration counts and snapshots.
 The solid here is Hookean (small strain), whereas most published calculations use St Venant--Kirchhoff (peak hoop strain $\approx3\%$); a quarter of the tube is computed with symmetry planes, with Robin--Neumann coupling, BDF2 in fluid and solid, and non-conformal (AMI) interface transfer.
 
 \paragraph{Reference.}
@@ -431,13 +431,13 @@ After correction, the axial displacement and arrival time converge at sub-nomina
 %%-------------------------------------------------------------------
 
 \paragraph{What it tests.}
-A lid-driven cavity with a flexible membrane bottom~\citetodo{Wall 1999 thesis; Mok 2001 thesis} is one of the oldest partitioned-coupling benchmarks~\citetodo{Gerbeau \& Vidrascu 2003}~\citep{kuttler2008fixed, Kassiotis2011}.
+A lid-driven cavity with a flexible membrane bottom~\citep{Wall1999, Mok2001} is one of the oldest partitioned-coupling benchmarks~\citep{Gerbeau2003, kuttler2008fixed, Kassiotis2011}.
 The membrane is tension-dominated ($0.002\,\mathrm{m}$ thick, $E = 250\,\mathrm{Pa}$) and deflects by $\approx0.29\,\mathrm{m}$ in a $1\,\mathrm{m}$ cavity under a periodically forced lid; small openings make the problem well posed for an incompressible fluid.
 
 \paragraph{Reference: two inconsistent groups.}
 The published midpoint histories fall into two mutually inconsistent groups (Fig.~\ref{fig:mok_refs}).
 In group A (Mok, Wall, Gerbeau and Vidrascu) the openings are defined through the mesh and their size is not stated, so the problem itself is mesh dependent; peaks range from $0.177$ to $0.215\,\mathrm{m}$.
-Group B (Vald\'es\citetodo{Vald\'es 2007 thesis}, the Kratos example\citetodo{Kratos Multiphysics example (Zorrilla)}, Tiba et al.\citetodo{Tiba et al.\ 2026, arXiv:2609.16876 \emph{preprint}}) specifies inflow over a fixed $0.125\,\mathrm{m}$ opening and $p = 0$ at the outlet; within it the peak varies by $5.7\%$ and the oscillation amplitude by $20\%$.
+Group B (Vald\'es~\citep{Valdes2007}, the Kratos example\citetodo{Kratos Multiphysics example (Zorrilla)}, Tiba et al.~\citep{Tiba2026}) specifies inflow over a fixed $0.125\,\mathrm{m}$ opening and $p = 0$ at the outlet; within it the peak varies by $5.7\%$ and the oscillation amplitude by $20\%$.
 \citet{Kassiotis2011} lies between the groups.
 None of the cited sources provides a convincing spatial and temporal convergence demonstration.
 Pilot runs show that the group-B definition reproduces group B, whereas traction-free openings reproduce neither group.
@@ -551,7 +551,7 @@ An earlier modified, large-deformation form ($E = 10\,\mathrm{kPa}$) with same-l
 \todo{IN PROGRESS. A numerical-verification campaign (solids4foam branch verification/hessenthaler-phaseI) is running; no convergence result is reported here. Retain in the main text only if mesh, time-step and coupling studies of the steady Phase-I state, run with the strict coupling test from $t = 0$, give consistent observed orders for the principal QoIs. Record the justification of the fixed shear modulus. The campaign was started on a tree without solids4foam PR \#546 (OpenFOAM-v2412, GCC, \texttt{-O2}, AMI interface transfer). The A/B check against a tree with PR \#546 is done: F1S2 is bit-identical over 750 steps, so the \texttt{-O2} build is unaffected by the aliasing defect and the S2 solid mesh does not reach the barycentric threshold. F1S3 changes the mean tip deflection by $+0.006$\,mm ($0.04\%$), well below the S2$\to$S3 change of about $0.09$\,mm. Final S3/S4 runs use the fixed build.}
 
 \paragraph{Intended role.}
-The benchmark of Hessenthaler et al.\citetodo{Hessenthaler et al.\ 2017, IJNMBE, ``Experiment for validation of fluid--structure interaction models and algorithms''; check also the companion numerical paper} is a geometrically complex, three-dimensional, large-deformation problem (a silicone flap in a flow phantom) with phase-contrast MRI measurements.
+The benchmark of Hessenthaler et al.~\citep{Hessenthaler2017a}\citetodo{check also the companion numerical paper: Hessenthaler2017b is in the bibliography} is a geometrically complex, three-dimensional, large-deformation problem (a silicone flap in a flow phantom) with phase-contrast MRI measurements.
 It is primarily a \emph{validation} case: agreement with the measurements depends on the mathematical model (including a shear modulus calibrated from a measured deflection) as well as on the numerics, and is not a numerical verification reference.
 Separately, a numerical-verification campaign treats the Phase-I steady state of one fixed mathematical model (fixed shear modulus, neo-Hookean flap, Newtonian fluid) as the problem to be verified, with nested solid meshes, a fluid mesh family, time-step and coupling studies, and no use of the measurements.
 
@@ -574,7 +574,7 @@ If the experimental comparison is included, it will be presented separately, aft
 \end{figure}
 
 An elastic half-cylinder in a highly viscous channel flow (Fig.~\ref{fig:blob_geom}), proposed by~\citet{Liu2014} to measure the temporal order of a coupled scheme, is strongly damped and undergoes large deformation.
-The reference is C-weak: \citet{Liu2014} report only self-convergence norms, and the preprint\citetodo{Liu et al., arXiv:1401.0082} gives figure-extracted interface shapes at $t = 1\,\mathrm{s}$ (first-order time integration, own time error $\approx4\%$) and at steady state (1\,239 fluid and 370 solid triangles).
+The reference is C-weak: \citet{Liu2014} report only self-convergence norms, and the preprint~\citep{Liu2013} gives figure-extracted interface shapes at $t = 1\,\mathrm{s}$ (first-order time integration, own time error $\approx4\%$) and at steady state (1\,239 fluid and 370 solid triangles).
 At $t = 1\,\mathrm{s}$, $\Delta t = 0.25$ to $0.03125\,\mathrm{s}$ gives top-point $u_x = 0.0558737$, $0.0564184$, $0.0565219$ and $0.0565398\,\mathrm{m}$, with observed orders 2.39 and 2.54 ($u_x$) and 2.39 and 2.41 (interface shape); below $\Delta t = 0.03125\,\mathrm{s}$ the changes reach the coupling/solver-tolerance level ($\approx10^{-5}\,\mathrm{m}$).
 Orders above the formal value indicate a pre-asymptotic sequence; they are reported as observed self-convergence behaviour, not as a measured order.
 Four mesh levels give steady $u_x$ from $0.108206$ to $0.120152\,\mathrm{m}$ with decreasing changes (observed order 2.40, above the formal value); no extrapolated value is given.
