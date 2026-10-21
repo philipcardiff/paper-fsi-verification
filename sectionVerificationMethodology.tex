@@ -4,7 +4,7 @@
 % Evidence base: paper-data/benchmark_inventory.md, paper-data/benchmarks.yaml
 % and the verification/ directories of the solids4foam development branch.
 
-Code verification asks whether the discrete equations are solved correctly and whether the discretisation error vanishes at the expected rate; it does not ask whether the governing equations describe a physical system~\citetodo{Roache 1998, Verification and Validation in Computational Science and Engineering; Oberkampf \& Roy 2010}.
+Code verification asks whether the discrete equations are solved correctly and whether the discretisation error vanishes at the expected rate; it does not ask whether the governing equations describe a physical system~\citep{Roache1998, Oberkampf2010}.
 For a coupled fluid--structure interaction (FSI) calculation it is useful to think of the difference between a computed quantity $f$ and the exact solution $f_\mathrm{exact}$ of the stated mathematical problem in terms of three dominant sources,
 \begin{equation}
 	f - f_\mathrm{exact} \approx \varepsilon_h + \varepsilon_{\Delta t} + \varepsilon_\mathrm{it},
@@ -87,8 +87,8 @@ Where three levels satisfy the criterion above, a Richardson estimate
 	f_\mathrm{RE} = f_1 + \frac{f_1 - f_2}{r^{p} - 1}
 	\label{eq:richardson}
 \end{equation}
-is used to estimate the remaining discretisation error of the finest solution~\citetodo{Richardson 1911; Roache 1998}, never to promote a non-asymptotic sequence into a converged value.
-\todo{Decide whether to report a grid-convergence index (GCI) with a safety factor~\citetodo{Roache 1994/1998} for the self-convergence cases, or to keep Richardson estimates only. The current evidence base does not tabulate GCIs.}
+is used to estimate the remaining discretisation error of the finest solution~\citep{Richardson1911, Roache1998}, never to promote a non-asymptotic sequence into a converged value.
+\todo{Decide whether to report a grid-convergence index (GCI) with a safety factor~\citep{Roache1994, Roache1998} for the self-convergence cases, or to keep Richardson estimates only. The current evidence base does not tabulate GCIs.}
 
 \paragraph{Iterative and coupling errors.}
 Interface iterations at each time step are stopped when a coupling residual falls below a tolerance, and the field solvers have their own tolerances.
