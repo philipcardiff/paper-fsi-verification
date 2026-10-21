@@ -188,7 +188,7 @@ The beam A/B (face-size check) is still outstanding. The two related `\todo` not
 
 ## Addendum (2026-10-20): separation from the companion solver paper
 
-The verification paper now stays partitioned-only and shares notation with the solver paper (paper-monolithic-fsi, `manuscript/d3-governing-equations`).
+The verification paper shares notation with the solver paper (paper-monolithic-fsi, `manuscript/d3-governing-equations`).
 
 - Introduction: five paragraphs classifying FSI methods (Eulerian/Lagrangian/mixed, weak vs strong, partitioned vs monolithic) → three sentences positioning the paper (strongly coupled, ALE fluid, partitioned finite volume) and citing the companion paper (`\citetodo{companion solver paper}`) for the methods landscape. Thesis and contributions unchanged.
 - cavityFlexibleBottom: "Partitioned and quasi-monolithic four-level studies are complete" → "The partitioned four-level study is complete"; the quasi-monolithic agreement sentence (0.01–0.02% in u_y and F_y) → one sentence that a consistency check against a quasi-monolithic coupling sharing much of the code is reported in the companion paper. Partitioned numbers unchanged.
@@ -198,3 +198,7 @@ The verification paper now stays partitioned-only and shares notation with the s
 - ringAddedMass mass ratio μ → m* (text, Table `tab:ring`, recommended-suite table), to avoid a clash with the Lamé parameter μ_S.
 - Section `sec:math_model`: added that the partitioned solids take D_S as the primary unknown, with v_S = ∂D_S/∂t (inertia ρ_{S,0} ∂²D_S/∂t²), and a small-strain (linear geometry) sentence; the front-matter `\todo` on Section 2 consistency updated accordingly.
 - Independent monolithic reference codes (oomph-lib, Richter, Lozovskiy, Eken) are still named as such.
+
+### Revision (2026-10-21)
+
+Philip softened the separation rule: quasi-monolithic results may stay in the verification paper for now, and whether to keep or hide them is decided later (draft PR #13 adds more). The cavityFlexibleBottom changes above are therefore reverted: the "partitioned and quasi-monolithic four-level studies" wording, the 0.01–0.02% agreement sentence and the `tab:orders` row are restored. The introduction, notation and FSI3 `\todo` changes stay.

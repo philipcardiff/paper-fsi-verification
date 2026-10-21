@@ -498,7 +498,7 @@ Each of the four cases below would add a feature not otherwise covered, but none
 \subsubsection{Flexible-bottom cavity [PROVISIONAL]}\label{sec:cavity}
 %%-------------------------------------------------------------------
 
-\todo{PROVISIONAL BENCHMARK. The partitioned four-level study is complete (below); retain in the main text if the independent ANSYS solution (paper repository PR \#12, E.~Tandis) converges and the solid-model difference identified below is resolved. Otherwise move to supplementary material.}
+\todo{PROVISIONAL BENCHMARK. Partitioned and quasi-monolithic four-level studies are complete (below); retain in the main text if the independent ANSYS solution (paper repository PR \#12, E.~Tandis) converges and the solid-model difference identified below is resolved. Otherwise move to supplementary material.}
 
 \begin{figure}[htbp]
 	\centering
@@ -514,8 +514,7 @@ Steady channel flow over a cavity with a flexible floor~\citep{Tukovic2018} (Fig
 Point A of~\citet{Tukovic2018} lies on the top (wetted) surface of the plate. The solids4foam tutorial specified it at a location outside the solid, so the recorded displacement was that of the nearest node on the plate underside; the values below are for point A on the top surface (solids4foam PR \#584). The top-surface and mid-thickness values differ by $0.5\%$, and the underside value is $1.2\%$ smaller in magnitude than the top-surface value on the finest mesh.
 
 \paragraph{Evidence.}
-Four uniformly refined levels ($\Delta x = 0.1$, $0.05$, $0.025$, $0.0125\,\mathrm{m}$) were computed with the partitioned solver (Aitken; strict coupling test on the finest level, Section~\ref{sec:iterative_errors}).
-A consistency check against a quasi-monolithic coupling that shares much of this code is reported in the companion solver paper~\citetodo{companion solver paper}; it is not an independent reference.
+Four uniformly refined levels ($\Delta x = 0.1$, $0.05$, $0.025$, $0.0125\,\mathrm{m}$) were computed with the partitioned solver (Aitken; strict coupling test on the finest level, Section~\ref{sec:iterative_errors}) and with the quasi-monolithic solver. The two agree to $0.01$--$0.02\%$ in $u_y$ and $F_y$ on the two finest levels. The quasi-monolithic solver shares much of its code with the partitioned one, so this agreement is a consistency check between formulations, not an independent reference.
 The steady top-surface $u_y$ at point A is $-0.2036$, $-0.2314$, $-0.2385$ and $-0.2401\,\mathrm{m}$, converging monotonically at observed orders $1.95$--$2.05$; the extrapolated value ($p = 2$) is $-0.2407\,\mathrm{m}$. The interface force converges to $F_y \approx -5.26\,\mathrm{N/m}$ (orders 2.2--2.7, not constant).
 The finest level needed a smaller pseudo-time step than the tutorial; on the coarser levels the smaller step changes the steady state by at most $0.014\%$. The recorded coarser-level runs used the default coupling test and accepted many steps with $r_1$ above the tolerance; reruns with the strict test agree with them to $0.02\%$.
 
