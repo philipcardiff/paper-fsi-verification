@@ -286,6 +286,13 @@ single Richardson order is derived from it.
   reference runs all use reuse 0. The strict restarts from default-test
   states (Section 9, "restarts keep history") used reuse 5 and serve only
   as qualitative evidence.
+- **No fixed sign or size.** F1S2 from t = 0 with the default test,
+  reuse 0 and `velocityLaplacian`, on the #554 build (fluid mesh motion
+  couplers), drifts DOWNWARD at −0.055 mm/s. At 28-30 s it is 15.388 mm,
+  1.26 mm (~8 %) below the strict reference, and still falling. The
+  original default runs drift upward. The error the default test
+  accumulates therefore depends on the coupling settings and on the coupler
+  implementation, in both size and sign.
 - **Diagnosis.** Neither component drifts on its own:
   - with the geometry frozen, the fluid settles in about 2 s;
   - the solid alone is constant to 1e-15 mm.
