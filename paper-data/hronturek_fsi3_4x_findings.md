@@ -1670,7 +1670,7 @@ sensitivity.
 **Error separation.**
 
 - **Time.** d1 contains the measured 2x' dt 1e-3 → 5e-4 change exactly. For d2 the 2x' dt
-  5e-4 → 2.5e-4 change bounds the time part at 3% (u_y amplitude), 5% (u_x mean), 7% (f) and
+  5e-4 → 2.5e-4 change estimates the time part at 3% (u_y amplitude), 5% (u_x mean), 7% (f) and
   0.4% (lift amplitude).
 - **Coupling.** Tol 1e-4 against 1e-5 is 3–6% of d2.
 - **Solid.** The solid share of d2 (s8x → s16x) was not run. Scaled from the cross run and the

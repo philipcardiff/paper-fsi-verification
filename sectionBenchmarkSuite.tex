@@ -28,7 +28,7 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		womersleyTube & axisym. & periodic (forced) & small & A & 3 & 3 & IQN-ILS/RN \\
 		collapsibleChannel & 2-D & transient & large & B & 4 (fluid) & 4 & IQN-ILS/RN; $\rho_S$ sweep \\
 		Hron--Turek FSI1 & 2-D & steady & large & B & 2 & 2 & IQN-ILS/RN \\
-		Hron--Turek FSI3 & 2-D & self-excited & large & C & 3 & scaled; 2 (2x) & IQN-ILS/RN; tolerance pair \\
+		Hron--Turek FSI3 & 2-D & self-excited & large & C & 3; 4 (corrected) & scaled; 2 (2x) & IQN-ILS/RN; tolerance pair \\
 		Hron--Turek FSI2 & 2-D & self-excited & large & C & 2 & scaled & tolerance sweep \\
 		3dTube & 3-D & transient pulse & small & C-weak & 3 & 4 & IQN-ILS/RN \\
 		mokLidDrivenCavity & 2-D & periodic (forced) & large & C-weak & 4 & 3 & IQN-ILS/Aitken$^\dagger$ \\
@@ -288,21 +288,21 @@ This sequence uses the tutorial set-up (velocity-based Laplacian mesh motion, ze
 \begin{table}[htbp]
 	\centering
 	\small
-	\setlength{\tabcolsep}{4pt}
-	\caption{Hron--Turek FSI3, corrected set-up: fluid meshes refined additionally around the cylinder and over the flag and wake (1x$'$: 11\,764, 2x$'$: 47\,056, 4x$'$: 188\,224 cells), solid 2x/4x/8x, central convection, acceleration-consistent wall pressure, displacement-based mesh motion, strict coupling test (tolerance $10^{-5}$), $\Delta t = 0.0005\,\mathrm{s}$ on all levels; five periods before $t = 6\,\mathrm{s}$, benchmark definitions. $D$: 2x$'\to$4x$'$ change; time and coupling: largest change from the 2x$'$ time-step triplet ($\Delta t$ = 0.001/0.0005/0.00025\,s) and from the coupling tolerance ($10^{-4}$ against $10^{-5}$, 1x$'$), relative to $D$. Units: mm, Hz, N/m. Source: paper-data/hronturek\_fsi3\_4x\_findings.md, Section~20.}
+	\setlength{\tabcolsep}{3pt}
+	\caption{Hron--Turek FSI3, corrected set-up: fluid meshes refined additionally around the cylinder and over the flag and wake (1x$'$: 11\,764, 2x$'$: 47\,056, 4x$'$: 188\,224, 8x$'$: 752\,896 cells), solid 2x/4x/8x/16x, central convection, acceleration-consistent wall pressure, displacement-based mesh motion, strict coupling test (tolerance $10^{-5}$); $\Delta t = 0.0005\,\mathrm{s}$ on 1x$'$--4x$'$ and $0.00025\,\mathrm{s}$ on 8x$'$ (unstable at $0.0005\,\mathrm{s}$; text); five periods before $t = 6\,\mathrm{s}$, benchmark definitions. $D_2$: 4x$'\to$8x$'$ change; time and coupling: change from halving $\Delta t$ from $0.0005$ to $0.00025\,\mathrm{s}$ on 2x$'$ and from the coupling tolerance ($10^{-4}$ against $10^{-5}$, 1x$'$), relative to $D_2$. Units: mm, Hz, N/m. Source: paper-data/hronturek\_fsi3\_4x\_findings.md, Sections~20 and~21.}
 	\label{tab:hronturek_corrected}
-	\begin{tabular}{lrrrrrr}
+	\begin{tabular}{lrrrrrrr}
 		\toprule
-		Quantity & 1x$'$ & 2x$'$ & 4x$'$ & Featflow & 4x$'$ vs Featflow & Time, coupling vs $D$ \\
+		Quantity & 1x$'$ & 2x$'$ & 4x$'$ & 8x$'$ & Featflow & 8x$'$ vs Featflow & Time, coupling vs $D_2$ \\
 		\midrule
-		$u_x$ (max+min)/2 & $-2.859$ & $-3.082$ & $-3.069$ & $-2.880$ & $+6.6\%$ & 0.30, 0.21 \\
-		$u_x$ amplitude & 2.754 & 2.929 & 2.903 & 2.720 & $+6.7\%$ & 0.13, 0.09 \\
-		$u_y$ amplitude & 34.62 & 36.17 & 36.12 & 34.99 & $+3.2\%$ & 0.31, 0.38 \\
-		frequency & 5.570 & 5.497 & 5.473 & 5.460 & $+0.2\%$ & 0.03, 0.02 \\
-		drag (max+min)/2 & 458.5 & 461.4 & 461.5 & 460.5 & $+0.2\%$ & 0.94$^a$, 0.43$^a$ \\
-		lift amplitude & 194.7 & 174.1 & 164.7 & 153.9 & $+7.0\%$ & 0.01, 0.02 \\
+		$u_x$ (max+min)/2 & $-2.859$ & $-3.082$ & $-3.069$ & $-3.010$ & $-2.880$ & $+4.5\%$ & 0.05, 0.05 \\
+		$u_x$ amplitude & 2.754 & 2.929 & 2.903 & 2.842 & 2.720 & $+4.5\%$ & 0.04, 0.04 \\
+		$u_y$ amplitude & 34.62 & 36.17 & 36.12 & 35.77 & 34.99 & $+2.2\%$ & 0.03, 0.06 \\
+		frequency & 5.570 & 5.497 & 5.473 & 5.465 & 5.460 & $+0.1\%$ & 0.07, 0.06 \\
+		drag (max+min)/2 & 458.5 & 461.4 & 461.5 & 461.2 & 460.5 & $+0.1\%$ & 0.12, 0.23 \\
+		lift amplitude & 194.7 & 174.1 & 164.7 & 159.3 & 153.9 & $+3.5\%$ & 0.00, 0.03 \\
 		\bottomrule
-		\multicolumn{7}{l}{\footnotesize $^a$ Drag time mean. The force amplitudes depend strongly on the solid mesh (text).}
+		\multicolumn{8}{l}{\footnotesize The force amplitudes depend strongly on the solid mesh (text).}
 	\end{tabular}
 \end{table}
 
@@ -353,18 +353,19 @@ The velocity-based Laplacian mesh motion of the tutorial is path dependent: unde
 The zero-gradient pressure condition on the accelerating flag adds a first-order error, and the coarsest level is pre-asymptotic in the cylinder wake.
 \begin{itemize}
 	\item \emph{Corrected fluid under prescribed motion.} With central convection, displacement-based mesh motion and the acceleration-consistent wall pressure, $Q_\mathrm{in}$ is $43.66$, $76.17$, $81.22$ and $81.96\,\mathrm{N/m}$ on 1x, 2x, 3x and 4x of the tutorial family. On a family refined additionally around the cylinder and over the flag and wake it is $67.18$, $79.63$, $79.99$, $79.27$ and $77.16\,\mathrm{N/m}$ on 1x$'$, 2x$'$, 3x$'$, 4x$'$ and 8x$'$. The apparent 2x$'$--4x$'$ plateau is therefore not asymptotic: the in-phase part of the lift still rotates by $\approx4$--$5^\circ$ per level, and the two families differ by $6\%$ at their finest levels. A 4x$'$ run at the 8x$'$ time step accounts for $6\%$ of the 4x$'\to$8x$'$ change, so the change is spatial. No order or error bound is quoted for this load.
-	\item \emph{Corrected coupled sequence} (Table~\ref{tab:hronturek_corrected}). With the same treatments, displacement-based mesh motion in the coupled solver and the strict coupling test, the displacements change from 2x$'$ to 4x$'$ by $-0.14\%$ ($u_y$ amplitude) and $+0.4\%$ ($u_x$), no more than their time-step and coupling sensitivities: they are converged to that level, but no spatial order can be resolved. The $6$--$10\%$ changes of the tutorial-set-up sequence do not recur, and its 4x $u_y$ amplitude lies within $0.3\%$ of the corrected value; the 1x$'$ level remains pre-asymptotic. The frequency converges monotonically (observed order 1.6, provisional limit $5.461\,\mathrm{Hz}$, $0.27\%$).
+	\item \emph{Corrected coupled sequence} (Table~\ref{tab:hronturek_corrected}). With the same treatments, displacement-based mesh motion in the coupled solver and the strict coupling test, the displacements change from 2x$'$ to 4x$'$ by only $-0.14\%$ ($u_y$ amplitude) and $+0.4\%$ ($u_x$), no more than their time-step and coupling sensitivities. A fourth level shows that this plateau is not asymptotic. From 4x$'$ to 8x$'$ (solid 16x; $\Delta t = 0.00025\,\mathrm{s}$, because at $0.0005\,\mathrm{s}$ the maximum Courant number on 8x$'$ reaches 8--34 and the coupling stalls) the $u_y$ amplitude falls by $0.96\%$ and the $u_x$ mean rises by $1.9\%$: $8.5$ and $4.1$ times the 2x$'\to$4x$'$ changes, and $17$--$29$ times their time-step and coupling sensitivities. The change is spatial and on the fluid side (scaled from the cross run below, the solid share of the $u_y$ change is estimated at $\approx4\%$), and it has the sign predicted by the fall of $Q_\mathrm{in}$ at 8x$'$ under prescribed motion. The displacements are therefore not yet in the asymptotic range, and no order, extrapolated value or error bound is given for them. The $6$--$10\%$ changes of the tutorial-set-up sequence do not recur, and the 1x$'$ level remains pre-asymptotic. On the constant-Courant path ($\Delta t$ halved with $h$: 2x$'$, 4x$'$, 8x$'$) the frequency converges monotonically ($5.494$, $5.473$, $5.465\,\mathrm{Hz}$; observed order 1.4) and the force means change by less than $0.3\,\mathrm{N/m}$; the lift amplitude converges slowly ($174.0$, $164.7$, $159.3\,\mathrm{N/m}$; order 0.8) and the drag-amplitude changes grow, so neither force amplitude is in the asymptotic range.
 	\item \emph{Solid and fluid shares.} A cross run (fluid 2x$'$, solid 8x) separates the 2x$'\to$4x$'$ changes: refining the solid alone changes the lift amplitude by $-3.0\%$ and the drag amplitude by $-1.3\%$, more than half of their total changes, so the force amplitudes are not converged in the solid and no extrapolation is given for them; two thirds of the frequency change is from the fluid; both shares of the displacement changes are within the time-step and coupling sensitivities.
-	\item \emph{Comparison with Featflow}, made after the sequence was characterised: the frequency and drag mean agree to $0.2\%$, but the $u_y$ amplitude is $3.2\%$ and $u_x$ $6.6\%$ above Featflow, about twice the reference's own change between its two finest levels ($1.6\%$ and $3.8$--$4.0\%$). Our 4x$'$ values lie just beyond Featflow's level-2 values ($35.73\,\mathrm{mm}$ and $-3.02\,\mathrm{mm}$), within about $1$--$2\%$ of the span of its own levels, and the quantities on which the two agree to $0.2\%$ (frequency, drag mean) are those for which the Featflow sequence is settled. The most plausible reading is that the difference reflects the unresolved state of the reference for these quantities rather than a modelling difference; other explanations (the different discretisations, or the extraction of the statistics) are not excluded.
+	\item \emph{Comparison with Featflow}, made after the sequence was characterised: at 8x$'$ the frequency and drag mean agree to $0.15\%$, while the $u_y$ amplitude is $2.2\%$, $u_x$ $4.5\%$ and the lift amplitude $3.5\%$ above Featflow (at 4x$'$: $3.2\%$, $6.6\%$ and $7.0\%$). The 8x$'$ level moves every displacement and force amplitude towards Featflow, but neither sequence is resolved for these quantities: ours is still changing at 8x$'$, and Featflow's levels 2--4 are non-monotone, with a level-3$\to$4 change of $1.6\%$ ($u_y$) and $3.8$--$4.0\%$ ($u_x$). The remaining difference is therefore of the size of the unresolved error of both solutions and does not indicate a modelling difference; the quantities on which the two agree to $0.2\%$ (frequency, drag mean) are those for which both sequences are settled. No parameter was adjusted towards the reference.
 \end{itemize}
 Limit-cycle restarts of the solid diverge (the second old-time displacement level is not written; solids4foam issue \#555), so all time-step and tolerance branches are cold runs.
 \todo{Planned sentence: the FSI3 sequence of the companion paper's quasi-monolithic coupling~\citetodo{companion solver paper}, pending a rerun after solids4foam PR \#597, will state whether the order-1 displacement behaviour of the tutorial set-up persists without partitioned coupling iterations. Earlier quasi-monolithic results predate that fix and are not quoted.}
-\todo{Hron--Turek: a coupled 8x$'$ level would show whether the displacements respond to the 4x$'\to$8x$'$ change of the replayed load; FSI1 4x for a reference-free order of $u_y$; FSI2 4x. Evidence: paper-data/hronturek\_fsi3\_4x\_findings.md, Sections 1--20 (Section 12 retracted in Section 13; Section 18 energy balance; Section 19 fluid-side findings; Section 20 production runs and cross run). solids4foam branches verification/hronturek-second-order and verification/hronturek-production. Cite the Featflow CSM/CFD tables.}
+\todo{Hron--Turek: a fluid mesh family refined locally where the replayed load is mesh dependent may reach the asymptotic range of the displacements (under investigation); FSI1 4x for a reference-free order of $u_y$; FSI2 4x. Evidence: paper-data/hronturek\_fsi3\_4x\_findings.md, Sections 1--21 (Section 12 retracted in Section 13; Section 18 energy balance; Section 19 fluid-side findings; Section 20 production runs and cross run; Section 21 coupled 8x$'$ level, which withdraws the convergence reading of Section 20.2). solids4foam branches verification/hronturek-second-order and verification/hronturek-production. Cite the Featflow CSM/CFD tables.}
 
 \paragraph{Lesson.}
 The de facto standard requires care in use for verification: quoted summary values and detailed tables differ by up to $18\%$; the FSI3 reference is itself uncertain by $3$--$5\%$ in $u_x$ and the force amplitudes; and the lift amplitude is sensitive to a coupling tolerance adequate for every other QoI.
 A two-level agreement with the reference proved to be a crossing, and the third level shows a first-order displacement sequence that is neither a solid nor a static-fluid nor a code defect, but appears in the fluid's in-phase response to the moving flag.
 Our 4x result therefore differs from Featflow by more than the reference's level-to-level change, but it is also not yet resolved; the two statements are distinct, and neither establishes which value is closer to the exact solution.
+On the corrected set-up, a plateau between two levels (2x$'$, 4x$'$) proved not to be asymptotic on a fourth level, so two-level agreement of a sequence with itself is no more conclusive than two-level agreement with a reference.
 FSI3 remains category C; FSI1 is converging towards an independent reference, and FSI2 is not yet demonstrably asymptotic.
 
 %%-------------------------------------------------------------------
