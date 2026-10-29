@@ -1619,3 +1619,91 @@ Units: mm, Hz, N/m. The u_x time mean is -2.835/-3.093/-3.087 mm.
   whether the displacements respond to it.
 
 Cost: about 5 340 core-hours (including the cross run, about 420).
+
+## 21. Coupled 8x' level (constant-Courant path)
+
+Code, scripts and full tables: solids4foam branch `verification/hronturek-production`, README
+sections "Task 3" and "Task 4" (commit 636d567c6). Data here:
+`hronturek_production_ccpath_8x.csv`, `hronturek_production_coupled_8x_runs.csv`.
+
+### 21.1 Set-up and controls
+
+- Fluid 8x' ring+box (752 896 cells) with solid 16x (1680 x 96), the treatments of 20.2, strict
+  IQN-ILS tol 1e-5, no reuse, cold start to 6 s, MeluXina (one node, 128 ranks).
+- **dt 5e-4 is unstable at 8x' (finding).** With central convection and three unrelaxed PIMPLE
+  correctors the maximum Courant number swung between 8 and 34 from the first steps (2.6 at 4x').
+  The fluid did not converge within a step, and IQN-ILS stalled at relative residuals of about
+  1e-2 (the first 7 coupled steps all reached the cap). The run was stopped. The 8x' level was
+  run at dt 2.5e-4, on the constant-Courant path 2x' dt 1e-3, 4x' dt 5e-4, 8x' dt 2.5e-4 (nominal
+  max Co about 2.7 on each). An automatic health gate (Courant number, capped steps at switch-on,
+  coupling floor) guarded the run; it stayed OK throughout.
+- Coupling at 8x': 16 000 coupled steps, 10.5 iterations per step, none at the cap, every step
+  within the strict tolerance (r1 at most 1.0e-5).
+- Controls, all far below the 4x'→8x' changes:
+  - platform (MeluXina against xenosim, coupled 1x' and 2x' to 6 s): at most 8e-5 mm and 2e-4
+    relative;
+  - the solid preconditioner used at 8x' (hypre against bjacobi/LU, 1x'): below 2e-5 mm;
+  - one restart (solids4foam PR #562), before the analysis window: below 2e-5 mm at 1x'.
+- Restarts are usable but not bit-exact: the fluid side does not restore `U_0_0` and the
+  `movingWallPressure` gradient. The perturbation stays at the level of the coupling noise and
+  does not accumulate.
+
+### 21.2 Results
+
+Five periods before 6.0 s; mm, Hz, N/m; d1 = q(4x') − q(2x'), d2 = q(8x') − q(4x'); p only for
+monotone sequences with shrinking differences.
+
+| | 2x' dt 1e-3 | 4x' dt 5e-4 | 8x' dt 2.5e-4 | d1 | d2 | p |
+|---|---:|---:|---:|---:|---:|---:|
+| u_y amplitude | 36.163 | 36.122 | **35.774** | -0.041 | -0.348 | - |
+| u_x (max+min)/2 | -3.083 | -3.069 | **-3.010** | +0.014 | +0.059 | - |
+| u_x amplitude | 2.929 | 2.903 | 2.842 | -0.026 | -0.061 | - |
+| f | 5.4942 | 5.4728 | **5.4647** | -0.0214 | -0.0081 | 1.40 |
+| drag (max+min)/2 | 461.27 | 461.49 | 461.17 | +0.22 | -0.32 | - |
+| drag amplitude | 30.11 | 29.67 | 28.94 | -0.44 | -0.73 | - |
+| lift (max+min)/2 | 1.99 | 2.54 | 2.72 | +0.56 | +0.18 | (1.65) |
+| lift amplitude | 174.0 | 164.7 | **159.3** | -9.35 | -5.38 | 0.80 |
+
+The bracketed order is not resolved: d2 for the lift mean is of the size of its time
+sensitivity.
+
+**Error separation.**
+
+- **Time.** d1 contains the measured 2x' dt 1e-3 → 5e-4 change exactly. For d2 the 2x' dt
+  5e-4 → 2.5e-4 change estimates the time part at 3% (u_y amplitude), 5% (u_x mean), 7% (f) and
+  0.4% (lift amplitude).
+- **Coupling.** Tol 1e-4 against 1e-5 is 3–6% of d2.
+- **Solid.** The solid share of d2 (s8x → s16x) was not run. Scaled from the cross run and the
+  solid-only study, it is about +0.014 mm, -0.003 Hz and -1.6 N/m (an estimate). The
+  displacement change is therefore fluid-side.
+
+**Findings.**
+
+- **The coupled displacements are not converged.** The 2x'–4x' plateau of 20.2 was not
+  asymptotic. From 4x' to 8x', u_y amplitude falls by 0.96% and u_x (max+min)/2 rises by 1.9%,
+  8.5 and 4.1 times the 2x'→4x' changes. This is spatial and fluid-side. No order, Richardson
+  value or GCI is quoted. The statement in 20.2 that the displacements are converged to the
+  level of the time and coupling sensitivities is withdrawn.
+- **The displacements respond to the replay-load change.** The 8x' replay (20.1) lowered Q_in by
+  2.7% at fixed motion. The coupled 8x' response is a smaller oscillation (u_y amplitude -0.96%,
+  u_x amplitude -2.1%). The fixed-motion replay thus predicted the direction of a coupled change
+  that the 2x'–4x' coupled plateau had hidden.
+- **The frequency converges monotonically** (5.4942, 5.4728, 5.4647 Hz; d2/d1 = 0.38, p = 1.4).
+  d2 is about 14 times its time and coupling sensitivities. The order differs from the fixed-dt
+  value (1.6), so no extrapolation is quoted.
+- **The force amplitudes, with solid 16x, keep changing.** Lift amplitude: 174.0, 164.7, 159.3
+  N/m (p = 0.8). Drag amplitude: -0.44, then -0.73 N/m. Neither is in an asymptotic range. On
+  the estimate above, the fluid share of the lift-amplitude change does not shrink (-4.2, then
+  about -3.7 N/m). The force means are converged to about 0.3 N/m (drag, 0.07%) and 0.2 N/m
+  (lift).
+- **Featflow**, compared only after the sequence was characterised:
+  - at 8x': u_y amplitude +2.2%, u_x (max+min)/2 +4.5%, u_x amplitude +4.5%, f +0.09%, drag mean
+    +0.15%, drag amplitude +4.3%, lift amplitude +3.5%;
+  - at 4x' the same differences were +3.2%, +6.6%, +6.7%, +0.2%, +0.2%, +7% and +7%;
+  - the 8x' level moves every displacement and amplitude towards Featflow;
+  - the sequence is not converged, so this is a trend of the tested solutions, not an
+    agreement claim. Nothing was tuned towards Featflow.
+
+Cost: 281 MeluXina node-hours for the 8x' run (36 000 core-hours). Including the cancelled
+dt-5e-4 attempt, the build, timing, tests and the control job: 314 node-hours, about 40 150
+physical core-hours.
