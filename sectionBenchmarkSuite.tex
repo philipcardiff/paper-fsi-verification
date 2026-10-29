@@ -36,6 +36,7 @@ All calculations use the cell-centred finite volume solvers of solids4foam~\cite
 		beamInCrossFlow$^\ast$ & 3-D & steady & small & C & \multicolumn{3}{l}{in progress (Richter definition)} \\
 		Hessenthaler$^\ast$ & 3-D & steady (Phase I) & large & -- & \multicolumn{3}{l}{in progress; validation case} \\
 		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & C-weak & 4 & 4 & none \\
+		radialTorsionalRing$^\ast$ & 2-D & forced transient & large & A (proposed) & 3 & -- (fixed) & tol.\ pair (M2) \\
 		\bottomrule
 		\multicolumn{8}{l}{$^\ast$ Provisional or in progress (Section~\ref{sec:provisional}). $^\dagger$ Iteration counts only; no quantitative difference recorded.}
 	\end{tabular}
@@ -493,7 +494,7 @@ The present results are a self-convergence sequence for the fully specified grou
 \subsection{Provisional and in-development benchmarks}\label{sec:provisional}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Each of the four cases below would add a feature not otherwise covered, but none currently supports a verification claim. Two (beamInCrossFlow and Hessenthaler) are verification campaigns in progress, for which no convergence results are reported; no statement below depends on simulations that have not been completed.
+Each of the first four cases below would add a feature not otherwise covered, but none currently supports a verification claim; the fifth, the radial--torsional ring, is proposed for category A with the limited claims stated in its own subsubsection. Two (beamInCrossFlow and Hessenthaler) are verification campaigns in progress, for which no convergence results are reported; no statement below depends on simulations that have not been completed.
 
 %%-------------------------------------------------------------------
 \subsubsection{Flexible-bottom cavity [PROVISIONAL]}\label{sec:cavity}
@@ -582,3 +583,7 @@ Orders above the formal value indicate a pre-asymptotic sequence; they are repor
 Four mesh levels give steady $u_x$ from $0.108206$ to $0.120152\,\mathrm{m}$ with decreasing changes (observed order 2.40, above the formal value); no extrapolated value is given.
 The $t = 1\,\mathrm{s}$ interface shape is within $1.6\%$ of the preprint, inside its own time error; at steady state $u_x$ is $7.4\%$ smaller and $|u_y|$ $20\%$ larger, an offset not yet explained (reference-mesh coarseness is plausible but unconfirmed).
 No coupling study exists, and the temporal-order contribution partly overlaps with ringAddedMass and collapsibleChannel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% proposed rotational benchmark (radialTorsionalRing)
+\input{sectionRotationalBenchmark.tex}

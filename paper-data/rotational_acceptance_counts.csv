@@ -1,0 +1,9 @@
+run,both,r1_only,r2_only,absolute,A_fail_both_measures_test_pct,B_strict_mode_reject_pct,single_measure_share_pct
+torsion_M1,32,0,700,68,96.0,86.62,87.5
+torsion_M2,47,1,682,70,94.12,84.5,85.4
+torsion_M3,56,0,667,77,93.0,82.12,83.4
+combined_M1,26,0,743,31,96.75,92.25,92.9
+combined_M2,26,0,742,32,96.75,92.12,92.8
+combined_M3,20,0,715,65,97.5,88.0,89.4
+combined_M2_absTol1e-10 (F3B),17,0,720,63,97.88,88.25,90.0
+radial_M1,49,0,724,27,93.88,89.75,90.5
