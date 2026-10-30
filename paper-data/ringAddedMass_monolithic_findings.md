@@ -17,8 +17,19 @@ both corrected; the data of every stage are kept.
 - Data (refinement-factor-2 mesh, standard solid, 25/50/100 steps per period,
   three added-mass levels, unless stated):
   - `ringAddedMass_monolithic_runs.csv`: corrected solver (final).
-  - `ringAddedMass_monolithic_mesh.csv`: corrected solver, moderate and strong
+  - `ringAddedMass_monolithic_mesh.csv`: corrected solver, all three
     levels, meshes 1/2/4, 100 steps per period, with IQN-ILS and dry runs.
+    The weak-level rows were added on 30 Oct 2026 (requested by Philip, for
+    the FEBio comparison in PR #26):
+    - **Run:** solids4foam `a421f063d` (which contains `3e93daef6`), on
+      MeluXina (job 5404301), serial runs 64 at a time; their execution
+      times are not comparable with the macOS rows. Command: `Allverify
+      --study solid` and `--study nonconformal` (conformal arm),
+      `--levels weak,moderate`.
+    - **Check of the newer build:** the moderate level was rerun with it.
+      omega and the ratio errors match the rows above to the printed
+      digits (QM m4 ratio error -9.37e-7 against -9.33e-7, within the
+      frequency-fit noise).
   - `*_bdf2.csv`: after the first correction only (BDF2 solid).
   - `*_lagged.csv`: first version (built from PR #581, serial results
     bit-identical to PR #580).
