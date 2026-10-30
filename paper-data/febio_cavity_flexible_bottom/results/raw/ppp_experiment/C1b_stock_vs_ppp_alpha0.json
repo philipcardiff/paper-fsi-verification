@@ -1,0 +1,87 @@
+{
+ "iterations": {
+  "A_total": 1180,
+  "B_total": 1179,
+  "A_steps": 600,
+  "B_steps": 600,
+  "identical_sequence": false,
+  "max_abs_step_diff": 1
+ },
+ "wall_s": {
+  "A": 171.915,
+  "B": 148.308
+ },
+ "termination_A_normal_error": [
+  true,
+  false
+ ],
+ "termination_B_normal_error": [
+  true,
+  false
+ ],
+ "fields": {
+  "Mon_all.txt": {
+   "blocks": 601,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 6.593580127159285e-12,
+    "wy": 1.8857249095561823e-12,
+    "ef": 5.570535966910737e-12
+   }
+  },
+  "Mon_cl.txt": {
+   "blocks": 601,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 6.584523916170103e-12,
+    "wy": 6.585524247316357e-14,
+    "ef": 8.273327597618986e-12
+   }
+  },
+  "Mon_iface.txt": {
+   "blocks": 601,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 0,
+    "ef": 7.457967026748018e-12
+   }
+  },
+  "Mon_inlet.txt": {
+   "blocks": 601,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 0,
+    "ef": 7.284132855067182e-12
+   }
+  },
+  "Mon_outlet.txt": {
+   "blocks": 601,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 6.602353097255117e-12,
+    "wy": 6.602572080578043e-14,
+    "ef": 0
+   }
+  },
+  "Mon_x10.txt": {
+   "blocks": 601,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 1.1760035466148296e-12,
+    "wy": 6.6253966202084776e-15,
+    "ef": 8.11097950099128e-12
+   }
+  },
+  "Mon_x13.txt": {
+   "blocks": 601,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 6.597092548693892e-13,
+    "wy": 6.659896513339318e-15,
+    "ef": 5.788803321471393e-12
+   }
+  }
+ }
+}

@@ -1,0 +1,8 @@
+criterion,observed,threshold,passed
+P1 max |Q/Qin-1| < 1e-4,0.000486236505,0.0001,FAIL
+P2 |dp/dx error| <= 0.2 %,0.285529259,0.2,FAIL
+P3 profile error <= 0.5 % of centreline,0.01956970613,0.5,PASS
+P4 y-alternation <= 6.3e-5 Pa (10x below stock 6.3e-4),0.0003017275456,6.3e-05,FAIL
+P5 re-assembled momentum and continuity residual <= 1e-5,1.426576356e-07,1e-05,PASS
+"P6 normal termination, iterations/step <= 2x stock",1.37,4.92,PASS
+P0 rim-once alpha=0 reproduces stock within 1e-8,5.897107792e-12,1e-08,PASS

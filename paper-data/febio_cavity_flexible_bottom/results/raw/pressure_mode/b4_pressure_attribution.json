@@ -1,0 +1,25 @@
+{
+ "reconstruction_rel_error_of_p": 2.410905929954956e-07,
+ "D_total_field": 0.41703875148656244,
+ "D_from_sum": 0.4170384607115529,
+ "parts": {
+  "viscous": {
+   "D": 0.17686206839991905,
+   "mean_p_row0_interior": 0.9921370967805109,
+   "norm_force": 0.04724989186850259
+  },
+  "convective": {
+   "D": 0.24031056106354257,
+   "mean_p_row0_interior": 0.16974109695726053,
+   "norm_force": 0.06142157327632524
+  },
+  "fixed_boundary_values": {
+   "D": -0.00013416875190867055,
+   "mean_p_row0_interior": 0.00010626042107486495,
+   "norm_force": 0.030923678296093104
+  }
+ },
+ "cond_note": "lstsq rcond 1e-10; G full column rank iff the 4 corner pressures are pinned (b4_operator spectra)",
+ "n_free_p": 1832,
+ "n_free_w": 3080
+}

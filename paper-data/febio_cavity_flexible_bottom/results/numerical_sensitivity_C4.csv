@@ -1,0 +1,5 @@
+run,change,uy_A_m,Fy_raw_Npm,rel_change_uy,rel_change_Fy,spread_last10pct_uy,note
+C2 baseline at t=900 s,none,-0.2119591571,-4.717604,0,0,,"u_y(A) from pointA.txt, F_y from the F1 reconstruction at the same stored state"
+C4_tol_M1,"dtol 1e-5, etol 1e-6, rtol 1e-8",-0.2119591571,-4.717604022,0,4.720646318e-09,0.0001665698594,"normal termination; effect compared with the steady-window spread of the run (about 1.7e-4 to 3.8e-4), so 'independent within about 1e-4', no order claimed"
+C4_K1e7_M1,K = 1e7 Pa,-0.211958931,-4.717597484,-1.066417715e-06,-1.38116377e-06,0.0001665823697,"normal termination; effect compared with the steady-window spread of the run (about 1.7e-4 to 3.8e-4), so 'independent within about 1e-4', no order claimed"
+C4_dt1p25_M1,dt = 1.25 s,-0.2119678944,-4.717706813,4.122195578e-05,2.179357232e-05,0.0003836325129,"normal termination; effect compared with the steady-window spread of the run (about 1.7e-4 to 3.8e-4), so 'independent within about 1e-4', no order claimed"

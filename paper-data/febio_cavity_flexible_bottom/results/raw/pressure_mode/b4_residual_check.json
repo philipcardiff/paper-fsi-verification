@@ -1,0 +1,35 @@
+{
+ "momentum_residual_free_rows": {
+  "viscous": 0.04724989186850259,
+  "pressure_gradient": 0.07636258150014032,
+  "convective": 0.06142157327632524,
+  "total": 7.142442343705623e-08,
+  "total_over_pressure_gradient": 9.353327511187529e-07,
+  "max_abs_total": 1.579755016904716e-08
+ },
+ "continuity_residual_free_p_rows": {
+  "norm": 7.614200462131871e-08,
+  "max_abs": 2.3678522677100453e-08,
+  "norm_GTw": 0.3441228733783089,
+  "note": "O(compress) (1/K) terms ignored: steady, gradef.w/Jf ~1e-6"
+ },
+ "parity_visibility_rows1to4_x2.8to5.2": {
+  "n_rows": 192,
+  "mean_parity_amp_a": -0.20854743840687487,
+  "D_row1_minus_row0": 0.41709487681374974,
+  "norm_G_p_total": 0.0042806541991053165,
+  "norm_G_p_parity_part": 0.0012687881435086213,
+  "norm_viscous": 0.004258381886050892,
+  "norm_convective": 0.0003354672426185394,
+  "norm_total_residual": 4.4553256789509767e-10,
+  "ratio_Gp_parity_over_Gp_total": 0.29640052302608466,
+  "ratio_Gp_parity_over_viscous": 0.2979507656804498,
+  "note": "parity patch truncated at row 7 (edge effects excluded by evaluating rows 1-4 only); G p_parity at interior rows of a uniform patch is exactly 0 for an ideal 2-D checkerboard in y"
+ },
+ "pressure_roughness_p_minus_mean_of_4_edge_neighbours_Pa_rms": {
+  "inlet_x<1": 0.39533799791720503,
+  "channel_above_cavity_y>=1_x2..6": 0.2162738779491616,
+  "cavity_y<0.75_x2..6": 0.2166078572775492,
+  "downstream_x>6.5": 0.2400249289306962
+ }
+}

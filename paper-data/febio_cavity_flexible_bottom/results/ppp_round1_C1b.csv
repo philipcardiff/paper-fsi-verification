@@ -1,0 +1,4 @@
+case,D_row1_minus_row0_x2p4_to_5p6_Pa,F1_applied_wallrow_Npm,F2_element_mean_Npm,F1_minus_F2_Npm,Qout_over_Qin_minus_1,Q_x1p03_over_Qin,momentum_residual_rel,continuity_residual_rel_incl_term,note
+stock v4.13 (job 14015),0.4206893369,-4.663716741,-5.48327045,0.8195537091,9.06317889e-05,1.000000126,9.353327511e-07,2.212640034e-07,"fixed-plate fluid-only C1b, M1 mesh; pressure-only forces; 'valid' means reproduced, not 'correct'"
+"experimental build, alpha = 0 control (job 14107)",0.4206893369,-4.663716741,-5.48327045,0.8195537091,9.06317889e-05,1.000000126,9.353323387e-07,2.212639907e-07,"fixed-plate fluid-only C1b, M1 mesh; pressure-only forces; 'valid' means reproduced, not 'correct'"
+"experimental build, alpha = 3/4 (job 14108)",9.380401061e-05,-5.133458536,-5.138832224,0.005373688704,-0.01545752754,0.9922441302,8.400805044e-07,1.666184149e-07,"fixed-plate fluid-only C1b, M1 mesh; pressure-only forces; 'valid' means reproduced, not 'correct'"

@@ -1,0 +1,25 @@
+{
+ "F_on_wall_discrete_reaction_Fx_Fy_per_m": {
+  "viscous": [
+   -0.018908141885260705,
+   -1.6091339774846014e-09
+  ],
+  "pressure_gradient": [
+   -0.0020981617689285557,
+   -0.8195537091465002
+  ],
+  "convective": [
+   1.7645191799957506e-12,
+   -6.177698627823055e-06
+  ],
+  "total": [
+   -0.021006303652424736,
+   -0.8195598884542616
+  ]
+ },
+ "F1_nodal_wallrow_Fy": -4.6637167409,
+ "F2_pairmean_Fy": -5.483270450046501,
+ "D_mean_row1_minus_row0": 0.42068933685939397,
+ "n_floor_nodes": 41,
+ "note": "F5 = -sum over floor nodes of (A w + G p + conv); fixed plate (C1b, mesh M1, pinned corners). Corner rows include the pinned-dilatation nodes. Per unit depth."
+}

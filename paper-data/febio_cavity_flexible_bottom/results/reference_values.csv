@@ -1,0 +1,25 @@
+source,variant,dx_m,uy_A_top_m,ux_A_top_m,Fy_Npm,Fx_Npm,provenance,status
+solids4foam,"partitioned (Aitken), strict",0.1,-0.204568,7.46234e-05,-5.1528,,solids4foam verification CSV (maintainers' build 1252bd2e5/f356c3242); uy and Fy also in the manuscript text (u_y),reference (StVK)
+solids4foam,"partitioned (Aitken), strict",0.05,-0.231445,9.03795e-05,-5.23881,,solids4foam verification CSV (maintainers' build 1252bd2e5/f356c3242); uy and Fy also in the manuscript text (u_y),reference (StVK)
+solids4foam,"partitioned (Aitken), strict",0.025,-0.238404,9.47262e-05,-5.25661,,solids4foam verification CSV (maintainers' build 1252bd2e5/f356c3242); uy and Fy also in the manuscript text (u_y),reference (StVK)
+solids4foam,"partitioned (Aitken), strict",0.0125,-0.240113,9.58503e-05,-5.25993,,solids4foam verification CSV (maintainers' build 1252bd2e5/f356c3242); uy and Fy also in the manuscript text (u_y),reference (StVK)
+solids4foam,"quasi-monolithic, continuity fix #597",0.1,-0.203597,7.37854e-05,-5.122583,,same CSV; superseded by the #618 rerun below,"reference (StVK), superseded"
+solids4foam,"quasi-monolithic, continuity fix #597",0.05,-0.231074,9.06177e-05,-5.227502,,same CSV; superseded by the #618 rerun below,"reference (StVK), superseded"
+solids4foam,"quasi-monolithic, continuity fix #597",0.025,-0.238211,9.53354e-05,-5.250716,,same CSV; superseded by the #618 rerun below,"reference (StVK), superseded"
+solids4foam,"quasi-monolithic, continuity fix #597",0.0125,-0.23999,9.65423e-05,-5.256112,,same CSV; superseded by the #618 rerun below,"reference (StVK), superseded"
+solids4foam,"quasi-monolithic, #618 rerun (manuscript data)",0.1,-0.203601,7.44615e-05,-5.122626,,paper-data/cavity_monolithic_618/quasi_monolithic_618.csv on main 863b8ba,reference (StVK)
+solids4foam,"quasi-monolithic, #618 rerun (manuscript data)",0.05,-0.231044,9.07937e-05,-5.226559,,paper-data/cavity_monolithic_618/quasi_monolithic_618.csv on main 863b8ba,reference (StVK)
+solids4foam,"quasi-monolithic, #618 rerun (manuscript data)",0.025,-0.2382,9.53734e-05,-5.250356,,paper-data/cavity_monolithic_618/quasi_monolithic_618.csv on main 863b8ba,reference (StVK)
+solids4foam,"quasi-monolithic, #618 rerun (manuscript data)",0.0125,-0.239986,9.65473e-05,-5.255992,,paper-data/cavity_monolithic_618/quasi_monolithic_618.csv on main 863b8ba,reference (StVK)
+Tukovic et al. (2018),,0.1,-0.23324,,-5.1603,,"read from the published vector figure, force x20 (0.05 m depth) - PR #22 (open, provisional)","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+Tukovic et al. (2018),,0.05,-0.24571,,-5.229,,"read from the published vector figure, force x20 (0.05 m depth) - PR #22 (open, provisional)","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+Tukovic et al. (2018),,0.025,-0.24955,,-5.2494,,"read from the published vector figure, force x20 (0.05 m depth) - PR #22 (open, provisional)","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+Tukovic et al. (2018),,0.0125,-0.25062,,-5.2548,,"read from the published vector figure, force x20 (0.05 m depth) - PR #22 (open, provisional)","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+ANSYS,,0.1,-0.24727,7.98e-05,-5.144,-0.0162646,"PR #22 levels (open, provisional); slab 10 mm, x100 (PR #12)","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+ANSYS,,0.05,-0.25054,8.08e-05,-5.218,-0.0164122,"PR #22 levels (open, provisional); slab 10 mm, x100 (PR #12)","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+ANSYS,,0.025,-0.25197,8.08e-05,-5.25,-0.0163922,"PR #22 levels (open, provisional); slab 10 mm, x100 (PR #12)","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+ANSYS,,0.0125,-0.25274,4.13e-05,-5.263,-0.0174107,"PR #22 levels (open, provisional); slab 10 mm, x100 (PR #12)","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+COMSOL,,0.1,-0.236,0.000219,-5.1088,-0.01052,"PR #22 levels (open, provisional); 3 significant figures; depth convention unanswered in PR #12","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+COMSOL,,0.05,-0.241,0.00017,-5.2276,0.013056,"PR #22 levels (open, provisional); 3 significant figures; depth convention unanswered in PR #12","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+COMSOL,,0.025,-0.243,0.000147,-5.2956,-0.014328,"PR #22 levels (open, provisional); 3 significant figures; depth convention unanswered in PR #12","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"
+COMSOL,,0.0125,-0.243,0.000117,-5.2952,-0.014296,"PR #22 levels (open, provisional); 3 significant figures; depth convention unanswered in PR #12","reference, constitutive law unresolved / unconfirmed (not StVK-confirmed)"

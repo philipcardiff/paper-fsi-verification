@@ -1,0 +1,78 @@
+--- ../../upstream/febio-v4.13/FEBioFluid/FEFluidFSIDomain3D.cpp	2026-10-29 18:21:07.934058505 +0000
++++ FEBioFluid_PPP/FEFluidFSIDomain3D.cpp	2026-10-30 19:57:03.101476088 +0000
+@@ -37,6 +37,9 @@
+ //! constructor
+ //! Some derived classes will pass 0 to the pmat, since the pmat variable will be
+ //! to initialize another material. These derived classes will set the m_pMat variable as well.
++// EXPERIMENTAL (not compiled, not installed): Dohrmann-Bochev polynomial pressure projection. alpha from env FEBIO_PPP_ALPHA (0 = stock behaviour).
++static double FEBIO_PPP_ALPHA() { static double a = getenv("FEBIO_PPP_ALPHA") ? atof(getenv("FEBIO_PPP_ALPHA")) : 0.0; return a; }
++
+ FEFluidFSIDomain3D::FEFluidFSIDomain3D(FEModel* pfem) : FESolidDomain(pfem), FEFluidFSIDomain(pfem), m_dofU(pfem), m_dofV(pfem), m_dofW(pfem), m_dofAW(pfem), m_dofSU(pfem), m_dofR(pfem), m_dof(pfem)
+ {
+     m_pMat = 0;
+@@ -247,6 +250,21 @@
+     
+     double dtrans = m_btrans ? 1 : m_sseps;
+     
++    // EXPERIMENTAL PPP: gamma K = alpha K / mu  and the element mean of e_f (volume weighted)
++    double gammaK = 0, ebar = 0;
++    {
++        FEMaterialPoint& mp0 = *el.GetMaterialPoint(0);
++        double K_bulk = -m_pMat->Fluid()->Tangent_Pressure_Strain(mp0);
++        double mu_f   = m_pMat->Fluid()->GetViscous()->ShearViscosity(mp0);
++        gammaK = (mu_f > 0) ? FEBIO_PPP_ALPHA()/mu_f*K_bulk : 0.0;
++        double vol = 0, es = 0;
++        for (int q=0; q<nint; ++q) {
++            double dq = detJt(el, q, tp.alphaf)*el.GaussWeights()[q];
++            vol += dq; es += dq*(*el.GetMaterialPoint(q)->ExtractData<FEFluidMaterialPoint>()).m_ef;
++        }
++        ebar = es/vol;
++    }
++    
+     // repeat for all integration points
+     for (n=0; n<nint; ++n)
+     {
+@@ -291,6 +309,8 @@
+             vec3d fs = (ss*gradN[i])*detJ;
+             vec3d ff = (sv*gradN[i] + gradp*H[i])*detJ;
+             double fJ = (H[i]*(((dJfoJ - dJsoJ)*dtrans + (pt.m_gradef*ft.m_w)/Jf)) + gradN[i]*ft.m_w)*detJ;
++            // EXPERIMENTAL PPP:  + (alpha K/mu) int N_i (e_f - mean_el(e_f)) dV   ==  -(alpha/mu) int N_i (p - Pi p) dV  (p = -K e_f); sum over i of this row is exactly 0 (global conservation)
++            fJ += gammaK*H[i]*(pt.m_ef - ebar)*detJ;
+             
+             // calculate internal force
+             // the '-' sign is so that the internal forces get subtracted
+@@ -473,6 +493,19 @@
+     // weights at gauss points
+     const double *gw = el.GaussWeights();
+     
++    // EXPERIMENTAL PPP tangent: gamma K [ int N_i N_j - (int N_i)(int N_j)/V ]
++    double gammaK = 0, Vel = 0; double Iint[FEElement::MAX_NODES] = {0};
++    {
++        FEMaterialPoint& mp0 = *el.GetMaterialPoint(0);
++        double K_bulk = -m_pMat->Fluid()->Tangent_Pressure_Strain(mp0);
++        double mu_f   = m_pMat->Fluid()->GetViscous()->ShearViscosity(mp0);
++        gammaK = (mu_f > 0) ? FEBIO_PPP_ALPHA()/mu_f*K_bulk : 0.0;
++        for (int q=0; q<nint; ++q) {
++            double dq = detJt(el, q, tp.alphaf)*gw[q]*tp.alphaf; Vel += dq;
++            for (int a=0; a<neln; ++a) Iint[a] += el.H(q)[a]*dq;
++        }
++    }
++    
+     // calculate element stiffness matrix
+     for (n=0; n<nint; ++n)
+     {
+@@ -560,10 +593,13 @@
+                 ke[i7+6][j7+4] += kJw.y;
+                 ke[i7+6][j7+5] += kJw.z;
+                 
+-                ke[i7+6][j7+6] += kJJ;
++                ke[i7+6][j7+6] += kJJ + gammaK*H[i]*H[j]*detJ;     // EXPERIMENTAL PPP, mass part (rank-1 part below)
+             }
+         }
+     }
++    for (i=0, i7=0; i<neln; ++i, i7 += 7)
++        for (j=0, j7=0; j<neln; ++j, j7 += 7)
++            ke[i7+6][j7+6] -= gammaK*Iint[i]*Iint[j]/Vel;       // EXPERIMENTAL PPP, projection part
+ }
+ 
+ //-----------------------------------------------------------------------------

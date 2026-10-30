@@ -1,0 +1,6 @@
+state,D_row1_minus_row0_Pa_all_interior_floor_nodes,rows0_to_5_mean_p_Pa,Fy_floor_row_raw_F1,Fy_pairmean_DIAGNOSTIC_ONLY,note
+M1 t=900,0.3630300398,1.17613 / 1.53916 / 1.17647 / 1.53885 / 1.17550 / 1.53831,-4.717604043,-5.437454109,"pair mean = FEBio element-mean surface pressure definition (F2 = F4), a diagnostic, NOT an independent estimate of the true force"
+M2 t=750,0.1712998737,1.23241 / 1.40371 / 1.23281 / 1.40383 / 1.23270 / 1.40357,-4.933885537,-5.274788099,"pair mean = FEBio element-mean surface pressure definition (F2 = F4), a diagnostic, NOT an independent estimate of the true force"
+M3 t=500,0.1336104712,1.24448 / 1.37809 / 1.24471 / 1.37822 / 1.24479 / 1.37830,-4.980891905,-5.246922288,"pair mean = FEBio element-mean surface pressure definition (F2 = F4), a diagnostic, NOT an independent estimate of the true force"
+M3 t=717.5 (failure-exit state),0.1335616786,1.24513 / 1.37869 / 1.24536 / 1.37882 / 1.24544 / 1.37890,-4.983459772,-5.249401277,"pair mean = FEBio element-mean surface pressure definition (F2 = F4), a diagnostic, NOT an independent estimate of the true force"
+C1b fixed plate t=300,0.4152161944,1.16228 / 1.57749 / 1.16229 / 1.57722 / 1.16168 / 1.57699,-4.663716763,-5.483270464,"pair mean = FEBio element-mean surface pressure definition (F2 = F4), a diagnostic, NOT an independent estimate of the true force"

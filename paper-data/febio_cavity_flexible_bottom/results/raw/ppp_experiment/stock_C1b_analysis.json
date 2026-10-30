@@ -1,0 +1,88 @@
+{
+ "momentum_residual_free_rows": {
+  "viscous": 0.04724989186850259,
+  "pressure_gradient": 0.07636258150014032,
+  "convective": 0.06142157327632524,
+  "total": 7.142442343705623e-08,
+  "total_over_pressure_gradient": 9.353327511187529e-07,
+  "max_abs_total": 1.579755016904716e-08
+ },
+ "continuity_residual_free_p_rows": {
+  "norm": 7.614200462131871e-08,
+  "max_abs": 2.3678522677100453e-08,
+  "norm_GTw": 0.3441228733783089,
+  "note": "O(compress) (1/K) terms ignored: steady, gradef.w/Jf ~1e-6"
+ },
+ "parity_visibility_rows1to4_x2.8to5.2": {
+  "n_rows": 192,
+  "mean_parity_amp_a": -0.20854743840687487,
+  "D_row1_minus_row0": 0.41709487681374974,
+  "norm_G_p_total": 0.0042806541991053165,
+  "norm_G_p_parity_part": 0.0012687881435086213,
+  "norm_viscous": 0.004258381886050892,
+  "norm_convective": 0.0003354672426185394,
+  "norm_total_residual": 4.4553256789509767e-10,
+  "ratio_Gp_parity_over_Gp_total": 0.29640052302608466,
+  "ratio_Gp_parity_over_viscous": 0.2979507656804498,
+  "note": "parity patch truncated at row 7 (edge effects excluded by evaluating rows 1-4 only); G p_parity at interior rows of a uniform patch is exactly 0 for an ideal 2-D checkerboard in y"
+ },
+ "pressure_roughness_p_minus_mean_of_4_edge_neighbours_Pa_rms": {
+  "inlet_x<1": 0.39533799791720503,
+  "channel_above_cavity_y>=1_x2..6": 0.2162738779491616,
+  "cavity_y<0.75_x2..6": 0.2166078572775492,
+  "downstream_x>6.5": 0.2400249289306962
+ },
+ "continuity_check": {
+  "alpha_used": 0.0,
+  "norm_GTw": 0.3441228733783089,
+  "resid_without_PPP_term": 7.614200462131871e-08,
+  "resid_with_PPP_term": 7.614200462131871e-08,
+  "norm_PPP_term": 0.0,
+  "rel_resid_with_PPP": 2.2126400338873312e-07,
+  "sum_PPP_term_all_nodes": 0.0,
+  "sum_PPP_term_constrained_e_rows": 0.0,
+  "sum_abs_PPP_term": 0.0
+ },
+ "parity": {
+  "D_row1_minus_row0_mean_Pa": 0.42068933685939397,
+  "D_rms_Pa": 0.4292209029532951,
+  "wallrow_mean_Pa": 1.1581481311563635,
+  "row1_mean_Pa": 1.5788374680157575,
+  "a_parity_mean_Pa": -0.21031378441704546,
+  "a_parity_rms_Pa": 0.21454860601798875,
+  "xparity_wallrow_rms_Pa": 0.03499564198940057,
+  "xparity_wallrow_signed_mean_Pa": 0.03092905359330643
+ },
+ "forces_N_per_m_pressure_Fy": {
+  "F1_applied_nodal_wallrow": -4.6637167409,
+  "F2_element_mean_pairrow": -5.483270450046501,
+  "F1_minus_F2": 0.8195537091465006,
+  "rel_F1_minus_F2": 0.1494643965882716
+ },
+ "momentum_balance": {
+  "sum_reaction_fixedw_nodes_xy": [
+   -1.2040332357241148,
+   -0.033287173936871986
+  ],
+  "sum_residual_freew_nodes_xy": [
+   5.724156626891334e-08,
+   -8.006169231166457e-08
+  ],
+  "sum_all_nodes_xy": [
+   -1.2040331784825484,
+   -0.033287253998564297
+  ],
+  "floor_reaction_xy": [
+   -0.021006303652424736,
+   -0.8195598884542616
+  ],
+  "momentum_flux_scale_rho_U2_H": 1.0
+ },
+ "flux": {
+  "x0": 1.0000000000014,
+  "x1": 1.0000001255444997,
+  "x13": 1.000090511676,
+  "x14": 1.0000906317903,
+  "Qout_over_Qin_minus_1": 9.063178889978651e-05
+ }
+}
