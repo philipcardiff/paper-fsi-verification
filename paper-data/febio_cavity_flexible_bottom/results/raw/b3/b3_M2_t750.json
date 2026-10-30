@@ -1,0 +1,306 @@
+{
+ "tag": "C3_fsi_M2",
+ "time": 750.0,
+ "state_flag": 0,
+ "units": "per unit depth (z=0 layer line integrals), N/m",
+ "K": 1000000.0,
+ "mu": 0.01,
+ "whole_domain": {
+  "label": "whole fluid domain",
+  "pieces": {
+   "wall_botUp": {
+    "n_edges": 34,
+    "length": 1.75,
+    "F_pressure_on_fluid": [
+     0.0,
+     2.0106312098881136
+    ],
+    "F_viscous_on_fluid": [
+     -0.10622104989883809,
+     0.00019488568640251217
+    ],
+    "F_viscous_1pt_on_fluid": [
+     -0.10412304000195498,
+     0.0004318095399696308
+    ],
+    "F_total_on_fluid": [
+     -0.10622104989883809,
+     2.010826095574516
+    ],
+    "momentum_flux_out": [
+     0.0,
+     0.0
+    ]
+   },
+   "inlet": {
+    "n_edges": 20,
+    "length": 1.0,
+    "F_pressure_on_fluid": [
+     1.4297533312729147,
+     0.0
+    ],
+    "F_viscous_on_fluid": [
+     -4.280264713301206e-06,
+     1.8674167270985899e-06
+    ],
+    "F_viscous_1pt_on_fluid": [
+     0.0,
+     0.0
+    ],
+    "F_total_on_fluid": [
+     1.4297490510082014,
+     1.8674167270985899e-06
+    ],
+    "momentum_flux_out": [
+     -1.2060150387165718,
+     0.0
+    ]
+   },
+   "wall_top": {
+    "n_edges": 272,
+    "length": 14.0,
+    "F_pressure_on_fluid": [
+     0.0,
+     -9.809046531848267
+    ],
+    "F_viscous_on_fluid": [
+     -0.7388813290405218,
+     -0.0008297704289938014
+    ],
+    "F_viscous_1pt_on_fluid": [
+     -0.7257322859673223,
+     -0.0006820044413327123
+    ],
+    "F_total_on_fluid": [
+     -0.7388813290405218,
+     -9.80987630227726
+    ],
+    "momentum_flux_out": [
+     0.0,
+     0.0
+    ]
+   },
+   "wall_cavity": {
+    "n_edges": 52,
+    "length": 2.284837604941285,
+    "F_pressure_on_fluid": [
+     -0.20231019343615186,
+     0.47666492074770717
+    ],
+    "F_viscous_on_fluid": [
+     -0.03956145600859916,
+     -0.00835741603862713
+    ],
+    "F_viscous_1pt_on_fluid": [
+     -0.03844839037923535,
+     -0.007448859749856254
+    ],
+    "F_total_on_fluid": [
+     -0.24187164944475104,
+     0.46830750470908006
+    ],
+    "momentum_flux_out": [
+     0.0,
+     0.0
+    ]
+   },
+   "interface": {
+    "n_edges": 80,
+    "length": 4.029694909075849,
+    "F_pressure_on_fluid": [
+     -0.021978303701305723,
+     4.933885536942202
+    ],
+    "F_viscous_on_fluid": [
+     0.024424077175062217,
+     0.001241692075071899
+    ],
+    "F_viscous_1pt_on_fluid": [
+     0.023805543350127144,
+     0.001194270968323605
+    ],
+    "F_total_on_fluid": [
+     0.002445773473756494,
+     4.935127229017274
+    ],
+    "momentum_flux_out": [
+     0.0,
+     0.0
+    ]
+   },
+   "wall_botDown": {
+    "n_edges": 154,
+    "length": 7.75,
+    "F_pressure_on_fluid": [
+     0.0,
+     2.406222663459715
+    ],
+    "F_viscous_on_fluid": [
+     -0.4634340375603829,
+     -8.469137332549749e-05
+    ],
+    "F_viscous_1pt_on_fluid": [
+     -0.45488599024097365,
+     -0.0012736076216529476
+    ],
+    "F_total_on_fluid": [
+     -0.4634340375603829,
+     2.4061379720863894
+    ],
+    "momentum_flux_out": [
+     0.0,
+     0.0
+    ]
+   },
+   "outlet": {
+    "n_edges": 20,
+    "length": 1.0,
+    "F_pressure_on_fluid": [
+     0.0,
+     0.0
+    ],
+    "F_viscous_on_fluid": [
+     -1.7457502737137665e-05,
+     -1.4550684293611685e-07
+    ],
+    "F_viscous_1pt_on_fluid": [
+     0.0,
+     0.0
+    ],
+    "F_total_on_fluid": [
+     -1.7457502737137665e-05,
+     -1.4550684293611685e-07
+    ],
+    "momentum_flux_out": [
+     1.2045475904318401,
+     -1.3901197951546838e-05
+    ]
+   }
+  },
+  "momentum_flux_out_xy": [
+   -0.001467448284731665,
+   -1.3901197951546838e-05
+  ],
+  "sum_boundary_forces_on_fluid": [
+   -0.11823069896527312,
+   0.010524221019883567
+  ],
+  "residual_flux_minus_forces": [
+   0.11676325068054146,
+   -0.010538122217835115
+  ],
+  "interface_direct_force_on_plate_pressure": [
+   0.021978303701305723,
+   -4.933885536942202
+  ],
+  "interface_direct_force_on_plate_total": [
+   -0.002445773473756494,
+   -4.935127229017274
+  ],
+  "interface_inferred_force_on_plate_total": [
+   -0.11920902415429795,
+   -4.924589106799439
+  ]
+ },
+ "cavity": {
+  "label": "cavity box x in [2,6], reference y<0.75, mouth line y=0.75",
+  "pieces": {
+   "interface": {
+    "n_edges": 80,
+    "length": 4.029694909075849,
+    "F_pressure_on_fluid": [
+     -0.021978303701305723,
+     4.933885536942202
+    ],
+    "F_viscous_on_fluid": [
+     0.024424077175062217,
+     0.001241692075071899
+    ],
+    "F_viscous_1pt_on_fluid": [
+     0.023805543350127144,
+     0.001194270968323605
+    ],
+    "F_total_on_fluid": [
+     0.002445773473756494,
+     4.935127229017274
+    ],
+    "momentum_flux_out": [
+     0.0,
+     0.0
+    ]
+   },
+   "wall_cavity": {
+    "n_edges": 28,
+    "length": 1.5,
+    "F_pressure_on_fluid": [
+     -0.11929924767628684,
+     0.0
+    ],
+    "F_viscous_on_fluid": [
+     0.00011359786073640705,
+     0.005185585956199748
+    ],
+    "F_viscous_1pt_on_fluid": [
+     0.0004119435989284803,
+     0.0049542399748172435
+    ],
+    "F_total_on_fluid": [
+     -0.11918564981555044,
+     0.005185585956199748
+    ],
+    "momentum_flux_out": [
+     0.0,
+     0.0
+    ]
+   },
+   "mouth": {
+    "n_edges": 80,
+    "length": 4.0080030521673935,
+    "F_pressure_on_fluid": [
+     0.01403748218410629,
+     -4.940040493883714
+    ],
+    "F_viscous_on_fluid": [
+     0.0393594404558156,
+     0.0006390482494056727
+    ],
+    "F_viscous_1pt_on_fluid": [
+     0.0,
+     0.0
+    ],
+    "F_total_on_fluid": [
+     0.05339692263992189,
+     -4.939401445634308
+    ],
+    "momentum_flux_out": [
+     -0.009693553739828685,
+     0.004700521461614716
+    ]
+   }
+  },
+  "momentum_flux_out_xy": [
+   -0.009693553739828685,
+   0.004700521461614716
+  ],
+  "sum_boundary_forces_on_fluid": [
+   -0.06334295370187205,
+   0.0009113693391658018
+  ],
+  "residual_flux_minus_forces": [
+   0.05364939996204337,
+   0.0037891521224489143
+  ],
+  "interface_direct_force_on_plate_pressure": [
+   0.021978303701305723,
+   -4.933885536942202
+  ],
+  "interface_direct_force_on_plate_total": [
+   -0.002445773473756494,
+   -4.935127229017274
+  ],
+  "interface_inferred_force_on_plate_total": [
+   -0.05609517343579986,
+   -4.938916381139723
+  ]
+ }
+}

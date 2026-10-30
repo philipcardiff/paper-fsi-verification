@@ -1,0 +1,19 @@
+{
+ "out": "runs/cavity/B0_fluid_f1_v3",
+ "tag": "B0_fluid_f1_v3",
+ "mesh_factor": 1,
+ "k": 100000000.0,
+ "dt": 0.2,
+ "t_end": 300.0,
+ "mu": 0.01,
+ "inlet": "surface",
+ "straight": false,
+ "rhoi": 0.0,
+ "ramp": 10.0,
+ "n_nodes": 3694,
+ "n_elem": 1688,
+ "n_inlet_free": 9,
+ "n_iface_nodes": 41,
+ "n_steps": 1500,
+ "feb_sha256": "f366b242dcdf5f9a24f33268fe512e65be7fd1f37b1e65af45348e091545c819"
+}

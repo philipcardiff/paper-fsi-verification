@@ -1,0 +1,2 @@
+parity (y-alternating, +-0.1 Pa, h=0.1 cube): p^T S = -2.500000e-04 ; analytic -(alpha/mu) a^2 V/3 = -2.500000e-04 ; rel diff 2.17e-16 ; max|S_a| = 3.125e-04 (unit: m^3/s)
+SUMMARY worst: const-e 2.83e-16, sum-rows 4.64e-15, dS/de FD 2.45e-13, dS/dx FD 3.51e-10, parity-energy 2.17e-16 ; fails=0

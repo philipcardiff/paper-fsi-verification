@@ -1,0 +1,20 @@
+{
+ "out": "runs/cavity/B0_poiseuille_normalvel",
+ "tag": "B0_poiseuille_normalvel",
+ "mesh_factor": 1,
+ "k": 1000000.0,
+ "dt": 0.5,
+ "t_end": 150.0,
+ "mu": 0.01,
+ "inlet": "normalvel",
+ "ubar": 1.0,
+ "straight": true,
+ "rhoi": 0.0,
+ "ramp": 10.0,
+ "n_nodes": 3102,
+ "n_elem": 1400,
+ "n_inlet_free": 9,
+ "n_iface_nodes": 0,
+ "n_steps": 300,
+ "feb_sha256": "1a7d7b426ae53f78fed20eaf0fdf6f0fcec7889211b65808f80152ab38a4d43e"
+}

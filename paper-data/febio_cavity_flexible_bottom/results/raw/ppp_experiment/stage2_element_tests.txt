@@ -1,0 +1,14 @@
+trial  0 ng=2 nonlin=0 alphaf=1.0  bitwise(alpha=0)=1  const-e resid/scale=4.64e-17  sum-rows/max=1.83e-16  rel err dS/de=9.32e-14  rel err dS/dx=6.72e-11
+trial  1 ng=3 nonlin=0 alphaf=0.5  bitwise(alpha=0)=1  const-e resid/scale=2.07e-16  sum-rows/max=4.64e-15  rel err dS/de=1.34e-13  rel err dS/dx=1.84e-10
+trial  2 ng=2 nonlin=1 alphaf=0.5  bitwise(alpha=0)=1  const-e resid/scale=5.18e-17  sum-rows/max=4.44e-16  rel err dS/de=1.07e-13  rel err dS/dx=1.21e-10
+trial  3 ng=3 nonlin=1 alphaf=1.0  bitwise(alpha=0)=1  const-e resid/scale=1.21e-16  sum-rows/max=6.90e-16  rel err dS/de=1.17e-13  rel err dS/dx=4.07e-11
+trial  4 ng=2 nonlin=0 alphaf=0.5  bitwise(alpha=0)=1  const-e resid/scale=3.43e-17  sum-rows/max=1.75e-15  rel err dS/de=1.53e-13  rel err dS/dx=9.37e-11
+trial  5 ng=3 nonlin=0 alphaf=0.5  bitwise(alpha=0)=1  const-e resid/scale=2.83e-16  sum-rows/max=3.37e-16  rel err dS/de=1.69e-13  rel err dS/dx=1.96e-10
+trial  6 ng=2 nonlin=1 alphaf=1.0  bitwise(alpha=0)=1  const-e resid/scale=5.14e-17  sum-rows/max=7.43e-16  rel err dS/de=2.34e-13  rel err dS/dx=7.65e-11
+trial  7 ng=3 nonlin=1 alphaf=0.5  bitwise(alpha=0)=1  const-e resid/scale=1.15e-16  sum-rows/max=1.11e-15  rel err dS/de=1.37e-13  rel err dS/dx=1.91e-10
+trial  8 ng=2 nonlin=0 alphaf=0.5  bitwise(alpha=0)=1  const-e resid/scale=3.35e-17  sum-rows/max=1.16e-15  rel err dS/de=9.76e-14  rel err dS/dx=1.62e-10
+trial  9 ng=3 nonlin=0 alphaf=1.0  bitwise(alpha=0)=1  const-e resid/scale=1.07e-16  sum-rows/max=2.31e-15  rel err dS/de=2.11e-13  rel err dS/dx=1.23e-10
+trial 10 ng=2 nonlin=1 alphaf=0.5  bitwise(alpha=0)=1  const-e resid/scale=3.59e-17  sum-rows/max=1.12e-15  rel err dS/de=2.45e-13  rel err dS/dx=1.94e-10
+trial 11 ng=3 nonlin=1 alphaf=0.5  bitwise(alpha=0)=1  const-e resid/scale=1.11e-16  sum-rows/max=3.22e-15  rel err dS/de=1.89e-13  rel err dS/dx=3.51e-10
+parity (y-alternating, +-0.1 Pa, h=0.1 cube): p^T S = -2.500000e-04 ; analytic -(alpha/mu) a^2 V/3 = -2.500000e-04 ; rel diff 2.17e-16 ; max|S_a| = 3.125e-04 (unit: m^3/s)
+SUMMARY worst: const-e 2.83e-16, sum-rows 4.64e-15, dS/de FD 2.45e-13, dS/dx FD 3.51e-10, parity-energy 2.17e-16 ; fails=0

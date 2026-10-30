@@ -1,0 +1,15 @@
+{
+ "tag": "S2_plate_hex8_fsiM2pressure",
+ "levels": "80x8",
+ "steps": 20,
+ "n_nodes": 1458,
+ "n_elem": 640,
+ "A_nodes": [
+  737
+ ],
+ "feb_sha256": "12d21c15a452b3f32cdf82fea445e89a78206b8510022bec17813d5cfc44066f",
+ "purpose": "hex8 StVK plate-only structural check for the conformal FSI solid (independent plates in one run)",
+ "E": 500.0,
+ "nu": 0.4,
+ "p": 1.315
+}

@@ -1,0 +1,5 @@
+quantity,rel_diff_vs_stock
+max wx rel diff over 601 blocks (Mon_all),6.593580127e-12
+max wy rel diff,1.88572491e-12
+max ef rel diff,5.570535967e-12
+equilibrium iterations stock / alpha=0,1180 / 1179
