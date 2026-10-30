@@ -1,0 +1,7 @@
+family,level,dry_run,dry_nodes,dry_wall_s,wet_run,wet_nodes,wet_wall_s,wet_rss_MB
+slip-wall + slip-interface (inviscid-limit formulation),M1,B1_dry_hex8_f1,490,12.02,C0_wet_f1_wallslip_ifslip,1666,255.56,113.54297
+slip-wall + slip-interface (inviscid-limit formulation),M2,D1_dry_f2,1746,48.41,C1_M2_wet_f2,6402,1493.36,341.78516
+slip-wall + slip-interface (inviscid-limit formulation),M3,C1_M3_dry_f4,6562,243.79,C1_M3_wet_f4,25090,9300,1386.1289
+"no-slip wall + no-slip interface (R1, D2)",M1,B1_dry_hex8_f1,490,12.02,R1_wet_f1_K1e8_icv2,1666,260.04,103.36328
+"no-slip wall + no-slip interface (R1, D2)",M2,D1_dry_f2,1746,48.41,D2_wet_f2_K1e8_icv2,6402,1324.67,328.5625
+slip wall + no-slip interface (D5),M1,B1_dry_hex8_f1,490,12.02,D5_wet_f1_wallslip,1666,239.4,117.24609

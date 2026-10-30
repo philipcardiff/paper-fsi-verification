@@ -1,0 +1,5 @@
+effect,d_omega_wet_pct,d_omega_dry_pct,d_ratio_pct,ratio_err_pct
+"time step halved (200 steps/period), paired dry+wet",0.02606411,0.025972513,9.1573114e-05,0.17049885
+K 1e8 -> 1e7,-0.00040133431,0,-0.00040133431,0.1700051
+mesh-regulariser E_mesh 1 -> 1e-3 Pa,-0.16403439,0,-0.16403439,0.0060931999
+mesh M1 -> M2 (spatial),-1.8996075,-1.9069672,0.0075027828,0.17792269

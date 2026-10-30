@@ -1,0 +1,7 @@
+family,level,mesh_factor,h_ring_radial_m,h_fluid_radial_m,dry_run,wet_run,omega_dry,err_dry_pct,omega_wet,err_wet_pct,ratio,ratio_err_pct,mu_eff
+slip-wall + slip-interface (inviscid-limit formulation),M1,1,0.025,0.0375,B1_dry_hex8_f1,C0_wet_f1_wallslip_ifslip,2.6210635,2.5839444,1.8542955,2.7587546,0.70745923,0.17040712,0.99800772
+slip-wall + slip-interface (inviscid-limit formulation),M2,2,0.0125,0.01875,D1_dry_f2,C1_M2_wet_f2,2.5710806,0.62770228,1.8190712,0.8067416,0.70751231,0.17792269,0.99770794
+slip-wall + slip-interface (inviscid-limit formulation),M3,4,0.00625,0.009375,C1_M3_dry_f4,C1_M3_wet_f4,2.5584321,0.13266197,1.8101579,0.31279684,0.70752625,0.1798964,0.99762923
+"no-slip wall + no-slip interface (R1, D2)",M1,1,0.025,0.0375,B1_dry_hex8_f1,R1_wet_f1_K1e8_icv2,2.6210635,2.5839444,1.7398223,-3.584965,0.66378487,-6.0135232,1.269579
+"no-slip wall + no-slip interface (R1, D2)",M2,2,0.0125,0.01875,D1_dry_f2,D2_wet_f2_K1e8_icv2,2.5710806,0.62770228,1.767385,-2.0575339,0.68740939,-2.6684859,1.1162603
+slip wall + no-slip interface (D5),M1,1,0.025,0.0375,B1_dry_hex8_f1,D5_wet_f1_wallslip,2.6210635,2.5839444,1.8306732,1.4496829,0.69844672,-1.105691,1.0499036

@@ -1,0 +1,34 @@
+# Transcribed verbatim from solids4foam ringAddedMass/verification/README.md (commit 1576edcc420b4d858ef12995b5e0620a6b90eea3), section "Reference results", recorded by the s4f authors with OpenFOAM v2412 on xenosim. The raw ringAddedMass_results.csv is not in the repository (ignored output), so these printed values (omega to 6 digits, percentages to 3 decimals) are the original data available; nothing here is reconstructed.
+table,level,mesh_factor,steps_per_period,omega_rad_s,error_pct,ratio_error_pct,thin_ring_error_pct,loss_pct,coupling,iter_per_step,time_s
+high-order IQN-ILS,dry,1,100,2.55254,-0.098,,,0.04,,,
+high-order IQN-ILS,dry,2,100,2.55222,-0.110,,,0.04,,,
+high-order IQN-ILS,dry,4,100,2.55173,-0.129,,,0.04,,,
+high-order IQN-ILS,dry,2,25,2.50576,-1.929,,,2.18,,,
+high-order IQN-ILS,dry,2,50,2.54240,-0.495,,,0.30,,,
+high-order IQN-ILS,weak,1,100,2.43341,-0.091,0.007,0.020,0.25,,,
+high-order IQN-ILS,weak,2,100,2.43298,-0.108,0.002,0.015,0.15,,,
+high-order IQN-ILS,weak,4,100,2.43248,-0.129,0.001,0.013,0.10,,,
+high-order IQN-ILS,weak,2,25,2.38894,-1.916,0.013,0.025,2.30,,,
+high-order IQN-ILS,weak,2,50,2.42378,-0.486,0.009,0.022,0.41,,,
+high-order IQN-ILS,moderate,1,100,1.80344,-0.059,0.038,0.106,1.18,,,
+high-order IQN-ILS,moderate,2,100,1.80273,-0.099,0.011,0.079,0.64,,,
+high-order IQN-ILS,moderate,4,100,1.80224,-0.126,0.003,0.071,0.35,,,
+high-order IQN-ILS,moderate,2,25,1.77093,-1.861,0.069,0.137,2.85,,,
+high-order IQN-ILS,moderate,2,50,1.79645,-0.447,0.048,0.116,0.92,,,
+high-order IQN-ILS,strong,1,100,0.76843,-0.029,0.068,0.187,2.11,,,
+high-order IQN-ILS,strong,2,100,0.76796,-0.090,0.021,0.139,1.14,,,
+high-order IQN-ILS,strong,4,100,0.76770,-0.124,0.006,0.124,0.64,,,
+high-order IQN-ILS,strong,2,25,0.75477,-1.806,0.125,0.244,3.41,,,
+high-order IQN-ILS,strong,2,50,0.76552,-0.408,0.087,0.206,1.43,,,
+standard solid,dry,1,100,3.08290,20.66,,,,,,
+standard solid,dry,2,100,2.71258,6.17,,,,,,
+standard solid,dry,4,100,2.59528,1.58,,,,,,
+standard solid,weak,4,100,2.47400,1.58,0.001,,,,,
+standard solid,moderate,4,100,1.83303,1.58,0.005,,,,,
+standard solid,strong,4,100,0.78083,1.58,0.009,,,,,
+IQN-ILS vs Robin (mesh 2),weak,2,100,2.43298,-0.108,,,0.15,IQN-ILS,2.99,125
+IQN-ILS vs Robin (mesh 2),weak,2,100,2.43291,-0.111,,,0.04,Robin-Neumann,3.87,156
+IQN-ILS vs Robin (mesh 2),moderate,2,100,1.80273,-0.099,,,0.64,IQN-ILS,3.95,185
+IQN-ILS vs Robin (mesh 2),moderate,2,100,1.80242,-0.116,,,0.04,Robin-Neumann,4.85,213
+IQN-ILS vs Robin (mesh 2),strong,2,100,0.76796,-0.090,,,1.14,IQN-ILS,4.91,406
+IQN-ILS vs Robin (mesh 2),strong,2,100,0.76773,-0.121,,,0.05,Robin-Neumann,12.29,575
