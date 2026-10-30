@@ -27,9 +27,9 @@ def margins(path):
 DRY = {1: 'runs/phaseB/B1_dry_hex8_f1', 2: 'runs/phaseB/D1_dry_f2', 4: 'runs/phaseC/C1_M3_dry_f4'}
 FAM = {
     'FEBio E_mesh=1e-3 Pa': {
-        'weak': {1: 'runs/phaseD/D1_weak_M1', 2: 'runs/phaseD/D4_weak_M2'},
+        'weak': {1: 'runs/phaseD/D1_weak_M1', 2: 'runs/phaseD/D4_weak_M2', 4: 'runs/ringNext/R_MESH1_weak_M3'},
         'moderate': {1: 'runs/phaseC/C2_Emesh1e-3_wet_f1', 2: 'runs/phaseC/C2_Emesh1e-3_wet_f2', 4: 'runs/phaseD/D5_moderate_M3'},
-        'strong': {1: 'runs/phaseD/D2_strong_M1', 2: 'runs/phaseD/D3_strong_M2'}},
+        'strong': {1: 'runs/phaseD/D2_strong_M1', 2: 'runs/phaseD/D3_strong_M2', 4: 'runs/ringNext/R_MESH2_strong_M3'}},
     'FEBio E_mesh=1 Pa (Phase C baseline)': {
         'moderate': {1: 'runs/phaseC/C0_wet_f1_wallslip_ifslip', 2: 'runs/phaseC/C1_M2_wet_f2', 4: 'runs/phaseC/C1_M3_wet_f4'}},
 }
@@ -106,7 +106,12 @@ for lev in ('weak', 'moderate', 'strong'):
     chk.append((lev, 'finest ratio vs thin-ring <= 0.25 %', f'{fin["ratio_thin_err_pct"]:+.3f} %', abs(fin['ratio_thin_err_pct']) <= 100 * TOL['ratioThinRing'], ''))
     chk.append((lev, 'amplitude loss per period < 2 % (finest)', f'{fin["amp_loss_per_period_pct"]:.5f} %', fin['amp_loss_per_period_pct'] < 100 * TOL['maxLossPerPeriod'], ''))
     chk.append((lev, 'amplitude growth <= 0.2 % per period', f'{-fin["amp_loss_per_period_pct"]:.5f} % growth', -fin['amp_loss_per_period_pct'] <= 100 * TOL['maxGrowthPerPeriod'], ''))
-chk.append(('all', 'observed time order >= 1.5', 'not tested (one dt-halving at M1 moderate E_mesh=1 only)', None, 'no 25/50/100 steps-per-period study was run'))
+_tp = 'RING_TEMPORAL_STUDY.csv'
+if os.path.exists(_tp):
+    _o = [float(r['omega_wet_observed_temporal_order']) for r in csv.DictReader(open(_tp)) if r.get('regime') in ('weak', 'moderate', 'strong') and r.get('steps_per_period') == '100' and r.get('omega_wet_observed_temporal_order')]
+    chk.append(('all', 'observed time order >= 1.5 (M2, 25/50/100 steps per period)', ('wet omega order ' + ', '.join(f'{x:.3f}' for x in _o)) if _o else 'n/a', bool(_o) and min(_o) >= 1.5, 'order of the absolute frequency (generalized-alpha, rhoi=1); the ratio error itself does not change with dt (see RING_TEMPORAL_STUDY.csv)'))
+else:
+    chk.append(('all', 'observed time order >= 1.5', 'not tested', None, 'run the 25/50/100 study'))
 with open('results/phaseD_acceptance_checks.csv', 'w', newline='') as fh:
     wr = csv.writer(fh); wr.writerow(['level', 'criterion', 'FEBio value', 'pass', 'note'])
     for c in chk: wr.writerow([c[0], c[1], c[2], {True: 'yes', False: 'NO', None: 'not tested'}[c[3]], c[4]])
@@ -180,10 +185,10 @@ for lev in ('weak', 'moderate', 'strong'):
         if tab_row['table'].startswith('IQN-ILS vs Robin') and tab_row['level'] == lev and tab_row['time_s']:
             t = float(tab_row['time_s']); mk_ = '^' if tab_row['coupling'] == 'IQN-ILS' else 'v'
             ax[0].semilogy([2], [t], mk_, color=colL[lev], mfc='none', label=f's4f {tab_row["coupling"]} {lev} (README, mesh 2)'); ax[1].semilogy([2], [t / 3600], mk_, color=colL[lev], mfc='none')
-for a_, t in zip(ax, ('wall time (s), 1 core (FEBio)', 'CPU time (core-hours) (FEBio 1 core)', 'peak memory (MB), FEBio only')): 
+for a_, t in zip(ax, ('wall time (s) (FEBio 1 core; weak/strong M3: 8 cores)', 'measured CPU time (core-hours) (FEBio user+sys)', 'peak memory (MB), FEBio only')): 
     a_.set_xscale('log', base=2); a_.set_xticks([1, 2, 4]); a_.set_xticklabels(['M1', 'M2', 'M3']); a_.set_xlabel('mesh level'); a_.set_ylabel(t, fontsize=8)
 ax[0].set_xlim(0.8, 11); ax[0].legend(fontsize=5, loc='lower right'); ax[1].legend(fontsize=6, loc='lower right')
-fig.text(0.5, 0.005, 'Different machines/loads, solvers and solid discretisations: indicative only. s4f: OpenFOAM v2412 on xenosim (README), serial; FEBio: v4.13, MKL Pardiso, 1 core, shared node. s4f memory not recorded.', ha='center', fontsize=6)
+fig.text(0.5, 0.005, 'Different machines/loads, solvers and solid discretisations: indicative only. s4f: OpenFOAM v2412 on xenosim (README), serial; FEBio: v4.13, MKL Pardiso, 1 core except weak/strong M3 (8 cores, 40 % CPU utilisation), shared node. s4f memory not recorded.', ha='center', fontsize=6)
 fig.tight_layout(rect=(0, 0.05, 1, 1)); fig.savefig('figures/fig_D4_cost.png'); plt.close(fig)
 
 # D5: iterative-error evidence: relative dilatation increment at the stopping iteration vs the tolerance (floor-limited), from the logs
