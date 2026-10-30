@@ -372,8 +372,11 @@ def main(argv=None):
     p.add_argument("--ftol", type=float, default=1e-6); p.add_argument("--etol", type=float, default=1e-8)
     p.add_argument("--rtol", type=float, default=1e-10); p.add_argument("--max-refs", type=int, default=25)
     p.add_argument("--plot-stride", type=int, default=10)
+    p.add_argument("--v0", type=float, default=1.5e-3, help="initial velocity amplitude V0 [m/s] (default 1.5e-3 = baseline; amplitude diagnostic only)")
     p.add_argument("--selfcheck", action="store_true")
     a = p.parse_args(argv)
+    global V0
+    V0 = a.v0
     if a.selfcheck:
         w, d1, d2 = selfcheck()
         print(f"IC expression max |expr - polar formula| = {w:.3e}; interface radial mismatch = {d1:.3e}; wall radial velocity = {d2:.3e}")

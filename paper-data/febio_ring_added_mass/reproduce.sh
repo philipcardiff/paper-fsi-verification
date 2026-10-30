@@ -23,8 +23,11 @@ genx R_MESH1_weak_M3 14 4 100 runs/ringNext/R_MESH1_weak_M3; genx R_MESH2_strong
 for sp in 50 25; do genx R_TIME_dry_M2_s$sp "" 2 $sp runs/ringNext/R_TIME_dry_M2_s$sp; for c in weak:14 moderate:140 strong:1400; do genx R_TIME_${c%%:*}_M2_s$sp ${c##*:} 2 $sp runs/ringNext/R_TIME_${c%%:*}_M2_s$sp; done; done
 python3 -I tools/make_ring_feb.py --out $T/R1 --tag R1_strong_M1_K1e9 --rho-f 1400 --k 1e9 --e-mesh 0.001 --rhoi 1 --mesh-factor 1 --steps-per-period 100 --periods 4 --ic potential --ic-field compatible --ic-mode pernode --wall slip --interface slip >/dev/null; a=$(sha256sum $T/R1/R1_strong_M1_K1e9.feb | cut -d' ' -f1); b=$(python3 -I -c "import json;print(json.load(open('runs/ringNext/R1_strong_M1_K1e9/model_meta.json'))['feb_sha256'])"); [ "$a" = "$b" ] && echo "identical  R1_strong_M1_K1e9" || echo "DIFFERENT  R1_strong_M1_K1e9"
 genx R4_strong_M2_loosetol 1400 2 100 runs/ringNext/R4_strong_M2_loosetol --dtol 1e-4 --vtol 1e-4 --ftol 1e-5 --etol 1e-6 --rtol 1e-8
+genx R_AMP_strong_M2_V0half 1400 2 100 runs/ringNext/R_AMP_strong_M2_V0half --v0 0.75e-3   # halved-amplitude test: only V0 differs from D3_strong_M2
 echo "== (b) rebuild CSVs and figures D1-D5 from stored outputs"
 RING_ROOT=$PWD python3 -I tools/ring_build_csvs.py && RING_ROOT=$PWD python3 -I tools/ring_figures.py   # needs scipy (compressibility theory)
 python3 -I tools/phaseD_results.py   # reads RING_TEMPORAL_STUDY.csv for the time-order check
 echo "== (c) to re-run a case: sbatch ... tools/run_febio_job.sh <run_dir> <tag>.feb  (needs FEBio v4.13 built per README.md), then tools/phaseD_postprocess.sh <wet> <dry> <NT> <NR>"
+echo "== (b2) amplitude / last-two-period analysis (original damped-sinusoid estimator, alternative windows, halved amplitude); the first script is slow (several minutes)"
+for s in ring_lastperiods_fit ring_lastperiods_diag ring_lastperiods_ext ring_amplitude_compare ring_lastperiods_fig; do python3 -I tools/$s.py > /dev/null && echo "ran $s"; done   # writes results/ring_lastperiods_*.csv, results/ring_amplitude_comparison.csv, figures/ring_lastperiods_*.png
 echo "== checksums"; sha256sum -c SHA256SUMS --quiet 2>&1 | head -5 || true
