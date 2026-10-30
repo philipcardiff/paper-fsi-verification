@@ -1,0 +1,6 @@
+steps 200; iterations/step min/median/max 4/5/5
+  residual      achieved/tolerance: worst 3.31e-04, median 3.05e-06, best 5.16e-07  (n=200)
+  energy        achieved/tolerance: worst 2.02e-09, median 1.48e-12, best 4.68e-15  (n=200)
+  displacement  achieved/tolerance: worst 1.43e-02, median 9.30e-08, best 4.78e-11  (n=200)
+  velocity      achieved/tolerance: worst 2.50e-03, median 5.53e-08, best 2.15e-12  (n=200)
+  dilatation    achieved/tolerance: worst 9.61e-01, median 2.00e-02, best 1.74e-05  (n=200)

@@ -1,0 +1,2 @@
+Raw CSVs fetched with `gh api repos/philipcardiff/paper-fsi-verification/contents/paper-data/<file>?ref=ring-monolithic` (PR #13, branch ring-monolithic) on 2026-10-30.
+solids4foam "standard solid" runs (not the high-order solid of the README tables). ratio_error columns are FRACTIONS (x100 for %). Files unchanged.

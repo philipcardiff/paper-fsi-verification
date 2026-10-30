@@ -1,0 +1,23 @@
+	Command being timed: "/home/sairam/work/febio-fsi-verification/build/febio-4.13/bin/febio4 -i R_TIME_strong_M2_s50.feb -silent"
+	User time (seconds): 1361.12
+	System time (seconds): 93.60
+	Percent of CPU this job got: 352%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 6:52.58
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 365508
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 18
+	Minor (reclaiming a frame) page faults: 24360762
+	Voluntary context switches: 4551
+	Involuntary context switches: 12801
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 308648
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

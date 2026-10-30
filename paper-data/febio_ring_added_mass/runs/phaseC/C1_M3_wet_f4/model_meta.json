@@ -1,0 +1,56 @@
+{
+ "out": "runs/phaseC/C1_M3_wet_f4",
+ "tag": "C1M3_wet",
+ "rho_f": 140.0,
+ "nu_f": null,
+ "k": 100000000.0,
+ "e_mesh": 1.0,
+ "rhoi": 1.0,
+ "mesh_factor": 4,
+ "steps_per_period": 100,
+ "periods": 4.0,
+ "ic": "potential",
+ "ic_field": "compatible",
+ "interface": "slip",
+ "wall": "slip",
+ "ic_mode": "pernode",
+ "dtol": 1e-06,
+ "vtol": 1e-06,
+ "ftol": 1e-06,
+ "etol": 1e-08,
+ "rtol": 1e-10,
+ "max_refs": 25,
+ "plot_stride": 10,
+ "selfcheck": false,
+ "omega_ref": 1.80451344,
+ "period_ref": 3.481927686379319,
+ "dt": 0.034819276863793186,
+ "n_steps": 400,
+ "n_nodes": 25090,
+ "n_ring_el": 3072,
+ "n_fluid_el": 9216,
+ "dims_nrs_nt_nrf": [
+  16,
+  192,
+  48
+ ],
+ "probe_nodes": {
+  "ring_outer_theta0": 17,
+  "ring_outer_theta90": 3281,
+  "ring_inner_theta0": 1,
+  "ring_inner_theta90": 3265
+ },
+ "potential_coeffs": {
+  "A": -0.00022568759047243063,
+  "B": -0.0011425434267666801
+ },
+ "feb_sha256": "926a775c201c0c4541f3d2db2c8a3e0eeebda39ddbe6dc28a31f6e093700b0ff",
+ "ring_velocity_expr": [
+  "(0.0015*((X^2-Y^2)/(X^2+Y^2)))*X/sqrt(X^2+Y^2)-(0.0015*((2*X*Y)/(X^2+Y^2))*(-0.5+1.5*(sqrt(X^2+Y^2)-1.0)))*Y/sqrt(X^2+Y^2)",
+  "(0.0015*((X^2-Y^2)/(X^2+Y^2)))*Y/sqrt(X^2+Y^2)+(0.0015*((2*X*Y)/(X^2+Y^2))*(-0.5+1.5*(sqrt(X^2+Y^2)-1.0)))*X/sqrt(X^2+Y^2)"
+ ],
+ "fluid_velocity_expr": [
+  "(2*((-0.00022568759047243063)*sqrt(X^2+Y^2)-(-0.0011425434267666801)/((X^2+Y^2)*sqrt(X^2+Y^2)))*((X^2-Y^2)/(X^2+Y^2)))*X/sqrt(X^2+Y^2)-(-2*((-0.00022568759047243063)*sqrt(X^2+Y^2)+(-0.0011425434267666801)/((X^2+Y^2)*sqrt(X^2+Y^2)))*((2*X*Y)/(X^2+Y^2)))*Y/sqrt(X^2+Y^2)",
+  "(2*((-0.00022568759047243063)*sqrt(X^2+Y^2)-(-0.0011425434267666801)/((X^2+Y^2)*sqrt(X^2+Y^2)))*((X^2-Y^2)/(X^2+Y^2)))*Y/sqrt(X^2+Y^2)+(-2*((-0.00022568759047243063)*sqrt(X^2+Y^2)+(-0.0011425434267666801)/((X^2+Y^2)*sqrt(X^2+Y^2)))*((2*X*Y)/(X^2+Y^2)))*X/sqrt(X^2+Y^2)"
+ ]
+}

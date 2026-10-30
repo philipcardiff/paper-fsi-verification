@@ -1,0 +1,23 @@
+level,criterion,FEBio value,pass,note
+weak,finest wet omega error <= 0.3 %,+0.137 %,yes,"FEBio solid is standard hex8, not the high-order solid used by solids4foam for this criterion"
+weak,finest wet/dry ratio error <= 0.1 %,+0.0042 %,yes,
+weak,ratio error decreases with refinement,+0.0037 -> +0.0041 -> +0.0042,NO,literal criterion: |error| at finest < |error| at coarsest
+weak,wet omega change between last two meshes <= 0.1 %,0.492 %,NO,standard solid is not converged in absolute frequency at these meshes
+weak,finest ratio vs thin-ring <= 0.25 %,+0.017 %,yes,
+weak,amplitude loss per period < 2 % (finest),0.00004 %,yes,
+weak,amplitude growth <= 0.2 % per period,-0.00004 % growth,yes,
+moderate,finest wet omega error <= 0.3 %,+0.140 %,yes,"FEBio solid is standard hex8, not the high-order solid used by solids4foam for this criterion"
+moderate,finest wet/dry ratio error <= 0.1 %,+0.0075 %,yes,
+moderate,ratio error decreases with refinement,+0.0061 -> +0.0072 -> +0.0075,NO,literal criterion: |error| at finest < |error| at coarsest
+moderate,wet omega change between last two meshes <= 0.1 %,0.492 %,NO,standard solid is not converged in absolute frequency at these meshes
+moderate,finest ratio vs thin-ring <= 0.25 %,+0.076 %,yes,
+moderate,amplitude loss per period < 2 % (finest),0.00032 %,yes,
+moderate,amplitude growth <= 0.2 % per period,-0.00032 % growth,yes,
+strong,finest wet omega error <= 0.3 %,+0.174 %,yes,"FEBio solid is standard hex8, not the high-order solid used by solids4foam for this criterion"
+strong,finest wet/dry ratio error <= 0.1 %,+0.0410 %,yes,
+strong,ratio error decreases with refinement,+0.0355 -> +0.0399 -> +0.0410,NO,literal criterion: |error| at finest < |error| at coarsest
+strong,wet omega change between last two meshes <= 0.1 %,0.491 %,NO,standard solid is not converged in absolute frequency at these meshes
+strong,finest ratio vs thin-ring <= 0.25 %,+0.160 %,yes,
+strong,amplitude loss per period < 2 % (finest),0.00184 %,yes,
+strong,amplitude growth <= 0.2 % per period,-0.00184 % growth,yes,
+all,"observed time order >= 1.5 (M2, 25/50/100 steps per period)","wet omega order 1.987, 1.987, 1.987",yes,"order of the absolute frequency (generalized-alpha, rhoi=1); the ratio error itself does not change with dt (see RING_TEMPORAL_STUDY.csv)"

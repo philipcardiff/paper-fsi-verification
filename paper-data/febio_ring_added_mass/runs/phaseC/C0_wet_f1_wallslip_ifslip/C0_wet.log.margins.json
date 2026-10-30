@@ -1,0 +1,38 @@
+{
+ "residual": {
+  "n": 400,
+  "margin_max": 4.3366270439383864e-05,
+  "margin_median": 3.3708091171750924e-08,
+  "margin_min": 1.4903998740133245e-08
+ },
+ "energy": {
+  "n": 400,
+  "margin_max": 1.1946066241264052e-10,
+  "margin_median": 8.525050709397718e-14,
+  "margin_min": 8.306378607888649e-17
+ },
+ "displacement": {
+  "n": 400,
+  "margin_max": 0.000154387127285694,
+  "margin_median": 2.6729008169997818e-05,
+  "margin_min": 4.999115294405269e-09
+ },
+ "velocity": {
+  "n": 400,
+  "margin_max": 0.00014384628723771882,
+  "margin_median": 1.3987717570340544e-05,
+  "margin_min": 7.222380440305826e-11
+ },
+ "dilatation": {
+  "n": 400,
+  "margin_max": 0.47739017700646486,
+  "margin_median": 0.000634025116563592,
+  "margin_min": 2.540696597501854e-06
+ },
+ "iterations_per_step": {
+  "min": 4,
+  "median": 4.0,
+  "max": 4
+ },
+ "n_steps_with_table": 400
+}

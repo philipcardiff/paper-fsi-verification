@@ -1,0 +1,10 @@
+incompressible f0 = -0.8567607608860827
+K=1e+07 weak      c=   845.2 m/s  k*b=4.323e-03  (w b/c)^2=1.869e-05  d(added mass)/m_a=+2.800e-06  m_a/(m_s+m_a)=0.0913  d(ratio)/ratio=-1.278e-07 (-0.00001 %)
+K=1e+07 moderate  c=   267.3 m/s  k*b=1.013e-02  (w b/c)^2=1.026e-04  d(added mass)/m_a=+1.538e-05  m_a/(m_s+m_a)=0.5012  d(ratio)/ratio=-3.855e-06 (-0.00039 %)
+K=1e+07 strong    c=    84.5 m/s  k*b=1.364e-02  (w b/c)^2=1.861e-04  d(added mass)/m_a=+2.791e-05  m_a/(m_s+m_a)=0.9095  d(ratio)/ratio=-1.269e-05 (-0.00127 %)
+K=1e+08 weak      c=  2672.6 m/s  k*b=1.367e-03  (w b/c)^2=1.869e-06  d(added mass)/m_a=+2.769e-07  m_a/(m_s+m_a)=0.0913  d(ratio)/ratio=-1.264e-08 (-0.00000 %)
+K=1e+08 moderate  c=   845.2 m/s  k*b=3.203e-03  (w b/c)^2=1.026e-05  d(added mass)/m_a=+1.535e-06  m_a/(m_s+m_a)=0.5012  d(ratio)/ratio=-3.847e-07 (-0.00004 %)
+K=1e+08 strong    c=   267.3 m/s  k*b=4.314e-03  (w b/c)^2=1.861e-05  d(added mass)/m_a=+2.788e-06  m_a/(m_s+m_a)=0.9095  d(ratio)/ratio=-1.268e-06 (-0.00013 %)
+K=1e+09 weak      c=  8451.5 m/s  k*b=4.323e-04  (w b/c)^2=1.869e-07  d(added mass)/m_a=+2.466e-08  m_a/(m_s+m_a)=0.0913  d(ratio)/ratio=-1.125e-09 (-0.00000 %)
+K=1e+09 moderate  c=  2672.6 m/s  k*b=1.013e-03  (w b/c)^2=1.026e-06  d(added mass)/m_a=+1.505e-07  m_a/(m_s+m_a)=0.5012  d(ratio)/ratio=-3.771e-08 (-0.00000 %)
+K=1e+09 strong    c=   845.2 m/s  k*b=1.364e-03  (w b/c)^2=1.861e-06  d(added mass)/m_a=+2.758e-07  m_a/(m_s+m_a)=0.9095  d(ratio)/ratio=-1.254e-07 (-0.00001 %)

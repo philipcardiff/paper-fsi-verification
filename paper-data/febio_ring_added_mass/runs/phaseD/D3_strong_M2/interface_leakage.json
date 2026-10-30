@@ -1,0 +1,10 @@
+{
+ "n_interface_nodes": 194,
+ "rms_leak_over_rms_ring_normal_velocity": 0.007580959830603688,
+ "max_abs_wn_over_V0": 0.010548319894792638,
+ "net_leaked_flux_peak_over_peak_abs_ring_flux": 0.008326978242875146,
+ "n2_leaked_flux_peak_over_n2_ring_flux_peak": 0.0030968360020128018,
+ "net_ring_flux_peak": 8.956319650190166e-08,
+ "net_leak_flux_peak": 1.3110373282254741e-06,
+ "integrated_leaked_volume_peak": 4.0567809592040315e-06
+}

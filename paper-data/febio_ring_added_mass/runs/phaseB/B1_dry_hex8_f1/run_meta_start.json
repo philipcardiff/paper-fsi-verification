@@ -1,0 +1,7 @@
+{
+ "slurm_job_id": "13597", "partition": "dev", "cpus_per_task": 1,
+ "host": "xenosim", "start": "2026-10-29T18:34:43+00:00", "loadavg": "159.63 158.98 156.54",
+ "febio_bin": "/home/sairam/work/febio-fsi-verification/build/febio-4.13/bin/febio4", "febio_sha256": "f5ae1ed6f347f875c392f93d847f2369f437345a9b785296d46b0bd6fbb72f02",
+ "input": "B1_dry.feb", "input_sha256": "030e09ca1fd5cb2a94ad5b467431ba597ead7c2307cb0b530345d349c2c20dcd",
+ "omp_num_threads": "1", "mkl_num_threads": "1"
+}
