@@ -1,0 +1,33 @@
+{
+ "run": "C1u_L1_f1.25_K1e6",
+ "t": 40.0,
+ "pressure_nodal_facet": [
+  9.002024409158222,
+  2.7015972772205012
+ ],
+ "viscous_GPmean_FEBio_form": [
+  6.438156598121193,
+  0.06486363122991769
+ ],
+ "viscous_GPmean_2muD_only": [
+  6.428068938428093,
+  0.06484415896105186
+ ],
+ "viscous_centre_2muD": [
+  6.427937651437175,
+  0.06485198008799722
+ ],
+ "F_actual_recon": [
+  15.440181007279415,
+  2.766460908450419
+ ],
+ "F_actual_recon_no_trace_term": [
+  15.430093347586315,
+  2.766441436181553
+ ],
+ "xplt_element_velocity_vs_nodal_mean_max_abs_diff": 1.4900747191681774e-08,
+ "velocity_scale": 0.401298286,
+ "xplt_has_velocity_gradients": false,
+ "trD_max_abs_element_centre": 0.7565371129552845,
+ "trD_rms": 0.05340626833637029
+}

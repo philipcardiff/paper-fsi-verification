@@ -1,0 +1,5119 @@
+===========================================================================
+         ________    _________   _______       __     _________            
+        |        |\ |        |\ |       \\    |  |\  /         \\          
+        |    ____|| |    ____|| |    __  ||   |__|| |    ___    ||         
+        |   |\___\| |   |\___\| |   |\_| ||    \_\| |   //  \   ||         
+        |   ||__    |   ||__    |   ||_| ||   |  |\ |  ||    |  ||         
+        |       |\  |       |\  |         \\  |  || |  ||    |  ||         
+        |    ___||  |    ___||  |    ___   || |  || |  ||    |  ||         
+        |   |\__\|  |   |\__\|  |   |\__|  || |  || |  ||    |  ||         
+        |   ||      |   ||___   |   ||__|  || |  || |   \\__/   ||         
+        |   ||      |        |\ |          || |  || |           ||         
+        |___||      |________|| |_________//  |__||  \_________//          
+                                                                           
+      F I N I T E   E L E M E N T S   F O R   B I O M E C H A N I C S      
+                                                                           
+  version 4.13.0.32ae206ff
+  FEBio is a registered trademark.                                         
+  copyright (c) 2006-2026 - All rights reserved                            
+                                                                           
+===========================================================================
+
+
+
+
+
+ FILES USED
+===========================================================================
+	Input file : C1u_L1_f1.25_K1e6.feb
+	Plot file  : C1u_L1_f1.25_K1e6.xplt
+	Log file   : C1u_L1_f1.25_K1e6.log
+
+
+ MESH INFO
+===========================================================================
+	Number of materials ............................ : 1
+	Number of domains .............................. : 1
+	Number of nodes ................................ : 17240
+	Number of solid elements ....................... : 8330
+
+
+ MODULE
+===========================================================================
+	Module type ....................................... : fluid
+
+
+ CONTROL DATA
+===========================================================================
+	analysis .......................................... : DYNAMIC (1)
+	time_steps ........................................ : 80
+	step_size ......................................... : 0.5
+	plot_zero_state ................................... : no (0)
+	plot_range ........................................ : 0,-1
+	plot_level ........................................ : PLOT_MAJOR_ITRS (1)
+	output_level ...................................... : OUTPUT_MAJOR_ITRS (1)
+	plot_stride ....................................... : 20
+	output_stride ..................................... : 1
+	adaptor_re_solve .................................. : yes (1)
+	Auto time stepper activated ....................... : no
+ SOLVER PARAMETERS
+===========================================================================
+	symmetric_stiffness ............................... : non-symmetric (0)
+	equation_scheme ................................... : block (1)
+	equation_order .................................... : default (0)
+	optimize_bw ....................................... : no (0)
+	lstol ............................................. : 0.9
+	lsmin ............................................. : 0.01
+	lsiter ............................................ : 5
+	ls_check_jacobians ................................ : no (0)
+	max_refs .......................................... : 15
+	check_zero_diagonal ............................... : no (0)
+	zero_diagonal_tol ................................. : 0
+	force_partition ................................... : 0
+	reform_each_time_step ............................. : yes (1)
+	reform_augment .................................... : no (0)
+	diverge_reform .................................... : yes (1)
+	min_residual ...................................... : 1e-30
+	max_residual ...................................... : 1e+20
+	vtol .............................................. : 1e-06
+	ftol .............................................. : 1e-06
+	rhoi .............................................. : 0
+	etol .............................................. : 0
+	rtol .............................................. : 0
+	predictor ......................................... : 0
+	min_volume_ratio .................................. : 0
+
+
+
+
+
+
+ MATERIAL DATA
+===========================================================================
+  1 - Fluid (type: fluid)
+	density ........................................... : 1000
+	k ................................................. : 1e+06
+	viscous: (type: Newtonian fluid)
+	  kappa ........................................... : 0
+	  mu .............................................. : 1
+	elastic: (type: linear)
+
+
+ BOUNDARY CONDITION DATA
+===========================================================================
+  1 -  Type: zero fluid velocity
+	wx_dof ............................................ : no (0)
+	wy_dof ............................................ : no (0)
+	wz_dof ............................................ : yes (1)
+---------------------------------------------------------------------------
+  2 -  Type: zero fluid velocity
+	wx_dof ............................................ : yes (1)
+	wy_dof ............................................ : yes (1)
+	wz_dof ............................................ : no (0)
+---------------------------------------------------------------------------
+  3 -  Type: zero fluid dilatation
+
+
+ MODEL LOAD DATA
+===========================================================================
+  1 -  Type: fluid normal velocity
+	velocity .......................................... : (not constant)
+	prescribe_nodal_velocities ........................ : yes (1)
+	parabolic ......................................... : yes (1)
+	prescribe_rim_pressure ............................ : yes (1)
+
+
+ LOAD CONTROLLER DATA
+===========================================================================
+load controller   1 - ramp (type: loadcurve)
+	interpolate ....................................... : LINEAR (0)
+	extend ............................................ : CONSTANT (0)
+	points ............................................ : (can't display value)
+
+
+ OUTPUT DATA
+===========================================================================
+ LINEAR SOLVER DATA
+===========================================================================
+	Default linear solver ............................. : pardiso
+
+
+Data Record #1
+===========================================================================
+Step = 0
+Time = 0
+Data = wx;wy;ef
+File = Mon_all.txt
+
+ *************************************************************************
+ * Selecting linear solver pardiso                                       *
+ *************************************************************************
+
+===== beginning time step 1 : 0.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+===== reforming stiffness matrix:
+	Nr of equations ........................... : 49696
+	Nr of nonzeroes in stiffness matrix ....... : 2608752
+	Nr of partitions .......................... : 2
+		partition 1 ............................ : 32564
+		partition 2 ............................ : 17132
+ 1
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.397774e-05    1.281417e-05    0.000000e+00 
+	   energy              1.186149e-03    5.124632e-05    0.000000e+00 
+	   velocity            0.000000e+00    1.579316e+01    1.579316e-11 
+	   dilatation          0.000000e+00    5.904975e-04    5.904975e-16 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.397774e-05    4.014756e-10    0.000000e+00 
+	   energy              1.186149e-03    5.279808e-11    0.000000e+00 
+	   velocity            0.000000e+00    2.435089e-03    1.580896e-11 
+	   dilatation          0.000000e+00    4.133995e-08    5.897680e-16 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.397774e-05    2.756324e-14    0.000000e+00 
+	   energy              1.186149e-03    4.758969e-13    0.000000e+00 
+	   velocity            0.000000e+00    1.946823e-09    1.580893e-11 
+	   dilatation          0.000000e+00    1.309833e-12    5.897669e-16 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.397774e-05    1.957913e-18    0.000000e+00 
+	   energy              1.186149e-03    2.261321e-17    0.000000e+00 
+	   velocity            0.000000e+00    1.968294e-15    1.580893e-11 
+	   dilatation          0.000000e+00    8.786660e-17    5.897669e-16 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 0.5
+
+
+Data Record #1
+===========================================================================
+Step = 1
+Time = 0.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 2 : 1 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.491689e-04    2.211933e-05    0.000000e+00 
+	   energy              1.446202e-01    7.914698e-04    0.000000e+00 
+	   velocity            1.580893e+01    9.559653e+01    9.559653e-11 
+	   dilatation          5.897669e-04    8.728429e-04    8.728429e-16 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.491689e-04    6.490291e-10    0.000000e+00 
+	   energy              1.446202e-01    4.553252e-10    0.000000e+00 
+	   velocity            1.580893e+01    1.010686e-01    9.609655e-11 
+	   dilatation          5.897669e-04    9.235482e-08    8.690558e-16 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.491689e-04    1.016803e-13    0.000000e+00 
+	   energy              1.446202e-01    1.087659e-12    0.000000e+00 
+	   velocity            1.580893e+01    2.296407e-06    9.609621e-11 
+	   dilatation          5.897669e-04    3.419088e-12    8.690137e-16 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.491689e-04    7.359234e-18    0.000000e+00 
+	   energy              1.446202e-01    5.225222e-17    0.000000e+00 
+	   velocity            1.580893e+01    6.569547e-15    9.609621e-11 
+	   dilatation          5.897669e-04    3.217848e-16    8.690137e-16 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 1
+
+
+Data Record #1
+===========================================================================
+Step = 2
+Time = 1
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 3 : 1.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 1.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.866161e-03    5.404464e-06    0.000000e+00 
+	   energy              3.241684e-01    9.280534e-04    0.000000e+00 
+	   velocity            9.609621e+01    1.021488e+02    1.021488e-10 
+	   dilatation          8.690137e-04    5.820555e-05    5.820555e-17 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 1.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.866161e-03    6.635606e-09    0.000000e+00 
+	   energy              3.241684e-01    1.422445e-10    0.000000e+00 
+	   velocity            9.609621e+01    7.950127e-02    1.029343e-10 
+	   dilatation          8.690137e-04    6.019226e-08    5.957743e-17 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 1.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.866161e-03    6.322575e-13    0.000000e+00 
+	   energy              3.241684e-01    7.407852e-13    0.000000e+00 
+	   velocity            9.609621e+01    2.787606e-06    1.029341e-10 
+	   dilatation          8.690137e-04    2.204867e-11    5.958870e-17 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 1.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.866161e-03    4.518759e-17    0.000000e+00 
+	   energy              3.241684e-01    4.403935e-16    0.000000e+00 
+	   velocity            9.609621e+01    3.743305e-14    1.029341e-10 
+	   dilatation          8.690137e-04    2.007852e-15    5.958870e-17 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 1.5
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.866161e-03    3.208548e-21    0.000000e+00 
+	   energy              3.241684e-01    3.632809e-20    0.000000e+00 
+	   velocity            9.609621e+01    3.144708e-18    1.029341e-10 
+	   dilatation          8.690137e-04    1.440151e-19    5.958870e-17 
+
+convergence summary
+    number of iterations   : 5
+    number of reformations : 5
+
+------- converged at time : 1.5
+
+
+Data Record #1
+===========================================================================
+Step = 3
+Time = 1.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 4 : 2 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 2
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.068634e-03    2.371816e-05    0.000000e+00 
+	   energy              1.250707e-01    1.277325e-04    0.000000e+00 
+	   velocity            1.029341e+02    2.296237e+01    2.296237e-11 
+	   dilatation          5.958870e-05    1.141561e-03    1.141561e-15 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 2
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.068634e-03    3.607144e-09    0.000000e+00 
+	   energy              1.250707e-01    2.105599e-10    0.000000e+00 
+	   velocity            1.029341e+02    3.338744e-03    2.297669e-11 
+	   dilatation          5.958870e-05    8.104470e-08    1.143582e-15 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 2
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.068634e-03    2.603922e-13    0.000000e+00 
+	   energy              1.250707e-01    1.999465e-12    0.000000e+00 
+	   velocity            1.029341e+02    3.171879e-09    2.297675e-11 
+	   dilatation          5.958870e-05    1.141792e-11    1.143584e-15 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 2
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.068634e-03    1.848835e-17    0.000000e+00 
+	   energy              1.250707e-01    2.082114e-16    0.000000e+00 
+	   velocity            1.029341e+02    1.799948e-14    2.297675e-11 
+	   dilatation          5.958870e-05    8.298110e-16    1.143584e-15 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 2
+
+
+Data Record #1
+===========================================================================
+Step = 4
+Time = 2
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 5 : 2.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 2.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.678051e-04    4.289561e-06    0.000000e+00 
+	   energy              7.700237e-03    2.328312e-06    0.000000e+00 
+	   velocity            2.297675e+01    2.177489e+00    2.177489e-12 
+	   dilatation          1.143584e-03    2.097387e-04    2.097387e-16 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 2.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.678051e-04    3.793249e-10    0.000000e+00 
+	   energy              7.700237e-03    2.961976e-11    0.000000e+00 
+	   velocity            2.297675e+01    6.729210e-04    2.193221e-12 
+	   dilatation          1.143584e-03    1.391697e-08    2.097640e-16 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 2.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.678051e-04    2.681079e-14    0.000000e+00 
+	   energy              7.700237e-03    2.732063e-13    0.000000e+00 
+	   velocity            2.297675e+01    1.679630e-10    2.193214e-12 
+	   dilatation          1.143584e-03    1.205320e-12    2.097641e-16 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 2.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.678051e-04    1.902637e-18    0.000000e+00 
+	   energy              7.700237e-03    2.165484e-17    0.000000e+00 
+	   velocity            2.297675e+01    1.892664e-15    2.193214e-12 
+	   dilatation          1.143584e-03    8.546696e-17    2.097641e-16 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 2.5
+
+
+Data Record #1
+===========================================================================
+Step = 5
+Time = 2.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 6 : 3 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 3
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.651581e-05    1.227155e-06    0.000000e+00 
+	   energy              3.023706e-03    3.033057e-07    0.000000e+00 
+	   velocity            2.193214e+00    5.942556e-01    5.942556e-13 
+	   dilatation          2.097641e-04    5.823974e-05    5.823974e-17 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 3
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.651581e-05    7.871890e-11    0.000000e+00 
+	   energy              3.023706e-03    7.073126e-12    0.000000e+00 
+	   velocity            2.193214e+00    4.261113e-05    5.963244e-13 
+	   dilatation          2.097641e-04    3.909475e-09    5.825279e-17 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 3
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.651581e-05    5.574932e-15    0.000000e+00 
+	   energy              3.023706e-03    6.662851e-14    0.000000e+00 
+	   velocity            2.193214e+00    6.697289e-12    5.963240e-13 
+	   dilatation          2.097641e-04    2.513463e-13    5.825278e-17 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 3
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.651581e-05    3.956392e-19    0.000000e+00 
+	   energy              3.023706e-03    4.498790e-18    0.000000e+00 
+	   velocity            2.193214e+00    3.927209e-16    5.963240e-13 
+	   dilatation          2.097641e-04    1.777118e-17    5.825278e-17 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 3
+
+
+Data Record #1
+===========================================================================
+Step = 6
+Time = 3
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 7 : 3.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 3.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.485391e-05    3.029237e-09    0.000000e+00 
+	   energy              1.184890e-03    1.643130e-07    0.000000e+00 
+	   velocity            5.963240e-01    1.871901e-01    1.871901e-13 
+	   dilatation          5.825278e-05    1.690994e-07    1.690994e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 3.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.485391e-05    9.634393e-16    0.000000e+00 
+	   energy              1.184890e-03    2.619442e-15    0.000000e+00 
+	   velocity            5.963240e-01    2.140052e-06    1.873180e-13 
+	   dilatation          5.825278e-05    1.811829e-11    1.714173e-19 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 3.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.485391e-05    3.055192e-20    0.000000e+00 
+	   energy              1.184890e-03    7.600105e-18    0.000000e+00 
+	   velocity            5.963240e-01    1.610265e-14    1.873180e-13 
+	   dilatation          5.825278e-05    2.210661e-17    1.714169e-19 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 3.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.485391e-05    2.117264e-24    0.000000e+00 
+	   energy              1.184890e-03    3.631683e-23    0.000000e+00 
+	   velocity            5.963240e-01    4.775444e-21    1.873180e-13 
+	   dilatation          5.825278e-05    9.960015e-23    1.714169e-19 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 3.5
+
+
+Data Record #1
+===========================================================================
+Step = 7
+Time = 3.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 8 : 4 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 4
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.306474e-06    6.380281e-09    0.000000e+00 
+	   energy              5.882229e-04    5.273037e-08    0.000000e+00 
+	   velocity            1.873180e-01    6.994681e-02    6.994681e-14 
+	   dilatation          1.714169e-07    4.297533e-07    4.297533e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 4
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.306474e-06    9.100167e-13    0.000000e+00 
+	   energy              5.882229e-04    5.628245e-14    0.000000e+00 
+	   velocity            1.873180e-01    1.839612e-07    6.993899e-14 
+	   dilatation          1.714169e-07    2.523895e-11    4.269375e-19 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 4
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.306474e-06    6.550571e-17    0.000000e+00 
+	   energy              5.882229e-04    5.220872e-16    0.000000e+00 
+	   velocity            1.873180e-01    3.198805e-14    6.993899e-14 
+	   dilatation          1.714169e-07    2.882215e-15    4.269376e-19 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 4
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.306474e-06    4.650536e-21    0.000000e+00 
+	   energy              5.882229e-04    5.244585e-20    0.000000e+00 
+	   velocity            1.873180e-01    4.538981e-18    6.993899e-14 
+	   dilatation          1.714169e-07    2.087605e-19    4.269376e-19 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 4
+
+
+Data Record #1
+===========================================================================
+Step = 8
+Time = 4
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 9 : 4.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 4.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.713628e-06    1.050050e-10    0.000000e+00 
+	   energy              3.123324e-04    3.995033e-08    0.000000e+00 
+	   velocity            6.993899e-02    3.064122e-02    3.064122e-14 
+	   dilatation          4.269376e-07    6.146461e-09    6.146461e-21 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 4.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.713628e-06    5.929452e-15    0.000000e+00 
+	   energy              3.123324e-04    4.655145e-16    0.000000e+00 
+	   velocity            6.993899e-02    3.399967e-08    3.062623e-14 
+	   dilatation          4.269376e-07    2.187133e-12    6.340491e-21 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 4.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.713628e-06    4.639862e-19    0.000000e+00 
+	   energy              3.123324e-04    5.376487e-18    0.000000e+00 
+	   velocity            6.993899e-02    4.754441e-16    3.062623e-14 
+	   dilatation          4.269376e-07    2.020672e-17    6.340467e-21 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 4.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.713628e-06    3.300418e-23    0.000000e+00 
+	   energy              3.123324e-04    3.567526e-22    0.000000e+00 
+	   velocity            6.993899e-02    2.959828e-20    3.062623e-14 
+	   dilatation          4.269376e-07    1.476938e-21    6.340467e-21 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 4.5
+
+
+Data Record #1
+===========================================================================
+Step = 9
+Time = 4.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 10 : 5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.709107e-06    6.945573e-12    0.000000e+00 
+	   energy              1.694575e-04    2.626802e-08    0.000000e+00 
+	   velocity            3.062623e-02    1.469676e-02    1.469676e-14 
+	   dilatation          6.340467e-09    8.366784e-10    8.366784e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.709107e-06    6.491145e-15    0.000000e+00 
+	   energy              1.694575e-04    7.978184e-17    0.000000e+00 
+	   velocity            3.062623e-02    8.893537e-09    1.468907e-14 
+	   dilatation          6.340467e-09    7.569049e-13    8.577299e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.709107e-06    4.880045e-19    0.000000e+00 
+	   energy              1.694575e-04    1.141656e-18    0.000000e+00 
+	   velocity            3.062623e-02    2.015721e-17    1.468907e-14 
+	   dilatation          6.340467e-09    2.085920e-17    8.577268e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.709107e-06    3.468072e-23    0.000000e+00 
+	   energy              1.694575e-04    3.825711e-22    0.000000e+00 
+	   velocity            3.062623e-02    3.238774e-20    1.468907e-14 
+	   dilatation          6.340467e-09    1.554234e-21    8.577268e-22 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 5
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.709107e-06    2.459859e-27    0.000000e+00 
+	   energy              1.694575e-04    2.793047e-26    0.000000e+00 
+	   velocity            3.062623e-02    2.430752e-24    1.468907e-14 
+	   dilatation          6.340467e-09    1.104793e-25    8.577268e-22 
+
+convergence summary
+    number of iterations   : 5
+    number of reformations : 5
+
+------- converged at time : 5
+
+
+Data Record #1
+===========================================================================
+Step = 10
+Time = 5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 11 : 5.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 5.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.559657e-06    8.829027e-12    0.000000e+00 
+	   energy              9.270086e-05    1.341011e-08    0.000000e+00 
+	   velocity            1.468907e-02    7.396392e-03    7.396392e-15 
+	   dilatation          8.577268e-10    1.028542e-09    1.028542e-21 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 5.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.559657e-06    7.062659e-15    0.000000e+00 
+	   energy              9.270086e-05    1.951812e-16    0.000000e+00 
+	   velocity            1.468907e-02    2.422459e-09    7.393344e-15 
+	   dilatation          8.577268e-10    3.132861e-13    1.002198e-21 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 5.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.559657e-06    5.186402e-19    0.000000e+00 
+	   energy              9.270086e-05    1.655699e-18    0.000000e+00 
+	   velocity            1.468907e-02    4.092425e-17    7.393344e-15 
+	   dilatation          8.577268e-10    2.237230e-17    1.002200e-21 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 5.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.559657e-06    3.683788e-23    0.000000e+00 
+	   energy              9.270086e-05    4.112440e-22    0.000000e+00 
+	   velocity            1.468907e-02    3.523124e-20    7.393344e-15 
+	   dilatation          8.577268e-10    1.652365e-21    1.002200e-21 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 5.5
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.559657e-06    2.616559e-27    0.000000e+00 
+	   energy              9.270086e-05    2.969771e-26    0.000000e+00 
+	   velocity            1.468907e-02    2.613583e-24    7.393344e-15 
+	   dilatation          8.577268e-10    1.175136e-25    1.002200e-21 
+
+convergence summary
+    number of iterations   : 5
+    number of reformations : 5
+
+------- converged at time : 5.5
+
+
+Data Record #1
+===========================================================================
+Step = 11
+Time = 5.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 12 : 6 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 6
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.897309e-07    4.273094e-13    0.000000e+00 
+	   energy              5.058737e-05    6.628425e-09    0.000000e+00 
+	   velocity            7.393344e-03    3.821442e-03    3.821442e-15 
+	   dilatation          1.002200e-09    2.749658e-10    2.749658e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 6
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.897309e-07    1.430573e-15    0.000000e+00 
+	   energy              5.058737e-05    1.079884e-17    0.000000e+00 
+	   velocity            7.393344e-03    7.247872e-10    3.820266e-15 
+	   dilatation          1.002200e-09    1.086990e-13    2.739663e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 6
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.897309e-07    1.062889e-19    0.000000e+00 
+	   energy              5.058737e-05    4.480396e-20    0.000000e+00 
+	   velocity            7.393344e-03    1.623235e-19    3.820266e-15 
+	   dilatation          1.002200e-09    4.555461e-18    2.739663e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 6
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.897309e-07    7.551485e-24    0.000000e+00 
+	   energy              5.058737e-05    8.380284e-23    0.000000e+00 
+	   velocity            7.393344e-03    7.138122e-21    3.820266e-15 
+	   dilatation          1.002200e-09    3.385796e-22    2.739663e-22 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 6
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.897309e-07    5.363088e-28    0.000000e+00 
+	   energy              5.058737e-05    6.086166e-27    0.000000e+00 
+	   velocity            7.393344e-03    5.382720e-25    3.820266e-15 
+	   dilatation          1.002200e-09    2.409436e-26    2.739663e-22 
+
+convergence summary
+    number of iterations   : 5
+    number of reformations : 5
+
+------- converged at time : 6
+
+
+Data Record #1
+===========================================================================
+Step = 12
+Time = 6
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 13 : 6.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 6.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.997690e-07    2.306324e-13    0.000000e+00 
+	   energy              2.741210e-05    3.228648e-09    0.000000e+00 
+	   velocity            3.820266e-03    2.008131e-03    2.008131e-15 
+	   dilatation          2.739663e-10    2.480085e-10    2.480085e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 6.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.997690e-07    4.083313e-16    0.000000e+00 
+	   energy              2.741210e-05    1.406694e-18    0.000000e+00 
+	   velocity            3.820266e-03    2.451705e-10    2.007662e-15 
+	   dilatation          2.739663e-10    4.119681e-14    2.490074e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 6.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.997690e-07    3.053172e-20    0.000000e+00 
+	   energy              2.741210e-05    3.293108e-20    0.000000e+00 
+	   velocity            3.820266e-03    2.639307e-19    2.007662e-15 
+	   dilatation          2.739663e-10    1.306090e-18    2.490073e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 6.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.997690e-07    2.169531e-24    0.000000e+00 
+	   energy              2.741210e-05    2.399870e-23    0.000000e+00 
+	   velocity            3.820266e-03    2.036958e-21    2.007662e-15 
+	   dilatation          2.739663e-10    9.724733e-23    2.490073e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 6.5
+
+
+Data Record #1
+===========================================================================
+Step = 13
+Time = 6.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 14 : 7 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 7
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.757890e-07    1.404167e-13    0.000000e+00 
+	   energy              1.470528e-05    1.536454e-09    0.000000e+00 
+	   velocity            2.007662e-03    1.058815e-03    1.058815e-15 
+	   dilatation          2.490073e-10    2.436538e-10    2.436538e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 7
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.757890e-07    1.270507e-16    0.000000e+00 
+	   energy              1.470528e-05    1.420715e-18    0.000000e+00 
+	   velocity            2.007662e-03    8.795713e-11    1.058625e-15 
+	   dilatation          2.490073e-10    1.551550e-14    2.443796e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 7
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.757890e-07    9.542319e-21    0.000000e+00 
+	   energy              1.470528e-05    2.031763e-20    0.000000e+00 
+	   velocity            2.007662e-03    3.256677e-19    1.058625e-15 
+	   dilatation          2.490073e-10    4.079355e-19    2.443796e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 7
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.757890e-07    6.780890e-25    0.000000e+00 
+	   energy              1.470528e-05    7.484064e-24    0.000000e+00 
+	   velocity            2.007662e-03    6.344732e-22    1.058625e-15 
+	   dilatation          2.490073e-10    3.039303e-23    2.443796e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 7
+
+
+Data Record #1
+===========================================================================
+Step = 14
+Time = 7
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 15 : 7.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 7.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.490849e-07    2.291777e-13    0.000000e+00 
+	   energy              7.785689e-06    7.185084e-10    0.000000e+00 
+	   velocity            1.058625e-03    5.490703e-04    5.490703e-16 
+	   dilatation          2.443796e-10    2.513285e-10    2.513285e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 7.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.490849e-07    1.862744e-17    0.000000e+00 
+	   energy              7.785689e-06    1.219283e-18    0.000000e+00 
+	   velocity            1.058625e-03    3.183302e-11    5.489911e-16 
+	   dilatation          2.443796e-10    6.198124e-15    2.519865e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 7.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.490849e-07    1.443268e-21    0.000000e+00 
+	   energy              7.785689e-06    1.353829e-20    0.000000e+00 
+	   velocity            1.058625e-03    9.676591e-19    5.489911e-16 
+	   dilatation          2.443796e-10    6.235115e-20    2.519864e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 7.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.490849e-07    1.026379e-25    0.000000e+00 
+	   energy              7.785689e-06    1.115032e-24    0.000000e+00 
+	   velocity            1.058625e-03    9.290315e-23    5.489911e-16 
+	   dilatation          2.443796e-10    4.594646e-24    2.519864e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 7.5
+
+
+Data Record #1
+===========================================================================
+Step = 15
+Time = 7.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 16 : 8 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 8
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.871835e-08    2.801819e-13    0.000000e+00 
+	   energy              4.061566e-06    3.269652e-10    0.000000e+00 
+	   velocity            5.489911e-04    2.793428e-04    2.793428e-16 
+	   dilatation          2.519864e-10    2.540551e-10    2.540551e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 8
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.871835e-08    1.387961e-19    0.000000e+00 
+	   energy              4.061566e-06    1.301207e-19    0.000000e+00 
+	   velocity            5.489911e-04    1.156790e-11    2.793095e-16 
+	   dilatation          2.519864e-10    2.792304e-15    2.544840e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 8
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.871835e-08    1.675720e-23    0.000000e+00 
+	   energy              4.061566e-06    1.698040e-21    0.000000e+00 
+	   velocity            5.489911e-04    1.315650e-18    2.793095e-16 
+	   dilatation          2.519864e-10    2.460852e-21    2.544839e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 8
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.871835e-08    1.202767e-27    0.000000e+00 
+	   energy              4.061566e-06    1.043954e-26    0.000000e+00 
+	   velocity            5.489911e-04    6.989756e-25    2.793095e-16 
+	   dilatation          2.519864e-10    5.313072e-26    2.544839e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 8
+
+
+Data Record #1
+===========================================================================
+Step = 16
+Time = 8
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 17 : 8.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 8.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.056160e-08    2.606158e-13    0.000000e+00 
+	   energy              2.091545e-06    1.408451e-10    0.000000e+00 
+	   velocity            2.793095e-04    1.420331e-04    1.420331e-16 
+	   dilatation          2.544839e-10    2.512645e-10    2.512645e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 8.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.056160e-08    2.542418e-18    0.000000e+00 
+	   energy              2.091545e-06    5.595929e-19    0.000000e+00 
+	   velocity            2.793095e-04    4.356356e-12    1.420193e-16 
+	   dilatation          2.544839e-10    1.437941e-15    2.514960e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 8.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.056160e-08    1.662856e-22    0.000000e+00 
+	   energy              2.091545e-06    5.236638e-21    0.000000e+00 
+	   velocity            2.793095e-04    1.262883e-18    1.420193e-16 
+	   dilatation          2.544839e-10    9.214276e-21    2.514960e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 8.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.056160e-08    1.177489e-26    0.000000e+00 
+	   energy              2.091545e-06    1.394369e-25    0.000000e+00 
+	   velocity            2.793095e-04    1.269604e-23    1.420193e-16 
+	   dilatation          2.544839e-10    5.308692e-25    2.514960e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 8.5
+
+
+Data Record #1
+===========================================================================
+Step = 17
+Time = 8.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 18 : 9 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 9
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.052867e-08    2.075599e-13    0.000000e+00 
+	   energy              1.073195e-06    5.485194e-11    0.000000e+00 
+	   velocity            1.420193e-04    7.324388e-05    7.324388e-17 
+	   dilatation          2.514960e-10    2.463106e-10    2.463106e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 9
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.052867e-08    5.867040e-18    0.000000e+00 
+	   energy              1.073195e-06    7.737557e-19    0.000000e+00 
+	   velocity            1.420193e-04    1.773305e-12    7.323860e-17 
+	   dilatation          2.514960e-10    8.294882e-16    2.464183e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 9
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.052867e-08    4.049642e-22    0.000000e+00 
+	   energy              1.073195e-06    7.338837e-21    0.000000e+00 
+	   velocity            1.420193e-04    1.019346e-18    7.323860e-17 
+	   dilatation          2.514960e-10    1.922377e-20    2.464183e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 9
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.052867e-08    2.871693e-26    0.000000e+00 
+	   energy              1.073195e-06    3.308628e-25    0.000000e+00 
+	   velocity            1.420193e-04    2.922733e-23    7.323860e-17 
+	   dilatation          2.514960e-10    1.291381e-24    2.464183e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 9
+
+
+Data Record #1
+===========================================================================
+Step = 18
+Time = 9
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 19 : 9.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 9.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.047200e-08    1.404410e-13    0.000000e+00 
+	   energy              5.619952e-07    1.822019e-11    0.000000e+00 
+	   velocity            7.323860e-05    3.847212e-05    3.847212e-17 
+	   dilatation          2.464183e-10    2.405449e-10    2.405449e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 9.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.047200e-08    6.246809e-18    0.000000e+00 
+	   energy              5.619952e-07    6.641317e-19    0.000000e+00 
+	   velocity            7.323860e-05    7.405587e-13    3.847035e-17 
+	   dilatation          2.464183e-10    4.839064e-16    2.405855e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 9.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.047200e-08    4.378421e-22    0.000000e+00 
+	   energy              5.619952e-07    6.296154e-21    0.000000e+00 
+	   velocity            7.323860e-05    6.943058e-19    3.847035e-17 
+	   dilatation          2.464183e-10    2.011222e-20    2.405855e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 9.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.047200e-08    3.106555e-26    0.000000e+00 
+	   energy              5.619952e-07    3.551060e-25    0.000000e+00 
+	   velocity            7.323860e-05    3.118582e-23    3.847035e-17 
+	   dilatation          2.464183e-10    1.396097e-24    2.405855e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 9.5
+
+
+Data Record #1
+===========================================================================
+Step = 19
+Time = 9.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 20 : 10 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 10
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.686587e-09    7.898205e-14    0.000000e+00 
+	   energy              3.126057e-07    5.074615e-12    0.000000e+00 
+	   velocity            3.847035e-05    2.090414e-05    2.090414e-17 
+	   dilatation          2.405855e-10    2.353364e-10    2.353364e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 10
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.686587e-09    4.479745e-18    0.000000e+00 
+	   energy              3.126057e-07    4.246620e-19    0.000000e+00 
+	   velocity            3.847035e-05    2.738348e-13    2.090362e-17 
+	   dilatation          2.405855e-10    2.567737e-16    2.353472e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 10
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.686587e-09    3.161553e-22    0.000000e+00 
+	   energy              3.126057e-07    4.018560e-21    0.000000e+00 
+	   velocity            3.847035e-05    3.918369e-19    2.090362e-17 
+	   dilatation          2.405855e-10    1.433668e-20    2.353472e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 10
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.686587e-09    2.243425e-26    0.000000e+00 
+	   energy              3.126057e-07    2.555561e-25    0.000000e+00 
+	   velocity            3.847035e-05    2.235475e-23    2.090362e-17 
+	   dilatation          2.405855e-10    1.007905e-24    2.353472e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 10
+
+
+Data Record #1
+===========================================================================
+Step = 20
+Time = 10
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 21 : 10.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 10.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.479605e-09    3.495073e-14    0.000000e+00 
+	   energy              1.909753e-07    1.422178e-12    0.000000e+00 
+	   velocity            2.090362e-05    1.208627e-05    1.208627e-17 
+	   dilatation          2.353472e-10    2.315872e-10    2.315872e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 10.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.479605e-09    2.248442e-18    0.000000e+00 
+	   energy              1.909753e-07    2.008585e-19    0.000000e+00 
+	   velocity            2.090362e-05    8.761686e-14    1.208609e-17 
+	   dilatation          2.353472e-10    1.116144e-16    2.315882e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 10.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.479605e-09    1.592005e-22    0.000000e+00 
+	   energy              1.909753e-07    1.897866e-21    0.000000e+00 
+	   velocity            2.090362e-05    1.735948e-19    1.208609e-17 
+	   dilatation          2.353472e-10    7.178320e-21    2.315882e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 10.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.479605e-09    1.129552e-26    0.000000e+00 
+	   energy              1.909753e-07    1.284700e-25    0.000000e+00 
+	   velocity            2.090362e-05    1.124312e-23    1.208609e-17 
+	   dilatation          2.353472e-10    5.075057e-25    2.315882e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 10.5
+
+
+Data Record #1
+===========================================================================
+Step = 21
+Time = 10.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 22 : 11 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 11
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.384973e-09    1.064707e-14    0.000000e+00 
+	   energy              1.268928e-07    5.383255e-13    0.000000e+00 
+	   velocity            1.208609e-05    7.514101e-06    7.514101e-18 
+	   dilatation          2.315882e-10    2.294965e-10    2.294965e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 11
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.384973e-09    6.921552e-19    0.000000e+00 
+	   energy              1.268928e-07    6.147547e-20    0.000000e+00 
+	   velocity            1.208609e-05    3.170115e-14    7.514008e-18 
+	   dilatation          2.315882e-10    3.388982e-17    2.294955e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 11
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.384973e-09    4.902379e-23    0.000000e+00 
+	   energy              1.268928e-07    5.806225e-22    0.000000e+00 
+	   velocity            1.208609e-05    5.276478e-20    7.514008e-18 
+	   dilatation          2.315882e-10    2.209273e-21    2.294955e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 11
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.384973e-09    3.479796e-27    0.000000e+00 
+	   energy              1.268928e-07    3.956295e-26    0.000000e+00 
+	   velocity            1.208609e-05    3.467515e-24    7.514008e-18 
+	   dilatation          2.315882e-10    1.563365e-25    2.294955e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 11
+
+
+Data Record #1
+===========================================================================
+Step = 22
+Time = 11
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 23 : 11.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 11.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.704516e-09    1.468030e-15    0.000000e+00 
+	   energy              8.729219e-08    3.136138e-13    0.000000e+00 
+	   velocity            7.514008e-06    4.917285e-06    4.917285e-18 
+	   dilatation          2.294955e-10    2.286723e-10    2.286723e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 11.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.704516e-09    6.949099e-20    0.000000e+00 
+	   energy              8.729219e-08    7.133908e-21    0.000000e+00 
+	   velocity            7.514008e-06    1.235584e-14    4.917220e-18 
+	   dilatation          2.294955e-10    4.872457e-18    2.286710e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 11.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.704516e-09    4.881612e-24    0.000000e+00 
+	   energy              8.729219e-08    6.752691e-23    0.000000e+00 
+	   velocity            7.514008e-06    7.163386e-21    4.917220e-18 
+	   dilatation          2.294955e-10    2.232613e-22    2.286710e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 11.5
+
+
+Data Record #1
+===========================================================================
+Step = 23
+Time = 11.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 24 : 12 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 12
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.185957e-09    2.384405e-17    0.000000e+00 
+	   energy              5.924346e-08    3.652262e-13    0.000000e+00 
+	   velocity            4.917220e-06    3.274003e-06    3.274003e-18 
+	   dilatation          2.286710e-10    2.284751e-10    2.284751e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 12
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.185957e-09    1.281771e-20    0.000000e+00 
+	   energy              5.924346e-08    3.480689e-22    0.000000e+00 
+	   velocity            4.917220e-06    4.555514e-15    3.273946e-18 
+	   dilatation          2.286710e-10    5.989376e-19    2.284734e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 12
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.185957e-09    9.413691e-25    0.000000e+00 
+	   energy              5.924346e-08    2.975789e-24    0.000000e+00 
+	   velocity            4.917220e-06    7.272838e-23    3.273946e-18 
+	   dilatation          2.286710e-10    4.060401e-23    2.284734e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 12
+
+
+Data Record #1
+===========================================================================
+Step = 24
+Time = 12
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 25 : 12.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 12.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.782305e-10    5.398523e-16    0.000000e+00 
+	   energy              3.864807e-08    4.204014e-13    0.000000e+00 
+	   velocity            3.273946e-06    2.152367e-06    2.152367e-18 
+	   dilatation          2.284734e-10    2.284138e-10    2.284138e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 12.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.782305e-10    7.897110e-20    0.000000e+00 
+	   energy              3.864807e-08    4.793481e-21    0.000000e+00 
+	   velocity            3.273946e-06    3.053747e-15    2.152315e-18 
+	   dilatation          2.284734e-10    2.314982e-18    2.284118e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 12.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.782305e-10    5.687029e-24    0.000000e+00 
+	   energy              3.864807e-08    4.460243e-23    0.000000e+00 
+	   velocity            3.273946e-06    2.688527e-21    2.152315e-18 
+	   dilatation          2.284734e-10    2.500836e-22    2.284118e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 12.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.782305e-10    4.040348e-28    0.000000e+00 
+	   energy              3.864807e-08    4.554124e-27    0.000000e+00 
+	   velocity            3.273946e-06    3.971322e-25    2.152315e-18 
+	   dilatation          2.284734e-10    1.812426e-26    2.284118e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 12.5
+
+
+Data Record #1
+===========================================================================
+Step = 25
+Time = 12.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 26 : 13 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 13
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.797372e-10    6.619363e-16    0.000000e+00 
+	   energy              2.402180e-08    3.191865e-13    0.000000e+00 
+	   velocity            2.152315e-06    1.365092e-06    1.365092e-18 
+	   dilatation          2.284118e-10    2.283035e-10    2.283035e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 13
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.797372e-10    8.217063e-20    0.000000e+00 
+	   energy              2.402180e-08    5.392048e-21    0.000000e+00 
+	   velocity            2.152315e-06    1.995590e-15    1.365056e-18 
+	   dilatation          2.284118e-10    2.502397e-18    2.283016e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 13
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.797372e-10    5.900257e-24    0.000000e+00 
+	   energy              2.402180e-08    5.038485e-23    0.000000e+00 
+	   velocity            2.152315e-06    3.305778e-21    1.365056e-18 
+	   dilatation          2.284118e-10    2.604389e-22    2.283016e-22 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 13
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.797372e-10    4.181826e-28    0.000000e+00 
+	   energy              2.402180e-08    4.725641e-27    0.000000e+00 
+	   velocity            2.152315e-06    4.107900e-25    1.365056e-18 
+	   dilatation          2.284118e-10    1.881184e-26    2.283016e-22 
+
+convergence summary
+    number of iterations   : 4
+    number of reformations : 4
+
+------- converged at time : 13
+
+
+Data Record #1
+===========================================================================
+Step = 26
+Time = 13
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 27 : 13.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 13.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.805219e-10    3.614315e-16    0.000000e+00 
+	   energy              1.423379e-08    1.560464e-13    0.000000e+00 
+	   velocity            1.365056e-06    8.236863e-07    8.236863e-19 
+	   dilatation          2.283016e-10    2.281612e-10    2.281612e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 13.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.805219e-10    4.289022e-20    0.000000e+00 
+	   energy              1.423379e-08    2.874602e-21    0.000000e+00 
+	   velocity            1.365056e-06    7.772719e-16    8.236687e-19 
+	   dilatation          2.283016e-10    1.327185e-18    2.281595e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 13.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.805219e-10    3.077248e-24    0.000000e+00 
+	   energy              1.423379e-08    2.689539e-23    0.000000e+00 
+	   velocity            1.365056e-06    1.805845e-21    8.236687e-19 
+	   dilatation          2.283016e-10    1.359785e-22    2.281595e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 13.5
+
+
+Data Record #1
+===========================================================================
+Step = 27
+Time = 13.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 28 : 14 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 14
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.584748e-10    1.020037e-16    0.000000e+00 
+	   energy              8.121971e-09    4.914614e-14    0.000000e+00 
+	   velocity            8.236687e-07    4.736582e-07    4.736582e-19 
+	   dilatation          2.281595e-10    2.280401e-10    2.280401e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 14
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.584748e-10    1.262219e-20    0.000000e+00 
+	   energy              8.121971e-09    8.294042e-22    0.000000e+00 
+	   velocity            8.236687e-07    2.043714e-16    4.736524e-19 
+	   dilatation          2.281595e-10    3.857383e-19    2.280385e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 14
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.584748e-10    9.063052e-25    0.000000e+00 
+	   energy              8.121971e-09    7.754443e-24    0.000000e+00 
+	   velocity            8.236687e-07    5.097702e-22    4.736524e-19 
+	   dilatation          2.281595e-10    4.000671e-23    2.280385e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 14
+
+
+Data Record #1
+===========================================================================
+Step = 28
+Time = 14
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 29 : 14.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 14.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.871195e-11    1.205431e-17    0.000000e+00 
+	   energy              4.556567e-09    9.190114e-15    0.000000e+00 
+	   velocity            4.736524e-07    2.647868e-07    2.647868e-19 
+	   dilatation          2.280385e-10    2.279555e-10    2.279555e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 14.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.871195e-11    1.918357e-21    0.000000e+00 
+	   energy              4.556567e-09    1.119471e-22    0.000000e+00 
+	   velocity            4.736524e-07    5.020892e-17    2.647855e-19 
+	   dilatation          2.280385e-10    5.787519e-20    2.279540e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 14.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.871195e-11    1.383272e-25    0.000000e+00 
+	   energy              4.556567e-09    1.040145e-24    0.000000e+00 
+	   velocity            4.736524e-07    6.025856e-23    2.647855e-19 
+	   dilatation          2.280385e-10    6.073483e-24    2.279540e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 14.5
+
+
+Data Record #1
+===========================================================================
+Step = 29
+Time = 14.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 30 : 15 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 15
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.028439e-11    2.812746e-19    0.000000e+00 
+	   energy              2.568471e-09    7.917282e-16    0.000000e+00 
+	   velocity            2.647855e-07    1.478904e-07    1.478904e-19 
+	   dilatation          2.279540e-10    2.278968e-10    2.278968e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 15
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.028439e-11    1.448059e-22    0.000000e+00 
+	   energy              2.568471e-09    4.761056e-24    0.000000e+00 
+	   velocity            2.647855e-07    1.507291e-17    1.478902e-19 
+	   dilatation          2.279540e-10    8.299935e-21    2.278953e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 15
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.028439e-11    1.059794e-26    0.000000e+00 
+	   energy              2.568471e-09    4.198399e-26    0.000000e+00 
+	   velocity            2.647855e-07    1.287264e-24    1.478902e-19 
+	   dilatation          2.279540e-10    4.583634e-25    2.278953e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 15
+
+
+Data Record #1
+===========================================================================
+Step = 30
+Time = 15
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 31 : 15.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 15.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.892028e-11    1.057157e-19    0.000000e+00 
+	   energy              1.464275e-09    3.827123e-16    0.000000e+00 
+	   velocity            1.478902e-07    8.377651e-08    8.377651e-20 
+	   dilatation          2.278953e-10    2.278517e-10    2.278517e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 15.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.892028e-11    5.022656e-23    0.000000e+00 
+	   energy              1.464275e-09    1.716934e-24    0.000000e+00 
+	   velocity            1.478902e-07    5.409247e-18    8.377642e-20 
+	   dilatation          2.278953e-10    4.398062e-21    2.278502e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 15.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.892028e-11    3.673665e-27    0.000000e+00 
+	   energy              1.464275e-09    1.520301e-26    0.000000e+00 
+	   velocity            1.478902e-07    4.904274e-25    8.377642e-20 
+	   dilatation          2.278953e-10    1.589761e-25    2.278502e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 15.5
+
+
+Data Record #1
+===========================================================================
+Step = 31
+Time = 15.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 32 : 16 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 16
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.658695e-11    1.249620e-18    0.000000e+00 
+	   energy              8.347346e-10    5.623749e-16    0.000000e+00 
+	   velocity            8.377642e-08    4.783063e-08    4.783063e-20 
+	   dilatation          2.278502e-10    2.278127e-10    2.278127e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 16
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.658695e-11    1.500298e-22    0.000000e+00 
+	   energy              8.347346e-10    9.998561e-24    0.000000e+00 
+	   velocity            8.377642e-08    2.140613e-18    4.783057e-20 
+	   dilatation          2.278502e-10    7.023377e-21    2.278112e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 16
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.658695e-11    1.076112e-26    0.000000e+00 
+	   energy              8.347346e-10    9.352589e-26    0.000000e+00 
+	   velocity            8.377642e-08    6.246051e-24    4.783057e-20 
+	   dilatation          2.278502e-10    4.755572e-25    2.278112e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 16
+
+
+Data Record #1
+===========================================================================
+Step = 32
+Time = 16
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 33 : 16.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 16.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.301219e-12    2.373337e-18    0.000000e+00 
+	   energy              4.679323e-10    3.771522e-16    0.000000e+00 
+	   velocity            4.783057e-08    2.702325e-08    2.702325e-20 
+	   dilatation          2.278112e-10    2.277751e-10    2.277751e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 16.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.301219e-12    2.196791e-22    0.000000e+00 
+	   energy              4.679323e-10    1.655449e-23    0.000000e+00 
+	   velocity            4.783057e-08    8.265605e-19    2.702321e-20 
+	   dilatation          2.278112e-10    1.021801e-20    2.277737e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 16.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.301219e-12    1.567951e-26    0.000000e+00 
+	   energy              4.679323e-10    1.556181e-25    0.000000e+00 
+	   velocity            4.783057e-08    1.183922e-23    2.702321e-20 
+	   dilatation          2.278112e-10    6.978060e-25    2.277737e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 16.5
+
+
+Data Record #1
+===========================================================================
+Step = 33
+Time = 16.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 34 : 17 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 17
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.055762e-12    1.265609e-18    0.000000e+00 
+	   energy              2.552833e-10    1.244966e-16    0.000000e+00 
+	   velocity            2.702321e-08    1.486041e-08    1.486041e-20 
+	   dilatation          2.277737e-10    2.277370e-10    2.277370e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 17
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.055762e-12    1.115641e-22    0.000000e+00 
+	   energy              2.552833e-10    8.602953e-24    0.000000e+00 
+	   velocity            2.702321e-08    2.646121e-19    1.486040e-20 
+	   dilatation          2.277737e-10    6.519591e-21    2.277356e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 17
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.055762e-12    7.953813e-27    0.000000e+00 
+	   energy              2.552833e-10    8.093253e-26    0.000000e+00 
+	   velocity            2.702321e-08    6.317008e-24    1.486040e-20 
+	   dilatation          2.277737e-10    3.546254e-25    2.277356e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 17
+
+
+Data Record #1
+===========================================================================
+Step = 34
+Time = 17
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 35 : 17.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 17.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.678927e-12    3.698539e-20    0.000000e+00 
+	   energy              1.356820e-10    7.787661e-18    0.000000e+00 
+	   velocity            1.486040e-08    7.916129e-09    7.916129e-21 
+	   dilatation          2.277356e-10    2.276987e-10    2.276987e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 17.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.678927e-12    4.456376e-24    0.000000e+00 
+	   energy              1.356820e-10    2.964980e-25    0.000000e+00 
+	   velocity            1.486040e-08    7.302560e-20    7.916132e-21 
+	   dilatation          2.277356e-10    2.538165e-21    2.276972e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 17.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.678927e-12    3.200963e-28    0.000000e+00 
+	   energy              1.356820e-10    2.775037e-27    0.000000e+00 
+	   velocity            1.486040e-08    1.854091e-25    7.916132e-21 
+	   dilatation          2.277356e-10    1.414497e-26    2.276972e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 17.5
+
+
+Data Record #1
+===========================================================================
+Step = 35
+Time = 17.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 36 : 18 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 18
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.404352e-12    4.466119e-19    0.000000e+00 
+	   energy              7.108789e-11    3.356926e-17    0.000000e+00 
+	   velocity            7.916132e-09    4.129174e-09    4.129174e-21 
+	   dilatation          2.276972e-10    2.276612e-10    2.276612e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 18
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.404352e-12    3.059018e-23    0.000000e+00 
+	   energy              7.108789e-11    2.656996e-24    0.000000e+00 
+	   velocity            7.916132e-09    2.064738e-20    4.129178e-21 
+	   dilatation          2.276972e-10    3.824207e-21    2.276597e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 18
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.404352e-12    2.168700e-27    0.000000e+00 
+	   energy              7.108789e-11    2.508490e-26    0.000000e+00 
+	   velocity            7.916132e-09    2.221083e-24    4.129178e-21 
+	   dilatation          2.276972e-10    9.750667e-26    2.276597e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 18
+
+
+Data Record #1
+===========================================================================
+Step = 36
+Time = 18
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 37 : 18.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 18.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.393806e-13    1.108637e-18    0.000000e+00 
+	   energy              3.731543e-11    2.128895e-17    0.000000e+00 
+	   velocity            4.129178e-09    2.151202e-09    2.151202e-21 
+	   dilatation          2.276597e-10    2.276249e-10    2.276249e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 18.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.393806e-13    8.032254e-23    0.000000e+00 
+	   energy              3.731543e-11    6.794029e-24    0.000000e+00 
+	   velocity            4.129178e-09    5.896716e-21    2.151204e-21 
+	   dilatation          2.276597e-10    5.930230e-21    2.276234e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 18.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.393806e-13    5.704281e-27    0.000000e+00 
+	   energy              3.731543e-11    6.411304e-26    0.000000e+00 
+	   velocity            4.129178e-09    5.512499e-24    2.151204e-21 
+	   dilatation          2.276597e-10    2.558409e-25    2.276234e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 18.5
+
+
+Data Record #1
+===========================================================================
+Step = 37
+Time = 18.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 38 : 19 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 19
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.959715e-13    8.477883e-19    0.000000e+00 
+	   energy              1.991576e-11    8.261432e-18    0.000000e+00 
+	   velocity            2.151204e-09    1.139519e-09    1.139519e-21 
+	   dilatation          2.276234e-10    2.275898e-10    2.275898e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 19
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.959715e-13    6.208420e-23    0.000000e+00 
+	   energy              1.991576e-11    5.225033e-24    0.000000e+00 
+	   velocity            2.151204e-09    1.580082e-21    1.139519e-21 
+	   dilatation          2.276234e-10    5.098311e-21    2.275883e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 19
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.959715e-13    4.409623e-27    0.000000e+00 
+	   energy              1.991576e-11    4.929618e-26    0.000000e+00 
+	   velocity            2.151204e-09    4.265147e-24    1.139519e-21 
+	   dilatation          2.276234e-10    1.979046e-25    2.275883e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 19
+
+
+Data Record #1
+===========================================================================
+Step = 38
+Time = 19
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 39 : 19.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 19.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.178361e-13    2.474352e-19    0.000000e+00 
+	   energy              1.090724e-11    1.719084e-18    0.000000e+00 
+	   velocity            1.139519e-09    6.203662e-10    6.203662e-22 
+	   dilatation          2.275883e-10    2.275553e-10    2.275553e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 19.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.178361e-13    1.811831e-23    0.000000e+00 
+	   energy              1.090724e-11    1.524903e-24    0.000000e+00 
+	   velocity            1.139519e-09    4.284153e-22    6.203663e-22 
+	   dilatation          2.275883e-10    3.184508e-21    2.275539e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 19.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.178361e-13    1.286461e-27    0.000000e+00 
+	   energy              1.090724e-11    1.438460e-26    0.000000e+00 
+	   velocity            1.139519e-09    1.234586e-24    6.203663e-22 
+	   dilatation          2.275883e-10    5.778986e-26    2.275539e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 19.5
+
+
+Data Record #1
+===========================================================================
+Step = 39
+Time = 19.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 40 : 20 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 20
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.221825e-13    4.541901e-21    0.000000e+00 
+	   energy              6.088200e-12    3.773949e-19    0.000000e+00 
+	   velocity            6.203663e-10    3.460787e-10    3.460787e-22 
+	   dilatation          2.275539e-10    2.275210e-10    2.275210e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 20
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.221825e-13    3.156366e-25    0.000000e+00 
+	   energy              6.088200e-12    2.723263e-26    0.000000e+00 
+	   velocity            6.203663e-10    1.453772e-22    3.460786e-22 
+	   dilatation          2.275539e-10    2.409749e-21    2.275195e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 20
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.221825e-13    2.229605e-29    0.000000e+00 
+	   energy              6.088200e-12    2.565266e-28    0.000000e+00 
+	   velocity            6.203663e-10    2.427327e-26    3.460786e-22 
+	   dilatation          2.275539e-10    1.006960e-27    2.275195e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 20
+
+
+Data Record #1
+===========================================================================
+Step = 40
+Time = 20
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 41 : 20.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 20.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.770762e-14    3.575327e-20    0.000000e+00 
+	   energy              3.372058e-12    5.611915e-19    0.000000e+00 
+	   velocity            3.460786e-10    1.931960e-10    1.931960e-22 
+	   dilatation          2.275195e-10    2.274863e-10    2.274863e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 20.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.770762e-14    2.697220e-24    0.000000e+00 
+	   energy              3.372058e-12    2.238469e-25    0.000000e+00 
+	   velocity            3.460786e-10    5.892408e-23    1.931959e-22 
+	   dilatation          2.275195e-10    2.508482e-21    2.274849e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 20.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.770762e-14    1.914946e-28    0.000000e+00 
+	   energy              3.372058e-12    2.109877e-27    0.000000e+00 
+	   velocity            3.460786e-10    1.808609e-25    1.931959e-22 
+	   dilatation          2.275195e-10    8.605816e-27    2.274849e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 20.5
+
+
+Data Record #1
+===========================================================================
+Step = 41
+Time = 20.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 42 : 21 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 21
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.605038e-14    5.887260e-20    0.000000e+00 
+	   energy              1.807108e-12    2.949645e-19    0.000000e+00 
+	   velocity            1.931959e-10    1.047957e-10    1.047957e-22 
+	   dilatation          2.274849e-10    2.274513e-10    2.274513e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 21
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.605038e-14    4.406932e-24    0.000000e+00 
+	   energy              1.807108e-12    3.670614e-25    0.000000e+00 
+	   velocity            1.931959e-10    1.968685e-23    1.047957e-22 
+	   dilatation          2.274849e-10    2.581405e-21    2.274498e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 21
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.605038e-14    3.129785e-28    0.000000e+00 
+	   energy              1.807108e-12    3.461238e-27    0.000000e+00 
+	   velocity            1.931959e-10    3.007072e-25    1.047957e-22 
+	   dilatation          2.274849e-10    1.404342e-26    2.274498e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 21
+
+
+Data Record #1
+===========================================================================
+Step = 42
+Time = 21
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 43 : 21.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 21.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.853942e-14    2.773560e-20    0.000000e+00 
+	   energy              9.380118e-13    9.292038e-20    0.000000e+00 
+	   velocity            1.047957e-10    5.480861e-11    5.480861e-23 
+	   dilatation          2.274498e-10    2.274160e-10    2.274160e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 21.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.853942e-14    2.073091e-24    0.000000e+00 
+	   energy              9.380118e-13    1.727941e-25    0.000000e+00 
+	   velocity            1.047957e-10    4.795703e-24    5.480860e-23 
+	   dilatation          2.274498e-10    2.481423e-21    2.274145e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 21.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.853942e-14    1.467286e-28    0.000000e+00 
+	   energy              9.380118e-13    1.626497e-27    0.000000e+00 
+	   velocity            1.047957e-10    1.361908e-25    5.480860e-23 
+	   dilatation          2.274498e-10    6.595574e-27    2.274145e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 21.5
+
+
+Data Record #1
+===========================================================================
+Step = 43
+Time = 21.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 44 : 22 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 22
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.503357e-15    3.333098e-21    0.000000e+00 
+	   energy              4.831359e-13    1.240363e-20    0.000000e+00 
+	   velocity            5.480860e-11    2.818894e-11    2.818894e-23 
+	   dilatation          2.274145e-10    2.273807e-10    2.273807e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 22
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.503357e-15    2.496368e-25    0.000000e+00 
+	   energy              4.831359e-13    2.079074e-26    0.000000e+00 
+	   velocity            5.480860e-11    1.048460e-24    2.818894e-23 
+	   dilatation          2.274145e-10    2.402931e-21    2.273792e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 22
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.503357e-15    1.771703e-29    0.000000e+00 
+	   energy              4.831359e-13    1.959545e-28    0.000000e+00 
+	   velocity            5.480860e-11    1.862402e-26    2.818894e-23 
+	   dilatation          2.274145e-10    8.039814e-28    2.273792e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 22
+
+
+Data Record #1
+===========================================================================
+Step = 44
+Time = 22
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 45 : 22.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 22.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.959709e-15    3.659357e-22    0.000000e+00 
+	   energy              2.518338e-13    4.683505e-21    0.000000e+00 
+	   velocity            2.818894e-11    1.460650e-11    1.460650e-23 
+	   dilatation          2.273792e-10    2.273454e-10    2.273454e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 22.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.959709e-15    2.695472e-26    0.000000e+00 
+	   energy              2.518338e-13    2.263626e-27    0.000000e+00 
+	   velocity            2.818894e-11    3.198315e-25    1.460650e-23 
+	   dilatation          2.273792e-10    2.392768e-21    2.273440e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 22.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.959709e-15    1.902025e-30    0.000000e+00 
+	   energy              2.518338e-13    2.132071e-29    0.000000e+00 
+	   velocity            2.818894e-11    2.833737e-27    1.460650e-23 
+	   dilatation          2.273792e-10    8.674443e-29    2.273440e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 22.5
+
+
+Data Record #1
+===========================================================================
+Step = 45
+Time = 22.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 46 : 23 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 23
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.622946e-15    2.147428e-21    0.000000e+00 
+	   energy              1.328906e-13    3.815171e-21    0.000000e+00 
+	   velocity            1.460650e-11    7.677783e-12    7.677783e-24 
+	   dilatation          2.273440e-10    2.273103e-10    2.273103e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 23
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.622946e-15    1.594109e-25    0.000000e+00 
+	   energy              1.328906e-13    1.332777e-26    0.000000e+00 
+	   velocity            1.460650e-11    1.637459e-25    7.677783e-24 
+	   dilatation          2.273440e-10    2.397736e-21    2.273088e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 23
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.622946e-15    1.101908e-29    0.000000e+00 
+	   energy              1.328906e-13    1.240437e-28    0.000000e+00 
+	   velocity            1.460650e-11    1.633842e-26    7.677783e-24 
+	   dilatation          2.273440e-10    5.458342e-28    2.273088e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 23
+
+
+Data Record #1
+===========================================================================
+Step = 46
+Time = 23
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 47 : 23.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 23.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.396220e-15    1.452397e-21    0.000000e+00 
+	   energy              7.071444e-14    1.404976e-21    0.000000e+00 
+	   velocity            7.677783e-12    4.081731e-12    4.081731e-24 
+	   dilatation          2.273088e-10    2.272752e-10    2.272752e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 23.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.396220e-15    1.079322e-25    0.000000e+00 
+	   energy              7.071444e-14    9.023017e-27    0.000000e+00 
+	   velocity            7.677783e-12    1.069352e-25    4.081731e-24 
+	   dilatation          2.273088e-10    2.394809e-21    2.272738e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 23.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.396220e-15    7.735079e-30    0.000000e+00 
+	   energy              7.071444e-14    8.551563e-29    0.000000e+00 
+	   velocity            7.677783e-12    1.003029e-26    4.081731e-24 
+	   dilatation          2.273088e-10    3.600584e-28    2.272738e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 23.5
+
+
+Data Record #1
+===========================================================================
+Step = 47
+Time = 23.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 48 : 24 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 24
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.507381e-16    3.065120e-22    0.000000e+00 
+	   energy              3.802087e-14    2.518122e-22    0.000000e+00 
+	   velocity            4.081731e-12    2.196352e-12    2.196352e-24 
+	   dilatation          2.272738e-10    2.272402e-10    2.272402e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 24
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.507381e-16    2.277643e-26    0.000000e+00 
+	   energy              3.802087e-14    1.903140e-27    0.000000e+00 
+	   velocity            4.081731e-12    8.427675e-26    2.196352e-24 
+	   dilatation          2.272738e-10    2.390447e-21    2.272388e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 24
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.507381e-16    1.626323e-30    0.000000e+00 
+	   energy              3.802087e-14    1.802279e-29    0.000000e+00 
+	   velocity            4.081731e-12    3.558203e-27    2.196352e-24 
+	   dilatation          2.272738e-10    8.111148e-29    2.272388e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 24
+
+
+Data Record #1
+===========================================================================
+Step = 48
+Time = 24
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 49 : 24.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 24.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.069196e-16    7.060180e-25    0.000000e+00 
+	   energy              2.060101e-14    5.243902e-23    0.000000e+00 
+	   velocity            2.196352e-12    1.194341e-12    1.194341e-24 
+	   dilatation          2.272388e-10    2.272052e-10    2.272052e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 24.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.069196e-16    5.193942e-29    0.000000e+00 
+	   energy              2.060101e-14    4.396457e-30    0.000000e+00 
+	   velocity            2.196352e-12    7.956299e-26    1.194341e-24 
+	   dilatation          2.272388e-10    2.388761e-21    2.272037e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 24.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.069196e-16    1.683609e-32    0.000000e+00 
+	   energy              2.060101e-14    1.463883e-31    0.000000e+00 
+	   velocity            2.196352e-12    1.390829e-27    1.194341e-24 
+	   dilatation          2.272388e-10    5.638288e-30    2.272037e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 24.5
+
+
+Data Record #1
+===========================================================================
+Step = 49
+Time = 24.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 50 : 25 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 25
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.194732e-16    4.211740e-23    0.000000e+00 
+	   energy              1.112096e-14    6.310277e-23    0.000000e+00 
+	   velocity            1.194341e-12    6.497077e-13    6.497077e-25 
+	   dilatation          2.272037e-10    2.271702e-10    2.271702e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 25
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.194732e-16    3.136627e-27    0.000000e+00 
+	   energy              1.112096e-14    2.629221e-28    0.000000e+00 
+	   velocity            1.194341e-12    7.896116e-26    6.497076e-25 
+	   dilatation          2.272037e-10    2.388183e-21    2.271687e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 25
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.194732e-16    2.253155e-31    0.000000e+00 
+	   energy              1.112096e-14    2.517614e-30    0.000000e+00 
+	   velocity            1.194341e-12    3.011313e-27    6.497076e-25 
+	   dilatation          2.272037e-10    3.495728e-29    2.271687e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 25
+
+
+Data Record #1
+===========================================================================
+Step = 50
+Time = 25
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 51 : 25.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 25.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.168123e-16    4.311770e-23    0.000000e+00 
+	   energy              5.933338e-15    2.985610e-23    0.000000e+00 
+	   velocity            6.497076e-13    3.506964e-13    3.506964e-25 
+	   dilatation          2.271687e-10    2.271351e-10    2.271351e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 25.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.168123e-16    3.209144e-27    0.000000e+00 
+	   energy              5.933338e-15    2.679509e-28    0.000000e+00 
+	   velocity            6.497076e-13    7.722129e-26    3.506964e-25 
+	   dilatation          2.271687e-10    2.387479e-21    2.271336e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 25.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.168123e-16    2.573436e-31    0.000000e+00 
+	   energy              5.933338e-15    2.728069e-30    0.000000e+00 
+	   velocity            6.497076e-13    1.909507e-27    3.506964e-25 
+	   dilatation          2.271687e-10    1.879067e-29    2.271336e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 25.5
+
+
+Data Record #1
+===========================================================================
+Step = 51
+Time = 25.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 52 : 26 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 26
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.164158e-17    1.390339e-23    0.000000e+00 
+	   energy              3.138396e-15    1.157477e-23    0.000000e+00 
+	   velocity            3.506964e-13    1.886989e-13    1.886989e-25 
+	   dilatation          2.271336e-10    2.271001e-10    2.271001e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 26
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.164158e-17    1.034186e-27    0.000000e+00 
+	   energy              3.138396e-15    8.662221e-29    0.000000e+00 
+	   velocity            3.506964e-13    7.678751e-26    1.886989e-25 
+	   dilatation          2.271336e-10    2.386677e-21    2.270986e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 26
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.164158e-17    9.168919e-32    0.000000e+00 
+	   energy              3.138396e-15    9.431144e-31    0.000000e+00 
+	   velocity            3.506964e-13    1.100743e-27    1.886989e-25 
+	   dilatation          2.271336e-10    4.616427e-30    2.270986e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 26
+
+
+Data Record #1
+===========================================================================
+Step = 52
+Time = 26
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 53 : 26.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 26.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.255895e-17    1.334735e-24    0.000000e+00 
+	   energy              1.659638e-15    5.898553e-24    0.000000e+00 
+	   velocity            1.886989e-13    1.027243e-13    1.027243e-25 
+	   dilatation          2.270986e-10    2.270650e-10    2.270650e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 26.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.255895e-17    9.890605e-29    0.000000e+00 
+	   energy              1.659638e-15    8.225940e-30    0.000000e+00 
+	   velocity            1.886989e-13    7.767021e-26    1.027242e-25 
+	   dilatation          2.270986e-10    2.385929e-21    2.270635e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 26.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.255895e-17    2.162576e-32    0.000000e+00 
+	   energy              1.659638e-15    1.879111e-31    0.000000e+00 
+	   velocity            1.886989e-13    1.820868e-27    1.027242e-25 
+	   dilatation          2.270986e-10    7.878303e-30    2.270635e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 26.5
+
+
+Data Record #1
+===========================================================================
+Step = 53
+Time = 26.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 54 : 27 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 27
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.729934e-17    4.608793e-28    0.000000e+00 
+	   energy              8.823185e-16    5.385353e-24    0.000000e+00 
+	   velocity            1.027242e-13    5.756973e-14    5.756973e-26 
+	   dilatation          2.270635e-10    2.270300e-10    2.270300e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 27
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.729934e-17    5.737417e-32    0.000000e+00 
+	   energy              8.823185e-16    6.360740e-32    0.000000e+00 
+	   velocity            1.027242e-13    7.643752e-26    5.756968e-26 
+	   dilatation          2.270635e-10    2.385218e-21    2.270285e-22 
+
+ *************************************************************************
+ *                               WARNING                                 *
+ * No force acting on the system.                                        *
+ *************************************************************************
+
+convergence summary
+    number of iterations   : 2
+    number of reformations : 2
+
+------- converged at time : 27
+
+
+Data Record #1
+===========================================================================
+Step = 54
+Time = 27
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 55 : 27.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 27.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.245791e-18    3.453262e-27    0.000000e+00 
+	   energy              4.721925e-16    5.609134e-24    0.000000e+00 
+	   velocity            5.756968e-14    3.380958e-14    3.380958e-26 
+	   dilatation          2.270285e-10    2.269949e-10    2.269949e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 27.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.245791e-18    2.627473e-31    0.000000e+00 
+	   energy              4.721925e-16    1.497730e-31    0.000000e+00 
+	   velocity            5.756968e-14    7.698978e-26    3.380953e-26 
+	   dilatation          2.270285e-10    2.384511e-21    2.269935e-22 
+
+ *************************************************************************
+ *                               WARNING                                 *
+ * No force acting on the system.                                        *
+ *************************************************************************
+
+convergence summary
+    number of iterations   : 2
+    number of reformations : 2
+
+------- converged at time : 27.5
+
+
+Data Record #1
+===========================================================================
+Step = 55
+Time = 27.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 56 : 28 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 28
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.960821e-18    1.348113e-25    0.000000e+00 
+	   energy              2.542144e-16    5.702924e-24    0.000000e+00 
+	   velocity            3.380953e-14    2.121057e-14    2.121057e-26 
+	   dilatation          2.269935e-10    2.269599e-10    2.269599e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 28
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.960821e-18    9.861383e-30    0.000000e+00 
+	   energy              2.542144e-16    9.114834e-31    0.000000e+00 
+	   velocity            3.380953e-14    7.672810e-26    2.121053e-26 
+	   dilatation          2.269935e-10    2.383805e-21    2.269585e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 28
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.960821e-18    1.184895e-32    0.000000e+00 
+	   energy              2.542144e-16    5.585782e-32    0.000000e+00 
+	   velocity            3.380953e-14    2.724071e-27    2.121053e-26 
+	   dilatation          2.269935e-10    2.921290e-29    2.269585e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 28
+
+
+Data Record #1
+===========================================================================
+Step = 56
+Time = 28
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 57 : 28.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 28.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.664111e-18    5.807315e-25    0.000000e+00 
+	   energy              1.374997e-16    5.757928e-24    0.000000e+00 
+	   velocity            2.121053e-14    1.447175e-14    1.447175e-26 
+	   dilatation          2.269585e-10    2.269249e-10    2.269249e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 28.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.664111e-18    4.300353e-29    0.000000e+00 
+	   energy              1.374997e-16    3.826551e-30    0.000000e+00 
+	   velocity            2.121053e-14    7.822504e-26    1.447171e-26 
+	   dilatation          2.269585e-10    2.383098e-21    2.269234e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 28.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.664111e-18    2.054305e-32    0.000000e+00 
+	   energy              1.374997e-16    8.894923e-32    0.000000e+00 
+	   velocity            2.121053e-14    1.808338e-27    1.447171e-26 
+	   dilatation          2.269585e-10    1.198470e-29    2.269234e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 28.5
+
+
+Data Record #1
+===========================================================================
+Step = 57
+Time = 28.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 58 : 29 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 29
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.427608e-18    9.117159e-25    0.000000e+00 
+	   energy              7.470030e-17    5.789862e-24    0.000000e+00 
+	   velocity            1.447171e-14    1.084444e-14    1.084444e-26 
+	   dilatation          2.269234e-10    2.268899e-10    2.268899e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 29
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.427608e-18    6.734034e-29    0.000000e+00 
+	   energy              7.470030e-17    5.763914e-30    0.000000e+00 
+	   velocity            1.447171e-14    7.653754e-26    1.084439e-26 
+	   dilatation          2.269234e-10    2.382394e-21    2.268884e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 29
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.427608e-18    1.383615e-32    0.000000e+00 
+	   energy              7.470030e-17    1.322651e-31    0.000000e+00 
+	   velocity            1.447171e-14    1.971881e-27    1.084439e-26 
+	   dilatation          2.269234e-10    8.518880e-30    2.268884e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 29
+
+
+Data Record #1
+===========================================================================
+Step = 58
+Time = 29
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 59 : 29.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 29.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.625077e-19    9.692721e-25    0.000000e+00 
+	   energy              4.091644e-17    5.761537e-24    0.000000e+00 
+	   velocity            1.084439e-14    8.890068e-15    8.890068e-27 
+	   dilatation          2.268884e-10    2.268549e-10    2.268549e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 29.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.625077e-19    7.174944e-29    0.000000e+00 
+	   energy              4.091644e-17    6.060360e-30    0.000000e+00 
+	   velocity            1.084439e-14    7.707054e-26    8.890025e-27 
+	   dilatation          2.268884e-10    2.381687e-21    2.268534e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 29.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            7.625077e-19    1.820655e-32    0.000000e+00 
+	   energy              4.091644e-17    1.185053e-31    0.000000e+00 
+	   velocity            1.084439e-14    1.627957e-27    8.890025e-27 
+	   dilatation          2.268884e-10    7.206435e-30    2.268534e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 29.5
+
+
+Data Record #1
+===========================================================================
+Step = 59
+Time = 29.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 60 : 30 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 30
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.065118e-19    8.975644e-25    0.000000e+00 
+	   energy              2.282011e-17    5.782681e-24    0.000000e+00 
+	   velocity            8.890025e-15    7.841355e-15    7.841355e-27 
+	   dilatation          2.268534e-10    2.268199e-10    2.268199e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 30
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.065118e-19    6.623715e-29    0.000000e+00 
+	   energy              2.282011e-17    5.591361e-30    0.000000e+00 
+	   velocity            8.890025e-15    7.788852e-26    7.841312e-27 
+	   dilatation          2.268534e-10    2.380981e-21    2.268184e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 30
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.065118e-19    1.709309e-32    0.000000e+00 
+	   energy              2.282011e-17    1.293825e-31    0.000000e+00 
+	   velocity            8.890025e-15    2.424507e-27    7.841312e-27 
+	   dilatation          2.268534e-10    1.230717e-29    2.268184e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 30
+
+
+Data Record #1
+===========================================================================
+Step = 60
+Time = 30
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 61 : 30.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 30.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.168091e-19    8.297609e-25    0.000000e+00 
+	   energy              1.316992e-17    5.796410e-24    0.000000e+00 
+	   velocity            7.841312e-15    7.281382e-15    7.281382e-27 
+	   dilatation          2.268184e-10    2.267849e-10    2.267849e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 30.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.168091e-19    6.143485e-29    0.000000e+00 
+	   energy              1.316992e-17    5.250391e-30    0.000000e+00 
+	   velocity            7.841312e-15    7.638341e-26    7.281339e-27 
+	   dilatation          2.268184e-10    2.380275e-21    2.267834e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 30.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.168091e-19    1.674190e-32    0.000000e+00 
+	   energy              1.316992e-17    1.509516e-31    0.000000e+00 
+	   velocity            7.841312e-15    1.423256e-27    7.281339e-27 
+	   dilatation          2.268184e-10    6.968364e-30    2.267834e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 30.5
+
+
+Data Record #1
+===========================================================================
+Step = 61
+Time = 30.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 62 : 31 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 31
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.158270e-19    8.042417e-25    0.000000e+00 
+	   energy              8.031761e-18    5.794284e-24    0.000000e+00 
+	   velocity            7.281339e-15    6.982898e-15    6.982898e-27 
+	   dilatation          2.267834e-10    2.267499e-10    2.267499e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 31
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.158270e-19    5.913368e-29    0.000000e+00 
+	   energy              8.031761e-18    5.094069e-30    0.000000e+00 
+	   velocity            7.281339e-15    7.655333e-26    6.982855e-27 
+	   dilatation          2.267834e-10    2.379570e-21    2.267484e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 31
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.158270e-19    1.561672e-32    0.000000e+00 
+	   energy              8.031761e-18    1.234881e-31    0.000000e+00 
+	   velocity            7.281339e-15    1.789160e-27    6.982855e-27 
+	   dilatation          2.267834e-10    9.721300e-30    2.267484e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 31
+
+
+Data Record #1
+===========================================================================
+Step = 62
+Time = 31
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 63 : 31.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 31.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.197549e-20    8.097758e-25    0.000000e+00 
+	   energy              5.292292e-18    5.783318e-24    0.000000e+00 
+	   velocity            6.982855e-15    6.823413e-15    6.823413e-27 
+	   dilatation          2.267484e-10    2.267149e-10    2.267149e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 31.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.197549e-20    6.006651e-29    0.000000e+00 
+	   energy              5.292292e-18    5.101453e-30    0.000000e+00 
+	   velocity            6.982855e-15    7.619252e-26    6.823369e-27 
+	   dilatation          2.267484e-10    2.378864e-21    2.267134e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 31.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.197549e-20    1.806227e-32    0.000000e+00 
+	   energy              5.292292e-18    1.271877e-31    0.000000e+00 
+	   velocity            6.982855e-15    2.853228e-27    6.823369e-27 
+	   dilatation          2.267484e-10    1.478989e-29    2.267134e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 31.5
+
+
+Data Record #1
+===========================================================================
+Step = 63
+Time = 31.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 64 : 32 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 32
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.318648e-20    8.253214e-25    0.000000e+00 
+	   energy              3.828184e-18    5.772499e-24    0.000000e+00 
+	   velocity            6.823369e-15    6.737750e-15    6.737750e-27 
+	   dilatation          2.267134e-10    2.266799e-10    2.266799e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 32
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.318648e-20    6.093408e-29    0.000000e+00 
+	   energy              3.828184e-18    5.236964e-30    0.000000e+00 
+	   velocity            6.823369e-15    7.689739e-26    6.737706e-27 
+	   dilatation          2.267134e-10    2.378159e-21    2.266784e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 32
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.318648e-20    1.369255e-32    0.000000e+00 
+	   energy              3.828184e-18    1.290336e-31    0.000000e+00 
+	   velocity            6.823369e-15    1.412805e-27    6.737706e-27 
+	   dilatation          2.267134e-10    7.792501e-30    2.266784e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 32
+
+
+Data Record #1
+===========================================================================
+Step = 64
+Time = 32
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 65 : 32.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 32.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.777299e-20    8.379845e-25    0.000000e+00 
+	   energy              3.044309e-18    5.773356e-24    0.000000e+00 
+	   velocity            6.737706e-15    6.691419e-15    6.691419e-27 
+	   dilatation          2.266784e-10    2.266449e-10    2.266449e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 32.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.777299e-20    6.197016e-29    0.000000e+00 
+	   energy              3.044309e-18    5.300296e-30    0.000000e+00 
+	   velocity            6.737706e-15    7.637282e-26    6.691375e-27 
+	   dilatation          2.266784e-10    2.377455e-21    2.266434e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 32.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.777299e-20    1.436122e-32    0.000000e+00 
+	   energy              3.044309e-18    1.035017e-31    0.000000e+00 
+	   velocity            6.737706e-15    2.585609e-27    6.691375e-27 
+	   dilatation          2.266784e-10    1.454819e-29    2.266434e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 32.5
+
+
+Data Record #1
+===========================================================================
+Step = 65
+Time = 32.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 66 : 33 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 33
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.520164e-21    8.443199e-25    0.000000e+00 
+	   energy              2.624422e-18    5.778196e-24    0.000000e+00 
+	   velocity            6.691375e-15    6.666126e-15    6.666126e-27 
+	   dilatation          2.266434e-10    2.266099e-10    2.266099e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 33
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.520164e-21    6.231068e-29    0.000000e+00 
+	   energy              2.624422e-18    5.289570e-30    0.000000e+00 
+	   velocity            6.691375e-15    7.655916e-26    6.666083e-27 
+	   dilatation          2.266434e-10    2.376747e-21    2.266084e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 33
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.520164e-21    1.719618e-32    0.000000e+00 
+	   energy              2.624422e-18    1.311828e-31    0.000000e+00 
+	   velocity            6.691375e-15    1.213507e-27    6.666083e-27 
+	   dilatation          2.266434e-10    4.062576e-30    2.266084e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 33
+
+
+Data Record #1
+===========================================================================
+Step = 66
+Time = 33
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 67 : 33.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 33.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.104914e-21    8.462649e-25    0.000000e+00 
+	   energy              2.399588e-18    5.764373e-24    0.000000e+00 
+	   velocity            6.666083e-15    6.652111e-15    6.652111e-27 
+	   dilatation          2.266084e-10    2.265749e-10    2.265749e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 33.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.104914e-21    6.276194e-29    0.000000e+00 
+	   energy              2.399588e-18    5.326569e-30    0.000000e+00 
+	   velocity            6.666083e-15    7.745541e-26    6.652068e-27 
+	   dilatation          2.266084e-10    2.376044e-21    2.265734e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 33.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.104914e-21    1.670907e-32    0.000000e+00 
+	   energy              2.399588e-18    1.044055e-31    0.000000e+00 
+	   velocity            6.666083e-15    2.926397e-27    6.652068e-27 
+	   dilatation          2.266084e-10    2.794495e-29    2.265734e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 33.5
+
+
+Data Record #1
+===========================================================================
+Step = 67
+Time = 33.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 68 : 34 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 34
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.744560e-21    8.465993e-25    0.000000e+00 
+	   energy              2.279222e-18    5.773583e-24    0.000000e+00 
+	   velocity            6.652068e-15    6.644139e-15    6.644139e-27 
+	   dilatation          2.265734e-10    2.265399e-10    2.265399e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 34
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.744560e-21    6.252381e-29    0.000000e+00 
+	   energy              2.279222e-18    5.361426e-30    0.000000e+00 
+	   velocity            6.652068e-15    7.813166e-26    6.644096e-27 
+	   dilatation          2.265734e-10    2.375341e-21    2.265385e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 34
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.744560e-21    1.565862e-32    0.000000e+00 
+	   energy              2.279222e-18    1.648266e-31    0.000000e+00 
+	   velocity            6.652068e-15    2.964146e-27    6.644096e-27 
+	   dilatation          2.265734e-10    2.572794e-29    2.265385e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 34
+
+
+Data Record #1
+===========================================================================
+Step = 68
+Time = 34
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 69 : 34.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 34.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.482929e-21    8.468070e-25    0.000000e+00 
+	   energy              2.214732e-18    5.777831e-24    0.000000e+00 
+	   velocity            6.644096e-15    6.639402e-15    6.639402e-27 
+	   dilatation          2.265385e-10    2.265050e-10    2.265050e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 34.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.482929e-21    6.257473e-29    0.000000e+00 
+	   energy              2.214732e-18    5.318321e-30    0.000000e+00 
+	   velocity            6.644096e-15    7.643730e-26    6.639358e-27 
+	   dilatation          2.265385e-10    2.374634e-21    2.265035e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 34.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.482929e-21    1.616257e-32    0.000000e+00 
+	   energy              2.214732e-18    1.150733e-31    0.000000e+00 
+	   velocity            6.644096e-15    1.635074e-27    6.639358e-27 
+	   dilatation          2.265385e-10    7.228095e-30    2.265035e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 34.5
+
+
+Data Record #1
+===========================================================================
+Step = 69
+Time = 34.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 70 : 35 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 35
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.082907e-22    8.473170e-25    0.000000e+00 
+	   energy              2.180097e-18    5.770931e-24    0.000000e+00 
+	   velocity            6.639358e-15    6.636392e-15    6.636392e-27 
+	   dilatation          2.265035e-10    2.264700e-10    2.264700e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 35
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.082907e-22    6.331342e-29    0.000000e+00 
+	   energy              2.180097e-18    5.301030e-30    0.000000e+00 
+	   velocity            6.639358e-15    7.611564e-26    6.636349e-27 
+	   dilatation          2.265035e-10    2.373931e-21    2.264685e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 35
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            8.082907e-22    1.655573e-32    0.000000e+00 
+	   energy              2.180097e-18    1.409020e-31    0.000000e+00 
+	   velocity            6.639358e-15    1.069711e-27    6.636349e-27 
+	   dilatation          2.265035e-10    2.026390e-30    2.264685e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 35
+
+
+Data Record #1
+===========================================================================
+Step = 70
+Time = 35
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 71 : 35.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 35.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.473032e-22    8.478198e-25    0.000000e+00 
+	   energy              2.161414e-18    5.771952e-24    0.000000e+00 
+	   velocity            6.636349e-15    6.634305e-15    6.634305e-27 
+	   dilatation          2.264685e-10    2.264350e-10    2.264350e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 35.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.473032e-22    6.261128e-29    0.000000e+00 
+	   energy              2.161414e-18    5.286507e-30    0.000000e+00 
+	   velocity            6.636349e-15    7.618978e-26    6.634262e-27 
+	   dilatation          2.264685e-10    2.373224e-21    2.264336e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 35.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.473032e-22    1.586867e-32    0.000000e+00 
+	   energy              2.161414e-18    9.725558e-32    0.000000e+00 
+	   velocity            6.636349e-15    1.965551e-27    6.634262e-27 
+	   dilatation          2.264685e-10    8.712682e-30    2.264336e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 35.5
+
+
+Data Record #1
+===========================================================================
+Step = 71
+Time = 35.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 72 : 36 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 36
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.540272e-22    8.482644e-25    0.000000e+00 
+	   energy              2.151259e-18    5.768041e-24    0.000000e+00 
+	   velocity            6.634262e-15    6.632712e-15    6.632712e-27 
+	   dilatation          2.264336e-10    2.264001e-10    2.264001e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 36
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.540272e-22    6.287972e-29    0.000000e+00 
+	   energy              2.151259e-18    5.352261e-30    0.000000e+00 
+	   velocity            6.634262e-15    7.621931e-26    6.632669e-27 
+	   dilatation          2.264336e-10    2.372523e-21    2.263986e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 36
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            2.540272e-22    1.504138e-32    0.000000e+00 
+	   energy              2.151259e-18    1.664676e-31    0.000000e+00 
+	   velocity            6.634262e-15    1.718652e-27    6.632669e-27 
+	   dilatation          2.264336e-10    1.132758e-29    2.263986e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 36
+
+
+Data Record #1
+===========================================================================
+Step = 72
+Time = 36
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 73 : 36.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 36.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.504885e-22    8.485811e-25    0.000000e+00 
+	   energy              2.145668e-18    5.765423e-24    0.000000e+00 
+	   velocity            6.632669e-15    6.631383e-15    6.631383e-27 
+	   dilatation          2.263986e-10    2.263651e-10    2.263651e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 36.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.504885e-22    6.314292e-29    0.000000e+00 
+	   energy              2.145668e-18    5.153400e-30    0.000000e+00 
+	   velocity            6.632669e-15    7.626570e-26    6.631340e-27 
+	   dilatation          2.263986e-10    2.371820e-21    2.263637e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 36.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.504885e-22    1.790340e-32    0.000000e+00 
+	   energy              2.145668e-18    1.068538e-31    0.000000e+00 
+	   velocity            6.632669e-15    1.928764e-27    6.631340e-27 
+	   dilatation          2.263986e-10    5.335045e-30    2.263637e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 36.5
+
+
+Data Record #1
+===========================================================================
+Step = 73
+Time = 36.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 74 : 37 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 37
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.498617e-23    8.486430e-25    0.000000e+00 
+	   energy              2.142520e-18    5.764490e-24    0.000000e+00 
+	   velocity            6.631340e-15    6.630195e-15    6.630195e-27 
+	   dilatation          2.263637e-10    2.263302e-10    2.263302e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 37
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.498617e-23    6.265134e-29    0.000000e+00 
+	   energy              2.142520e-18    5.359088e-30    0.000000e+00 
+	   velocity            6.631340e-15    7.616491e-26    6.630152e-27 
+	   dilatation          2.263637e-10    2.371114e-21    2.263287e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 37
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            9.498617e-23    1.646964e-32    0.000000e+00 
+	   energy              2.142520e-18    1.256789e-31    0.000000e+00 
+	   velocity            6.631340e-15    1.383735e-27    6.630152e-27 
+	   dilatation          2.263637e-10    5.398600e-30    2.263287e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 37
+
+
+Data Record #1
+===========================================================================
+Step = 74
+Time = 37
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 75 : 37.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 37.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.520578e-23    8.486920e-25    0.000000e+00 
+	   energy              2.140680e-18    5.766208e-24    0.000000e+00 
+	   velocity            6.630152e-15    6.629084e-15    6.629084e-27 
+	   dilatation          2.263287e-10    2.262952e-10    2.262952e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 37.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.520578e-23    6.248731e-29    0.000000e+00 
+	   energy              2.140680e-18    5.323769e-30    0.000000e+00 
+	   velocity            6.630152e-15    7.622038e-26    6.629041e-27 
+	   dilatation          2.263287e-10    2.370410e-21    2.262937e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 37.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            6.520578e-23    1.402088e-32    0.000000e+00 
+	   energy              2.140680e-18    9.156062e-32    0.000000e+00 
+	   velocity            6.630152e-15    1.604657e-27    6.629041e-27 
+	   dilatation          2.263287e-10    7.964772e-30    2.262937e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 37.5
+
+
+Data Record #1
+===========================================================================
+Step = 75
+Time = 37.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 76 : 38 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 38
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.920464e-23    8.487165e-25    0.000000e+00 
+	   energy              2.139541e-18    5.758162e-24    0.000000e+00 
+	   velocity            6.629041e-15    6.628013e-15    6.628013e-27 
+	   dilatation          2.262937e-10    2.262603e-10    2.262603e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 38
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.920464e-23    6.278429e-29    0.000000e+00 
+	   energy              2.139541e-18    5.328462e-30    0.000000e+00 
+	   velocity            6.629041e-15    7.623873e-26    6.627970e-27 
+	   dilatation          2.262937e-10    2.369709e-21    2.262588e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 38
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.920464e-23    1.750807e-32    0.000000e+00 
+	   energy              2.139541e-18    1.301745e-31    0.000000e+00 
+	   velocity            6.629041e-15    2.001930e-27    6.627970e-27 
+	   dilatation          2.262937e-10    9.318564e-30    2.262588e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 38
+
+
+Data Record #1
+===========================================================================
+Step = 76
+Time = 38
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 77 : 38.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 38.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.059039e-23    8.486391e-25    0.000000e+00 
+	   energy              2.138779e-18    5.754499e-24    0.000000e+00 
+	   velocity            6.627970e-15    6.626964e-15    6.626964e-27 
+	   dilatation          2.262588e-10    2.262253e-10    2.262253e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 38.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.059039e-23    6.302570e-29    0.000000e+00 
+	   energy              2.138779e-18    5.420840e-30    0.000000e+00 
+	   velocity            6.627970e-15    7.586302e-26    6.626920e-27 
+	   dilatation          2.262588e-10    2.369006e-21    2.262239e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 38.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            4.059039e-23    1.863650e-32    0.000000e+00 
+	   energy              2.138779e-18    1.489611e-31    0.000000e+00 
+	   velocity            6.627970e-15    1.720150e-27    6.626920e-27 
+	   dilatation          2.262588e-10    1.119836e-29    2.262239e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 38.5
+
+
+Data Record #1
+===========================================================================
+Step = 77
+Time = 38.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 78 : 39 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 39
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.594041e-23    8.485210e-25    0.000000e+00 
+	   energy              2.138217e-18    5.776174e-24    0.000000e+00 
+	   velocity            6.626920e-15    6.625926e-15    6.625926e-27 
+	   dilatation          2.262239e-10    2.261904e-10    2.261904e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 39
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.594041e-23    6.246627e-29    0.000000e+00 
+	   energy              2.138217e-18    5.458123e-30    0.000000e+00 
+	   velocity            6.626920e-15    7.639994e-26    6.625883e-27 
+	   dilatation          2.262239e-10    2.368302e-21    2.261889e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 39
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.594041e-23    1.756897e-32    0.000000e+00 
+	   energy              2.138217e-18    1.109424e-31    0.000000e+00 
+	   velocity            6.626920e-15    3.307041e-27    6.625883e-27 
+	   dilatation          2.262239e-10    2.981059e-29    2.261889e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 39
+
+
+Data Record #1
+===========================================================================
+Step = 78
+Time = 39
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 79 : 39.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 39.5
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.342108e-23    8.484769e-25    0.000000e+00 
+	   energy              2.137765e-18    5.758659e-24    0.000000e+00 
+	   velocity            6.625883e-15    6.624895e-15    6.624895e-27 
+	   dilatation          2.261889e-10    2.261555e-10    2.261555e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 39.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.342108e-23    6.265290e-29    0.000000e+00 
+	   energy              2.137765e-18    5.280972e-30    0.000000e+00 
+	   velocity            6.625883e-15    7.625301e-26    6.624852e-27 
+	   dilatation          2.261889e-10    2.367600e-21    2.261540e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 39.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.342108e-23    1.675863e-32    0.000000e+00 
+	   energy              2.137765e-18    1.544601e-31    0.000000e+00 
+	   velocity            6.625883e-15    2.484194e-27    6.624852e-27 
+	   dilatation          2.261889e-10    2.030260e-29    2.261540e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 39.5
+
+
+Data Record #1
+===========================================================================
+Step = 79
+Time = 39.5
+Data = wx;wy;ef
+File = Mon_all.txt
+
+===== beginning time step 80 : 40 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 40
+	stiffness updates             = 0
+	right hand side evaluations   = 2
+	stiffness matrix reformations = 1
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.204914e-23    8.484081e-25    0.000000e+00 
+	   energy              2.137371e-18    5.752922e-24    0.000000e+00 
+	   velocity            6.624852e-15    6.623868e-15    6.623868e-27 
+	   dilatation          2.261540e-10    2.261205e-10    2.261205e-22 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 40
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.204914e-23    6.293634e-29    0.000000e+00 
+	   energy              2.137371e-18    5.274737e-30    0.000000e+00 
+	   velocity            6.624852e-15    7.578100e-26    6.623825e-27 
+	   dilatation          2.261540e-10    2.366898e-21    2.261191e-22 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 40
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            3.204914e-23    1.807737e-32    0.000000e+00 
+	   energy              2.137371e-18    1.553665e-31    0.000000e+00 
+	   velocity            6.624852e-15    2.923642e-27    6.623825e-27 
+	   dilatation          2.261540e-10    2.713584e-29    2.261191e-22 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 40
+
+
+Data Record #1
+===========================================================================
+Step = 80
+Time = 40
+Data = wx;wy;ef
+File = Mon_all.txt
+
+
+ N O N L I N E A R   I T E R A T I O N   I N F O R M A T I O N
+
+	Number of time steps completed .................... : 80
+
+	Total number of equilibrium iterations ............ : 266
+
+	Average number of equilibrium iterations .......... : 3.325
+
+	Total number of right hand evaluations ............ : 346
+
+	Total number of stiffness reformations ............ : 266
+
+
+ L I N E A R   S O L V E R   S T A T S
+
+	Total calls to linear solver ........ : 266
+
+	Avg iterations per solve ............ : 1
+
+	Time in linear solver: 0:03:14
+
+
+ Elapsed time : 0:03:40
+
+ T I M I N G   I N F O R M A T I O N
+
+	Input time ...................... : 0:00:00 (0.05532 sec)
+
+	Initialization time ............. : 0:00:00 (0.0167984 sec)
+
+	Solve time ...................... : 0:03:40 (220.499 sec)
+
+	   IO-time (plot, dmp, data) .... : 0:00:01 (1.08143 sec)
+
+	   serialization ................ : 0:00:00 (0 sec)
+
+	   reforming stiffness .......... : 0:00:00 (0.0608341 sec)
+
+	   evaluating stiffness ......... : 0:00:16 (15.7368 sec)
+
+	   evaluating residual .......... : 0:00:02 (1.87223 sec)
+
+	   model update ................. : 0:00:06 (6.3261 sec)
+
+	   QN updates ................... : 0:00:00 (4.92e-05 sec)
+
+	   time in linear solver ........ : 0:03:14 (194.268 sec)
+
+	Total elapsed time .............. : 0:03:41 (220.583 sec)
+
+
+ N O R M A L   T E R M I N A T I O N
+
