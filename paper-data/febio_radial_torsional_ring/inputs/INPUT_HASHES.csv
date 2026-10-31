@@ -1,0 +1,20 @@
+tag,slurm_job_ids_for_tag,role,feb_bytes,feb_sha256,shipped_in_package,regenerable_bit_identical
+RTA_law1,14186,superseded design error (not evidence),2162,c63943e37cce2900262610a9954241e83e10438cb6ef3f5aa3f72d49ddc0f871,yes,no (first-generation design or earlier generator version)
+RTA_law1b,14188,superseded design error (not evidence),2261,3f0732d0e0620ac52ade896fb95c47daf2818fea51ce80a6c1344eeaf1ca32a1,yes,no (first-generation design or earlier generator version)
+RTA_law1c,14189,RT-A law identity,2621,41391bf2077778487f77dca1b6fa23e3cacbe031cfae65ef7945b8366c079ea8,yes,yes
+RTA_rotcheck,14187,RT-A rotation expression,2118,cb3ebfc98651e5a50a291bfa538aea28c78fc0ac76cf285bc4f60ef25a972150,yes,yes
+RTA_twist_M1,14190;14191;14192;14193,RT-A twist,112763,5c9fccede48109f71a3b7270dfd120d6d1fddf9242d5932f9266ce067082eb74,yes,yes
+RTA_twist_M2,14195,RT-A twist,442736,90baf5cafdf0c2b0e3a82301a5b5e59f1458b0e527a3b3a93f08317fc0e9dc58,yes,yes
+RTA_twist_M3,14196,RT-A twist,1782966,3df47ca3d8b90e48e467b4efb04dc4c300090aece360227c183df204345d297a,no (regenerate: scripts/regen_inputs.py),yes
+RTB_fluid_M1,14209,RT-B as run,326833,04f59ddd6eea935eeb5a2cc01d2bf6d846e2f63656973bdb73ee13afbdbb761b,yes,yes
+RTB_fluid_M1_bcshift,14211,RT-B dt/2 diagnostic,326864,566b87aecf9528396f90e4408aa6cab78f4607aec77b64eb9f56b952ebebd591,yes,yes
+RTB_fluid_M2,14210,RT-B as run,1055423,fbd11e5bfd758085e86937fe9832141ca2f7835b526e2cfea4226c763a074b79,no (regenerate: scripts/regen_inputs.py),yes
+RTC_fsi_M1,14213,RT-C M1 (failed),375308,b621604be0762af4a592f5821d73884cf495bcc83722ce228e3ff3b1bb796972,yes,yes
+SMK_ale_M0,14206;14207,smoke / diagnostic,19313,27e0879acd3e8f2fcfa691d5811b7d13788752f1a5974c271438d55c9e78d520,yes,yes
+SMK_fluid_M0,14197;14199,smoke / diagnostic,92892,7b0155f5534e4f077a88472b07b35ecde600a863e071c751b0a134b579217548,yes,yes
+SMK_fsi_M0,14198;14200;14201,smoke / diagnostic,26856,5d2207b6ec9e9347af76112fc7d12e021a6a0a164fe6406b949248d80beea228,yes,modulo NodeSet line order only
+SMK_fsi_M0_cm,14205,smoke / diagnostic,26976,2826fafebfbb77df44dfb2fda22a0c8b17bc8b150ca7cbd60c97fc51cdf75c75,yes,modulo NodeSet line order only
+SMK_fsi_M0_mu0p3,14208,smoke / diagnostic,26860,7c778819ee4be60fc991688cdfa338d26eb80c7a987cc2cac7afe46453fb001b,yes,yes
+SMK_fsi_M0_rhoi0p9,14212,smoke / diagnostic,26864,2dd67cc174f9ad8bb117100e16f3248741918729062aa03703ea4bc730904b83,yes,yes
+SMK_fsi_M0_svk,14202,smoke / diagnostic,26787,666a28d353858be562c2a54ddfdf73fbc29f3122845062cc9baed581cf8e5da8,yes,modulo NodeSet line order only
+SMK_fsi_M0_tf0,14203;14204,smoke / diagnostic,26876,021b4b65fd24719e3f4e6d6e1cbf24ffc4a32edb41cf6f33274df36b99a346f1,yes,modulo NodeSet line order only

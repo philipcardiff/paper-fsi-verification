@@ -1,0 +1,7 @@
+{
+ "stage": "RT-A rotcheck",
+ "worst_abs_diff_m": 7.014389069581739e-13,
+ "criterion": 1e-10,
+ "n_times": 41,
+ "PASS": true
+}

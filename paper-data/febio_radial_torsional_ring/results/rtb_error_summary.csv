@@ -1,0 +1,36 @@
+mesh,time_labels,quantity,campaign_percent,independent_percent
+M1,as run,velocity_L2,1.74707,1.74745
+M1,as run,T1_Emax,11.172,11.172
+M1,as run,T2_Emax,12.8673,12.8674
+M1,as run,T3_Emax,1.85116,1.852
+M1,as run,Hf_Emax,1.25185,1.25185
+M1,as run,T2_EL2,13.425,13.425
+M1,as run,T3_EL2,1.94469,1.94536
+M2,as run,velocity_L2,1.70607,1.70619
+M2,as run,T1_Emax,6.54795,6.54799
+M2,as run,T2_Emax,7.47024,7.47029
+M2,as run,T3_Emax,2.01494,2.01579
+M2,as run,Hf_Emax,1.34303,1.34304
+M2,as run,T2_EL2,7.76966,7.76975
+M2,as run,T3_EL2,2.0986,2.09931
+M1,exact solution delayed by dt/2 (post-hoc alignment),velocity_L2,0.185588,0.185268
+M1,exact solution delayed by dt/2 (post-hoc alignment),T1_Emax,9.62228,9.62236
+M1,exact solution delayed by dt/2 (post-hoc alignment),T2_Emax,11.4211,11.4208
+M1,exact solution delayed by dt/2 (post-hoc alignment),T3_Emax,0.260289,0.258996
+M1,exact solution delayed by dt/2 (post-hoc alignment),Hf_Emax,0.168009,0.167969
+M1,exact solution delayed by dt/2 (post-hoc alignment),T2_EL2,12.0758,12.0756
+M1,exact solution delayed by dt/2 (post-hoc alignment),T3_EL2,0.262904,0.261826
+M2,exact solution delayed by dt/2 (post-hoc alignment),velocity_L2,0.0441548,0.0441457
+M2,exact solution delayed by dt/2 (post-hoc alignment),T1_Emax,4.99813,4.99818
+M2,exact solution delayed by dt/2 (post-hoc alignment),T2_Emax,5.92044,5.9205
+M2,exact solution delayed by dt/2 (post-hoc alignment),T3_Emax,0.102335,0.101012
+M2,exact solution delayed by dt/2 (post-hoc alignment),Hf_Emax,0.0461959,0.0461567
+M2,exact solution delayed by dt/2 (post-hoc alignment),T2_EL2,6.27994,6.2798
+M2,exact solution delayed by dt/2 (post-hoc alignment),T3_EL2,0.0941361,0.0930043
+"M1 (job 14211, input table advanced by dt/2)",as run (aligned by construction),velocity_L2,0.186071,0.185752
+"M1 (job 14211, input table advanced by dt/2)",as run (aligned by construction),T1_Emax,9.67034,9.67041
+"M1 (job 14211, input table advanced by dt/2)",as run (aligned by construction),T2_Emax,11.4204,11.4201
+"M1 (job 14211, input table advanced by dt/2)",as run (aligned by construction),T3_Emax,0.260234,0.258928
+"M1 (job 14211, input table advanced by dt/2)",as run (aligned by construction),Hf_Emax,0.169016,0.168977
+"M1 (job 14211, input table advanced by dt/2)",as run (aligned by construction),T2_EL2,12.1011,12.101
+"M1 (job 14211, input table advanced by dt/2)",as run (aligned by construction),T3_EL2,0.262465,0.261389
