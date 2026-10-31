@@ -1,0 +1,38 @@
+item,drag_x,lift_y,note
+F1 cylinder pressure,10.18054908996653,-0.5169128778189168,
+F1 cylinder viscous,3.764121770805341,0.06567151753716116,
+F1 flag pressure,-0.14187349372999994,3.3263162982963745,
+F1 flag viscous,2.7385151760265996,0.0008026006603143298,
+F1 total,16.54131254306847,2.875877538674933,
+F2 cylinder pressure,7.8581052570597745,0.3980322303642395,
+F2 cylinder viscous,3.699653703344592,0.06453169748739204,
+F2 flag pressure,-0.2956744212549999,0.6436602712784658,
+F2 flag viscous,2.72827699089919,0.0003212832025476448,
+F2 total,13.990361530048558,1.106545482332645,
+F3b term p_inlet,34.563752665086156,0.0,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term p_outlet,0.00987456392477127,0.0,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term p_top,0.0,-57.11131675889022,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term p_bottom,0.0,58.22540953493873,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term v_inlet,-0.0005940101314884311,-0.006468374652045219,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term v_outlet,-0.0005387786427028306,-6.620152343647003e-05,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term v_top,-10.063941468292443,-0.09693887898727907,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term v_bottom,-10.035579976429052,0.09638668811553411,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term mom_inlet,-19.682437177501168,0.0,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b term mom_outlet,19.492205943048432,-0.009661069880785763,"control-volume term (outer boundary, element-mean pressure); momentum terms enter the sum with a minus sign"
+F3b total,14.663204229967981,1.1166670788820674,
+F3 (nodal pressure on outer boundary) total,11.741362824256704,47.01127596741609,parity-contaminated
+F4 part pressure,7.754927532021676,1.0448789795898779,"weak-form nodal reactions, obstacle nodes"
+F4 part viscous,6.582582233008783,0.0673265539633394,"weak-form nodal reactions, obstacle nodes"
+F4 part convective,0.00034403348341226464,1.2215950467530606e-05,"weak-form nodal reactions, obstacle nodes"
+F4 total,14.337853798513864,1.1122177495036827,
+weak identity sum_obstacle_f,-14.337853798513864,-1.1122177495036827,
+weak identity sum_outer_f,13.87270967292673,1.1024997499795974,
+weak identity sum_interior_f,-0.014661648028908462,6.20134634159512e-05,
+weak identity convective_volume_integral,-0.4798057736160478,-0.009655986060682492,
+weak identity closure_sum_all_minus_conv,5.329070518200751e-15,1.3190837311327641e-14,
+DIFF F3b - F2,0.672842699919423,0.010121596549422351,total difference to be explained
+DIFF F4 - F2,0.3474922684653059,0.005672267171037637,obstacle-side reconstruction error of F2 relative to the weak-form force
+DIFF F3b - F4,0.32535043145411713,0.004449329378384714,outer-boundary reconstruction error of F3b relative to the weak-form force
+  of which facet sigma.n on outer boundary minus weak outer nodal sum,0.6002633225885159,0.004506259021684222,pressure on the outer boundary (element mean vs nodal weak form) and wall shear
+  of which -(boundary momentum flux - convective volume integral),-0.28957453916331255,5.083820103271228e-06,momentum flux through inlet/outlet vs volume integral of rho (w.grad)w: the difference is rho w div(w) (discrete compressibility/continuity term)
+  of which -interior residual sum,0.014661648028908462,-6.20134634159512e-05,

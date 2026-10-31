@@ -1,0 +1,36 @@
+# FEBio v4.13 Hron-Turek FSI1: structural and rigid-CFD diagnostic evidence (no coupled run)
+
+**Status: DRAFT diagnostic evidence package. FSI1 is NOT verified by this package, and no coupled FEBio simulation was run.** Stock, unmodified FEBio v4.13 (binary sha256 `f5ae1ed6f347f875c392f93d847f2369f437345a9b785296d46b0bd6fbb72f02`), 19 Slurm jobs, 0.5178 allocated CPU-h. The package tests the two decoupled sub-problems of the Turek-Hron FSI1 benchmark that FEBio's fluid-FSI formulation depends on, against the Featflow references, and records what failed and why.
+
+## Result in one paragraph
+- **Structure (CSM1, CSM2; flag only, St Venant-Kirchhoff, plane strain):** strong, mesh-convergent agreement of the tip displacement with the Featflow references (finest hex8, 281 x 16 elements: u_y -0.21 % / -0.23 %, u_x -0.47 % / -0.49 %; hex20 with 70 x 4 elements: +0.08 % / +0.15 %; four hex8 levels converge monotonically with observed order 1.84). It is **not** called a completed verification because the equilibrium evidence is incomplete (FEBio logs zero reaction forces for fixed-DOF supports; only an approximate free-body check from stored element stresses is available), because the converged FEBio value sits 0.1-0.3 % beyond the reference (unexplained), and because the Featflow flag-root geometry is taken from the tutorial and the definition page, not from a primary geometry file.
+- **Rigid-flag flow (CFD1-type, cylinder and flag rigid, level 1 only, 8,330 hex8 cells):** the nodal dilatation (pressure) of FEBio's equal-order hex8 fluid carries a grid-scale odd-even mode of 16-23 Pa amplitude on a smooth pressure of 25-30 Pa. The nodal-pressure wall integral, which is the pressure part of the force that FEBio's fluid-FSI traction applies to a structure, gives drag 16.54 N/m (+15.7 %) and lift 2.88 N/m (+157 %) against the Featflow CFD1 values 14.2929 / 1.11905: **DIAGNOSTIC DISCREPANCY**. Element-mean and weak-form reconstructions of the force are within 2-3 % of the reference but disagree with each other by up to 4.8 % and are reconstructions, not solver output: **NOT ESTABLISHED**.
+- **Coupled FSI1:** **NOT ESTABLISHED.** Not run. An analytical (Euler-Bernoulli) estimate indicates that the nodal-pressure traction would overload the flag by an order of magnitude; this is an analytical diagnostic, not a simulation result.
+
+## Compact pass/fail matrix
+Classification vocabulary: VERIFIED AGREEMENT / QUALIFIED AGREEMENT / DIAGNOSTIC DISCREPANCY / NOT ESTABLISHED. Evidence labels: PROVEN / SUPPORTED / UNRESOLVED / FAILED / NOT TESTED. Criteria were written before the runs (`docs/archive/HRON_TUREK_FSI1_STAGE_BC_RESULTS.md` sections 1 and 3; summary in `docs/PROVENANCE_AND_CONFIGURATION.md`).
+
+| Quantity | Reference | FEBio result | Pre-registered gate | Classification | Evidence |
+|---|---|---|---|---|---|
+| CSM1 u_y(A) | -66.1029 mm (Featflow 4+3) | -65.962 mm hex8 nt 16 (-0.21 %); hex20 nt 4 +0.08 % | within 1 % | **QUALIFIED AGREEMENT** (strong, mesh-convergent; limitations below) | SUPPORTED |
+| CSM1 u_x(A) | -7.18777 mm | -7.154 mm (-0.47 %); hex20 nt 4 +0.15 % | within 2 % (2 x the u_y tolerance, second-order quantity) | QUALIFIED AGREEMENT | SUPPORTED |
+| CSM2 u_y(A), u_x(A) | -16.9740, -0.469006 mm | -16.936 (-0.23 %), -0.4667 (-0.49 %); hex20 +0.08 %, +0.16 % | 1 %, 2 % | QUALIFIED AGREEMENT | SUPPORTED |
+| Structural equilibrium (reactions) | n/a | reaction forces zero in the log (fixed-DOF BC, source-explained); free-body shear from stored stresses 0.994-1.000 (CSM2) | planned 1e-6 | NOT ESTABLISHED at the planned level | check replaced, approximate |
+| CFD1 mass balance | n/a | Q_out/Q_in - 1 = -1.2e-4; inlet flux exact to 3e-15 | <= 1e-3 | criterion met (internal check, one level) | PROVEN |
+| CFD1 pressure parity (flag faces) | n/a | odd-even amplitude 4.1 Pa (top), 2.6 Pa (bottom); 15.8 Pa along x = 1.0 | <= 0.048 Pa | **DIAGNOSTIC DISCREPANCY** | PROVEN (data) |
+| CFD1 force, nodal-pressure wall integral (F1; = pressure part of the FSI traction formula) | 14.2929 / 1.11905 N/m (Featflow CFD1 6+0) | drag 16.541 (+15.7 %), lift 2.876 (+157 %) | drag within 3 % (level 1) | **DIAGNOSTIC DISCREPANCY** | PROVEN (data), mechanism SUPPORTED |
+| CFD1 force, element-mean / weak-form reconstructions (F2, F3b, F4) | same | drag 13.99, 14.66, 14.34; lift 1.107, 1.117, 1.112 | mutual consistency 1 % | **NOT ESTABLISHED** (2-3 % from the reference but mutually inconsistent by up to 4.8 %; reconstructions; one level) | SUPPORTED |
+| CFD1 refinement behaviour (level 2) | n/a | not run (stopped by the pre-registered rule) | parity reduction >= 1.5 | NOT TESTED | |
+| FSI1 coupled u_x, u_y, drag, lift | 2.270493e-5 m, 8.208773e-4 m, 14.29426, 0.7637460 N/m | no coupled run | | **NOT ESTABLISHED** | NOT TESTED |
+| Predicted flag overload with the nodal traction (about 11.6 mm vs 0.82 mm) | | Euler-Bernoulli estimate from the rigid-flag nodal pressure | | ANALYTICAL DIAGNOSTIC only | not established by simulation |
+
+## Contents
+- `docs/SCIENTIFIC_SUMMARY.md` main findings; `docs/PROVENANCE_AND_CONFIGURATION.md` source/binary provenance, exact model configurations, mesh-generation instructions, acceptance criteria; `docs/STAGE_B_STRUCTURAL.md`; `docs/STAGE_C_CFD1.md` (mass conservation, parity definitions, force reconstructions, F2/F3b budget, Newton evidence); `docs/FSI_TRACTION_SOURCE_AUDIT.md`; `docs/ACCOUNTING_AND_ATTEMPTS.md`; `docs/KNOWN_LIMITATIONS.md` (limitations, unresolved questions, reopening criteria); `docs/archive/` the original working reports (superseded where they differ from `docs/`; corrections listed in `docs/ACCOUNTING_AND_ATTEMPTS.md`).
+- `results/` CSV/JSON tables and the compact raw outputs; `figures/` fig1-fig4 (regenerated from stored results); `inputs/` all 19 FEBio inputs (18 regenerated bit-identically by `reproduce.sh`; the generator-v1 sign-diagnostic input is kept as it was run; largest 1.7 MB); `scripts/` generators and analysis (no simulation); `provenance/` hashes, Slurm accounting, ledger extract, list of retained (not shipped) HPC outputs with sizes and sha256; `reproduce.sh`; `SHA256SUMS`.
+- Not shipped (size): `.xplt` files and the multi-step `Mon_all.txt` logs (110 MB, 40 files); their relative locations, sizes and sha256 are in `provenance/retained_hpc_outputs.csv`. The final-step state of both C runs is shipped (`results/stageC_raw/*/Mon_all.txt`), which is enough to recompute all stage-C numbers.
+
+## Reproduce (no simulation)
+`./reproduce.sh` (Python 3 with numpy and matplotlib): regenerates all inputs and checks their hashes (18/18 identical), rebuilds the stage-B tables, recomputes every stage-C reduction with two separate implementations plus the parity and traction-reconstruction scripts and compares with the stored results; result in `provenance/REPRODUCTION_RECORD.md`. Re-running the FEBio jobs needs FEBio 4.13 with MKL; commands in `docs/PROVENANCE_AND_CONFIGURATION.md`.
+
+## What this package does not claim
+No successful FSI1 verification; no statement about solids4foam (its FSI1 results are the maintainers'); no proposal to change the manuscript or FEBio's source; F1, F2, F3b, F4 are different numerical reconstructions and none is presented as the true force; closeness of any reconstruction to the Featflow value is not offered as proof of correctness.
