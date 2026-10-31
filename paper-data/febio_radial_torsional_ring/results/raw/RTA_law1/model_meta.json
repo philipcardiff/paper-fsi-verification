@@ -1,0 +1,43 @@
+{
+ "mode": "law1",
+ "out": "runs/campaignRTR/RTA_law1",
+ "tag": "RTA_law1",
+ "mesh": null,
+ "nth": 16,
+ "nrs": 2,
+ "nrf": 4,
+ "dt": 0.01,
+ "t_end": 2.0,
+ "amp": 0.5,
+ "k": 10000000.0,
+ "e_mesh": 1.0,
+ "rhoi": 1.0,
+ "vtol": 1e-06,
+ "ftol": 1e-06,
+ "dtol": 1e-06,
+ "etol": 0.0,
+ "rtol": 0.0,
+ "max_refs": 15,
+ "plot_stride": 50,
+ "F": [
+  [
+   1.1,
+   0.4,
+   0.0
+  ],
+  [
+   0.1,
+   0.9,
+   0.0
+  ],
+  [
+   0.0,
+   0.0,
+   1.0
+  ]
+ ],
+ "note": "u = t (F-I) X, t = 0.2..1.0: F_k = I + 0.2k (Fm - I); stress logged at each of the 5 steps",
+ "feb_sha256": "c63943e37cce2900262610a9954241e83e10438cb6ef3f5aa3f72d49ddc0f871",
+ "generator": "tools/make_rtr_feb.py v1",
+ "febio_expected_sha256": "f5ae1ed6f347f875c392f93d847f2369f437345a9b785296d46b0bd6fbb72f02"
+}
