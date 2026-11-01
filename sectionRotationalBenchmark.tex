@@ -1,0 +1,153 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Radial--torsional ring [PROVISIONAL]}\label{sec:rotational}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Data behind the tables and figures of this subsubsection: paper-data/rotational_floor_formulation.csv and
+% rotational_timestep_strict.csv (Fig. rot_floor, Table rot_floor, time-step paragraph); rotational_convergence.csv and
+% rotational_order_intervals.csv (torsion and combined formulation-A series, orders and noise intervals);
+% rotational_{acceptance_counts,floor_by_qoi,mixed_terms}.csv (supplementary, not cited in the text).
+% Figures: paper-data/rotational_figure_sources/make_rotational_{geometry,floor_figure}.py.
+
+\todo{STATUS: provisional. The reference is classified as provisional category A (no extended-precision check; case and reference kit not yet archived with a persistent identifier); the suite count of accepted category-A cases is unchanged. Before submission: re-read the published Wang--Pironneau and the Polignone--Horgan articles in full (the preprint of the former, Serino et al.\ and Hessenthaler et al.\ were read in full); author review of this text; the solids4foam tutorial (PR \#637) is a draft contribution and not merged.}
+
+\paragraph{What it tests.}
+Both category-A cases of Section~\ref{sec:exact_refs} are linear, small-amplitude problems in which the interface transmits only a normal traction; neither has a rotational degree of freedom.
+The radial--torsional ring adds (i)~a swirl velocity of the fluid, whose angular momentum is transported by diffusion and, with a radial through-flow, by convection on a moving domain, and a tangential interface traction (torque); (ii)~interface rotation and tangential mesh motion at finite amplitude; and (iii)~a nonlinear stretch--rotation coupling, since in a finite-strain compressible solid a finite twist forces a radial deformation of order $\theta^2$.
+It does not add added-mass physics beyond ringAddedMass, and it is not tested for viscous wave propagation.
+The problem is planar and rotationally invariant (in-plane rotation of an annulus), so that a two-dimensional case suffices.
+
+\paragraph{Problem and reference.}
+A neo-Hookean plane-strain solid annulus $A\le R\le B$ ($A=0.5$, $B=1\,\mathrm{m}$; $\rho_S=1000\,\mathrm{kg/m^3}$, $E_S=2\times10^4\,\mathrm{Pa}$, $\nu_S=0.3$) is surrounded by an incompressible Newtonian fluid $b(t)\le r\le c=2\,\mathrm{m}$ ($\rho_F=1000\,\mathrm{kg/m^3}$, $\mu_F=300\,\mathrm{Pa\,s}$), $b(t)$ being the deformed interface radius (Fig.~\ref{fig:rot_geometry}).
+The inner solid boundary is radially clamped and rotated, $\alpha_A=\theta_0S(t)\sin\Omega t$ ($\Omega=3\,\mathrm{rad/s}$); the outer fluid boundary is open with a prescribed pressure $p_c=P_0S(t)$, zero shear traction and the exact radial condition $\partial_rv_r=-v_r/c$; $S$ is a $C^\infty$ ramp over $1\,\mathrm{s}$.
+Three members are defined by the loading: radial ($P_0=-3\,\mathrm{kPa}$, $\theta_0=0$), torsion ($\theta_0=0.1\,\mathrm{rad}$, $P_0=0$) and combined (both); results are given for $0\le t\le2\,\mathrm{s}$.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.96\textwidth]{figures/rotational_geometry}
+	\caption{Radial--torsional ring. (a) Geometry and boundary conditions, drawn to scale (solid hatched, $A\le R\le B$; fluid $b(t)\le r\le c$; dashed circle: schematic deformed interface); $v_r$, $w$: radial and azimuthal fluid velocity. (b,c) Loading of the three members: inner rotation $\alpha_A(t)$ and outer pressure $p_c(t)$ ($C^\infty$ ramp $S$). Source: \texttt{paper-data/rotational\_figure\_sources/make\_rotational\_geometry.py}.}
+	\label{fig:rot_geometry}
+\end{figure}
+
+On the rotationally invariant ($n=0$) branch the fluid reduces exactly, at any amplitude, to $\mathbf{v}=(Q(t)/r)\,\mathbf{e}_r+w(r,t)\,\mathbf{e}_\theta$ and the solid to a one-dimensional problem in $R$, so the coupled problem is a system of one-dimensional partial differential equations.
+It is solved by a spectral discretisation (Legendre modes for the solid, Chebyshev modes for the fluid) with Radau time integration; this is a semi-analytical solution of the reduced problem, not a closed form, and modes with $n\neq0$ are not part of it.
+The evidence for it is independent of solids4foam.
+(a)~The reduced equations and the hyperelastic stress were derived symbolically from the Cartesian map and agree with the implemented expressions exactly.
+(b)~The linear limits reproduce the Bessel eigenvalues and the linear transfer function to $\le2\times10^{-10}$ and $4.5\times10^{-9}$, and the finite-amplitude static state agrees with a boundary-value solution to $10^{-14}$.
+(c)~A second, independently written coupled solver (linear finite elements for the solid, finite differences on a mapped fluid grid, BDF time stepping; the reference response is not an input) converges at second order (error ratios $3.90$--$4.05$ per halving) for all quantities of the three members, with a Richardson-extrapolated difference to the reference of $\le1.8\times10^{-5}$ of the peak value.
+(d)~Refining the reference itself changes the peak-normalised quantities by $\le3.2\times10^{-8}$ (stored reference against a solid resolution of 48 modes) and then by $\le2.5\times10^{-11}$ (48 against 64 modes, all three members), and tolerance, integrator and quadrature changes lie below this level.
+(e)~In the nearly rigid limit $E_S=2\times10^{8}\,\mathrm{Pa}$ the reference agrees with a closed-form Stokes-layer solution (numerical Laplace inversion) to $5.9\times10^{-4}$ of the peak for wall torque and shear; its fluid angular momentum differs by $3.5\times10^{-3}$, which is not explained, and this check is not counted as support.
+The nonlinear solid terms are therefore confirmed by derivation and by a second implementation, but that implementation is of low order and agrees to $10^{-5}$, not $10^{-11}$.
+Because it has not been shown that the $10^{-11}$ plateau of~(d) is the round-off level, as an extended-precision calculation would show, the reference is classified as \emph{provisional category A} (Table~\ref{tab:ref_hierarchy}); the category describes the reference only and not the calculations below.
+Four accuracies are thus kept apart: that of the semi-analytical reference ($\lesssim2.5\times10^{-11}$ against its own refinement, not shown to be round-off); that of the independently coded solver ($\le1.8\times10^{-5}$ against the reference, a statement about that solver); that of solids4foam (the errors of Table~\ref{tab:rot_floor} and below); and numerical acceptance and robustness (coupling acceptance, linear-solver criterion, failed or stopped runs), which are limitations of the calculations and say nothing about the reference.
+
+\paragraph{Numerical set-up and comparisons.}
+The calculations use the partitioned solver of Section~\ref{sec:numerical_methods} (IQN-ILS, BDF2, $\Delta t=2.5\,\mathrm{ms}$, two non-orthogonal correctors in the fluid) on three meshes of $64\times8\times16$ (M1), $128\times16\times32$ (M2) and $256\times32\times64$ (M3) cells (azimuthal $\times$ solid radial $\times$ fluid radial), refined by a factor two; M1 and M2 ran serially and M3 on four ranks.
+Every formulation below is run on the same meshes and time step, so the orders are spatial at one $\Delta t$ and no temporal order is claimed.
+\emph{Formulation~A} is the tutorial as stored: cell \texttt{leastSquares} for $\nabla p$ and $\nabla\mathbf{U}$ and the stock \texttt{newMovingWallVelocity}; every statement about solids4foam in this subsubsection refers to A unless another formulation is named.
+\emph{Formulation~B} differs from A only in $\nabla p$, which is Gauss linear.
+Research wall conditions used to probe the wall treatment (last paragraphs below) are not production code, and results are never transferred from one formulation to another.
+Interface coupling was accepted on one relative residual measure alone for most steps (the legacy minimum test with tolerance $10^{-6}$): only $17$--$56$ of the 800 steps of any run satisfy both measures, and $93.0$--$97.5\%$ fail a both-measures test at $10^{-6}$ (A-test, Section~\ref{sec:convergence_method}).
+The runs are consequently not claimed to be converged under a stricter coupling criterion. For formulation~A a partition and coupling-tolerance noise of about $2.4\times10^{-4}$ (torsion) and $1.3\times10^{-3}$ (combined) of the peak was estimated on M2 and limits the torque-type quantities ($T_B$, $\sigma_{r\theta}$, $T_A$) and their orders; none was estimated for formulation~B.
+
+\paragraph{Torsion member.}
+The errors of rotation, wall torque, shear traction, drive torque and angular momenta decrease monotonically against the reference, with observed orders $1.72$--$2.07$ (Table~\ref{tab:rot_floor}, Fig.~\ref{fig:rot_floor}; noise-propagated interval half-widths $\pm0.19$--$0.31$ for the torque-type quantities and $H_s$, sharp for $\alpha_B$ and $H_f$) and M3 errors of $0.08$--$0.2\%$ of the reference maximum.
+These orders are consistent with second order, but are observed from three meshes at one time step and do not show asymptotic convergence.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3.5pt}
+	\caption{Reference-error convergence, $E=\max_t|q-q_\mathrm{ref}|/\max_t|q_\mathrm{ref}|$ over $0$--$2\,\mathrm{s}$ in units of $10^{-3}$, at $\Delta t=2.5\,\mathrm{ms}$, and the observed order $p_{23}=\log_2(E_\mathrm{M2}/E_\mathrm{M3})$. A: tutorial as stored; B: A with Gauss-linear $\nabla p$ (research sensitivity, one mesh sequence; no noise estimate exists for B, so the uncertainty of the B torque-type errors and orders is not quantified). Source: \texttt{paper-data/rotational\_floor\_formulation.csv} (A values equal \texttt{rotational\_convergence.csv}).}
+	\label{tab:rot_floor}
+	\begin{tabular}{lrrrrrrrrr}
+		\toprule
+		 & \multicolumn{3}{c}{torsion, A} & \multicolumn{3}{c}{combined, A} & \multicolumn{3}{c}{combined, B} \\
+		\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+		QoI & $E_\mathrm{M2}$ & $E_\mathrm{M3}$ & $p_{23}$ & $E_\mathrm{M2}$ & $E_\mathrm{M3}$ & $p_{23}$ & $E_\mathrm{M2}$ & $E_\mathrm{M3}$ & $p_{23}$ \\
+		\midrule
+		rotation $\alpha_B$ & 2.97 & 0.756 & 1.98 & 5.14 & 3.11 & 0.72 & 2.92 & 0.761 & 1.94 \\
+		wall torque $T_B$ & 7.24 & 1.89 & 1.94 & 6.33 & 4.26 & 0.57 & 5.81 & 1.67 & 1.79 \\
+		shear $\sigma_{r\theta}$ & 7.04 & 1.86 & 1.92 & 6.95 & 5.15 & 0.43 & 5.32 & 1.49 & 1.84 \\
+		drive torque $T_A$ & 6.75 & 1.64 & 2.04 & 6.14 & 3.09 & 0.99 & 6.21 & 1.84 & 1.76 \\
+		fluid ang.\ mom.\ $H_f$ & 5.86 & 1.78 & 1.72 & 6.61 & 3.06 & 1.11 & 4.06 & 0.770 & 2.40 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{figures/rotational_floor}
+	\caption{Reference-error convergence of the interface rotation, wall torque and fluid angular momentum, $0$--$2\,\mathrm{s}$, $\Delta t=2.5\,\mathrm{ms}$: torsion member (A), combined member with the tutorial formulation (A) and combined member with Gauss-linear $\nabla p$ only (B). The dotted line has slope two and is a guide anchored at the torsion M1 error. Error bars on the A series: noise estimate of the torque-type quantities (visible for $T_B$; $\le6\times10^{-6}$ for $\alpha_B$). No noise estimate exists for B. All formulations use identical meshes and $\Delta t$. Data: \texttt{paper-data/rotational\_floor\_formulation.csv}.}
+	\label{fig:rot_floor}
+\end{figure}
+
+\paragraph{Combined member: a reference-error floor.}
+In the combined member the CFD solutions still converge nominally at second order against each other, resolved sharply for $\alpha_B$ and $H_f$ (self-difference orders $1.97$ and $1.94$), but the errors against the reference stop decreasing: the M2--M3 orders fall to $0.43$--$1.11$ and the M3 errors are $3.06$--$5.15\times10^{-3}$ of the peak, $1.7$--$4.1$ times the torsion values (Table~\ref{tab:rot_floor}, Fig.~\ref{fig:rot_floor}).
+Self-convergence therefore does not imply convergence to the reference, in the sense of Section~\ref{sec:verification_methodology}, and only a reference of this accuracy exposes the difference.
+Of the quantities of the combined member only these five show the floor; $H_s$, the wall angular velocity, the interface power and the solid kinetic energy lie above it and are not covered by this statement.
+The floor was examined as follows.
+
+\emph{The tested time steps and coupling tolerance do not explain it.}
+On M2, with two-rank runs (a two-rank control reproduces the accepted serial run to three digits), halving and quartering $\Delta t$ leaves the $\alpha_B$ error at $5.141$, $5.142$ and $5.147\times10^{-3}$ and changes $T_B$ and $H_f$ by at most $5\%$; no temporal order is established for any quantity (the uncertainty of the order exceeds $1$).
+Tightening the relative coupling tolerance to $10^{-7}$ and requiring both residual measures lowered the interface mismatch by three orders and changed the floor quantities by at most $3.6\%$ on the part of the run that completed; the run stopped at $t=1.825\,\mathrm{s}$ after 100 outer iterations and is kept as a failed run.
+Within these configurations (M2, formulation~A, these time steps, this tolerance, $t\le1.825\,\mathrm{s}$ for the strict run) the completed tests do not account for the floor; they do not rule out a time-step or coupling contribution at M3, at other settings, or from a strict-coupling solution over the full interval, and they do not show that the accepted solution is accurate.
+
+\emph{Changing the pressure-gradient operator reduces it.}
+Changing only $\nabla p$ from cell \texttt{leastSquares} to Gauss linear (B against A) lowers the M3 errors of the five quantities by factors of about $1.7$ to $4$ (Table~\ref{tab:rot_floor}), with observed orders $1.8$--$2.4$ on the two mesh pairs of this sequence; three meshes do not show that the floor is absent asymptotically. The M3 errors of the interface power and of the normal traction $\sigma_{rr}$ fall from $4.8\times10^{-2}$ to $3.2\times10^{-3}$ and from $8.5\times10^{-3}$ to $8.9\times10^{-4}$.
+In the torsion member the same change alters the rotational errors by at most $11\%$ (except $H_f$), so the torsion-only test does not reveal it.
+In the coupled torsion runs a read-only budget diagnostic attributes the angular-momentum imbalance of the fluid to the torque of the cell-\texttt{leastSquares} pressure gradient (reduced by a factor of nine with Gauss linear); a synthetic polar-mesh example does not reproduce it, so the mechanism that generates the non-axisymmetric pressure content is not identified.
+This is evidence of an operator sensitivity on one mesh sequence at one time step, not a claim that Gauss linear is better in general, that least-squares gradients are defective, or a recommendation to change the tutorial default; B is kept separate from the tutorial configuration A. The B runs fail the driver's linear-solver residual criterion at combined M3 (and at radial M2 and M3), for a finite-precision reason documented in the tutorial, and no noise estimate exists for them: the noise measured for the combined A runs ($1.3\times10^{-3}$) is of the size of the B torque-type errors, but it is not transferred to B.
+
+\paragraph{Normal traction is not verified.}
+The normal-traction quantities $u_B$, $\sigma_{rr}$, $p_b$ and the viscous normal stress $\sigma_{nv}$ do not converge at second order in A (observed orders $0.03$--$1.2$) and are excluded from order claims and from verification claims; they remain extracted and reported.
+The evidence has different strengths.
+Established by source inspection and a controlled research run is that the stock \texttt{newMovingWallVelocity} removes the wall-normal component of the velocity gradient, so that only $0.29$--$0.32$ of the reference viscous normal stress is transmitted in the combined member ($0.286$, $0.307$, $0.317$ on M1--M3), whereas a research wall condition that keeps the full gradient transmits it fully.
+For the torsion member an inconsistency of the patch-normal vector used by the \texttt{leastSquares} gradient in OpenFOAM-v2512 on a twisted wall was shown on manufactured linear fields only.
+The total normal traction satisfies $\sigma_{rr}=-p_b+\sigma_{nv}$ to $10^{-10}$ of its peak, and the errors of $p_b$ and $\sigma_{nv}$ are strongly correlated (correlation $+0.98$ in A, $+1.00$ in B) and cancel in $\sigma_{rr}$: on M2 of the combined member the $L_2$-in-time errors are $55$ and $39\,\mathrm{Pa}$ for $p_b$ and $\sigma_{nv}$ but $18\,\mathrm{Pa}$ for $\sigma_{rr}$ in A, and $37$, $39$ and $2.7\,\mathrm{Pa}$ in B.
+A small total-traction error can therefore hide errors of both components.
+A wall gradient constructed from continuity improves the reported $\sigma_{nv}$ by about a factor ten, but it makes the transmitted $\sigma_{rr}$ worse and an independent reconstruction of the stress from the solved fields does not improve, so a stress that is imposed by continuity is not independent evidence of the stress it imposes.
+The wall conditions of this paragraph are research tools and not validated production changes.
+
+\paragraph{Verification status.}
+Table~\ref{tab:rot_scope} states which quantities the evidence supports.
+The combined-minus-torsion terms ($16$--$22\%$ of the combined maximum; reproduced to $1.5$--$2.5\%$ of their size on M3, observed orders $0.2$--$1.4$) are a resolved signal but contain the response to the radial loading as well, so they are not the three-way interaction; the three-way term $u_C-u_R-u_T$ needs the radial member, which is incomplete (only M1 completed under formulation A; M2 stalled at $t=0.11\,\mathrm{s}$), and is not verified.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\caption{Status of the quantities for formulation A. Core: monotone convergence towards the reference at orders close to two on both mesh pairs, errors above the measured uncertainty. Supplementary: converges with a disclosed floor or lower order, or is a derived or quadratic quantity. Not verified: no convergence, unresolved against coupling, partition or time-step spread, or no refinement sequence; such quantities are reported but never counted as verified. All entries depend on a provisional reference, one $\Delta t$ and one partition per mesh.}
+	\label{tab:rot_scope}
+	\begin{tabular}{p{4.6cm}p{2.5cm}p{3.2cm}p{2.4cm}}
+		\toprule
+		Quantity & Torsion & Combined & Radial \\
+		\midrule
+		$\alpha_B$, wall angular velocity, $H_f$, $H_s$, $T_B$, $\sigma_{r\theta}$, $T_A$ & core & supplementary (floor) & not applicable \\
+		interface power, $KE_s$ & supplementary & $KE_s$ supplementary, power not verified & not verified \\
+		combined $-$ torsion (rotational) & --- & supplementary & --- \\
+		$u_B$, $Q$, $\sigma_{rr}$, $p_b$, $\sigma_{nv}$ & not verified & not verified & not verified \\
+		three-way and normal-stress interactions & --- & not verified & not verified \\
+		temporal order & not established & not established & not established \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{Lesson.}
+The case shows two things that the linear cases cannot.
+A reference accurate to far below the solver error separates self-convergence from convergence to the reference: the combined member converges nominally at second order and still carries an error floor, here strongly sensitive to a discretisation operator (the pressure gradient) to which the torsion-only test is nearly insensitive.
+And a total traction can look accurate while its pressure and viscous parts are not, so that interface traction should be verified component by component whenever the reference allows it.
+
+\paragraph{Limitations.}
+\begin{itemize}
+	\item The reference is a reduced, rotationally invariant ($n=0$), semi-analytical model; its category is provisional and the stability of $n\neq0$ modes is not examined.
+	\item Orders are observed from three meshes at one time step and one partition per mesh; no asymptotic or temporal order is established, and torque-type orders are noise-limited. The strict-coupling run failed at $t=1.825\,\mathrm{s}$.
+	\item The floor attribution rests on one mesh sequence and three meshes; the Gauss-pressure runs have no noise estimate and do not pass the linear-solver criterion of the verification driver at the finest combined mesh, so it is not shown that the floor vanishes asymptotically.
+	\item The normal-traction quantities, the three-way interaction and the radial member are not verified; the wall findings are research evidence and not production corrections.
+	\item With no non-orthogonal correctors the M3 torsion run loses contractivity of the fluid iteration near $1.81\,\mathrm{s}$ (no root cause identified); the accepted runs use two correctors.
+	\item The case and the reference kit are not yet archived with a persistent identifier; the runs take about 1.5 minutes (M1), 5.5--7 minutes (M2, serial) and 13--20 minutes (M3, four ranks).
+\end{itemize}
+Derived data of the supplementary results (acceptance counts, mixed terms, order intervals, floor by quantity) are in \texttt{paper-data/rotational\_*.csv}; the tutorial \texttt{radialTorsionalRing} (solids4foam PR \#637, draft) contains the case, the reference script, the verification driver and the supplementary figures.
+
+\paragraph{Relation to existing analytical FSI solutions.}
+Radial and rotational fluid--solid solutions have so far been given separately: \citet{WangPironneau2026} treat a radially moving linear-elastic disc and, in a separate problem, a rotating incompressible neo-Hookean annulus with a fixed interface; \citet{Serino2019} give a radial elastic piston and a rotating elastic disk with a linear solid at small amplitude; and the analytic solutions of \citet{Hessenthaler2020} concern axial shear without radial motion.
+We know of no published solution of the simultaneous finite-amplitude radial and azimuthal motion with a moving interface (in the sources we accessed; this is an absence of evidence only).
+Azimuthal shear of compressible nonlinearly elastic circular tubes has been analysed by \citet{Polignone1994}.
