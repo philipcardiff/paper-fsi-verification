@@ -1,0 +1,1379 @@
+===========================================================================
+         ________    _________   _______       __     _________            
+        |        |\ |        |\ |       \\    |  |\  /         \\          
+        |    ____|| |    ____|| |    __  ||   |__|| |    ___    ||         
+        |   |\___\| |   |\___\| |   |\_| ||    \_\| |   //  \   ||         
+        |   ||__    |   ||__    |   ||_| ||   |  |\ |  ||    |  ||         
+        |       |\  |       |\  |         \\  |  || |  ||    |  ||         
+        |    ___||  |    ___||  |    ___   || |  || |  ||    |  ||         
+        |   |\__\|  |   |\__\|  |   |\__|  || |  || |  ||    |  ||         
+        |   ||      |   ||___   |   ||__|  || |  || |   \\__/   ||         
+        |   ||      |        |\ |          || |  || |           ||         
+        |___||      |________|| |_________//  |__||  \_________//          
+                                                                           
+      F I N I T E   E L E M E N T S   F O R   B I O M E C H A N I C S      
+                                                                           
+  version 4.13.0.32ae206ff
+  FEBio is a registered trademark.                                         
+  copyright (c) 2006-2026 - All rights reserved                            
+                                                                           
+===========================================================================
+
+
+
+
+
+ FILES USED
+===========================================================================
+	Input file : B_CSM1_h20_nt4.feb
+	Plot file  : B_CSM1_h20_nt4.xplt
+	Log file   : B_CSM1_h20_nt4.log
+
+
+ MESH INFO
+===========================================================================
+	Number of materials ............................ : 1
+	Number of domains .............................. : 1
+	Number of nodes ................................ : 2333
+	Number of solid elements ....................... : 280
+
+
+ MODULE
+===========================================================================
+	Module type ....................................... : solid
+
+
+ CONTROL DATA
+===========================================================================
+	analysis .......................................... : STATIC (0)
+	time_steps ........................................ : 10
+	step_size ......................................... : 0.1
+	plot_zero_state ................................... : no (0)
+	plot_range ........................................ : 0,-1
+	plot_level ........................................ : PLOT_MAJOR_ITRS (1)
+	output_level ...................................... : OUTPUT_MAJOR_ITRS (1)
+	plot_stride ....................................... : 1
+	output_stride ..................................... : 1
+	adaptor_re_solve .................................. : yes (1)
+	Auto time stepper activated ....................... : no
+ SOLVER PARAMETERS
+===========================================================================
+	symmetric_stiffness ............................... : symmetric (1)
+	equation_scheme ................................... : staggered (0)
+	equation_order .................................... : default (0)
+	optimize_bw ....................................... : no (0)
+	lstol ............................................. : 0.9
+	lsmin ............................................. : 0.01
+	lsiter ............................................ : 5
+	ls_check_jacobians ................................ : no (0)
+	max_refs .......................................... : 25
+	check_zero_diagonal ............................... : no (0)
+	zero_diagonal_tol ................................. : 0
+	force_partition ................................... : 0
+	reform_each_time_step ............................. : yes (1)
+	reform_augment .................................... : no (0)
+	diverge_reform .................................... : yes (1)
+	min_residual ...................................... : 1e-30
+	max_residual ...................................... : 0
+	dtol .............................................. : 1e-08
+	etol .............................................. : 1e-12
+	rtol .............................................. : 0
+	rhoi .............................................. : -2
+	alpha ............................................. : 1
+	beta .............................................. : 0.25
+	gamma ............................................. : 0.5
+	logSolve .......................................... : no (0)
+	arc_length ........................................ : 0
+	arc_length_scale .................................. : 0
+
+
+
+
+
+
+ MATERIAL DATA
+===========================================================================
+  1 - Flag (type: St.Venant-Kirchhoff)
+	density ........................................... : 1000
+	E ................................................. : 1.4e+06
+	v ................................................. : 0.4
+
+
+ BOUNDARY CONDITION DATA
+===========================================================================
+  1 -  Type: zero displacement
+	x_dof ............................................. : no (0)
+	y_dof ............................................. : no (0)
+	z_dof ............................................. : yes (1)
+---------------------------------------------------------------------------
+  2 -  Type: zero displacement
+	x_dof ............................................. : yes (1)
+	y_dof ............................................. : yes (1)
+	z_dof ............................................. : no (0)
+
+
+ MODEL LOAD DATA
+===========================================================================
+  1 -  Type: const
+	x ................................................. : 0
+	y ................................................. : 0
+	z ................................................. : 0
+
+
+ LOAD CONTROLLER DATA
+===========================================================================
+load controller   1 - ramp (type: loadcurve)
+	interpolate ....................................... : LINEAR (0)
+	extend ............................................ : CONSTANT (0)
+	points ............................................ : (can't display value)
+
+
+ OUTPUT DATA
+===========================================================================
+ LINEAR SOLVER DATA
+===========================================================================
+	Default linear solver ............................. : pardiso
+
+
+Data Record #1
+===========================================================================
+Step = 0
+Time = 0
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 0
+Time = 0
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 0
+Time = 0
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+ *************************************************************************
+ * Selecting linear solver pardiso                                       *
+ *************************************************************************
+
+===== beginning time step 1 : 0.1 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+===== reforming stiffness matrix:
+	Nr of equations ........................... : 4620
+	Nr of nonzeroes in stiffness matrix ....... : 166014
+ 1
+ Nonlinear solution status: time= 0.1
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.485856
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.952107e-02    0.000000e+00 
+	   energy              5.740175e-05    7.372287e-06    5.740175e-17 
+	   displacement        2.810647e-02    6.634705e-03    6.634705e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.1
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    9.358782e-03    0.000000e+00 
+	   energy              5.740175e-05    3.194656e-06    5.740175e-17 
+	   displacement        2.810647e-02    3.325672e-03    1.934864e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.1
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    5.451727e-04    0.000000e+00 
+	   energy              5.740175e-05    3.746201e-07    5.740175e-17 
+	   displacement        2.810647e-02    5.141531e-04    2.615003e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.1
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    2.011369e-06    0.000000e+00 
+	   energy              5.740175e-05    6.577858e-09    5.740175e-17 
+	   displacement        2.810647e-02    3.090954e-05    2.797435e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.1
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    3.907368e-11    0.000000e+00 
+	   energy              5.740175e-05    1.822413e-12    5.740175e-17 
+	   displacement        2.810647e-02    1.268754e-07    2.809322e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.1
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    2.540509e-20    0.000000e+00 
+	   energy              5.740175e-05    1.315340e-19    5.740175e-17 
+	   displacement        2.810647e-02    2.060897e-12    2.809370e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.1
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.346771e-20    0.000000e+00 
+	   energy              5.740175e-05    1.056886e-25    5.740175e-17 
+	   displacement        2.810647e-02    6.410058e-22    2.809370e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.1
+
+
+Data Record #1
+===========================================================================
+Step = 1
+Time = 0.1
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 1
+Time = 0.1
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 1
+Time = 0.1
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 2 : 0.2 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 0.2
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.486096
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.948857e-02    0.000000e+00 
+	   energy              5.735541e-05    7.360362e-06    5.735541e-17 
+	   displacement        2.807117e-02    6.632916e-03    6.632916e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.2
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    9.298167e-03    0.000000e+00 
+	   energy              5.735541e-05    3.184607e-06    5.735541e-17 
+	   displacement        2.807117e-02    3.315166e-03    1.932029e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.2
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    5.393666e-04    0.000000e+00 
+	   energy              5.735541e-05    3.714899e-07    5.735541e-17 
+	   displacement        2.807117e-02    5.112417e-04    2.609621e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.2
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.956813e-06    0.000000e+00 
+	   energy              5.735541e-05    6.455052e-09    5.735541e-17 
+	   displacement        2.807117e-02    3.047833e-05    2.790567e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.2
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    3.702911e-11    0.000000e+00 
+	   energy              5.735541e-05    1.749758e-12    5.735541e-17 
+	   displacement        2.807117e-02    1.234601e-07    2.802278e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.2
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    2.553330e-20    0.000000e+00 
+	   energy              5.735541e-05    1.209448e-19    5.735541e-17 
+	   displacement        2.807117e-02    1.946039e-12    2.802325e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.2
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.523736e-20    0.000000e+00 
+	   energy              5.735541e-05    1.197985e-25    5.735541e-17 
+	   displacement        2.807117e-02    5.785019e-22    2.802325e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.2
+
+
+Data Record #1
+===========================================================================
+Step = 2
+Time = 0.2
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 2
+Time = 0.2
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 2
+Time = 0.2
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 3 : 0.3 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 0.3
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.486936
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.944016e-02    0.000000e+00 
+	   energy              5.721683e-05    7.328499e-06    5.721683e-17 
+	   displacement        2.796572e-02    6.630872e-03    6.630872e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.3
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    9.160495e-03    0.000000e+00 
+	   energy              5.721683e-05    3.166055e-06    5.721683e-17 
+	   displacement        2.796572e-02    3.291054e-03    1.925860e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.3
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    5.292898e-04    0.000000e+00 
+	   energy              5.721683e-05    3.653141e-07    5.721683e-17 
+	   displacement        2.796572e-02    5.062159e-04    2.598850e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.3
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.852813e-06    0.000000e+00 
+	   energy              5.721683e-05    6.226181e-09    5.721683e-17 
+	   displacement        2.796572e-02    2.964336e-05    2.776892e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.3
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    3.350513e-11    0.000000e+00 
+	   energy              5.721683e-05    1.619503e-12    5.721683e-17 
+	   displacement        2.796572e-02    1.173621e-07    2.788282e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.3
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    2.196123e-20    0.000000e+00 
+	   energy              5.721683e-05    1.025775e-19    5.721683e-17 
+	   displacement        2.796572e-02    1.744418e-12    2.788326e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.3
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.770717e-20    0.000000e+00 
+	   energy              5.721683e-05    1.092718e-25    5.721683e-17 
+	   displacement        2.796572e-02    4.683672e-22    2.788326e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.3
+
+
+Data Record #1
+===========================================================================
+Step = 3
+Time = 0.3
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 3
+Time = 0.3
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 3
+Time = 0.3
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 4 : 0.4 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 0.4
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.488374
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.937508e-02    0.000000e+00 
+	   energy              5.698744e-05    7.276962e-06    5.698744e-17 
+	   displacement        2.779150e-02    6.628517e-03    6.628517e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.4
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    8.949581e-03    0.000000e+00 
+	   energy              5.698744e-05    3.139022e-06    5.698744e-17 
+	   displacement        2.779150e-02    3.253701e-03    1.916415e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.4
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    5.151564e-04    0.000000e+00 
+	   energy              5.698744e-05    3.562467e-07    5.698744e-17 
+	   displacement        2.779150e-02    4.991260e-04    2.582787e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.4
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.707489e-06    0.000000e+00 
+	   energy              5.698744e-05    5.902533e-09    5.698744e-17 
+	   displacement        2.779150e-02    2.843881e-05    2.756579e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.4
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    2.894514e-11    0.000000e+00 
+	   energy              5.698744e-05    1.444972e-12    5.698744e-17 
+	   displacement        2.779150e-02    1.089872e-07    2.767514e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.4
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    2.050587e-20    0.000000e+00 
+	   energy              5.698744e-05    8.109173e-20    5.698744e-17 
+	   displacement        2.779150e-02    1.484489e-12    2.767554e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.4
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.386356e-20    0.000000e+00 
+	   energy              5.698744e-05    1.242061e-25    5.698744e-17 
+	   displacement        2.779150e-02    3.426956e-22    2.767554e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.4
+
+
+Data Record #1
+===========================================================================
+Step = 4
+Time = 0.4
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 4
+Time = 0.4
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 4
+Time = 0.4
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 5 : 0.5 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.490401
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.929213e-02    0.000000e+00 
+	   energy              5.666955e-05    7.206175e-06    5.666955e-17 
+	   displacement        2.755075e-02    6.625759e-03    6.625759e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    8.671189e-03    0.000000e+00 
+	   energy              5.666955e-05    3.103529e-06    5.666955e-17 
+	   displacement        2.755075e-02    3.203667e-03    1.903785e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.972586e-04    0.000000e+00 
+	   energy              5.666955e-05    3.445114e-07    5.666955e-17 
+	   displacement        2.755075e-02    4.900401e-04    2.561575e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.531648e-06    0.000000e+00 
+	   energy              5.666955e-05    5.499604e-09    5.666955e-17 
+	   displacement        2.755075e-02    2.691284e-05    2.729875e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    2.387306e-11    0.000000e+00 
+	   energy              5.666955e-05    1.242832e-12    5.666955e-17 
+	   displacement        2.755075e-02    9.886831e-08    2.740239e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.835088e-20    0.000000e+00 
+	   energy              5.666955e-05    6.014105e-20    5.666955e-17 
+	   displacement        2.755075e-02    1.199397e-12    2.740275e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.5
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.553764e-20    0.000000e+00 
+	   energy              5.666955e-05    1.208188e-25    5.666955e-17 
+	   displacement        2.755075e-02    2.273682e-22    2.740275e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.5
+
+
+Data Record #1
+===========================================================================
+Step = 5
+Time = 0.5
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 5
+Time = 0.5
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 5
+Time = 0.5
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 6 : 0.6 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 0.6
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.493009
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.918970e-02    0.000000e+00 
+	   energy              5.626630e-05    7.116722e-06    5.626630e-17 
+	   displacement        2.724649e-02    6.622479e-03    6.622479e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.6
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    8.332745e-03    0.000000e+00 
+	   energy              5.626630e-05    3.059607e-06    5.626630e-17 
+	   displacement        2.724649e-02    3.141693e-03    1.888088e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.6
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.759609e-04    0.000000e+00 
+	   energy              5.626630e-05    3.303916e-07    5.626630e-17 
+	   displacement        2.724649e-02    4.790440e-04    2.535401e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.6
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.337449e-06    0.000000e+00 
+	   energy              5.626630e-05    5.035904e-09    5.626630e-17 
+	   displacement        2.724649e-02    2.512432e-05    2.697100e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.6
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.879626e-11    0.000000e+00 
+	   energy              5.626630e-05    1.030485e-12    5.626630e-17 
+	   displacement        2.724649e-02    8.761046e-08    2.706796e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.6
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.745807e-20    0.000000e+00 
+	   energy              5.626630e-05    4.067084e-20    5.626630e-17 
+	   displacement        2.724649e-02    9.201358e-13    2.706827e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.6
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.558892e-20    0.000000e+00 
+	   energy              5.626630e-05    1.006153e-25    5.626630e-17 
+	   displacement        2.724649e-02    1.349382e-22    2.706827e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.6
+
+
+Data Record #1
+===========================================================================
+Step = 6
+Time = 0.6
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 6
+Time = 0.6
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 6
+Time = 0.6
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 7 : 0.7 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 0.7
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.496188
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.906582e-02    0.000000e+00 
+	   energy              5.578160e-05    7.009331e-06    5.578160e-17 
+	   displacement        2.688248e-02    6.618528e-03    6.618528e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.7
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    7.942965e-03    0.000000e+00 
+	   energy              5.578160e-05    3.007327e-06    5.578160e-17 
+	   displacement        2.688248e-02    3.068678e-03    1.869471e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.7
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.516927e-04    0.000000e+00 
+	   energy              5.578160e-05    3.142196e-07    5.578160e-17 
+	   displacement        2.688248e-02    4.662425e-04    2.504494e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.7
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.137016e-06    0.000000e+00 
+	   energy              5.578160e-05    4.531588e-09    5.578160e-17 
+	   displacement        2.688248e-02    2.313896e-05    2.658635e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.7
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.412612e-11    0.000000e+00 
+	   energy              5.578160e-05    8.236652e-13    5.578160e-17 
+	   displacement        2.688248e-02    7.583191e-08    2.667590e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.7
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.638394e-20    0.000000e+00 
+	   energy              5.578160e-05    2.596557e-20    5.578160e-17 
+	   displacement        2.688248e-02    6.703447e-13    2.667617e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.7
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.525084e-20    0.000000e+00 
+	   energy              5.578160e-05    1.149148e-25    5.578160e-17 
+	   displacement        2.688248e-02    7.350107e-23    2.667617e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.7
+
+
+Data Record #1
+===========================================================================
+Step = 7
+Time = 0.7
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 7
+Time = 0.7
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 7
+Time = 0.7
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 8 : 0.8 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 0.8
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.499923
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.891819e-02    0.000000e+00 
+	   energy              5.522002e-05    6.884874e-06    5.522002e-17 
+	   displacement        2.646307e-02    6.613729e-03    6.613729e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.8
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    7.511441e-03    0.000000e+00 
+	   energy              5.522002e-05    2.946813e-06    5.522002e-17 
+	   displacement        2.646307e-02    2.985649e-03    1.848101e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.8
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.249380e-04    0.000000e+00 
+	   energy              5.522002e-05    2.963634e-07    5.522002e-17 
+	   displacement        2.646307e-02    4.517590e-04    2.469121e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.8
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    9.412222e-07    0.000000e+00 
+	   energy              5.522002e-05    4.007043e-09    5.522002e-17 
+	   displacement        2.646307e-02    2.102532e-05    2.614917e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.8
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.013249e-11    0.000000e+00 
+	   energy              5.522002e-05    6.346703e-13    5.522002e-17 
+	   displacement        2.646307e-02    6.410988e-08    2.623082e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.8
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.672108e-20    0.000000e+00 
+	   energy              5.522002e-05    1.485003e-20    5.522002e-17 
+	   displacement        2.646307e-02    4.638438e-13    2.623104e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.8
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.500518e-20    0.000000e+00 
+	   energy              5.522002e-05    1.158098e-25    5.522002e-17 
+	   displacement        2.646307e-02    3.552851e-23    2.623104e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.8
+
+
+Data Record #1
+===========================================================================
+Step = 8
+Time = 0.8
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 8
+Time = 0.8
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 8
+Time = 0.8
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 9 : 0.9 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 0.9
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.504199
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.874429e-02    0.000000e+00 
+	   energy              5.458671e-05    6.744347e-06    5.458671e-17 
+	   displacement        2.599309e-02    6.607888e-03    6.607888e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 0.9
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    7.048219e-03    0.000000e+00 
+	   energy              5.458671e-05    2.878271e-06    5.458671e-17 
+	   displacement        2.599309e-02    2.893737e-03    1.824166e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 0.9
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    3.962241e-04    0.000000e+00 
+	   energy              5.458671e-05    2.772130e-07    5.458671e-17 
+	   displacement        2.599309e-02    4.357356e-04    2.429580e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 0.9
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    7.588075e-07    0.000000e+00 
+	   energy              5.458671e-05    3.481561e-09    5.458671e-17 
+	   displacement        2.599309e-02    1.885085e-05    2.566425e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 0.9
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    6.936031e-12    0.000000e+00 
+	   energy              5.458671e-05    4.714664e-13    5.458671e-17 
+	   displacement        2.599309e-02    5.293675e-08    2.573774e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 0.9
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.501786e-20    0.000000e+00 
+	   energy              5.458671e-05    8.110811e-21    5.458671e-17 
+	   displacement        2.599309e-02    3.049007e-13    2.573792e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 0.9
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.617255e-20    0.000000e+00 
+	   energy              5.458671e-05    1.095206e-25    5.458671e-17 
+	   displacement        2.599309e-02    1.554058e-23    2.573792e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 0.9
+
+
+Data Record #1
+===========================================================================
+Step = 9
+Time = 0.9
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 9
+Time = 0.9
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 9
+Time = 0.9
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+===== beginning time step 10 : 1 =====
+
+
+Reforming stiffness matrix: reformation #1
+
+ 1
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 3
+	stiffness matrix reformations = 1
+	step from line search         = 0.509000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.854141e-02    0.000000e+00 
+	   energy              5.388724e-05    6.588865e-06    5.388724e-17 
+	   displacement        2.547772e-02    6.600789e-03    6.600789e-19 
+Reforming stiffness matrix: reformation #2
+
+ 2
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 2
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    6.563382e-03    0.000000e+00 
+	   energy              5.388724e-05    2.802003e-06    5.388724e-17 
+	   displacement        2.547772e-02    2.794143e-03    1.797867e-18 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 5
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    3.661066e-04    0.000000e+00 
+	   energy              5.388724e-05    2.571665e-07    5.388724e-17 
+	   displacement        2.547772e-02    4.183332e-04    2.386198e-18 
+Reforming stiffness matrix: reformation #4
+
+ 4
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 6
+	stiffness matrix reformations = 4
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    5.959005e-07    0.000000e+00 
+	   energy              5.388724e-05    2.972222e-09    5.388724e-17 
+	   displacement        2.547772e-02    1.667845e-05    2.513666e-18 
+Reforming stiffness matrix: reformation #5
+
+ 5
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 7
+	stiffness matrix reformations = 5
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    4.530831e-12    0.000000e+00 
+	   energy              5.388724e-05    3.376652e-13    5.388724e-17 
+	   displacement        2.547772e-02    4.269104e-08    2.520197e-18 
+Reforming stiffness matrix: reformation #6
+
+ 6
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 8
+	stiffness matrix reformations = 6
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.654343e-20    0.000000e+00 
+	   energy              5.388724e-05    4.431009e-21    5.388724e-17 
+	   displacement        2.547772e-02    1.904420e-13    2.520210e-18 
+Reforming stiffness matrix: reformation #7
+
+ 7
+ Nonlinear solution status: time= 1
+	stiffness updates             = 0
+	right hand side evaluations   = 9
+	stiffness matrix reformations = 7
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            1.951333e-06    1.543623e-20    0.000000e+00 
+	   energy              5.388724e-05    1.055069e-25    5.388724e-17 
+	   displacement        2.547772e-02    7.144355e-24    2.520210e-18 
+
+convergence summary
+    number of iterations   : 7
+    number of reformations : 7
+
+------- converged at time : 1
+
+
+Data Record #1
+===========================================================================
+Step = 10
+Time = 1
+Data = x;y;ux;uy;uz
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 10
+Time = 1
+Data = x;y;ux;uy
+File = topline.txt
+
+Data Record #3
+===========================================================================
+Step = 10
+Time = 1
+Data = Rx;Ry;Rz
+File = react_root.txt
+
+
+ N O N L I N E A R   I T E R A T I O N   I N F O R M A T I O N
+
+	Number of time steps completed .................... : 10
+
+	Total number of equilibrium iterations ............ : 70
+
+	Average number of equilibrium iterations .......... : 7
+
+	Total number of right hand evaluations ............ : 90
+
+	Total number of stiffness reformations ............ : 70
+
+
+ L I N E A R   S O L V E R   S T A T S
+
+	Total calls to linear solver ........ : 70
+
+	Avg iterations per solve ............ : 1
+
+	Time in linear solver: 0:00:01
+
+
+ Elapsed time : 0:00:07
+
+ T I M I N G   I N F O R M A T I O N
+
+	Input time ...................... : 0:00:00 (0.0100918 sec)
+
+	Initialization time ............. : 0:00:00 (0.00351378 sec)
+
+	Solve time ...................... : 0:00:07 (7.22441 sec)
+
+	   IO-time (plot, dmp, data) .... : 0:00:00 (0.00958092 sec)
+
+	   serialization ................ : 0:00:00 (0 sec)
+
+	   reforming stiffness .......... : 0:00:00 (0.00563977 sec)
+
+	   evaluating stiffness ......... : 0:00:06 (5.63429 sec)
+
+	   evaluating residual .......... : 0:00:00 (0.195644 sec)
+
+	   model update ................. : 0:00:00 (0.130461 sec)
+
+	   QN updates ................... : 0:00:00 (6.078e-06 sec)
+
+	   time in linear solver ........ : 0:00:01 (1.23932 sec)
+
+	Total elapsed time .............. : 0:00:07 (7.23876 sec)
+
+
+ N O R M A L   T E R M I N A T I O N
+

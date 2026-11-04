@@ -1,0 +1,76 @@
+797496e-33 
+	   dilatation          8.044549e-28    8.102468e-28    8.102468e-40 
+
+ *************************************************************************
+ *                               WARNING                                 *
+ * No force acting on the system.                                        *
+ *************************************************************************
+
+convergence summary
+    number of iterations   : 1
+    number of reformations : 1
+
+------- converged at time : 40
+
+
+Data Record #1
+===========================================================================
+Step = 80
+Time = 40
+Data = wx;wy;ef
+File = Mon_all.txt
+
+
+ N O N L I N E A R   I T E R A T I O N   I N F O R M A T I O N
+
+	Number of time steps completed .................... : 80
+
+	Total number of equilibrium iterations ............ : 247
+
+	Average number of equilibrium iterations .......... : 3.0875
+
+	Total number of right hand evaluations ............ : 327
+
+	Total number of stiffness reformations ............ : 247
+
+
+ L I N E A R   S O L V E R   S T A T S
+
+	Total calls to linear solver ........ : 247
+
+	Avg iterations per solve ............ : 1
+
+	Time in linear solver: 0:13:41
+
+
+ Elapsed time : 0:14:41
+
+ T I M I N G   I N F O R M A T I O N
+
+	Input time ...................... : 0:00:00 (0.127081 sec)
+
+	Initialization time ............. : 0:00:00 (0.0469769 sec)
+
+	Solve time ...................... : 0:14:41 (881.218 sec)
+
+	   IO-time (plot, dmp, data) .... : 0:00:02 (2.40042 sec)
+
+	   serialization ................ : 0:00:00 (0 sec)
+
+	   reforming stiffness .......... : 0:00:00 (0.177179 sec)
+
+	   evaluating stiffness ......... : 0:00:35 (35.0885 sec)
+
+	   evaluating residual .......... : 0:00:05 (5.1079 sec)
+
+	   model update ................. : 0:00:14 (13.9274 sec)
+
+	   QN updates ................... : 0:00:00 (7.9114e-05 sec)
+
+	   time in linear solver ........ : 0:13:41 (821.484 sec)
+
+	Total elapsed time .............. : 0:14:41 (881.42 sec)
+
+
+ N O R M A L   T E R M I N A T I O N
+

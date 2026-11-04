@@ -1,0 +1,165 @@
+diff -ruN '--exclude=build' '--exclude=.git' upstream/febio-v4.13/FEBioFluid/FEFluidFSIDomain3D.cpp src_experimental/febio-v4.13-rt/FEBioFluid/FEFluidFSIDomain3D.cpp
+--- upstream/febio-v4.13/FEBioFluid/FEFluidFSIDomain3D.cpp	2026-10-29 18:21:07.934058505 +0000
++++ src_experimental/febio-v4.13-rt/FEBioFluid/FEFluidFSIDomain3D.cpp	2026-11-01 06:59:17.580102483 +0000
+@@ -32,6 +32,7 @@
+ #include <FECore/FEModel.h>
+ #include "FEBioFSI.h"
+ #include <FECore/FELinearSystem.h>
++#include <cstdlib>
+ 
+ //-----------------------------------------------------------------------------
+ //! constructor
+@@ -191,6 +192,32 @@
+ }
+ 
+ //-----------------------------------------------------------------------------
++// Experimental reaction transfer (default OFF): see FEFluidFSIDomain3D::UnpackLMReaction
++static bool rt_reaction_enabled()
++{
++    static int v = -1;
++    if (v < 0) { const char* e = getenv("FEBIO_RT_REACTION"); v = (e && atoi(e) != 0) ? 1 : 0; }
++    return v == 1;
++}
++
++void FEFluidFSIDomain3D::UnpackLMReaction(FEElement& el, vector<int>& lmr)
++{
++    UnpackLM(el, lmr);
++    if (!rt_reaction_enabled()) return;
++    int N = el.Nodes();
++    for (int i=0; i<N; ++i)
++    {
++        FENode& node = m_pMesh->Node(el.m_node[i]);
++        vector<int>& id = node.m_ID;
++        for (int k=0; k<3; ++k)
++        {
++            // w fixed (no equation) and displacement free: the fluid momentum residual of this node acts on the solid
++            if ((lmr[7*i+3+k] < 0) && (lmr[7*i+k] >= 0)) lmr[7*i+3+k] = lmr[7*i+k];
++        }
++    }
++}
++
++//-----------------------------------------------------------------------------
+ void FEFluidFSIDomain3D::InternalForces(FEGlobalVector& R)
+ {
+     int NE = (int)m_Elem.size();
+@@ -213,7 +240,7 @@
+             ElementInternalForce(el, fe);
+             
+             // get the element's LM vector
+-            UnpackLM(el, lm);
++            UnpackLMReaction(el, lm);
+             
+             // assemble element 'fe'-vector into global R vector
+             R.Assemble(el.m_node, lm, fe);
+@@ -327,7 +354,7 @@
+             ElementBodyForce(BF, el, fe);
+             
+             // get the element's LM vector
+-            UnpackLM(el, lm);
++            UnpackLMReaction(el, lm);
+             
+             // assemble element 'fe'-vector into global R vector
+             R.Assemble(el.m_node, lm, fe);
+@@ -592,7 +619,8 @@
+             // get the element's LM vector
+ 			vector<int> lm;
+ 			UnpackLM(el, lm);
+-			ke.SetIndices(lm);
++			vector<int> lmr; UnpackLMReaction(el, lmr);
++			ke.SetIndices(lmr, lm);
+             
+             // assemble element matrix in global stiffness matrix
+ 			LS.Assemble(ke);
+@@ -626,7 +654,8 @@
+             // get the element's LM vector
+ 			vector<int> lm;
+ 			UnpackLM(el, lm);
+-			ke.SetIndices(lm);
++			vector<int> lmr; UnpackLMReaction(el, lmr);
++			ke.SetIndices(lmr, lm);
+             
+             // assemble element matrix in global stiffness matrix
+ 			LS.Assemble(ke);
+@@ -662,7 +691,8 @@
+             // get the element's LM vector
+ 			vector<int> lm;
+ 			UnpackLM(el, lm);
+-			ke.SetIndices(lm);
++			vector<int> lmr; UnpackLMReaction(el, lmr);
++			ke.SetIndices(lmr, lm);
+             
+             // assemble element matrix in global stiffness matrix
+ 			LS.Assemble(ke);
+@@ -904,7 +934,7 @@
+             ElementInertialForce(el, fe);
+             
+             // get the element's LM vector
+-            UnpackLM(el, lm);
++            UnpackLMReaction(el, lm);
+             
+             // assemble element 'fe'-vector into global R vector
+             R.Assemble(el.m_node, lm, fe);
+diff -ruN '--exclude=build' '--exclude=.git' upstream/febio-v4.13/FEBioFluid/FEFluidFSIDomain3D.h src_experimental/febio-v4.13-rt/FEBioFluid/FEFluidFSIDomain3D.h
+--- upstream/febio-v4.13/FEBioFluid/FEFluidFSIDomain3D.h	2026-10-29 18:21:07.934058505 +0000
++++ src_experimental/febio-v4.13-rt/FEBioFluid/FEFluidFSIDomain3D.h	2026-11-01 06:59:17.580102483 +0000
+@@ -52,6 +52,10 @@
+     
+     //! Unpack element data
+     void UnpackLM(FEElement& el, vector<int>& lm) override;
++    //! Experimental (env FEBIO_RT_REACTION=1): LM for assembling ROWS of the relative-velocity (w) equations. For nodes whose w dofs are
++    //! fixed (no-slip) while the displacement dofs are free, the w-row (fluid momentum residual = constraint reaction) is assembled into the
++    //! displacement equations of the same node instead of being discarded. Identical to UnpackLM when the switch is off.
++    void UnpackLMReaction(FEElement& el, vector<int>& lm);
+ 
+ 	//! Serialization
+ 	void Serialize(DumpStream& ar) override;
+diff -ruN '--exclude=build' '--exclude=.git' upstream/febio-v4.13/FEBioFluid/FEFluidFSITraction.cpp src_experimental/febio-v4.13-rt/FEBioFluid/FEFluidFSITraction.cpp
+--- upstream/febio-v4.13/FEBioFluid/FEFluidFSITraction.cpp	2026-10-29 18:21:07.934058505 +0000
++++ src_experimental/febio-v4.13-rt/FEBioFluid/FEFluidFSITraction.cpp	2026-11-01 07:49:38.672124538 +0000
+@@ -34,6 +34,18 @@
+ #include "FEBioFSI.h"
+ 
+ //-----------------------------------------------------------------------------
++// Experimental (default OFF, env FEBIO_RT_NOVISC_TRACTION=1): omit the viscous part of the traction (residual and tangent) because the
++// reaction-transfer correction (FEBIO_RT_REACTION=1, FEFluidFSIDomain3D) already assembles the viscous force in weak form at the
++// constrained interface nodes; keeping both would count the viscous force twice.
++#include <cstdlib>
++static bool rt_novisc_traction()
++{
++    static int v = -1;
++    if (v < 0) { const char* e = getenv("FEBIO_RT_NOVISC_TRACTION"); v = (e && atoi(e) != 0) ? 1 : 0; }
++    return v == 1;
++}
++
++//-----------------------------------------------------------------------------
+ // Parameter block for pressure loads
+ BEGIN_FECORE_CLASS(FEFluidFSITraction, FESurfaceLoad)
+     ADD_PARAMETER(m_bshellb , "shell_bottom");
+@@ -150,6 +162,7 @@
+ 		sv += pfsi->Fluid()->GetViscous()->Stress(mp);
+ 	}
+ 	sv /= nint;
++	if (rt_novisc_traction()) sv = mat3ds(mat3dd(0));
+ 	return sv;
+ }
+ 
+@@ -247,6 +260,7 @@
+ 		svJ /= pint;
+ 		cv /= pint;
+ 		Ls /= pint;
++		if (rt_novisc_traction()) { sv = mat3ds(mat3dd(0)); svJ = mat3ds(mat3dd(0)); cv.zero(); }
+ 		mat3d M = mat3dd(a) - Ls;
+ 
+ 		double* N  = el.H (mp.m_index);
+diff -ruN '--exclude=build' '--exclude=.git' upstream/febio-v4.13/FEBioLib/version.cpp src_experimental/febio-v4.13-rt/FEBioLib/version.cpp
+--- upstream/febio-v4.13/FEBioLib/version.cpp	2026-10-29 18:21:07.950058632 +0000
++++ src_experimental/febio-v4.13-rt/FEBioLib/version.cpp	2026-11-01 06:59:37.108305650 +0000
+@@ -32,7 +32,7 @@
+     static char version[32];
+ 
+ #ifndef DEVCOMMIT
+-    snprintf(version, sizeof(version), "%d.%d.%d", VERSION, SUBVERSION, SUBSUBVERSION);
++    snprintf(version, sizeof(version), "%d.%d.%d-rt", VERSION, SUBVERSION, SUBSUBVERSION);
+ #else
+     snprintf(version, sizeof(version), "%d.%d.%d.%s", VERSION, SUBVERSION, SUBSUBVERSION, DEVCOMMIT);
+ #endif

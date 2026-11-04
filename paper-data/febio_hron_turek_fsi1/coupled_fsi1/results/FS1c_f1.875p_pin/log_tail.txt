@@ -1,0 +1,92 @@
+ 0.000000e+00 
+	   dilatation          2.299025e-12    4.855818e-18    0.000000e+00 
+Reforming stiffness matrix: reformation #3
+
+ 3
+ Nonlinear solution status: time= 12
+	stiffness updates             = 0
+	right hand side evaluations   = 4
+	stiffness matrix reformations = 3
+	step from line search         = 1.000000
+	convergence norms :     INITIAL         CURRENT         REQUIRED
+	   residual            5.649831e-10    4.060969e-20    5.649831e-20 
+	   energy              7.089475e-08    2.963745e-18    7.089475e-16 
+	   displacement        1.600357e-12    9.718090e-16    0.000000e+00 
+	   velocity            1.404337e-05    6.069981e-15    0.000000e+00 
+	   dilatation          2.299025e-12    2.401611e-21    0.000000e+00 
+
+convergence summary
+    number of iterations   : 3
+    number of reformations : 3
+
+------- converged at time : 12
+
+
+Data Record #1
+===========================================================================
+Step = 24
+Time = 12
+Data = x;y;ux;uy
+File = pointA.txt
+
+Data Record #2
+===========================================================================
+Step = 24
+Time = 12
+Data = Rx;Ry
+File = react_root.txt
+
+
+ N O N L I N E A R   I T E R A T I O N   I N F O R M A T I O N
+
+	Number of time steps completed .................... : 24
+
+	Total number of equilibrium iterations ............ : 140
+
+	Average number of equilibrium iterations .......... : 5.83333
+
+	Total number of right hand evaluations ............ : 164
+
+	Total number of stiffness reformations ............ : 140
+
+
+ L I N E A R   S O L V E R   S T A T S
+
+	Total calls to linear solver ........ : 140
+
+	Avg iterations per solve ............ : 1
+
+	Time in linear solver: 0:15:45
+
+
+ Elapsed time : 0:17:04
+
+ T I M I N G   I N F O R M A T I O N
+
+	Input time ...................... : 0:00:00 (0.176624 sec)
+
+	Initialization time ............. : 0:00:00 (0.0683359 sec)
+
+	Solve time ...................... : 0:17:04 (1024.47 sec)
+
+	   IO-time (plot, dmp, data) .... : 0:00:00 (0.0576556 sec)
+
+	   serialization ................ : 0:00:00 (0 sec)
+
+	   reforming stiffness .......... : 0:00:00 (0.325499 sec)
+
+	   evaluating stiffness ......... : 0:00:58 (57.8233 sec)
+
+	   evaluating residual .......... : 0:00:06 (6.28768 sec)
+
+	   model update ................. : 0:00:11 (11.3821 sec)
+
+	   QN updates ................... : 0:00:00 (4.2171e-05 sec)
+
+	   time in linear solver ........ : 0:15:45 (944.56 sec)
+
+	Total elapsed time .............. : 0:17:05 (1024.72 sec)
+
+
+ N O R M A L   T E R M I N A T I O N
+

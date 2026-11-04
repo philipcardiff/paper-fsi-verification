@@ -1,0 +1,42 @@
+{
+ "out": "OVERNIGHT2/runs/C3_f2.0",
+ "tag": "C3_f2.0",
+ "factor": 2.0,
+ "k": 1000000.0,
+ "dt": 0.5,
+ "t_end": 40.0,
+ "ramp": 2.0,
+ "rhoi": 0.0,
+ "pin_root": null,
+ "pin_root_values": "0,0",
+ "relaxed": false,
+ "purpose": "Hron-Turek CFD1 rigid-flag fluid-only (stage C)",
+ "n_nodes": 43612,
+ "n_elem": 21344,
+ "n_steps": 80,
+ "n_inlet_free": 79,
+ "n_obstacle_nodes_layer": 290,
+ "n_obstacle_edges": 290,
+ "area": 1.0101423497717323,
+ "area_exact": 1.0101258142631389,
+ "area_rel_diff": 1.6369751529958753e-05,
+ "min_sin_corner": 0.8883936469608364,
+ "max_edge_aspect": 17.398695488893946,
+ "first_cell_wall_dist_min": 0.00104272306306602,
+ "first_cell_wall_dist_median": 0.0027728202915532295,
+ "first_cell_wall_dist_max": 0.005714285714285672,
+ "pin_nodes_layer": [
+  8334,
+  11920
+ ],
+ "inlet_dy_max": 0.005333333333333412,
+ "n_inlet_edges": 80,
+ "feb_sha256": "caf7022ec902c05f100fb91129b91676aff8325071aaae8c68b9330ac4b21841",
+ "mesh_sha256": "41ce3dc6d51bf7f808795edc665f9e6214ae5c78893491a4ea3bd605325862e9",
+ "bmd_sha256": "88359ea97ad4b9167f92d6d40b450dae969470b848e2b2bb9cd6ae203db4e637",
+ "generator": "tools/make_hronturek_cfd_feb.py v2 (v1 + --pin-root-values)",
+ "pin_values_applied": {
+  "8334": 0.0,
+  "11920": 0.0
+ }
+}

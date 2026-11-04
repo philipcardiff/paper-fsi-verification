@@ -1,0 +1,9 @@
+# Overnight-2 preregistration C3 (exploratory): what the reaction correction does on unresolved and resolved no-slip meshes
+
+Hashed before the runs. Results of C2 (fixed in `RT_PATCH_REPORT.md`, traction retained, switch on): P3 met (400/400, Newton 4.0-4.07), P4 met (resolved potential-flow start Gamma -1.8e-3), P2' met (4-delta potential-flow start: Gamma 1.41e-2 -> -5.4e-4, decay -0.47 -> +0.46 alpha_V, ratio error against V -0.127 -> -0.031 %), **P5' failed on the decay** (production ring decay 0.984 -> 1.163 alpha_V, ratio error change +0.003 pp met). So the correction removes the energy creation of the unresolved case and changes the resolved damping by +16 to +20 %.
+Question: is the correction's damping change an O(h/delta) discretisation error that falls with near-wall refinement, and does it repair the uniform-mesh no-slip failure (the tutorial's unresolved mesh class)?
+Runs (moderate regime, E_mesh 1e-3, fluid at rest, no-slip both, ring f1; stock = pristine binary, patched = FEBIO_RT_REACTION=1 with the traction retained):
+- U1s (stock) and U1rt (patched): uniform 12-cell fluid mesh (the original unresolved class).
+- E3rt2 (patched): 4 delta graded mesh (stock counterpart E3: decay -0.517 alpha_V, ratio error against V -0.188 %).
+- Pd1rt, Pd16rt (patched): first cell delta and delta/16 (stock counterparts: Pm1 delta/4 only; decay by the compatible-start ladder 0.56, 1.02, 1.03 at delta, delta/4, delta/16).
+Predictions: (a) |ratio error vs V| of U1rt at most half that of U1s and decay positive; (b) E3rt2 decay positive and |ratio error vs V| at most half of E3's; (c) |decay/alpha_V - 1| of the patched runs decreases monotonically from delta to delta/4 (Pm1rt2: 0.163) to delta/16, i.e. Pd16rt <= 0.163 <= Pd1rt. A failed prediction is reported as failed. Role: exploratory; budget 2 CPU-h. This does not alter the P5' failure.

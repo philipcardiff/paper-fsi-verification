@@ -1,0 +1,42 @@
+{
+ "out": "C1p_L1_f1.25_K1e6",
+ "tag": "C1p_L1_f1.25_K1e6",
+ "factor": 1.25,
+ "k": 1000000.0,
+ "dt": 0.5,
+ "t_end": 40.0,
+ "ramp": 2.0,
+ "rhoi": 0.0,
+ "pin_root": null,
+ "pin_root_values": "-81.6042241147,-123.87086089350001",
+ "relaxed": false,
+ "purpose": "Stage C level 1 (8330 cells) rigid-flag CFD1 WITH root-junction pins (-81.604, -123.871 Pa: declared rule, means of wall neighbours of C1u), K=1e6",
+ "n_nodes": 17240,
+ "n_elem": 8330,
+ "n_steps": 80,
+ "n_inlet_free": 49,
+ "n_obstacle_nodes_layer": 183,
+ "n_obstacle_edges": 183,
+ "area": 1.0101468721887474,
+ "area_exact": 1.0101258142631389,
+ "area_rel_diff": 2.0846834435116378e-05,
+ "min_sin_corner": 0.8919377608943578,
+ "max_edge_aspect": 17.447551539313604,
+ "first_cell_wall_dist_min": 0.001630381070183956,
+ "first_cell_wall_dist_median": 0.004472521665760274,
+ "first_cell_wall_dist_max": 0.009090909090909038,
+ "pin_nodes_layer": [
+  3367,
+  4792
+ ],
+ "inlet_dy_max": 0.008421052631579051,
+ "n_inlet_edges": 50,
+ "feb_sha256": "e48e6770dd49a3012e618f7ffe8f8e772d8f94ff2c2bb971c89908e7ae75968a",
+ "mesh_sha256": "552d0e293bd59690a7bcb8ffb28943b13087d941aa99f336e4a10127fb079214",
+ "bmd_sha256": "88359ea97ad4b9167f92d6d40b450dae969470b848e2b2bb9cd6ae203db4e637",
+ "generator": "tools/make_hronturek_cfd_feb.py v2 (v1 + --pin-root-values)",
+ "pin_values_applied": {
+  "3367": -81.6042241147,
+  "4792": -123.87086089350001
+ }
+}
