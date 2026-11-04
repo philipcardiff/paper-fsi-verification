@@ -1,0 +1,3 @@
+check,campaign,independent_closed_form,independent_numeric_dWdF,gate,result
+"law identity (hex8 block, F_k up to J = 0.95), relative to max |stress|",1.22467e-12,1.22467e-12,3.2554e-10,1e-8,PASS
+"rotation BC expression, max node difference [m]",7.01439e-13,7.01439e-13,,1e-10,PASS

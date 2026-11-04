@@ -1,0 +1,28 @@
+run,attempt,steps_started,steps_converged,last_time_started,termination,mean_iterations_per_converged_step,max_iterations,total_equilibrium_iterations,diagnostics
+RTA_law1,final,5,5,1.0,NORMAL,4.0,4,20,
+RTA_law1b,final,5,5,1.0,NORMAL,4.0,4,20,
+RTA_law1c,final,5,5,1.0,NORMAL,2.0,2,10,
+RTA_rotcheck,final,40,40,2.0,NORMAL,1.0,1,40,
+RTA_twist_M1,final,20,20,2.0,NORMAL,4.55,5,91,
+RTA_twist_M1,attempt3_valid_outer_zero_disp,20,20,2.0,NORMAL,4.55,5,91,
+RTA_twist_M1,failed_attempt1,0,0,,NONE,,,,
+RTA_twist_M1,failed_attempt2,0,0,,NONE,,,,
+RTA_twist_M2,final,20,20,2.0,NORMAL,4.55,5,91,
+RTA_twist_M3,final,20,20,2.0,NORMAL,4.55,5,91,
+RTB_fluid_M1,final,200,200,2.0,NORMAL,1.86,2,372,
+RTB_fluid_M1_bcshift,final,200,200,2.0,NORMAL,1.86,2,372,
+RTB_fluid_M2,final,200,200,2.0,NORMAL,1.86,2,372,
+RTC_fsi_M1,final,2,1,0.02,ERROR,1.0,1,11,32 negative jacobians detected.; Problem is diverging. Stiffness matrix will now be reformed
+SMK_ale_M0,final,20,20,0.2,NORMAL,1.95,3,39,
+SMK_ale_M0,failed_attempt1,0,0,,NONE,,,,
+SMK_fluid_M0,final,20,20,0.2,NORMAL,1.0,1,20,
+SMK_fluid_M0,failed_attempt1,0,0,,NONE,,,,
+SMK_fsi_M0,final,5,4,0.05,ERROR,1.0,1,18,Problem is diverging. Stiffness matrix will now be reformed
+SMK_fsi_M0,failed_attempt1,1,0,0.01,ERROR,,,14,Problem is diverging. Stiffness matrix will now be reformed
+SMK_fsi_M0,failed_attempt2_emesh1,5,4,0.05,ERROR,1.0,1,18,Problem is diverging. Stiffness matrix will now be reformed
+SMK_fsi_M0_cm,final,5,4,0.05,ERROR,1.0,1,18,Problem is diverging. Stiffness matrix will now be reformed
+SMK_fsi_M0_mu0p3,final,5,4,0.05,ERROR,1.0,1,18,Problem is diverging. Stiffness matrix will now be reformed
+SMK_fsi_M0_rhoi0p9,final,20,20,0.2,NORMAL,6.95,10,139,
+SMK_fsi_M0_svk,final,20,20,0.2,NORMAL,6.85,10,137,
+SMK_fsi_M0_tf0,final,5,4,0.05,ERROR,1.0,1,18,Problem is diverging. Stiffness matrix will now be reformed
+SMK_fsi_M0_tf0,failed_attempt1,0,0,,NONE,,,,

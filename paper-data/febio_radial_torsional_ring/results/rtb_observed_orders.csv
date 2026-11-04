@@ -1,0 +1,11 @@
+time_labels,quantity,order_campaign,order_independent,ratio_M1_over_M2
+as_run,velocity_L2,0.0342535,0.0344736,1.02403
+as_run,T1_Emax,0.770766,0.770768,1.70618
+as_run,T2_Emax,0.784484,0.784485,1.72248
+as_run,T3_Emax,-0.122313,-0.122261,0.918713
+as_run,Hf_Emax,-0.101432,-0.101433,0.932107
+aligned_dt2,velocity_L2,2.07146,2.06927,4.20311
+aligned_dt2,T1_Emax,0.944989,0.944988,1.92517
+aligned_dt2,T2_Emax,0.947925,0.947877,1.9291
+aligned_dt2,T3_Emax,1.34681,1.3584,2.54349
+aligned_dt2,Hf_Emax,1.8627,1.86359,3.63687

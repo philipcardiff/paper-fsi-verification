@@ -1,0 +1,3 @@
+mesh,predicted_T2_Emax_percent,observed_T2_Emax_aligned_percent,observed_as_run_percent,relative_deviation_aligned_vs_prediction
+M1,11.7,11.4211,12.8673,-0.0238368
+M2,6.0,5.92044,7.47024,-0.0132593

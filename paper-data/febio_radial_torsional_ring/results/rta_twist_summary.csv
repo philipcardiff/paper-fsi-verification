@@ -1,0 +1,4 @@
+mesh,n_theta,n_radial_solid,E_max_TA_campaign,E_max_TA_independent,E_max_ur_R0p75,E_max_alpha_R0p75,inner_plus_outer_torque_over_max_inner_independent,axisymmetry_ray0_vs_ray45_rel,peak_TA_reference,peak_TA_febio,observed_order_to_next
+M1,64,8,0.00339565,0.00339565,0.00176342,0.00311233,1.83092e-12,7.01765e-11,2551.05,2559.72,1.95152
+M2,128,16,0.000877925,0.000877925,0.000568697,0.000807614,4.3172e-13,4.88645e-11,2551.05,2553.29,1.9869
+M3,256,32,0.000221483,0.000221483,0.000151247,0.000203945,3.35409e-13,4.4974e-11,2551.05,2551.62,
