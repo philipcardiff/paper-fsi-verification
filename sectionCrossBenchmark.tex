@@ -251,7 +251,7 @@ Disagreements between codes can originate in the discretisation of the reference
 		Hron--Turek FSI1 & to $t = 30\,\mathrm{s}$ at $\Delta t = 0.00625\,\mathrm{s}$: 1x 1\,754\,s serial; 2x 1.2\,h on 4 ranks; 4x 5.5\,h on 16 ranks; 8x $\approx25$\,h on 64 ranks (MeluXina) \\
 		Hron--Turek FSI3 & 1x 1.4\,h serial; 2x 5.5\,h on 8 ranks; 4x 40.8\,h on 32 ranks (no speed-up beyond 32 ranks); OpenFOAM-v2512 \\
 		Hron--Turek FSI2 & 1x 1.1--1.2\,h serial; 2x 4.0--4.1\,h on 7--8 ranks \\
-		3dTube & level 1 504\,s on 4 ranks; level 2 3\,641\,s on 8 ranks; level 3 22\,502\,s (6.25\,h) on 32 ranks ($\approx200$ core-hours) \\
+		3dTube & level 1 504\,s on 4 ranks; level 2 3\,641\,s on 8 ranks; level 3 22\,502\,s (6.25\,h) on 32 ranks ($\approx200$ core-hours); desktop workstation, 32 ranks: 123\,s, 1\,123\,s and 25\,166\,s (7.0\,h) \\
 		mokLidDrivenCavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
 		cavityFlexibleBottom$^\ast$ & three-level sweep $\approx10$\,min serial \\
 		beamInCrossFlow$^\ast$ & level 3 ($4.2\times10^{6}$ fluid cells) $\approx45$ node-hours on 128-core nodes; both inflows to level 3 with checks $158$ node-hours ($2.0\times10^{4}$ core-hours) \\
