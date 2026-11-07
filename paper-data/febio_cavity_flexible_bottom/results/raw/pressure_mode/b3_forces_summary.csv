@@ -1,0 +1,5 @@
+run_state,time_s,flag,F1_applied_nodal_Fy,F2_element_mean_Fy,F3_extrap_element_Fy,F4_pairrow_Fy,F1_minus_F2,parity_part_of_F1,D_row1_minus_row0_Pa,F1_Fx,F2_Fx,units
+M1,900.0,0,-4.717604,-5.437454,-5.437234,-5.437454,0.71985,0.720066,0.36471,0.021447,0.009447,"N/m (force of fluid on plate, per m depth)"
+M2,750.0,0,-4.933886,-5.274788,-5.27376,-5.274788,0.340903,0.341928,0.173021,0.021978,0.010014,"N/m (force of fluid on plate, per m depth)"
+M3,500.0,0,-4.980892,-5.246922,-5.246307,-5.246922,0.26603,0.266643,0.134437,0.021955,0.010163,"N/m (force of fluid on plate, per m depth)"
+M3_t717p5_failure_exit_state,717.5,2,-4.98346,-5.249401,-5.248785,-5.249401,0.265942,0.266556,0.134386,0.021941,0.010152,"N/m (force of fluid on plate, per m depth)"

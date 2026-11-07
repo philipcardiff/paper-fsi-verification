@@ -1,0 +1,266 @@
+diff -ruN '--exclude=.git' upstream/febio-v4.13/FEBioFluid/FEFluidDomain3D.cpp src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidDomain3D.cpp
+--- upstream/febio-v4.13/FEBioFluid/FEFluidDomain3D.cpp	2026-10-29 18:21:07.934058505 +0000
++++ src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidDomain3D.cpp	2026-10-30 20:56:36.980927240 +0000
+@@ -36,6 +36,8 @@
+ #include <FECore/sys.h>
+ #include "FEBioFluid.h"
+ #include <FECore/FELinearSystem.h>
++#include "FEFluidPPP.h"
++#include <vector>
+ 
+ //-----------------------------------------------------------------------------
+ //! constructor
+@@ -105,6 +107,7 @@
+ //! Initialize element data
+ void FEFluidDomain3D::PreSolveUpdate(const FETimeInfo& timeInfo)
+ {
++    if (febio_ppp::FirstUse()) feLogInfo("EXPERIMENTAL febio-v4.13-ppp: polynomial pressure projection alpha = %.10g (FEBIO_PPP_ALPHA; 0 = stock formulation)", febio_ppp::Alpha());
+     const int NE = FEElement::MAX_NODES;
+     vec3d x0[NE], r0, v;
+     FEMesh& m = *GetMesh();
+@@ -232,6 +235,22 @@
+             fe[4*i+3] -= fJ*detJ;
+         }
+     }
++
++    // EXPERIMENTAL PPP (skipped entirely when alpha == 0)
++    if (febio_ppp::Alpha() != 0.0)
++    {
++        std::vector<double> W(nint), Hq(nint*neln), pq(nint), fJs(neln, 0.0);
++        for (n=0; n<nint; ++n)
++        {
++            FEMaterialPoint& mp = *el.GetMaterialPoint(n);
++            FEFluidMaterialPoint& pt = *(mp.ExtractData<FEFluidMaterialPoint>());
++            W[n] = detJ0(el, n)*gw[n]; pq[n] = pt.m_pf;
++            const double* Hn = el.H(n); for (i=0; i<neln; ++i) Hq[n*neln+i] = Hn[i];
++        }
++        double mu = m_pMat->GetViscous()->ShearViscosity(*el.GetMaterialPoint(0));
++        febio_ppp::Residual(febio_ppp::Alpha(), mu, nint, neln, W.data(), Hq.data(), pq.data(), fJs.data());
++        for (i=0; i<neln; ++i) fe[4*i+3] -= fJs[i];
++    }
+ }
+ 
+ //-----------------------------------------------------------------------------
+@@ -451,6 +470,22 @@
+             }
+         }
+     }
++
++    // EXPERIMENTAL PPP tangent (skipped entirely when alpha == 0)
++    if (febio_ppp::Alpha() != 0.0)
++    {
++        std::vector<double> W(nint), Hq(nint*neln), pq(nint), dpq(nint), kee(neln*neln, 0.0);
++        for (n=0; n<nint; ++n)
++        {
++            FEMaterialPoint& mp = *el.GetMaterialPoint(n);
++            FEFluidMaterialPoint& pt = *(mp.ExtractData<FEFluidMaterialPoint>());
++            W[n] = detJ0(el, n)*gw[n]; pq[n] = pt.m_pf; dpq[n] = m_pMat->Tangent_Pressure_Strain(mp);
++            const double* Hn = el.H(n); for (i=0; i<neln; ++i) Hq[n*neln+i] = Hn[i];
++        }
++        double mu = m_pMat->GetViscous()->ShearViscosity(*el.GetMaterialPoint(0));
++        febio_ppp::TangentE(febio_ppp::Alpha(), mu, tp.alphaf, nint, neln, W.data(), Hq.data(), dpq.data(), pq.data(), kee.data());
++        for (i=0, i4=0; i<neln; ++i, i4 += 4) for (j=0, j4=0; j<neln; ++j, j4 += 4) ke[i4+3][j4+3] += kee[i*neln+j];
++    }
+ }
+ 
+ //-----------------------------------------------------------------------------
+diff -ruN '--exclude=.git' upstream/febio-v4.13/FEBioFluid/FEFluidFSIDomain3D.cpp src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidFSIDomain3D.cpp
+--- upstream/febio-v4.13/FEBioFluid/FEFluidFSIDomain3D.cpp	2026-10-29 18:21:07.934058505 +0000
++++ src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidFSIDomain3D.cpp	2026-10-30 20:56:52.956943336 +0000
+@@ -28,6 +28,8 @@
+ 
+ #include "stdafx.h"
+ #include "FEFluidFSIDomain3D.h"
++#include "FEFluidPPP.h"
++#include <vector>
+ #include <FECore/log.h>
+ #include <FECore/FEModel.h>
+ #include "FEBioFSI.h"
+@@ -111,6 +113,7 @@
+ //! Initialize element data
+ void FEFluidFSIDomain3D::PreSolveUpdate(const FETimeInfo& timeInfo)
+ {
++    if (febio_ppp::FirstUse()) feLogInfo("EXPERIMENTAL febio-v4.13-ppp: polynomial pressure projection alpha = %.10g (FEBIO_PPP_ALPHA; 0 = stock formulation)", febio_ppp::Alpha());
+     const int NE = FEElement::MAX_NODES;
+     vec3d x0[NE], xt[NE], r0, rt, v;
+     FEMesh& m = *GetMesh();
+@@ -304,6 +307,22 @@
+             fe[7*i+6] -= fJ;
+         }
+     }
++
++    // EXPERIMENTAL PPP (skipped entirely when alpha == 0)
++    if (febio_ppp::Alpha() != 0.0)
++    {
++        std::vector<double> W(nint), Hq(nint*neln), pq(nint), fJs(neln, 0.0);
++        for (n=0; n<nint; ++n)
++        {
++            FEMaterialPoint& mp = *el.GetMaterialPoint(n);
++            FEFluidMaterialPoint& pt = *(mp.ExtractData<FEFluidMaterialPoint>());
++            W[n] = detJt(el, n, tp.alphaf)*gw[n]; pq[n] = pt.m_pf;
++            const double* Hn = el.H(n); for (i=0; i<neln; ++i) Hq[n*neln+i] = Hn[i];
++        }
++        double mu = m_pMat->Fluid()->GetViscous()->ShearViscosity(*el.GetMaterialPoint(0));
++        febio_ppp::Residual(febio_ppp::Alpha(), mu, nint, neln, W.data(), Hq.data(), pq.data(), fJs.data());
++        for (i=0; i<neln; ++i) fe[7*i+6] -= fJs[i];
++    }
+ }
+ 
+ //-----------------------------------------------------------------------------
+@@ -564,6 +583,35 @@
+             }
+         }
+     }
++
++    // EXPERIMENTAL PPP tangent (skipped entirely when alpha == 0): d/de and d/du (current-configuration quadrature weights)
++    if (febio_ppp::Alpha() != 0.0)
++    {
++        std::vector<double> W(nint), Hq(nint*neln), pq(nint), dpq(nint), gN(nint*neln*3), kee(neln*neln, 0.0), kxu(neln*neln*3, 0.0);
++        for (n=0; n<nint; ++n)
++        {
++            FEMaterialPoint& mp = *el.GetMaterialPoint(n);
++            FEFluidMaterialPoint& pt = *(mp.ExtractData<FEFluidMaterialPoint>());
++            double Jq[3][3]; double dJ = invjact(el, Jq, n, tp.alphaf);
++            W[n] = dJ*gw[n]; pq[n] = pt.m_pf; dpq[n] = m_pMat->Fluid()->Tangent_Pressure_Strain(mp);
++            vec3d g1(Jq[0][0],Jq[0][1],Jq[0][2]), g2(Jq[1][0],Jq[1][1],Jq[1][2]), g3(Jq[2][0],Jq[2][1],Jq[2][2]);
++            const double* Hn = el.H(n); const double* Grn = el.Gr(n); const double* Gsn = el.Gs(n); const double* Gtn = el.Gt(n);
++            for (i=0; i<neln; ++i) {
++                Hq[n*neln+i] = Hn[i];
++                vec3d gn = g1*Grn[i] + g2*Gsn[i] + g3*Gtn[i];
++                gN[(n*neln+i)*3] = gn.x; gN[(n*neln+i)*3+1] = gn.y; gN[(n*neln+i)*3+2] = gn.z;
++            }
++        }
++        double mu = m_pMat->Fluid()->GetViscous()->ShearViscosity(*el.GetMaterialPoint(0));
++        febio_ppp::TangentE(febio_ppp::Alpha(), mu, tp.alphaf, nint, neln, W.data(), Hq.data(), dpq.data(), pq.data(), kee.data());
++        febio_ppp::TangentX(febio_ppp::Alpha(), mu, tp.alphaf, nint, neln, W.data(), Hq.data(), gN.data(), pq.data(), kxu.data());
++        for (i=0, i7=0; i<neln; ++i, i7 += 7) for (j=0, j7=0; j<neln; ++j, j7 += 7) {
++            ke[i7+6][j7+6] += kee[i*neln+j];
++            ke[i7+6][j7  ] += kxu[(i*neln+j)*3  ];
++            ke[i7+6][j7+1] += kxu[(i*neln+j)*3+1];
++            ke[i7+6][j7+2] += kxu[(i*neln+j)*3+2];
++        }
++    }
+ }
+ 
+ //-----------------------------------------------------------------------------
+diff -ruN '--exclude=.git' upstream/febio-v4.13/FEBioFluid/FEFluidNormalVelocity.cpp src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidNormalVelocity.cpp
+--- upstream/febio-v4.13/FEBioFluid/FEFluidNormalVelocity.cpp	2026-10-29 18:21:07.938058537 +0000
++++ src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidNormalVelocity.cpp	2026-10-30 21:06:31.185525862 +0000
+@@ -28,6 +28,8 @@
+ 
+ #include "stdafx.h"
+ #include "FEFluidNormalVelocity.h"
++#include "FEFluidPPP.h"
++#include <FECore/FEModel.h>
+ #include "FECore/FEElemElemList.h"
+ #include "FECore/FEGlobalMatrix.h"
+ #include "FECore/FEGlobalVector.h"
+@@ -306,7 +308,19 @@
+         }
+     }
+     
+-    if (m_brim) SetRimPressure();
++    if (m_brim)
++    {
++        // EXPERIMENTAL PPP: with alpha == 0 the stock behaviour (rim re-evaluated at every Update, i.e. every Newton iteration) is kept exactly.
++        // With alpha > 0 the rim value is re-evaluated only when the model time changes (once per time step), so that it is a constant
++        // during the Newton iterations of a step and the assembled Jacobian is consistent with the residual (the stabilisation term couples
++        // the rim e_f to the neighbouring rows strongly; the stock Jacobian has no d(rim)/d(e_inlet) term). The converged state is the same fixed point.
++        if (febio_ppp::Alpha() == 0.0) SetRimPressure();
++        else {
++            static double lastRimTime = -1.0e300;
++            double tnow = GetFEModel()->GetTime().currentTime;
++            if (tnow != lastRimTime) { SetRimPressure(); lastRimTime = tnow; }
++        }
++    }
+     
+     ForceMeshUpdate();
+ }
+diff -ruN '--exclude=.git' upstream/febio-v4.13/FEBioFluid/FEFluidPPP.cpp src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidPPP.cpp
+--- upstream/febio-v4.13/FEBioFluid/FEFluidPPP.cpp	1970-01-01 01:00:00.000000000 +0100
++++ src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidPPP.cpp	2026-10-30 20:56:22.348912500 +0000
+@@ -0,0 +1,50 @@
++// EXPERIMENTAL (febio-v4.13-ppp): see FEFluidPPP.h
++#include "FEFluidPPP.h"
++#include <cstdlib>
++#include <vector>
++namespace febio_ppp {
++double Alpha() { static const double a = getenv("FEBIO_PPP_ALPHA") ? atof(getenv("FEBIO_PPP_ALPHA")) : 0.0; return a; }
++bool FirstUse() { static bool first = true; bool r = first; first = false; return r; }
++
++static void sums(int nq, int neln, const double* W, const double* H, const double* p, double& V, double& pbar, std::vector<double>& I)
++{
++    V = 0; double s = 0; I.assign(neln, 0.0);
++    for (int q = 0; q < nq; ++q) { V += W[q]; s += W[q]*p[q]; for (int a = 0; a < neln; ++a) I[a] += W[q]*H[q*neln+a]; }
++    pbar = s/V;
++}
++
++void Residual(double alpha, double mu, int nq, int neln, const double* W, const double* H, const double* p, double* fJ)
++{
++    if (alpha == 0.0 || mu <= 0.0) return;
++    double V, pbar; std::vector<double> I; sums(nq, neln, W, H, p, V, pbar, I);
++    const double g = -alpha/mu;
++    for (int a = 0; a < neln; ++a) { double s = 0; for (int q = 0; q < nq; ++q) s += W[q]*H[q*neln+a]*(p[q]-pbar); fJ[a] += g*s; }
++}
++
++void TangentE(double alpha, double mu, double alphaf, int nq, int neln, const double* W, const double* H, const double* dp, const double* p, double* kee)
++{
++    if (alpha == 0.0 || mu <= 0.0) return;
++    double V, pbar; std::vector<double> I; sums(nq, neln, W, H, p, V, pbar, I);
++    const double g = -alpha/mu*alphaf;
++    std::vector<double> J(neln, 0.0); // J_b = sum_q W_q dp_q H_qb
++    for (int q = 0; q < nq; ++q) for (int b = 0; b < neln; ++b) J[b] += W[q]*dp[q]*H[q*neln+b];
++    for (int a = 0; a < neln; ++a) for (int b = 0; b < neln; ++b) {
++        double s = 0; for (int q = 0; q < nq; ++q) s += W[q]*H[q*neln+a]*dp[q]*H[q*neln+b];
++        kee[a*neln+b] += g*(s - I[a]*J[b]/V);
++    }
++}
++
++void TangentX(double alpha, double mu, double alphaf, int nq, int neln, const double* W, const double* H, const double* gradN, const double* p, double* kxu)
++{
++    if (alpha == 0.0 || mu <= 0.0) return;
++    double V, pbar; std::vector<double> I; sums(nq, neln, W, H, p, V, pbar, I);
++    const double g = -alpha/mu*alphaf;
++    for (int b = 0; b < neln; ++b) for (int k = 0; k < 3; ++k) {
++        double gb = 0; for (int q = 0; q < nq; ++q) gb += W[q]*gradN[(q*neln+b)*3+k]*(p[q]-pbar); gb /= V;
++        for (int a = 0; a < neln; ++a) {
++            double s = 0; for (int q = 0; q < nq; ++q) s += W[q]*gradN[(q*neln+b)*3+k]*H[q*neln+a]*(p[q]-pbar);
++            kxu[(a*neln+b)*3+k] += g*(s - I[a]*gb);
++        }
++    }
++}
++}
+diff -ruN '--exclude=.git' upstream/febio-v4.13/FEBioFluid/FEFluidPPP.h src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidPPP.h
+--- upstream/febio-v4.13/FEBioFluid/FEFluidPPP.h	1970-01-01 01:00:00.000000000 +0100
++++ src_experimental/febio-v4.13-ppp/FEBioFluid/FEFluidPPP.h	2026-10-30 20:56:22.348912500 +0000
+@@ -0,0 +1,18 @@
++// EXPERIMENTAL (febio-v4.13-ppp): local polynomial pressure projection (Dohrmann-Bochev) for the continuity row of the
++// fluid dilatation formulation. See FEBIO_PRESSURE_PROJECTION_DERIVATION.md. Pure functions on element arrays (no FEBio types),
++// so that they can be tested against finite differences outside the solver.
++//   S_i = -(alpha/mu) sum_q W_q N_i(q) (p_q - pbar),   pbar = sum_q W_q p_q / V,   V = sum_q W_q
++// Arrays: W[nq] (quadrature weight x detJ, NOT times alphaf), H[q*neln+a] shape functions, p[nq] pressures, dp[nq] = dp/de.
++#pragma once
++namespace febio_ppp {
++// alpha from env FEBIO_PPP_ALPHA (default 0 = stock behaviour; read once)
++double Alpha();
++// returns true once per process (used to print the log banner)
++bool FirstUse();
++// fJ[a] += S_a
++void Residual(double alpha, double mu, int nq, int neln, const double* W, const double* H, const double* p, double* fJ);
++// kee[a*neln+b] += d S_a / d e_b (includes the factor alphaf of the alphaf-interpolated state)
++void TangentE(double alpha, double mu, double alphaf, int nq, int neln, const double* W, const double* H, const double* dp, const double* p, double* kee);
++// kxu[(a*neln+b)*3+k] += d S_a / d x_b,k  (FSI domain: dependence on the current-configuration quadrature weights); gradN[(q*neln+b)*3+k] spatial
++void TangentX(double alpha, double mu, double alphaf, int nq, int neln, const double* W, const double* H, const double* gradN, const double* p, double* kxu);
++}
+diff -ruN '--exclude=.git' upstream/febio-v4.13/FEBioLib/version.cpp src_experimental/febio-v4.13-ppp/FEBioLib/version.cpp
+--- upstream/febio-v4.13/FEBioLib/version.cpp	2026-10-29 18:21:07.950058632 +0000
++++ src_experimental/febio-v4.13-ppp/FEBioLib/version.cpp	2026-10-30 20:56:22.352912503 +0000
+@@ -32,7 +32,7 @@
+     static char version[32];
+ 
+ #ifndef DEVCOMMIT
+-    snprintf(version, sizeof(version), "%d.%d.%d", VERSION, SUBVERSION, SUBSUBVERSION);
++    snprintf(version, sizeof(version), "%d.%d.%d-ppp", VERSION, SUBVERSION, SUBSUBVERSION);
+ #else
+     snprintf(version, sizeof(version), "%d.%d.%d.%s", VERSION, SUBVERSION, SUBSUBVERSION, DEVCOMMIT);
+ #endif

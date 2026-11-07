@@ -1,0 +1,27 @@
+> **ARCHIVED WORKING REPORT (verbatim except path/host sanitisation).** Written during the investigation; file paths such as `runs/`, `tools/`, `cavity_agent/` refer to the original working tree, not to this package (see `docs/INDEX.md` for the package equivalents). Later reports supersede earlier ones where they disagree; known numerical/wording inconsistencies and their resolution are listed in `provenance/INCONSISTENCIES.md`. Nothing here claims a verified FEBio result.
+
+# CAVITY C5: cross-solver comparison (CAVITY agent, 2026-10-30)
+Quantities: steady top-surface u_y at point A (m) and steady vertical interface force F_y per unit depth (N/m). Values are read from the manuscript text, `paper-data/cavity_monolithic_618/quasi_monolithic_618.csv`, PR #12 (ANSYS, COMSOL) and PR #22 (`reference_levels.csv`, `reference_richardson.csv`, copies in `cavity_agent/refs/`), and from this campaign's logs (`runs/cavityNext/*/fsi_check.json`). The three classes are **not** merged into one ranking.
+## Class 1: StVK-confirmed (same constitutive law as the benchmark)
+| source | dx 0.1 | 0.05 | 0.025 | 0.0125 | extrapolated | numerical status |
+|---|---|---|---|---|---|---|
+| solids4foam partitioned (Aitken), u_y | -0.2046 | -0.2314 | -0.2384 | -0.2401 | -0.2407 (p = 2; orders 1.95-2.05) | strict-coupling reruns agree to 0.02 % |
+| solids4foam quasi-monolithic (#618), u_y | -0.2036 | -0.2310 | -0.2382 | -0.2400 | -0.2406 | shares code with the partitioned solver (consistency check, not independent) |
+| solids4foam QM, F_y | -5.1226 | -5.2266 | -5.2504 | -5.2560 | about -5.26 (orders 2.1-2.4) | |
+| **FEBio v4.13 monolithic fluid-FSI (this work), u_y** | **-0.2120** | **-0.2262** | **-0.2300** | not run | **-0.2314 (indicative)** | hex8 fluid+plate, floor-terminated, M3 not fully steady (1e-3) |
+| **FEBio, F_y (raw nodal pressure)** | **-4.718 +/-0.14** | **-4.934 +/-0.02** | **-4.983 +/-0.05** | not run | **-5.00 (indicative)** | odd-even bracket in +/- |
+FEBio vs solids4foam at the same dx: u_y +3.6 / -2.2 / -3.5 % (vs partitioned); F_y -7.9 / -5.6 / -5.1 % (vs QM); extrapolated u_y -3.9 %, F_y -4.9 %. Independent evidence for the StVK class does not exist: no non-solids4foam solver in the record is confirmed to use StVK, so FEBio is currently the only candidate independent StVK result, and **it does not agree on the force**.
+## Class 2: unresolved constitutive difference (displacement not comparable to StVK)
+| source | u_y dx 0.1 / 0.05 / 0.025 / 0.0125 | F_y same levels | extrapolated | note |
+|---|---|---|---|---|
+| Tukovic et al. 2018 | -0.2332 / -0.2457 / -0.2496 / -0.2506 | -5.160 / -5.229 / -5.249 / -5.255 | u_y -0.2510 (orders 1.7-1.8), F_y -5.257 | displacement matches a neo-Hookean-like plate; F_y matches StVK (0.01 %); read from the published vector figure |
+| ANSYS (PR #12, depth 10 mm) | -0.2473 / -0.2505 / -0.2520 / -0.2527 | -5.144 / -5.218 / -5.250 / -5.263 | u_y about -0.2536 (order about 1), F_y -5.27 | no built-in StVK; Hencky-like law suspected; not converged in order |
+| COMSOL (PR #22) | -0.236 / -0.241 / -0.243 / -0.243 | -5.109 / -5.228 / -5.296 / -5.295 | plateau -0.243 +/- 0.001; F_y -5.295 (+0.7 % load) | solid model unconfirmed; not extrapolable; 3 s.f. only |
+FEBio extrapolated u_y (-0.2314) is 7.8 % below Tukovic, 8.8 % below ANSYS, 4.8 % below COMSOL; this class says nothing about FEBio's constitutive law (FEBio uses `St.Venant-Kirchhoff`), only that the displacement spread of the references (4-5 %) is a plate-law effect (plate-only Q9: neo-Hookean +4.8 %, Hencky +5.7 % versus StVK), while the **forces of all four references agree to 0.2-0.7 %** and FEBio is 5 % below them.
+## Class 3: historical / supplementary
+Tutorial README comparison at dx = 0.1 (-0.232 published vs -0.219 solids4foam, read from a diagram) and the old underside-point values (-0.2025 / -0.2288 at (4,-1)); tutorial `verification/README.md` table (-0.20246 / -0.22883 / -0.23563) is underside-based and about 1 % smaller than the top-surface values. Not used for any comparison above.
+## Descriptive cost (not a speed comparison; different machines, formulations and meshes)
+FEBio (4 or 8 cores on a shared Slurm cluster node, pristine v4.13, Pardiso): M1 15 min x 4 cores = 1.0 core-h; M2 66 min x 4 = 4.4; M3 211 min x 8 = 28.2 core-h, 3.8 GB; every case 360-500 dynamic pseudo-time steps of dt = 2.5 s with about 7 Newton iterations per step. solids4foam: the tutorial driver reports about ten minutes in serial for levels 1-3 (partitioned, Aitken, OpenFOAM v2512, Apple M1 Ultra; `verification/README.md`). Not comparable with the table above beyond order of magnitude.
+## What can and cannot be claimed
+- Supported: FEBio v4.13 solves the benchmark's steady fluid-FSI problem with a well-posed inlet/outlet/wall set, conserves mass to 1e-4, has a plate response consistent with solids4foam's StVK plate and an internally consistent pressure transfer (S2), with u_y converging at about order 1.9 and F_y at about order 2.1 over three levels.
+- Not supported: agreement with the benchmark force. FEBio's converged force estimate (-5.00 N/m) is about 5 % below solids4foam, Tukovic, ANSYS and COMSOL, which agree to 0.2-0.7 %; the cause is unidentified. **No claim of verification or equivalence is made.** The pilot-level uncertainties (corner-pressure pin, odd-even mode, floor-terminated runs, M3 not fully steady, three levels only) remain.

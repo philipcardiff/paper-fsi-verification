@@ -1,0 +1,69 @@
+check,recomputed_or_stored,reference_or_quoted,abs_error,tolerance,result
+C2_fsi_pilot_f1: u_y(A) final vs pointA.txt,-0.2119673745,-0.2119673745,0,1e-12,PASS
+C2_fsi_pilot_f1: t_last,972.5,972.5,0,1e-09,PASS
+"C2_fsi_pilot_f1: F_y pressure (trapezoid of nodal p, deformed polyline) vs fsi_check",-4.717636186,-4.717636186,0,1e-09,PASS
+C2_fsi_pilot_f1: interface mean p,1.178415547,1.178415547,0,1e-09,PASS
+C2_fsi_pilot_f1: mass imbalance Qout/Qin-1,0.000117177724,0.000117177724,0,1e-12,PASS
+C3_fsi_M2: u_y(A) final vs pointA.txt,-0.2262325281,-0.2262325281,0,1e-12,PASS
+C3_fsi_M2: t_last,870,870,0,1e-09,PASS
+"C3_fsi_M2: F_y pressure (trapezoid of nodal p, deformed polyline) vs fsi_check",-4.933872041,-4.933872041,0,1e-09,PASS
+C3_fsi_M2: interface mean p,1.231963338,1.231963338,0,1e-09,PASS
+C3_fsi_M2: mass imbalance Qout/Qin-1,-1.86382277e-05,-1.86382277e-05,0,1e-12,PASS
+C3_fsi_M4: u_y(A) final vs pointA.txt,-0.2300376396,-0.2300376396,0,1e-12,PASS
+C3_fsi_M4: t_last,715,715,0,1e-09,PASS
+"C3_fsi_M4: F_y pressure (trapezoid of nodal p, deformed polyline) vs fsi_check",-4.98346874,-4.98346874,0,1e-09,PASS
+C3_fsi_M4: interface mean p,1.244733948,1.244733948,0,1e-09,PASS
+C3_fsi_M4: mass imbalance Qout/Qin-1,-2.31551066e-05,-2.31551066e-05,0,1e-12,PASS
+C4_dt1p25_M1: u_y(A) final vs pointA.txt,-0.2119678944,-0.2119678944,0,1e-12,PASS
+C4_dt1p25_M1: t_last,900,900,0,1e-09,PASS
+"C4_dt1p25_M1: F_y pressure (trapezoid of nodal p, deformed polyline) vs fsi_check",-4.717706813,-4.717706813,0,1e-09,PASS
+C4_dt1p25_M1: interface mean p,1.178432794,1.178432794,0,1e-09,PASS
+C4_dt1p25_M1: mass imbalance Qout/Qin-1,0.0001230074291,0.0001230074291,0,1e-12,PASS
+C4_K1e7_M1: u_y(A) final vs pointA.txt,-0.211958931,-0.211958931,0,1e-12,PASS
+C4_K1e7_M1: t_last,900,900,0,1e-09,PASS
+"C4_K1e7_M1: F_y pressure (trapezoid of nodal p, deformed polyline) vs fsi_check",-4.717597484,-4.717597484,0,1e-09,PASS
+C4_K1e7_M1: interface mean p,1.178406094,1.178406094,0,1e-09,PASS
+C4_K1e7_M1: mass imbalance Qout/Qin-1,0.0001147032632,0.0001147032632,0,1e-12,PASS
+C4_tol_M1: u_y(A) final vs pointA.txt,-0.2119591571,-0.2119591571,0,1e-12,PASS
+C4_tol_M1: t_last,900,900,0,1e-09,PASS
+"C4_tol_M1: F_y pressure (trapezoid of nodal p, deformed polyline) vs fsi_check",-4.717604022,-4.717604022,0,1e-09,PASS
+C4_tol_M1: interface mean p,1.17840769,1.17840769,0,1e-09,PASS
+C4_tol_M1: mass imbalance Qout/Qin-1,0.0001159640214,0.0001159640214,0,1e-12,PASS
+M1: F1 from facet table,-4.717604114,-4.717604,1.14e-07,5e-07,PASS
+M1: F2 from facet table,-5.43745414,-5.437454,1.4e-07,5e-07,PASS
+M1: F4 from facet table (F2=F4 identity for planar facets),-5.43745419,-5.43745414,4.98e-08,2e-07,PASS
+M1: D,0.3647100315,0.36471,3.15e-08,5e-07,PASS
+M2: F1 from facet table,-4.93388561,-4.933886,3.9e-07,5e-07,PASS
+M2: F2 from facet table,-5.274788193,-5.274788,1.93e-07,5e-07,PASS
+M2: F4 from facet table (F2=F4 identity for planar facets),-5.274788177,-5.274788193,1.61e-08,2e-07,PASS
+M2: D,0.1730206026,0.173021,3.97e-07,5e-07,PASS
+M3: F1 from facet table,-4.980891979,-4.980892,2.12e-08,5e-07,PASS
+M3: F2 from facet table,-5.246922365,-5.246922,3.65e-07,5e-07,PASS
+M3: F4 from facet table (F2=F4 identity for planar facets),-5.246922366,-5.246922365,1.23e-09,2e-07,PASS
+M3: D,0.1344368449,0.134437,1.55e-07,5e-07,PASS
+M3_t717p5_failure_exit_state: F1 from facet table,-4.983459847,-4.98346,1.53e-07,5e-07,PASS
+M3_t717p5_failure_exit_state: F2 from facet table,-5.249401353,-5.249401,3.53e-07,5e-07,PASS
+M3_t717p5_failure_exit_state: F4 from facet table (F2=F4 identity for planar facets),-5.249401355,-5.249401353,1.92e-09,2e-07,PASS
+M3_t717p5_failure_exit_state: D,0.1343859585,0.134386,4.15e-08,5e-07,PASS
+QUOTED M1 u_y(A) -0.2120 (t=972.5),-0.2119673745,-0.212,3.26e-05,5e-05,PASS
+QUOTED M2 u_y(A) -0.2262,-0.2262325281,-0.2262,3.25e-05,5e-05,PASS
+QUOTED M3 u_y(A) -0.2300,-0.2300376396,-0.23,3.76e-05,5e-05,PASS
+QUOTED M1 F_y -4.718,-4.717636186,-4.718,0.000364,0.0005,PASS
+QUOTED M2 F_y -4.934,-4.933872041,-4.934,0.000128,0.0005,PASS
+QUOTED M3 F_y -4.983,-4.98346874,-4.983,0.000469,0.0005,PASS
+QUOTED M1 F1 t=900 -4.7176,-4.717604,-4.7176,4e-06,5e-05,PASS
+QUOTED M1 F2 -5.4375,-5.437454,-5.4375,4.6e-05,5e-05,PASS
+QUOTED M2 F1 t=750 -4.9339,-4.933886,-4.9339,1.4e-05,5e-05,PASS
+QUOTED M2 F2 -5.2748,-5.274788,-5.2748,1.2e-05,5e-05,PASS
+QUOTED M3 F1 t=500 -4.9809,-4.980892,-4.9809,8e-06,5e-05,PASS
+QUOTED M3 F2 t=500 -5.2469,-5.246922,-5.2469,2.2e-05,5e-05,PASS
+QUOTED M3 t=717.5 F2 -5.2494 (separate state),-5.249401,-5.2494,1e-06,5e-05,PASS
+QUOTED M3 t=717.5 row parity D = 0.1335 Pa,0.1335616786,0.1335,6.17e-05,0.0001,PASS
+QUOTED M3 deficit vs QM same dx -5.1 %,-0.05083222173,-0.051,0.000168,0.0005,PASS
+QUOTED M1 deficit -7.9 %,-0.07905902442,-0.079,5.9e-05,0.0005,PASS
+QUOTED M2 deficit -5.6 %,-0.05599993406,-0.056,6.59e-08,0.0005,PASS
+QUOTED S1 hex8 40x4 -0.23026,-0.2302609535,-0.23026,9.54e-07,5e-06,PASS
+QUOTED S1 hex8 160x16 -0.24023,-0.2402263924,-0.24023,3.61e-06,5e-06,PASS
+QUOTED cavity FEBio jobs 13809..14025 excluding the five failed early inlet attempts: 37.9 CPU-h quoted by the campaign status,37.9505,37.9,0.0505,0.1,PASS
+sacct total of ALL cavity FEBio jobs 13809..14025 (incl. early failed attempts) [stated in INCONSISTENCIES I-1],38.0888,38.09,0.0012,0.01,PASS
+QUOTED experimental PPP rounds 1+2 CPU-h (0.68 + 0.046),0.7263,0.727,0.0007,0.005,PASS

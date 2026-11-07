@@ -1,0 +1,23 @@
+	Command being timed: "<repo>/build/febio-4.13/bin/febio4 -i C4_K1e7_M1.feb -silent"
+	User time (seconds): 2936.73
+	System time (seconds): 196.48
+	Percent of CPU this job got: 399%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 13:03.58
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 278168
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 12
+	Minor (reclaiming a frame) page faults: 46240746
+	Voluntary context switches: 1092
+	Involuntary context switches: 7192
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 14328
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

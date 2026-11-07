@@ -1,0 +1,114 @@
+{
+ "iterations": {
+  "A_total": 57,
+  "B_total": 57,
+  "A_steps": 10,
+  "B_steps": 10,
+  "identical_sequence": true,
+  "max_abs_step_diff": 0
+ },
+ "wall_s": {
+  "A": 8.00514,
+  "B": 7.0234
+ },
+ "termination_A_normal_error": [
+  true,
+  false
+ ],
+ "termination_B_normal_error": [
+  true,
+  false
+ ],
+ "fields": {
+  "Mon_all.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 6.549894237242593e-12,
+    "wy": 1.3200440740486423e-13,
+    "ef": 7.557034439435175e-12
+   }
+  },
+  "Mon_cl.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 8.764257115492396e-15,
+    "ef": 6.902663732219525e-12
+   }
+  },
+  "Mon_iface.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 0,
+    "ef": 7.111021277372462e-12
+   }
+  },
+  "Mon_inlet.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 0,
+    "ef": 5.41900798705819e-12
+   }
+  },
+  "Mon_outlet.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 1.6203671658331121e-13,
+    "ef": 0
+   }
+  },
+  "Mon_x10.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 1.3288618681405366e-15,
+    "ef": 2.639608285062817e-12
+   }
+  },
+  "Mon_x12.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 1.540701527363166e-15,
+    "ef": 3.850067125410645e-12
+   }
+  },
+  "Mon_x13.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 7.731003697567766e-15,
+    "ef": 7.658826747790574e-12
+   }
+  },
+  "Mon_x2.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 6.604534260529153e-15,
+    "ef": 5.818813754754985e-12
+   }
+  },
+  "Mon_x7.txt": {
+   "blocks": 11,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 3.231206450101666e-15,
+    "ef": 7.721790035316065e-12
+   }
+  }
+ }
+}

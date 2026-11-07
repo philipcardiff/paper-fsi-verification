@@ -1,0 +1,21 @@
+> **ARCHIVED WORKING REPORT (verbatim except path/host sanitisation).** Written during the investigation; file paths such as `runs/`, `tools/`, `cavity_agent/` refer to the original working tree, not to this package (see `docs/INDEX.md` for the package equivalents). Later reports supersede earlier ones where they disagree; known numerical/wording inconsistencies and their resolution are listed in `provenance/INCONSISTENCIES.md`. Nothing here claims a verified FEBio result.
+
+# CAVITY C4: coupled numerical sensitivity at M1 (CAVITY agent)
+## PRE-REGISTRATION (before the runs; all one-at-a-time against the M1 baseline C2 = dt 2.5, K 1e6, ftol/vtol 1e-6, dtol 1e-3, etol 1e-4, rtol 1e-6, rhoi 0, E_mesh 1e-3, corner pin 1.15 Pa, ramp 25 s)
+Baseline values are read from the C2 history at t = 900 s (identical trajectory to the 900 s runs; C2 itself ended at 975 s on the dilatation floor).
+- **C4_dt1p25_M1**: dt = 1.25 s (720 steps, t_end 900). Tests independence of the steady state from the pseudo-time step/start-up route. A change in steady u_y(A) or F_y larger than the steady-window spread (1e-4) is a route dependence that must be reported; two dt values do NOT give an observed order.
+- **C4_K1e7_M1**: K = 1e7 Pa (pin dilatation scaled so that p_pin = 1.15 Pa). Tests the bulk-modulus (compressibility) effect, expected O(Mach^2) ~ 1e-5 relative; dilatation floor margin shrinks (e_f ~ 1e-7).
+- **C4_tol_M1**: dtol 1e-5, etol 1e-6, rtol 1e-8 (displacement, energy, residual tolerances 100x tighter); vtol and ftol are unchanged because they sit on the arithmetic floor (ring D6 and C2 experience). A failed convergence is reported, not hidden.
+Quantities: steady u_y(A), u_x(A), F_y(pressure) with the odd-even bracket, mass balance, Newton statistics, cost. Window: last 10 % of the run (t in [810,900]).
+
+## RESULTS (2026-10-30; all three runs: normal termination, 0 errors, 0 cut-backs, 360/360/720 steps, mass imbalance 1.1e-4 to 1.2e-4)
+Baseline = C2 at t = 900 s: u_y(A) = -0.21195916 m, u_x(A) = 3.5714e-4 m (x = 4.00035714), F_y(pressure, raw) = -4.717604 N/m, odd-even even/odd-only bracket -4.5750 / -4.8603 (amplitude -0.07083 Pa), p on the interface 1.052-1.344 Pa. (C2 itself ran on to 972.5 s: -0.21196737 m, -4.717636 N/m.)
+| run (one change vs baseline) | u_y(A) (m) | rel. change | u_x(A) (m) | F_y raw (N/m) | rel. change | Newton it./step (max) | steady spread u_y(last 10 %) | wall / CPU-h (4 cores) |
+|---|---|---|---|---|---|---|---|---|
+| C4_tol_M1 (dtol 1e-5, etol 1e-6, rtol 1e-8) | -0.21195916 | **0 (identical to 8 digits)** | 3.5720e-4 | -4.717604 | 0 | 6.99 (22) | 1.67e-4 | 13:16 / 0.89 |
+| C4_K1e7_M1 (K 1e7) | -0.21195893 | **-1.1e-6** (|u_y| smaller) | 3.5719e-4 | -4.717597 | **-1.4e-6** (|F_y| smaller) | 6.95 (9) | 1.67e-4 | 13:04 / 0.87 |
+| C4_dt1p25_M1 (dt 1.25) | -0.21196789 | **+4.1e-5** (|u_y| larger) | 3.5555e-4 | -4.717707 | **+2.2e-5** (|F_y| larger) | 7.38 (10) | 3.8e-4 | 28:50 / 1.92 |
+Reading (what the data support): at M1 the steady u_y(A) and F_y are insensitive to the bulk modulus (K x10: about 1e-6), to the tightened d/e/r tolerances (identical to the printed digits: the criteria were not binding, as in ring D6) and to halving the pseudo-time step (+4e-5 in |u_y|, +2e-5 in |F_y|). The dt differences are of the same size as the residual slow drift inside the averaging window (the 900 s runs are steady to about 2e-4 in u_y, not 1e-4; the spread criterion of the pilot was met only on the longer window [875,972]), so the dt result is "independent within about 1e-4", not a convergence order (two dt values only). Not tested: rhoi, ramp length (start-up route), E_mesh, the corner-pin value (a pin of 1.15 Pa is a fixed numerical choice in every run), vtol/ftol (at the arithmetic floor), and any of these at M2/M3. The odd-even bracket (+/-3 %) is identical in all runs (amplitude 0.0708 Pa): it is not a solver-tolerance, K or dt effect; it is a spatial-discretisation property to be tested with the mesh levels.
+Cost note: halving dt doubles the cost with no change in the answer: dt = 2.5 s is sufficient at M1.
+
+Figure: `figures/cavity_numerical_sensitivity.png` (relative changes in units of 1e-6; relative change = value/baseline - 1, so positive = larger magnitude).

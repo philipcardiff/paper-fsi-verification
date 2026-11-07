@@ -1,0 +1,60 @@
+{
+ "iterations": {
+  "A_total": 34,
+  "B_total": 34,
+  "A_steps": 5,
+  "B_steps": 5,
+  "identical_sequence": true,
+  "max_abs_step_diff": 0
+ },
+ "wall_s": {
+  "A": 13.984,
+  "B": 14.0172
+ },
+ "termination_A_normal_error": [
+  true,
+  false
+ ],
+ "termination_B_normal_error": [
+  true,
+  false
+ ],
+ "fields": {
+  "Mon_all.txt": {
+   "blocks": 6,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 3.3001101851259624e-12,
+    "wy": 6.599991386753096e-13,
+    "ef": 8.700379437903987e-12
+   }
+  },
+  "Mon_iface.txt": {
+   "blocks": 6,
+   "bitwise_identical": false,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 0,
+    "ef": 1.2228864273675925e-12
+   }
+  },
+  "Mon_inlet.txt": {
+   "blocks": 0,
+   "bitwise_identical": true,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 0,
+    "ef": 0
+   }
+  },
+  "Mon_outlet.txt": {
+   "blocks": 0,
+   "bitwise_identical": true,
+   "worst_rel_diff": {
+    "wx": 0,
+    "wy": 0,
+    "ef": 0
+   }
+  }
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "out": "runs/cavityExp/T0/gen3",
+ "tag": "T3_straight",
+ "mesh_factor": 1,
+ "k": 1000000.0,
+ "dt": 0.5,
+ "t_end": 100.0,
+ "mu": 0.01,
+ "inlet": "normalvel",
+ "ubar": 1.0,
+ "pin_corners": null,
+ "log_all": true,
+ "straight": true,
+ "rhoi": 0.0,
+ "ramp": 10.0,
+ "n_nodes": 3102,
+ "n_elem": 1400,
+ "n_inlet_free": 9,
+ "n_iface_nodes": 0,
+ "n_steps": 200,
+ "feb_sha256": "44e5340b2854016b4eee0011dcd74189de879c6dc3199fb7a5060dd010dc9d96"
+}

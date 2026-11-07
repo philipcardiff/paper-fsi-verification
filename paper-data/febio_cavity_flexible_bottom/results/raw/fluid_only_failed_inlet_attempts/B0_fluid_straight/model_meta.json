@@ -1,0 +1,18 @@
+{
+ "out": "runs/cavity/B0_fluid_straight",
+ "tag": "B0_fluid_straight",
+ "mesh_factor": 1,
+ "k": 100000000.0,
+ "dt": 0.2,
+ "t_end": 100.0,
+ "mu": 0.01,
+ "straight": true,
+ "rhoi": 0.0,
+ "ramp": 10.0,
+ "n_nodes": 3102,
+ "n_elem": 1400,
+ "n_inlet_free": 9,
+ "n_iface_nodes": 0,
+ "n_steps": 500,
+ "feb_sha256": "d0e253fa5700080f75fc632ddb8ede9fc0c17c6607c21e2ac738a4807de9d3eb"
+}

@@ -1,0 +1,119 @@
+{
+ "tag": "C1_fluid_fixedplate_f1",
+ "K": 1000000.0,
+ "mu": 0.01,
+ "t_last": 300.0,
+ "n_times": 601,
+ "flux_columns_x": {
+  "0.0": 0.0,
+  "1.0": 1.029412,
+  "13.0": 12.993506,
+  "14.0": 14.0
+ },
+ "Q_in_final": 1.0000000000014,
+ "Q_x1_final": 1.0000001255424,
+ "Q_x13_final": 1.0001243689001,
+ "Q_out_final": 1.0001244888080998,
+ "Q_in_dev_max_after_ramp": 1.3999912340523224e-12,
+ "mass_imbalance_rel": {
+  "Q_x1_final": 1.2554100004003033e-07,
+  "Q_x13_final": 0.0001243688986998226,
+  "Q_out_final": 0.00012448880669957418
+ },
+ "inlet_profile_max_dev_from_discrete_parabola": 4.545697152025241e-12,
+ "inlet_max_abs_wy": 0.0,
+ "floor": {
+  "Fy_raw": -70.32063373386195,
+  "Fy_smoothed121_DIAGNOSTIC": -142.4153310279895,
+  "Fx_viscous_2nd": -0.022538388408775468,
+  "Fx_viscous_1st": -0.01889283462511193,
+  "oddeven_amp_Pa": 149.44817793130807,
+  "p_mean": 44.917468560920085,
+  "n_wall_nodes": 41
+ },
+ "probes": {
+  "P_channel_x8_y1.5": {
+   "node": 1063,
+   "x": 7.96103896103896,
+   "y": 1.5,
+   "wx_final": 1.48614173901,
+   "wy_final": -0.0049032534139,
+   "spread_last10pct_rel": 1.4997627356892932e-06
+  },
+  "P_cavity_x4_y0.4": {
+   "node": 393,
+   "x": 4.0,
+   "y": 0.428571428571429,
+   "wx_final": -0.0683529169613,
+   "wy_final": 0.000693518640913,
+   "spread_last10pct_rel": 2.8835623812511377e-06
+  },
+  "P_down_x12_y1.5": {
+   "node": 1103,
+   "x": 11.987012987013,
+   "y": 1.5,
+   "wx_final": 1.51637081961,
+   "wy_final": -0.000185267966438,
+   "spread_last10pct_rel": 1.998053484553884e-06
+  }
+ },
+ "steady": {
+  "Fy_raw_spread_rel": 0.0815917404434052,
+  "Fx_spread_rel": 0.00012031926908537094,
+  "oddeven_amp_spread_rel": 0.08742457326944522
+ },
+ "upstream_dpdx_section_mean_raw_fit": -0.19573803866670966,
+ "upstream_dpdx_expected_actual_flux": -0.12121212121229091,
+ "upstream_dpdx_rel_err": 0.6148388189980938,
+ "oddeven_amp_Pa_centreline": {
+  "channel_upstream_x0.3-1.5": 0.14049224053299983,
+  "channel_above_cavity_x6.5-11": 0.00873536995550002,
+  "channel_downstream_x12-13.8": -0.006276432014178129
+ },
+ "oddeven_amp_Pa_interface_estimator": 63.970550297287225,
+ "force_bias_calibration": {
+  "straight_channel_ratio_bias_over_(a*L)": 0.6911196911196911,
+  "estimated_bias_N_per_m_for_this_run(not applied)": 413.14631428114507
+ },
+ "mesh_quality": {
+  "n_elem": 1688,
+  "min_scaled_corner_Jacobian": 0.61568457438116,
+  "max_aspect": 1.5517853183505264,
+  "min_corner_angle_deg": 43.87590155171676,
+  "max_corner_angle_deg": 138.08913890615742
+ },
+ "newton": {
+  "steps": 600,
+  "iters_mean_all": 3.15,
+  "iters_max": 7,
+  "steps_with_iterations": 600,
+  "steps_degenerate_single_table": 0,
+  "first_degenerate_step": null,
+  "margin_velocity_max_nondegenerate": 0.08375247557643557,
+  "margin_dilatation_max_nondegenerate": 0.8836490578675927,
+  "frac_steps_with_relative_criteria_met": 1.0
+ },
+ "log": {
+  "normal_termination": true,
+  "errors": 0,
+  "warnings_distinct": [],
+  "negative_jacobian": false,
+  "cutbacks": 0
+ },
+ "febio_wall_s": 335.668,
+ "cost": {
+  "wall": "5:35.70",
+  "user_s": 1260.87,
+  "sys_s": 81.69,
+  "max_rss_MB": 119.40625,
+  "cores": 4
+ },
+ "verdict": {
+  "A1": true,
+  "A2": true,
+  "A3": false,
+  "A4": false,
+  "A5": true,
+  "A6": true
+ }
+}

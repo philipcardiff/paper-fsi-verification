@@ -1,0 +1,17 @@
+source,quantity,levels_dx,observed_order,extrapolated,note
+solids4foam,uy_A_m,0.1/0.05/0.025,1.97,-0.24094,
+solids4foam,uy_A_m,0.05/0.025/0.0125,2.15,-0.24057,
+solids4foam,Fy_N_per_m,0.1/0.05/0.025,2.19,-5.25745,
+solids4foam,Fy_N_per_m,0.05/0.025/0.0125,2.20,-5.25739,
+Tukovic2018,uy_A_m,0.1/0.05/0.025,1.70,-0.25126,
+Tukovic2018,uy_A_m,0.05/0.025/0.0125,1.84,-0.25103,
+Tukovic2018,Fy_N_per_m,0.1/0.05/0.025,1.75,-5.25802,
+Tukovic2018,Fy_N_per_m,0.05/0.025/0.0125,1.92,-5.25674,
+Ansys,uy_A_m,0.1/0.05/0.025,1.19,-0.25308,
+Ansys,uy_A_m,0.05/0.025/0.0125,0.89,-0.25364,
+Ansys,Fy_N_per_m,0.1/0.05/0.025,1.21,-5.27438,
+Ansys,Fy_N_per_m,0.05/0.025/0.0125,1.30,-5.27189,
+COMSOL,uy_A_m,0.1/0.05/0.025,1.32,-0.24433,
+COMSOL,uy_A_m,0.05/0.025/0.0125,,,not monotone: Richardson not applicable
+COMSOL,Fy_N_per_m,0.1/0.05/0.025,0.80,-5.38662,
+COMSOL,Fy_N_per_m,0.05/0.025/0.0125,,,not monotone: Richardson not applicable

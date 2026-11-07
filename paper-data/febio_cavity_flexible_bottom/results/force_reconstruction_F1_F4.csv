@@ -1,0 +1,5 @@
+run_state,time_s,solver_flag,F1_Fy,F2_Fy,F3_Fy,F4_Fy,F1_minus_F2,parity_part_of_F1,D_row1_minus_row0_Pa,F1_Fx,F2_Fx,wetted_length_m,units
+M1,900.000000,0,-4.717604,-5.437454,-5.437234,-5.437454,0.719850,0.720066,0.364710,0.021447,0.009447,4.026065,N/m (force of the fluid on the plate per m depth; pressure contribution only)
+M2,750.000000,0,-4.933886,-5.274788,-5.273760,-5.274788,0.340903,0.341928,0.173021,0.021978,0.010014,4.029695,N/m (force of the fluid on the plate per m depth; pressure contribution only)
+M3,500.000000,0,-4.980892,-5.246922,-5.246307,-5.246922,0.266030,0.266643,0.134437,0.021955,0.010163,4.030730,N/m (force of the fluid on the plate per m depth; pressure contribution only)
+M3_t717p5_failure_exit_state,717.500000,2,-4.983460,-5.249401,-5.248785,-5.249401,0.265942,0.266556,0.134386,0.021941,0.010152,4.030744,N/m (force of the fluid on the plate per m depth; pressure contribution only)

@@ -1,0 +1,7 @@
+{
+ "slurm_job_id": "14107", "partition": "main", "cpus_per_task": 4,
+ "host": "shared-Slurm-cluster-node", "start": "2026-10-30T21:11:12+00:00", "loadavg": "153.08 155.36 160.77",
+ "febio_bin": "<repo>/build/febio-4.13-ppp/bin/febio4", "febio_sha256": "85c344a7308ecf9e1bd27a287277ae85f868f8db39db43ab7cc2c3b2649ca8a8",
+ "input": "C1b_fluid_fixedplate_f1_pin.feb", "input_sha256": "8ee3b0faf9f987ee7091cb5a41786cf94cbe1d971623996d224b19dd2843b3ec",
+ "omp_num_threads": "4", "mkl_num_threads": "4"
+}

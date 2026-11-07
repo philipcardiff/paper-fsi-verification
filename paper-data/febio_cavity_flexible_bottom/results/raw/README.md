@@ -1,0 +1,6 @@
+# results/raw: stored outputs of the original runs (sanitised; host and home paths replaced)
+- `coupled/<run>/`: `fsi_check.json` (summary written by the original post-processor), `model_meta.json` (generator arguments, input sha256), `run_meta_*.json`, `time.txt`, `pointA*.txt.gz` (u(A) histories), `Mon_iface/inlet/outlet.txt.gz`, `<run>.log.gz` (full FEBio log). Runs: C2_fsi_pilot_f1 = M1, C3_fsi_M2 = M2, C3_fsi_M4 = M3 (mesh factor 4), C4_* = M1 sensitivity.
+- `fluid_only/`, `fluid_only_failed_inlet_attempts/`, `plate_only/`, `experimental_ppp/`: same pattern for the fixed-plate, early failed, plate-only and experimental-build runs (Mon_all and xplt files are not shipped; see `provenance/hpc_retained_outputs.csv`).
+- `facets/`: per-facet tables extracted from the xplt files (input of `scripts/reconstruct_forces_from_facets.py`).
+- `b2/`, `b3/`, `pressure_mode/`, `ppp_experiment/`, `xplt_audit/`: derived analyses written by the original scripts (y-branch rows, force reconstruction, operator / residual / attribution results, stabilisation comparisons, xplt audits).
+- `references/`: reference scalars (solids4foam variants, PR #12 / PR #22 summaries, manuscript main CSV). PR #12 and #22 data are provisional.

@@ -1,0 +1,4 @@
+case,max_abs_flux_err_all_sections,flux_err_at_outlet,dpdx_fit_Pa_per_m,dpdx_rel_err_vs_discrete_poiseuille,max_profile_err_x7_x10_x12_over_centreline,y_alt_rms_max_Pa,y_alt_rms_x12_Pa,iterations_total,normal_termination,wall_s
+stock (job 14105),1.6951132e-06,1.6951132e-06,-0.1211689107,-0.0003564865571,6.22574898e-05,0.0006299216007,0.0006153132922,492,True,60.9996
+"round-2 build, alpha = 0, rim once per step (job 14118)",1.6951132e-06,1.6951132e-06,-0.1211689107,-0.0003564865571,6.22574898e-05,0.0006299216006,0.0006153132922,274,True,38.7246
+"round-2 build, alpha = 1e-3 (job 14119)",0.000486236505,0.000486236505,-0.1208660251,-0.00285529259,0.0001956970613,0.0003017275456,0.0003017275456,274,True,34.7611

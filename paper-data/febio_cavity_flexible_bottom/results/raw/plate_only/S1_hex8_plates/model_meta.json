@@ -1,0 +1,18 @@
+{
+ "tag": "S1_hex8_plates",
+ "levels": "40x4,40x8,80x8,160x16",
+ "steps": 20,
+ "n_nodes": 8080,
+ "n_elem": 3680,
+ "A_nodes": [
+  209,
+  787,
+  1885,
+  5359
+ ],
+ "feb_sha256": "42ad91b5c60cef2186a098763811c1a365e3e2b685a030e8efc13c7e824076e9",
+ "purpose": "hex8 StVK plate-only structural check for the conformal FSI solid (independent plates in one run)",
+ "E": 500.0,
+ "nu": 0.4,
+ "p": 1.315
+}

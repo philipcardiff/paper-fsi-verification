@@ -1,0 +1,61 @@
+--- ../../upstream/febio-v4.13/FEBioFluid/FEFluidFSIDomain3D.cpp	2026-10-29 18:21:07.934058505 +0000
++++ FEBioFluid/FEFluidFSIDomain3D.cpp	2026-10-30 19:50:01.169047587 +0000
+@@ -37,6 +37,9 @@
+ //! constructor
+ //! Some derived classes will pass 0 to the pmat, since the pmat variable will be
+ //! to initialize another material. These derived classes will set the m_pMat variable as well.
++// EXPERIMENTAL helper: alpha from the environment (0 if unset = stock behaviour). Not for production.
++static double FEBIO_BP_ALPHA() { static double a = getenv("FEBIO_BP_ALPHA") ? atof(getenv("FEBIO_BP_ALPHA")) : 0.0; return a; }
++
+ FEFluidFSIDomain3D::FEFluidFSIDomain3D(FEModel* pfem) : FESolidDomain(pfem), FEFluidFSIDomain(pfem), m_dofU(pfem), m_dofV(pfem), m_dofW(pfem), m_dofAW(pfem), m_dofSU(pfem), m_dofR(pfem), m_dof(pfem)
+ {
+     m_pMat = 0;
+@@ -247,6 +250,13 @@
+     
+     double dtrans = m_btrans ? 1 : m_sseps;
+     
++    // EXPERIMENTAL: element-wise stabilisation parameter (alpha is read once from env FEBIO_BP_ALPHA; 0 = stock behaviour)
++    double K_bulk = -m_pMat->Fluid()->Tangent_Pressure_Strain(*el.GetMaterialPoint(0));   // = K for the linear elastic fluid
++    double mu_f   = m_pMat->Fluid()->GetViscous()->ShearViscosity(*el.GetMaterialPoint(0));
++    double vol = 0; for (int q=0; q<nint; ++q) vol += detJt(el, q, tp.alphaf)*el.GaussWeights()[q];
++    double h2 = pow(vol, 2.0/3.0);                                       // h_e^2 = V^(2/3)
++    double m_stab_tau = (mu_f > 0) ? FEBIO_BP_ALPHA()*h2/mu_f : 0.0;
++    
+     // repeat for all integration points
+     for (n=0; n<nint; ++n)
+     {
+@@ -291,6 +301,9 @@
+             vec3d fs = (ss*gradN[i])*detJ;
+             vec3d ff = (sv*gradN[i] + gradp*H[i])*detJ;
+             double fJ = (H[i]*(((dJfoJ - dJsoJ)*dtrans + (pt.m_gradef*ft.m_w)/Jf)) + gradN[i]*ft.m_w)*detJ;
++            // EXPERIMENTAL (not compiled, not installed): Brezzi-Pitkaranta pressure-Laplacian stabilisation of the continuity row,
++            //   + tau K int gradN_i . grad(ef) dV  ==  - tau int gradN_i . grad(p) dV  with p = -K ef,  tau = alpha h_e^2 / mu
++            fJ += m_stab_tau*K_bulk*(gradN[i]*pt.m_gradef)*detJ;
+             
+             // calculate internal force
+             // the '-' sign is so that the internal forces get subtracted
+@@ -473,6 +486,16 @@
+     // weights at gauss points
+     const double *gw = el.GaussWeights();
+     
++    // EXPERIMENTAL: same element-wise parameter as in ElementInternalForce
++    double tau_K = 0;
++    {
++        FEMaterialPoint& mp0 = *el.GetMaterialPoint(0);
++        double K_bulk = -m_pMat->Fluid()->Tangent_Pressure_Strain(mp0);
++        double mu_f   = m_pMat->Fluid()->GetViscous()->ShearViscosity(mp0);
++        double vol = 0; for (int q=0; q<nint; ++q) vol += detJt(el, q, tp.alphaf)*gw[q];
++        tau_K = (mu_f > 0) ? FEBIO_BP_ALPHA()*pow(vol, 2.0/3.0)/mu_f*K_bulk : 0.0;
++    }
++    
+     // calculate element stiffness matrix
+     for (n=0; n<nint; ++n)
+     {
+@@ -535,6 +558,7 @@
+                 vec3d kJw = ((pt.m_gradef*(H[i]/Jf) + gradN[i])*H[j])*detJ;
+                 double kJJ = (((c - dJfoJ)*dtrans - (pt.m_gradef*fpt.m_w)/Jf)*H[j]
+                               + gradN[j]*fpt.m_w)*H[i]/Jf*detJ;
++                kJJ += tau_K*(gradN[i]*gradN[j])*detJ;      // EXPERIMENTAL: tangent of the Brezzi-Pitkaranta term (detJ already carries alphaf)
+                 
+                 ke[i7  ][j7  ] += Kuu(0,0); ke[i7  ][j7+1] += Kuu(0,1); ke[i7  ][j7+2] += Kuu(0,2);
+                 ke[i7+1][j7  ] += Kuu(1,0); ke[i7+1][j7+1] += Kuu(1,1); ke[i7+1][j7+2] += Kuu(1,2);

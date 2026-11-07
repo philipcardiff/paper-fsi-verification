@@ -1,0 +1,21 @@
+{
+ "out": "runs/cavityNext/C1_fluid_fixedplate_f1",
+ "tag": "C1_fluid_fixedplate_f1",
+ "mesh_factor": 1,
+ "k": 1000000.0,
+ "dt": 0.5,
+ "t_end": 300.0,
+ "mu": 0.01,
+ "inlet": "normalvel",
+ "ubar": 1.0,
+ "log_all": true,
+ "straight": false,
+ "rhoi": 0.0,
+ "ramp": 10.0,
+ "n_nodes": 3694,
+ "n_elem": 1688,
+ "n_inlet_free": 9,
+ "n_iface_nodes": 41,
+ "n_steps": 600,
+ "feb_sha256": "8f7f8c6794f3fce872d088cef85d7b517b527e656ecbe87370708a1664d25e37"
+}

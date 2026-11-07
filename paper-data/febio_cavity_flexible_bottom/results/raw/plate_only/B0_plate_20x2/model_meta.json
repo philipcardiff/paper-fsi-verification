@@ -1,0 +1,15 @@
+{
+ "nx": 20,
+ "ny": 2,
+ "p": 1.315,
+ "steps": 10,
+ "law": "stvk",
+ "out": "runs/cavity/B0_plate_20x2",
+ "tag": "B0_plate_20x2",
+ "n_nodes": 393,
+ "n_elem": 40,
+ "point_A_node": 197,
+ "thickness_z": 0.1,
+ "feb_sha256": "995d77c7f70b76c4f25161d88fb3e385dbb4fa8be576d09e244ce21370e57af5",
+ "note": "u_y(A) references (Q9 plane strain StVK): 20x2 -0.23887, 40x4 -0.24047 m (manuscript plate_laws.py)"
+}

@@ -1,0 +1,190 @@
+{
+ "M1": {
+  "tag": "C2_fsi_pilot_f1",
+  "time": 900.0,
+  "flag": 0,
+  "TZ": 0.1,
+  "K": 1000000.0,
+  "n_facets": 40,
+  "area_per_depth": 4.026064801802895,
+  "previous_complete_time": 800.0,
+  "F1_pressure_Fx_Fy_per_m": [
+   0.02144690410305746,
+   -4.717604113766837
+  ],
+  "F1_trapezoid_check": [
+   0.021446904103057527,
+   -4.717604113766834
+  ],
+  "F2_elementpressure_Fx_Fy_per_m": [
+   0.00944650761207886,
+   -5.437454140459757
+  ],
+  "F3_wall_extrapolated_element_pressure_Fx_Fy_per_m": [
+   0.009360825230293654,
+   -5.437234020113488
+  ],
+  "F4_pairrow_diagnostic_Fx_Fy_per_m": [
+   0.009446510865040867,
+   -5.437454190280164
+  ],
+  "F1_minus_F2_Fy": 0.71985002669292,
+  "F1_minus_F4_Fy": 0.7198500765133264,
+  "F2_minus_F4_Fy": 4.982040646694941e-08,
+  "F_smooth_part_1_2_1_nodal_Fy": -5.437670536124489,
+  "F_parity_part_Fy": 0.7200664223576514,
+  "D_row1_minus_row0_mean_interior": 0.3647100315488801,
+  "parity_amp_a_rms_interior": 0.18588075922374037,
+  "parity_amp_a_mean_interior": -0.18216540421566274,
+  "smooth_s_mean_interior": 1.355849653264434,
+  "p0_mean_interior": 1.1733050259312168,
+  "x_parity_amp_rms_interior_nodes": 0.03801447825739728,
+  "x_parity_signed_mean": 0.03451657773569293,
+  "p_row0_x_smooth_rms_of_second_difference": 0.03801447825739728,
+  "ef_zlayer_consistency_max_abs_Pa": 0.0,
+  "nodal_viscous_not_reconstructable": "F1 viscous term needs Gauss-point velocity gradients; xplt holds element-average velocity only (see audit 2-pt estimate for a bound)",
+  "parity_force_estimate_from_D": 0.7341731104416848,
+  "parity_force_estimate_from_D_note": "F2-F1 expected ~ -(D/2)*L (Fy more negative when the wall row is raised by D/2)"
+ },
+ "M2": {
+  "tag": "C3_fsi_M2",
+  "time": 750.0,
+  "flag": 0,
+  "TZ": 0.1,
+  "K": 1000000.0,
+  "n_facets": 80,
+  "area_per_depth": 4.0296949691229695,
+  "previous_complete_time": 500.0,
+  "F1_pressure_Fx_Fy_per_m": [
+   0.02197830402880826,
+   -4.933885610462814
+  ],
+  "F1_trapezoid_check": [
+   0.021978304028808335,
+   -4.933885610462811
+  ],
+  "F2_elementpressure_Fx_Fy_per_m": [
+   0.010013758691270703,
+   -5.274788193450036
+  ],
+  "F3_wall_extrapolated_element_pressure_Fx_Fy_per_m": [
+   0.009938218841692992,
+   -5.273759919180605
+  ],
+  "F4_pairrow_diagnostic_Fx_Fy_per_m": [
+   0.010013758466303785,
+   -5.274788177361082
+  ],
+  "F1_minus_F2_Fy": 0.34090258298722187,
+  "F1_minus_F4_Fy": 0.3409025668982686,
+  "F2_minus_F4_Fy": -1.6088953280757323e-08,
+  "F_smooth_part_1_2_1_nodal_Fy": -5.275813478941118,
+  "F_parity_part_Fy": 0.3419278684783039,
+  "D_row1_minus_row0_mean_interior": 0.1730206025818567,
+  "parity_amp_a_rms_interior": 0.09015002958935768,
+  "parity_amp_a_mean_interior": -0.08641483121159768,
+  "smooth_s_mean_interior": 1.3171693536786397,
+  "p0_mean_interior": 1.2305635823083807,
+  "x_parity_amp_rms_interior_nodes": 0.01584257390662573,
+  "x_parity_signed_mean": -0.007559864343420486,
+  "p_row0_x_smooth_rms_of_second_difference": 0.01584257390662573,
+  "ef_zlayer_consistency_max_abs_Pa": 0.0,
+  "nodal_viscous_not_reconstructable": "F1 viscous term needs Gauss-point velocity gradients; xplt holds element-average velocity only (see audit 2-pt estimate for a bound)",
+  "parity_force_estimate_from_D": 0.3486101258893663,
+  "parity_force_estimate_from_D_note": "F2-F1 expected ~ -(D/2)*L (Fy more negative when the wall row is raised by D/2)"
+ },
+ "M3": {
+  "tag": "C3_fsi_M4",
+  "time": 500.0,
+  "flag": 0,
+  "TZ": 0.1,
+  "K": 1000000.0,
+  "n_facets": 160,
+  "area_per_depth": 4.030730066707823,
+  "previous_complete_time": 250.0,
+  "F1_pressure_Fx_Fy_per_m": [
+   0.021955089473784384,
+   -4.980891978760087
+  ],
+  "F1_trapezoid_check": [
+   0.021955089473784512,
+   -4.98089197876009
+  ],
+  "F2_elementpressure_Fx_Fy_per_m": [
+   0.010163004961485188,
+   -5.246922364675714
+  ],
+  "F3_wall_extrapolated_element_pressure_Fx_Fy_per_m": [
+   0.01010959918406436,
+   -5.246307407479965
+  ],
+  "F4_pairrow_diagnostic_Fx_Fy_per_m": [
+   0.010163004261469646,
+   -5.246922365902918
+  ],
+  "F1_minus_F2_Fy": 0.2660303859156272,
+  "F1_minus_F4_Fy": 0.26603038714283134,
+  "F2_minus_F4_Fy": 1.2272041161054403e-09,
+  "F_smooth_part_1_2_1_nodal_Fy": -5.247535272693143,
+  "F_parity_part_Fy": 0.2666432939330565,
+  "D_row1_minus_row0_mean_interior": 0.13443684491267643,
+  "parity_amp_a_rms_interior": 0.07207852507172036,
+  "parity_amp_a_mean_interior": -0.06717745042592202,
+  "smooth_s_mean_interior": 1.310875982206353,
+  "p0_mean_interior": 1.2436165877195986,
+  "x_parity_amp_rms_interior_nodes": 0.01906760700441781,
+  "x_parity_signed_mean": -0.014068282802503334,
+  "p_row0_x_smooth_rms_of_second_difference": 0.01906760700441781,
+  "ef_zlayer_consistency_max_abs_Pa": 0.0,
+  "nodal_viscous_not_reconstructable": "F1 viscous term needs Gauss-point velocity gradients; xplt holds element-average velocity only (see audit 2-pt estimate for a bound)",
+  "parity_force_estimate_from_D": 0.2709393164314308,
+  "parity_force_estimate_from_D_note": "F2-F1 expected ~ -(D/2)*L (Fy more negative when the wall row is raised by D/2)"
+ },
+ "M3_t717p5_failure_exit_state": {
+  "tag": "C3_fsi_M4",
+  "time": 717.5,
+  "flag": 2,
+  "TZ": 0.1,
+  "K": 1000000.0,
+  "n_facets": 160,
+  "area_per_depth": 4.0307437176247385,
+  "previous_complete_time": 250.0,
+  "F1_pressure_Fx_Fy_per_m": [
+   0.021941091428342753,
+   -4.983459846651136
+  ],
+  "F1_trapezoid_check": [
+   0.02194109142834266,
+   -4.983459846651139
+  ],
+  "F2_elementpressure_Fx_Fy_per_m": [
+   0.010152031058705073,
+   -5.249401353441014
+  ],
+  "F3_wall_extrapolated_element_pressure_Fx_Fy_per_m": [
+   0.01009868462186082,
+   -5.248784652307036
+  ],
+  "F4_pairrow_diagnostic_Fx_Fy_per_m": [
+   0.010152029655313132,
+   -5.249401355356218
+  ],
+  "F1_minus_F2_Fy": 0.26594150678987827,
+  "F1_minus_F4_Fy": 0.26594150870508226,
+  "F2_minus_F4_Fy": 1.9152039953951316e-09,
+  "F_smooth_part_1_2_1_nodal_Fy": -5.250015998952831,
+  "F_parity_part_Fy": 0.2665561523016957,
+  "D_row1_minus_row0_mean_interior": 0.134385958535502,
+  "parity_amp_a_rms_interior": 0.07204832844989921,
+  "parity_amp_a_mean_interior": -0.06715210011873816,
+  "smooth_s_mean_interior": 1.3114998855405775,
+  "p0_mean_interior": 1.2442660271238137,
+  "x_parity_amp_rms_interior_nodes": 0.019077175178889252,
+  "x_parity_signed_mean": -0.014073543202504235,
+  "p_row0_x_smooth_rms_of_second_difference": 0.019077175178889252,
+  "ef_zlayer_consistency_max_abs_Pa": 0.0,
+  "nodal_viscous_not_reconstructable": "F1 viscous term needs Gauss-point velocity gradients; xplt holds element-average velocity only (see audit 2-pt estimate for a bound)",
+  "parity_force_estimate_from_D": 0.27083767905197664,
+  "parity_force_estimate_from_D_note": "F2-F1 expected ~ -(D/2)*L (Fy more negative when the wall row is raised by D/2)"
+ }
+}
