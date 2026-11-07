@@ -1,0 +1,7 @@
+item,value,note
+C1_rerun_vs_stored_S2_max_abs_diff_over_max_abs_d,1.728e-14,tolerance 1e-8
+C2_replayed_continuum_vs_coupled_bottom_max_abs_diff_over_max_abs_d,1.012e-07,tolerance 1e-6
+C2_replayed_continuum_vs_coupled_midplane_max_abs_diff_over_max_abs_d,1.012e-07,tolerance 1e-6
+C2_abs_max_diff_bottom_m,2.187e-08,
+rerun_status,OK all_converged=True,"240 steps, max Newton 3, min Jacobian 0.778, max |q-sum| 3.30e-10"
+replay_continuum_max_newton,4,ok=True

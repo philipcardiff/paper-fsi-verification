@@ -1,0 +1,3 @@
+quantity,levels,p,monotonicity,acceptance,richardson_limit_m,GCI_fine_percent
+mid,80x4|160x4|320x4,1.273009326,monotone,accepted,-0.1437023958,0.02532660874
+quarter,80x4|160x4|320x4,1.290879677,monotone,accepted,-0.09649139018,0.04529917555

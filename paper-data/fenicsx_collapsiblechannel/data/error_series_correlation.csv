@@ -1,0 +1,5 @@
+fe_cell,window_t_max_s,corr_FEminusOomph_vs_s4fminusOomph,Linf_FE_minus_oomph_dt160_pctP,Linf_s4fF4_minus_oomph_dt160_pctP,Linf_FE_minus_s4fF4_pctP
+S2_dt0.00625,1.25,0.79447,0.48014,0.46629,0.29886
+S2_dt0.00625,1.5,0.75091,0.48014,0.49584,0.43481
+S3_dt0.00625,1.25,0.85065,0.57228,0.46629,0.27947
+S3_dt0.00625,1.5,0.82533,0.57228,0.49584,0.40327

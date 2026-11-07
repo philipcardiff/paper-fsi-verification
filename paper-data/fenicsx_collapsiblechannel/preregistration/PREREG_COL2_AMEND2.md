@@ -1,0 +1,4 @@
+# PREREG COL-2 amendment A2 (2026-11-06, written after the F3 smoke tests (tiny meshes, 10-20 steps) and before the F3 full run)
+1. The fixed fluid-like wall pressure p_f(x) = 0.24 (25 - x) is multiplied by the same ramp function r(t) = (1 - cos(pi min(t, t_ramp)/t_ramp))/2 as p_ext, in both models, so that the wall starts at rest in equilibrium (all loads zero at t = 0, zero initial acceleration, no spurious start-up step). Net load p_net(x,t) = r(t) (200 - p_f(x)). Registered otherwise unchanged.
+2. Continuum static validation is done by load stepping 0.5, 2, 10, 30, 60, 100% of 200 Pa (Newton with undamped steps; one jump to 20% from the flat state diverged in the smoke test). Beam Newton tolerance: residual 2-norm <= 1e-6 N/m; continuum SNES rtol 1e-9, atol 1e-5.
+3. Beam static check is reported at 40, 80, 160 elements; the 0.1% static gate is applied to the finest.

@@ -1,0 +1,4 @@
+x_m,V1_change_S1_to_S2,V1_change_S2_to_S3,history_Linf_S1_to_S2,history_Linf_S2_to_S3,registered_ranges_pctP_(S1-S2 / S2-S3),note
+7.5,0.013372,0.025355,0.66298,0.093683,0.5-3 / 0.1-0.5,ratio of history L-inf changes 7.1
+10,0.03925,0.01801,0.99104,0.10796,0.5-3 / 0.1-0.5,ratio of history L-inf changes 9.2
+12.5,0.008528,0.025093,0.73184,0.098241,0.5-3 / 0.1-0.5,ratio of history L-inf changes 7.4
