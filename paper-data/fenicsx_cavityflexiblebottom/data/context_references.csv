@@ -1,0 +1,4 @@
+reference,uy_A_m,Fy_N_per_m,quantity_basis,model_equivalence_note
+Tukovic2018,-0.25103,-5.25674,Richardson limit finest triple (paper-data/cavity_plate_material_law/reference_richardson.csv),plate law not confirmed
+Ansys,-0.25364,-5.27189,Richardson limit finest triple,linear elastic with geometric nonlinearity (3-D slab) per paper PRs 12/20/22; behaves like a logarithmic-strain law in the plate-only check
+COMSOL,-0.24306,-5.2952,finest level (dx 0.0125); not monotone: no Richardson value,linear elastic with geometric nonlinearity (2-D); StVK in intent; plane strain or stress not stated; about 0.7 % larger load (paper PR 22)

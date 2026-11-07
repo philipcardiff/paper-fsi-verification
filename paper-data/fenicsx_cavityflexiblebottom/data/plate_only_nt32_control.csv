@@ -1,0 +1,11 @@
+load,degree,nt,ndofs,uy_A_m,converged,source
+uniform,2,4,1458,-0.240469216206684,True,c1_ladder (preflight)
+uniform,2,8,5474,-0.2410106034084516,True,c1_ladder (preflight)
+uniform,2,16,21186,-0.24121657896725762,True,c1_ladder (preflight)
+uniform,2,32,83330,-0.24130036704496718,True,c1_corner control (job 16716)
+uniform,2,32,83330,-0.24130036704496716,True,"c1_corner control (job 16722, amendment 1)"
+follower,2,4,1458,-0.2389663926450418,True,c1_ladder (preflight)
+follower,2,8,5474,-0.23950705489222437,True,c1_ladder (preflight)
+follower,2,16,21186,-0.23971308121515972,True,c1_ladder (preflight)
+follower,2,32,83330,-0.23979679774643614,True,c1_corner control (job 16716)
+follower,2,32,83330,-0.2397967977464362,True,"c1_corner control (job 16722, amendment 1)"

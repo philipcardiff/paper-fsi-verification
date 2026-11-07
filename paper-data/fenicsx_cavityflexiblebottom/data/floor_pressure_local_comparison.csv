@@ -1,0 +1,15 @@
+quantity,value
+"sum p*Sf_y, s4f level 2 (PR 67 dump)",-5.2372834374
+"sum p*Sf_y, FEniCSx rigid floor h=0.0125 on the same faces",-5.25753450557781
+relative difference (percent),0.3866712279346096
+mean of ratio p_FE/p_s4f,1.0038607780027742
+std of ratio (percent),0.019413230854162074
+sum|dF| / |sum dF| (1 = all faces same sign),1.0
+centre of pressure s4f (m),4.0215006732543
+centre of pressure FEniCSx (m),4.021497428504058
+difference of centres (m),3.244750241826466e-06
+s4f level-2 F_y against its own strict limit -5.260691 (percent),-0.41593395240282494
+"integrated viscous F_x, FEniCSx -0.02717 against s4f -0.02680735 (percent; s4f does not export shear: not like-for-like)",1.3528006311701812
+"RMS of local p difference to the finest FEniCSx floor, cav_dump_h0.1.msh (fraction of mean s4f p)",0.0006432429534689636
+"RMS of local p difference to the finest FEniCSx floor, cav_dump_h0.05.msh (fraction of mean s4f p)",0.00015144262772365873
+"RMS of local p difference to the finest FEniCSx floor, cav_dump_h0.025.msh (fraction of mean s4f p)",3.064432338935353e-05

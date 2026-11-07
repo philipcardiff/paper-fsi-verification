@@ -1,0 +1,11 @@
+series,observed_order_p_(h=1/nt),status,acceptance,richardson_limit,GCI_fine_percent,fine_minus_limit_percent,asymptotic_ratio
+uniform_Q2,1.394187627,monotone,accepted,-0.2413430681,0.06554749585,-0.05241051366,1.000854633
+uniform_Q3,1.28672767,monotone,accepted,-0.241358136,0.03101712272,-0.0248075425,1.000357381
+follower_Q2,1.391898946,monotone,accepted,-0.2398399261,0.06614410429,-0.05288729797,1.00086021
+follower_Q3,1.289283432,monotone,accepted,-0.239854309,0.03107827726,-0.02485644185,1.000359162
+dead_p_Q2,1.395813609,monotone,accepted,-0.2471505558,0.06415240943,-0.05129560165,1.000837952
+dead_p_Q3,1.295539798,monotone,accepted,-0.2471645917,0.02990184657,-0.02391575625,1.000348104
+dead_vec_Q2,1.377441022,monotone,accepted,-0.2401147553,0.06874693944,-0.05496732087,1.000879673
+dead_vec_Q3,1.308573697,monotone,accepted,-0.2401246323,0.03069460286,-0.02454965395,1.000362811
+ratio dead_p_Q3 / follower_Q3 at nt = 16 (reference-pressure load over follower),0.03048770892,,,,,,
+ratio dead_vec_Q3 / follower_Q3 at nt = 16,0.001130103321,,,,,,

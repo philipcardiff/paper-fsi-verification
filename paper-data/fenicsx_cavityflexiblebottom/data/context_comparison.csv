@@ -1,0 +1,4 @@
+reference,uy_A_m,difference_to_FEniCSx_M1_uy_limit_percent_(ref-fx)/|fx|,Fy_N_per_m,difference_to_FEniCSx_M1_Fy_limit_percent,note
+Tukovic2018,-0.25103,-4.359207442,-5.25674,0.02018887038,context only; no equivalence claim
+Ansys,-0.25364,-5.444247204,-5.27189,-0.2679543778,context only; no equivalence claim
+COMSOL,-0.24306,-1.04588679,-5.2952,-0.7112955736,context only; no equivalence claim

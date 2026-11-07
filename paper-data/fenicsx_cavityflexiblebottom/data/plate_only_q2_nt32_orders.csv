@@ -1,0 +1,5 @@
+load,triple,observed_order_p,status,acceptance,richardson_limit,GCI_fine_percent,fine_minus_limit_percent,asymptotic_ratio
+uniform,"nt 4,8,16",1.394187627,monotone,accepted,-0.2413430681,0.06554749585,-0.05241051366,1.000854633
+uniform,"nt 8,16,32",1.297656275,monotone,accepted,-0.2413578234,0.02976389558,-0.02380544812,1.000347356
+follower,"nt 4,8,16",1.391898946,monotone,accepted,-0.2398399261,0.06614410429,-0.05288729797,1.00086021
+follower,"nt 8,16,32",1.299244234,monotone,accepted,-0.2398540986,0.02986949349,-0.02388988617,1.000349236

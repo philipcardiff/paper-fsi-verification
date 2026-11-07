@@ -1,0 +1,25 @@
+variant,level,dx_m,dt_s,uy_top_m,ux_top_m,Fy_N_per_m
+partitioned_legacy_test,1,0.1,0.5,-0.204563,7.45995e-05,-5.15266
+partitioned_legacy_test,2,0.05,0.5,-0.231412,9.03489e-05,-5.23784
+partitioned_legacy_test,3,0.025,0.25,-0.238396,9.47131e-05,-5.25637
+partitioned_legacy_test,4,0.0125,0.0625,-0.240118,9.58705e-05,-5.20412
+partitioned_strict,1,0.1,0.5,-0.204568,7.46234e-05,-5.1528
+partitioned_strict,2,0.05,0.25,-0.231445,9.03795e-05,-5.23881
+partitioned_strict,3,0.025,0.125,-0.238404,9.47262e-05,-5.25661
+partitioned_strict,4,0.0125,0.0625,-0.240113,9.58503e-05,-5.25993
+monolithic_pre597,1,0.1,0.5,-0.203607,7.43526e-05,-5.12249
+monolithic_pre597,2,0.05,0.5,-0.231431,9.09397e-05,-5.23811
+monolithic_pre597,3,0.025,0.5,-0.238445,9.48625e-05,-5.25764
+monolithic_pre597,4,0.0125,0.5,-0.240142,9.58644e-05,-5.26056
+monolithic_597,1,0.1,0.5,-0.203597,7.37854e-05,-5.122583
+monolithic_597,2,0.05,0.5,-0.231074,9.06177e-05,-5.227502
+monolithic_597,3,0.025,0.5,-0.238211,9.53354e-05,-5.250716
+monolithic_597,4,0.0125,0.5,-0.23999,9.65423e-05,-5.256112
+partitioned_strict_paper_rounded_levels,1,0.1,see partitioned_strict,-0.204568,,-5.1528
+partitioned_strict_paper_rounded_levels,2,0.05,see partitioned_strict,-0.231445,,-5.2388
+partitioned_strict_paper_rounded_levels,3,0.025,see partitioned_strict,-0.238404,,-5.2566
+partitioned_strict_paper_rounded_levels,4,0.0125,see partitioned_strict,-0.240113,,-5.2599
+monolithic_618,1,0.1,not_recorded_in_file,-0.203601,7.44615e-05,-5.122626
+monolithic_618,2,0.05,not_recorded_in_file,-0.231044,9.07937e-05,-5.226559
+monolithic_618,3,0.025,not_recorded_in_file,-0.238200,9.53734e-05,-5.250356
+monolithic_618,4,0.0125,not_recorded_in_file,-0.239986,9.65473e-05,-5.255992

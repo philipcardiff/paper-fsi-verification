@@ -1,0 +1,7 @@
+floor,quantity,observed_order_p,status,acceptance,richardson_limit,GCI_fine_percent,fine_minus_limit_percent,asymptotic_ratio
+flat,Fy,1.974357635,monotone,accepted,-5.305091992,0.001319214235,0.001055382526,0.9999694674
+flat,p_floor_mean,1.981403591,monotone,accepted,1.326273071,0.001310099633,0.001048090691,0.99996948
+dump,Fy,1.959835969,monotone,accepted,-5.259102577,0.001300195424,0.001040167158,0.9999701096
+dump,p_floor_mean,1.958998392,monotone,accepted,1.314373863,0.001306201803,0.001044972362,0.9999699949
+flat vs dump finest,Fy flat/dump - 1 (percent),0.8744880206,,,,,,
+"dump finest vs s4f strict level 2 (-5.238953, 80x8 plate)",Fy relative difference (percent),0.3856549378,,,,,,
