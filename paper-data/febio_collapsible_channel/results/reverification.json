@@ -1,0 +1,1130 @@
+{
+ "tutorial-config fluid cells (40+80+80 columns x 16 rows, generator defaults)": {
+  "value": 3200,
+  "claimed": 3200,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "tutorial-config solid cells (80 x 8)": {
+  "value": 640,
+  "claimed": 640,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "pilot fluid cells (40+320+80 columns x 16 rows)": {
+  "value": 7040,
+  "claimed": 7040,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "pilot wall cells (320 x 8)": {
+  "value": 2560,
+  "claimed": 2560,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "pilot total cells": {
+  "value": 9600,
+  "claimed": 9600,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "160x4 solid cells": {
+  "value": 640,
+  "claimed": 640,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 80x8 load level reached (final step time)": {
+  "value": 1.0,
+  "claimed": 1.0,
+  "tol": 1e-12,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 80x8 midpoint error vs -0.14362832": {
+  "value": -0.11633254535038773,
+  "claimed": -0.11633,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 80x8 quarter-point error vs -0.09645925": {
+  "value": -0.1946123978726768,
+  "claimed": -0.19461,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 160x4 load level reached (final step time)": {
+  "value": 1.0,
+  "claimed": 1.0,
+  "tol": 1e-12,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 160x4 midpoint error vs -0.14362832": {
+  "value": -0.030537782353786458,
+  "claimed": -0.030538,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 160x4 quarter-point error vs -0.09645925": {
+  "value": -0.06266744928765244,
+  "claimed": -0.062667,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 160x8 load level reached (final step time)": {
+  "value": 1.0,
+  "claimed": 1.0,
+  "tol": 1e-12,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 160x8 midpoint error vs -0.14362832": {
+  "value": -0.029996221671324985,
+  "claimed": -0.029996,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 160x8 quarter-point error vs -0.09645925": {
+  "value": -0.06166135739081524,
+  "claimed": -0.061661,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 320x8 load level reached (final step time)": {
+  "value": 1.0,
+  "claimed": 1.0,
+  "tol": 1e-12,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 320x8 midpoint error vs -0.14362832": {
+  "value": -0.007566094312040916,
+  "claimed": -0.0075661,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 320x8 quarter-point error vs -0.09645925": {
+  "value": -0.01708586948270896,
+  "claimed": -0.017086,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 error ratio 80x8 -> 160x4/8 (160x8 used: same rows)": {
+  "value": 3.878239953853799,
+  "claimed": 3.9,
+  "tol": 0.06,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 error ratio 160x8 -> 320x8": {
+  "value": 3.964558256112149,
+  "claimed": 4.0,
+  "tol": 0.06,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 Richardson (p = 2) limit, 160x8 + 320x8 (same thickness rows), relative to the beam value": {
+  "value": -8.938519227963404e-05,
+  "claimed": -8.94e-05,
+  "tol": 2e-06,
+  "agrees": true,
+  "reported_in_pilot_results": 0.0001,
+  "inconsistency": "INC-3"
+ },
+ "S1 Richardson (p = 2) limit, 160x4 + 320x8 (rows 4 vs 8, the pair used in the report), relative to the beam value": {
+  "value": 9.113503520752353e-05,
+  "claimed": 9.11e-05,
+  "tol": 1e-06,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "S1 160x4 gate margin: error minus 3 % (percentage points)": {
+  "value": 0.0537782353786459,
+  "claimed": 0.054,
+  "tol": 0.001,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 net F_y (nodal wall pressure) [N/m]": {
+  "value": 31.683740480465843,
+  "claimed": 31.6837,
+  "tol": 0.0005,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F2 net F_y (element mean) [N/m]": {
+  "value": 34.06654516257695,
+  "claimed": 34.0665,
+  "tol": 0.0005,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 vs F2 relative, F_y": {
+  "value": -0.06994559239099729,
+  "claimed": -0.06995,
+  "tol": 0.0001,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 vs F2 relative, first-mode load G": {
+  "value": -0.08628965928387211,
+  "claimed": -0.08629,
+  "tol": 0.0001,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 mass balance Q_out/Q_in - 1": {
+  "value": 6.000006285145076e-07,
+  "claimed": 6e-07,
+  "tol": 2e-08,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 Q_in [m^2/s per unit depth]": {
+  "value": 0.8809573064096875,
+  "claimed": 0.881,
+  "tol": 0.0005,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 steady drift last 20 % of steps (relative)": {
+  "value": 1.1888636318904885e-11,
+  "claimed": 1.2e-11,
+  "tol": 1e-09,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 streamwise parity a_t (wall row) [Pa]": {
+  "value": 0.00023782135389011614,
+  "claimed": 0.00024,
+  "tol": 2e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 streamwise parity a_t / V": {
+  "value": 6.772086906650026e-05,
+  "claimed": 6.8e-05,
+  "tol": 5e-06,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 smooth variation V along the wall [Pa]": {
+  "value": 3.51178827396,
+  "claimed": 3.51,
+  "tol": 0.01,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 max |p(wall) - p(row 2)| (all wall nodes) [Pa]": {
+  "value": 0.004090193019999688,
+  "claimed": 0.00409,
+  "tol": 1e-05,
+  "agrees": true,
+  "reported_in_pilot_results": 0.001,
+  "inconsistency": "INC-4"
+ },
+ "F1 rms |p(wall) - p(row 2)| [Pa]": {
+  "value": 0.002379368738426095,
+  "claimed": 0.00238,
+  "tol": 1e-05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 rms |p(wall) - p(row 1)| [Pa]": {
+  "value": 0.8715536686582995,
+  "claimed": null,
+  "tol": 0,
+  "agrees": null,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 p(wall) - p(row1): minimum [Pa]": {
+  "value": -1.3384926251800002,
+  "claimed": -1.338,
+  "tol": 0.002,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 p(wall) - p(row1): maximum [Pa]": {
+  "value": 0.5511619997399997,
+  "claimed": 0.551,
+  "tol": 0.002,
+  "agrees": true,
+  "reported_in_pilot_results": 0.47,
+  "inconsistency": "INC-4"
+ },
+ "F1 D = p0 - 2 p1 + p2: minimum [Pa]": {
+  "value": -2.6741387483700008,
+  "claimed": -2.7,
+  "tol": 0.05,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 D: maximum [Pa]": {
+  "value": 1.0983666114600004,
+  "claimed": 1.09,
+  "tol": 0.02,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "F1 D: rms [Pa]": {
+  "value": 1.7462896265217378,
+  "claimed": 1.75,
+  "tol": 0.01,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.10 F1_y [N/m]": {
+  "value": 791.2739119775905,
+  "claimed": 791,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.10 F2_y [N/m]": {
+  "value": 662.9704675068449,
+  "claimed": 663,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.10 (F1-F2)/F2": {
+  "value": 0.1935281445540724,
+  "claimed": 0.194,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.10 G spread": {
+  "value": 0.19380612744964498,
+  "claimed": 0.194,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.10 mean y-parity D [Pa]": {
+  "value": 51.41852847416581,
+  "claimed": 51,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.15 F1_y [N/m]": {
+  "value": 1341.7300084704732,
+  "claimed": 1342,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.15 F2_y [N/m]": {
+  "value": 1078.0245955911869,
+  "claimed": 1078,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.15 (F1-F2)/F2": {
+  "value": 0.24461910605543347,
+  "claimed": 0.245,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.15 G spread": {
+  "value": 0.24588756575046777,
+  "claimed": 0.246,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.15 mean y-parity D [Pa]": {
+  "value": 105.77711970276901,
+  "claimed": 106,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.20 F1_y [N/m]": {
+  "value": 1701.7963905320548,
+  "claimed": 1702,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.20 F2_y [N/m]": {
+  "value": 1300.7017185552982,
+  "claimed": 1301,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.20 (F1-F2)/F2": {
+  "value": 0.30836791114742,
+  "claimed": 0.308,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.20 G spread": {
+  "value": 0.31150284588058486,
+  "claimed": 0.312,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.20 mean y-parity D [Pa]": {
+  "value": 161.0340066635182,
+  "claimed": 161,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.25 F1_y [N/m]": {
+  "value": 1659.2594291750422,
+  "claimed": 1659,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.25 F2_y [N/m]": {
+  "value": 1171.7566546562198,
+  "claimed": 1172,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.25 (F1-F2)/F2": {
+  "value": 0.41604438309065994,
+  "claimed": 0.416,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.25 G spread": {
+  "value": 0.4243617627373595,
+  "claimed": 0.424,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.25 mean y-parity D [Pa]": {
+  "value": 195.95025246457126,
+  "claimed": 196,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.30 F1_y [N/m]": {
+  "value": 1312.8196699655427,
+  "claimed": 1313,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.30 F2_y [N/m]": {
+  "value": 808.3031772613599,
+  "claimed": 808,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.30 (F1-F2)/F2": {
+  "value": 0.6241674001747126,
+  "claimed": 0.624,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.30 G spread": {
+  "value": 0.6506726005514183,
+  "claimed": 0.651,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.30 mean y-parity D [Pa]": {
+  "value": 202.99724795810414,
+  "claimed": 203,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.40 F1_y [N/m]": {
+  "value": -717.401464957127,
+  "claimed": -717,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.40 F2_y [N/m]": {
+  "value": -864.6737132412771,
+  "claimed": -865,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.40 (F1-F2)/F2": {
+  "value": -0.1703211813067521,
+  "claimed": -0.17,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.40 G spread": {
+  "value": -0.18579028184812252,
+  "claimed": -0.186,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.40 mean y-parity D [Pa]": {
+  "value": 59.58290161765271,
+  "claimed": 60,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.45 F1_y [N/m]": {
+  "value": -2093.1478348096334,
+  "claimed": -2093,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.45 F2_y [N/m]": {
+  "value": -1842.9413885311515,
+  "claimed": -1843,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.45 (F1-F2)/F2": {
+  "value": 0.1357647333960521,
+  "claimed": 0.136,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.45 G spread": {
+  "value": 0.14408887750180166,
+  "claimed": 0.144,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.45 mean y-parity D [Pa]": {
+  "value": -100.58701149189457,
+  "claimed": -101,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.50 F1_y [N/m]": {
+  "value": -2841.660314425752,
+  "claimed": -2842,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.50 F2_y [N/m]": {
+  "value": -2233.870459622931,
+  "claimed": -2234,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.50 (F1-F2)/F2": {
+  "value": 0.2720792748678067,
+  "claimed": 0.272,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.50 G spread": {
+  "value": 0.2931557977132315,
+  "claimed": 0.293,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 t=0.50 mean y-parity D [Pa]": {
+  "value": -244.92865243816618,
+  "claimed": -245,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 pressure at x=10, t=0.25, wall [Pa]": {
+  "value": 193.39603355600002,
+  "claimed": 193.4,
+  "tol": 0.06,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 pressure at x=10, t=0.25, row 1 [Pa]": {
+  "value": 76.9960548942,
+  "claimed": 77.0,
+  "tol": 0.06,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 pressure at x=10, t=0.25, row 2 [Pa]": {
+  "value": 192.931180509,
+  "claimed": 192.9,
+  "tol": 0.06,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 pressure at x=10, t=0.25, channel floor [Pa]": {
+  "value": 191.655552604,
+  "claimed": 191.7,
+  "tol": 0.06,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 Newton iterations per step: mean": {
+  "value": 5.25,
+  "claimed": 5.25,
+  "tol": 0.005,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 Newton iterations per step: max": {
+  "value": 6,
+  "claimed": 6,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 steps completed": {
+  "value": 20,
+  "claimed": 20,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 normal termination (1 = yes)": {
+  "value": 1.0,
+  "claimed": 1.0,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 'negative jacobian' occurrences in log (0 = none)": {
+  "value": 0.0,
+  "claimed": 0.0,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 volume conservation residual / peak area change": {
+  "value": 0.0024353346135596566,
+  "claimed": 0.0024,
+  "tol": 0.0003,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph converged first trough value [m]": {
+  "value": -0.21600083443584994,
+  "claimed": -0.216,
+  "tol": 0.0005,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph converged first trough time [s]": {
+  "value": 0.46847496153681756,
+  "claimed": 0.4685,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph first rebound maximum value [m]": {
+  "value": -0.04042839720144897,
+  "claimed": -0.0404,
+  "tol": 0.0005,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph first rebound maximum time [s]": {
+  "value": 0.7904773148550832,
+  "claimed": 0.791,
+  "tol": 0.003,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph second trough value [m]": {
+  "value": -0.20367733259926268,
+  "claimed": -0.2037,
+  "tol": 0.0005,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph second trough time [s]": {
+  "value": 1.1201106195080386,
+  "claimed": 1.119,
+  "tol": 0.002,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph third trough time [s]": {
+  "value": 1.7521087875724728,
+  "claimed": 1.753,
+  "tol": 0.003,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph trough-to-trough period T12 [s]": {
+  "value": 0.651635657971221,
+  "claimed": 0.65,
+  "tol": 0.003,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph trough-to-trough period T23 [s]": {
+  "value": 0.6319981680644342,
+  "claimed": 0.634,
+  "tol": 0.004,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph trough to rebound-maximum spacing [s] (README '0.8 s')": {
+  "value": 0.32200235331826565,
+  "claimed": null,
+  "tol": 0,
+  "agrees": null,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph dt=0.025 first trough value [m]": {
+  "value": -0.21290069276322732,
+  "claimed": -0.2129,
+  "tol": 0.0005,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph dt=0.025 first trough time [s]": {
+  "value": 0.47354417846083113,
+  "claimed": 0.4735,
+  "tol": 0.003,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 wall midpoint t=0.25 [m]": {
+  "value": -0.0523072439397,
+  "claimed": -0.0523,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph converged midpoint t=0.25 [m]": {
+  "value": -0.05595961,
+  "claimed": -0.056,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 wall midpoint t=0.3 [m]": {
+  "value": -0.0873723141127,
+  "claimed": -0.0874,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph converged midpoint t=0.3 [m]": {
+  "value": -0.09792736,
+  "claimed": -0.0979,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 wall midpoint t=0.35 [m]": {
+  "value": -0.12480652191,
+  "claimed": -0.1248,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph converged midpoint t=0.35 [m]": {
+  "value": -0.14507287,
+  "claimed": -0.1451,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 wall midpoint t=0.425 [m]": {
+  "value": -0.176406667901,
+  "claimed": -0.1764,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph converged midpoint t=0.425 [m]": {
+  "value": -0.20411944,
+  "claimed": -0.2041,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 wall midpoint t=0.475 [m]": {
+  "value": -0.197465357387,
+  "claimed": -0.1975,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph converged midpoint t=0.475 [m]": {
+  "value": -0.21571013,
+  "claimed": -0.2157,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 wall midpoint t=0.5 [m]": {
+  "value": -0.201549984837,
+  "claimed": -0.2016,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "oomph converged midpoint t=0.5 [m]": {
+  "value": -0.21010217,
+  "claimed": -0.2101,
+  "tol": 0.00015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 max |history difference| vs converged oomph, t <= 0.5 s (fraction of 0.216)": {
+  "value": 0.1282998708287037,
+  "claimed": 0.128,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 time of max difference [s]": {
+  "value": 0.425,
+  "claimed": 0.425,
+  "tol": 1e-09,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 rms history difference (fraction of 0.216)": {
+  "value": 0.06484964720493379,
+  "claimed": 0.065,
+  "tol": 0.0015,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "D1 first trough bracketed? (min of last step is the minimum: 1 = still descending)": {
+  "value": 1.0,
+  "claimed": 1.0,
+  "tol": 0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.2 identified fluid pressure, stored sign (p_el + inertia - p_ext) [Pa]": {
+  "value": -173.6746783075116,
+  "claimed": -173.7,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": 173.7,
+  "inconsistency": "INC-5"
+ },
+ "free-body t=0.2 F1 equivalent [Pa]": {
+  "value": 182.15820960844684,
+  "claimed": 182.2,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.2 F2 equivalent [Pa]": {
+  "value": 138.9496084226243,
+  "claimed": 139.0,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.225 identified fluid pressure, stored sign (p_el + inertia - p_ext) [Pa]": {
+  "value": -183.3319589672413,
+  "claimed": -183.3,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": 183.3,
+  "inconsistency": "INC-5"
+ },
+ "free-body t=0.225 F1 equivalent [Pa]": {
+  "value": 184.0412143075435,
+  "claimed": 184.0,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.225 F2 equivalent [Pa]": {
+  "value": 134.64519842018808,
+  "claimed": 134.7,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.25 identified fluid pressure, stored sign (p_el + inertia - p_ext) [Pa]": {
+  "value": -179.79471545080042,
+  "claimed": -179.8,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": 179.8,
+  "inconsistency": "INC-5"
+ },
+ "free-body t=0.25 F1 equivalent [Pa]": {
+  "value": 178.49722055612963,
+  "claimed": 178.5,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.25 F2 equivalent [Pa]": {
+  "value": 125.449612320405,
+  "claimed": 125.5,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.3 identified fluid pressure, stored sign (p_el + inertia - p_ext) [Pa]": {
+  "value": -141.29145669704673,
+  "claimed": -141.3,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": 141.3,
+  "inconsistency": "INC-5"
+ },
+ "free-body t=0.3 F1 equivalent [Pa]": {
+  "value": 141.19264530342286,
+  "claimed": 141.2,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.3 F2 equivalent [Pa]": {
+  "value": 85.80914377823397,
+  "claimed": 85.8,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.35 identified fluid pressure, stored sign (p_el + inertia - p_ext) [Pa]": {
+  "value": -58.89715453818795,
+  "claimed": -58.9,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": 58.9,
+  "inconsistency": "INC-5"
+ },
+ "free-body t=0.35 F1 equivalent [Pa]": {
+  "value": 59.41656425511734,
+  "claimed": 59.4,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body t=0.35 F2 equivalent [Pa]": {
+  "value": 14.002021716952157,
+  "claimed": 14.0,
+  "tol": 0.25,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "free-body validity limit |u_mid| of S1_320x8 at full 200 Pa [m]": {
+  "value": 0.142541614585,
+  "claimed": 0.1425,
+  "tol": 0.0001,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "analytic: E_eff [Pa]": {
+  "value": 500000000.0,
+  "claimed": 500000000.0,
+  "tol": 100000.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "analytic: EI [N m]": {
+  "value": 5208.333333333335,
+  "claimed": 5208.0,
+  "tol": 1.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "analytic: bending restoring pressure at first trough [Pa]": {
+  "value": 43.20000000000001,
+  "claimed": 43.0,
+  "tol": 0.5,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "analytic: membrane restoring pressure at first trough [Pa]": {
+  "value": 537.47712,
+  "claimed": 537.0,
+  "tol": 3.0,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "analytic: static check bending+membrane at 0.14363 m [Pa] (vs applied 200)": {
+  "value": 186.75406027450668,
+  "claimed": 186.7,
+  "tol": 0.5,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ },
+ "analytic: linear bending-only static midpoint 200 L^4/(384 EI) [m]": {
+  "value": 0.9999999999999998,
+  "claimed": 1.0,
+  "tol": 0.01,
+  "agrees": true,
+  "reported_in_pilot_results": null,
+  "inconsistency": null
+ }
+}

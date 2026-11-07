@@ -1,0 +1,5 @@
+mesh_cols_x_rows_hex8,aspect_ratio,midpoint_uy_m,midpoint_error_pct_vs_-0.14362832,quarter_point_error_pct_vs_-0.09645925,newton_iterations_total,newton_per_step_avg,pre_registered_gate,gate_result
+80x8,20,-0.12691967195,-11.6333,-19.4612,91,4.55,3 % (tutorial mesh),FAIL
+160x4,5,-0.139242229624,-3.0538,-6.2667,92,4.6,3 %,FAIL by 0.054 pp
+160x8,5,-0.139320013075,-2.9996,-6.1661,92,4.6,informative,n/a
+320x8,5,-0.142541614585,-0.7566,-1.7086,92,4.6,1 %,PASS
