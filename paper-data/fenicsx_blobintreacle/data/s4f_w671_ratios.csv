@@ -1,0 +1,5 @@
+arm,observable,"E-AREA/M2 like-for-like limits (x0.5,x1,x2)",level x1,level x2
+LEGACY,apex_ux,1.07552,1.07806,1.07656
+LEGACY,apex_uy,0.84226,0.83849,0.84056
+CORRECTED,apex_ux,1.07525,1.07765,1.07639
+CORRECTED,apex_uy,0.84152,0.83567,0.83878

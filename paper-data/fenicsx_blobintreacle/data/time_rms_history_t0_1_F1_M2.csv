@@ -1,0 +1,12 @@
+scheme,dt,rms_in_time_error_apex_ux,rms_in_time_error_apex_uy
+BE,0.02,0.0001088,3.318e-05
+BE,0.01,5.518e-05,1.956e-05
+BE,0.005,2.787e-05,1.096e-05
+BDF2,0.04,3.716e-05,3.112e-05
+BDF2,0.02,1.027e-05,1.035e-05
+BDF2,0.01,2.502e-06,2.634e-06
+BDF2,0.005,4.969e-07,5.31e-07
+CN_consistent,0.04,4.839e-05,1.152e-05
+CN_consistent,0.02,2.418e-05,2.949e-06
+CN_consistent,0.01,1.21e-05,8.083e-07
+CN_consistent,0.005,6.044e-06,2.96e-07

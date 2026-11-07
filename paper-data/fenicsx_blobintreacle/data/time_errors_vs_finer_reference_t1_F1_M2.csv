@@ -1,0 +1,29 @@
+scheme,observable,dt,error_vs_BDF2_dt0.00125_reference
+BDF2 (1484d94, d17df8b),apex_ux,0.01,-1.83e-06
+BDF2 (1484d94, d17df8b),apex_ux,0.005,-4.48e-07
+BDF2 (1484d94, d17df8b),apex_ux,0.0025,-8.97e-08
+BDF2 (1484d94, d17df8b),apex_uy,0.01,-1.52e-06
+BDF2 (1484d94, d17df8b),apex_uy,0.005,-4.1e-07
+BDF2 (1484d94, d17df8b),apex_uy,0.0025,-8.5e-08
+BDF2 (1484d94, d17df8b),Fx,0.01,8.41e-05
+BDF2 (1484d94, d17df8b),Fx,0.005,2.02e-05
+BDF2 (1484d94, d17df8b),Fx,0.0025,2.79e-06
+BDF2 (1484d94, d17df8b),Fy,0.01,-0.00266
+BDF2 (1484d94, d17df8b),Fy,0.005,-0.00067
+BDF2 (1484d94, d17df8b),Fy,0.0025,-0.000137
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",apex_ux,0.04,-1.38e-06
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",apex_ux,0.02,-4.78e-07
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",apex_ux,0.01,-9.7e-08
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",apex_ux,0.005,-1.8e-09
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",apex_uy,0.04,-5.08e-06
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",apex_uy,0.02,-1.68e-06
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",apex_uy,0.01,-4.18e-07
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",apex_uy,0.005,-8.44e-08
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",Fx,0.04,-0.157
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",Fx,0.02,-0.0787
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",Fx,0.01,-0.0394
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",Fx,0.005,-0.0198
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",Fy,0.04,0.396
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",Fy,0.02,0.197
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",Fy,0.01,0.0989
+"CN consistent + theta pressure geometry (9f4b6e8, T4)",Fy,0.005,0.0494

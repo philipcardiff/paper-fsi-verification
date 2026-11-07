@@ -1,0 +1,119 @@
+model,level,cells_total,dt,t_analysis,observable,value,definition,source
+fenicsx_M2_BE,0.5,150,0.01,10,apex_ux,0.11944809,apex displacement x (m),SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,1,600,0.01,10,apex_ux,0.11995991,apex displacement x (m),SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,2,2400,0.01,10,apex_ux,0.12016358,apex displacement x (m),SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,4,9600,0.04,6,apex_ux,0.12023999,apex displacement x (m),SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,0.5,150,0.01,10,apex_uy,-0.01382264,apex displacement y (m),SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,1,600,0.01,10,apex_uy,-0.01390005,apex displacement y (m),SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,2,2400,0.01,10,apex_uy,-0.01391885,apex displacement y (m),SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,4,9600,0.04,6,apex_uy,-0.01392375,apex displacement y (m),SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,0.5,150,0.01,10,Fx_weak,16.08901,"fluid force on solid, weak form incl. corner nodes (N/m)",SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,1,600,0.01,10,Fx_weak,16.21641,"fluid force on solid, weak form incl. corner nodes (N/m)",SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,2,2400,0.01,10,Fx_weak,16.24938,"fluid force on solid, weak form incl. corner nodes (N/m)",SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,4,9600,0.04,6,Fx_weak,16.25782,"fluid force on solid, weak form incl. corner nodes (N/m)",SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,0.5,150,0.01,10,Fy_weak,-26.28299,"fluid force on solid, weak form incl. corner nodes (N/m)",SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,1,600,0.01,10,Fy_weak,-25.93528,"fluid force on solid, weak form incl. corner nodes (N/m)",SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,2,2400,0.01,10,Fy_weak,-25.7465,"fluid force on solid, weak form incl. corner nodes (N/m)",SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,4,9600,0.04,6,Fy_weak,-25.64823,"fluid force on solid, weak form incl. corner nodes (N/m)",SIGNOFF_M2BE_SPATIAL.md; REPRODUCTION_REPORT.md
+fenicsx_M2_BE,0.5,150,0.01,10,Fx_fluid,16.105478,exact interface integral of sigma_f J F^-T N (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,1,600,0.01,10,Fx_fluid,16.222766,exact interface integral of sigma_f J F^-T N (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,2,2400,0.01,10,Fx_fluid,16.251409,exact interface integral of sigma_f J F^-T N (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,4,9600,0.04,6,Fx_fluid,16.2584,exact interface integral of sigma_f J F^-T N (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,0.5,150,0.01,10,Fy_fluid,-25.474941,exact interface integral of sigma_f J F^-T N (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,1,600,0.01,10,Fy_fluid,-25.526888,exact interface integral of sigma_f J F^-T N (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,2,2400,0.01,10,Fy_fluid,-25.541476,exact interface integral of sigma_f J F^-T N (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,4,9600,0.04,6,Fy_fluid,-25.54561,exact interface integral of sigma_f J F^-T N (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,0.5,150,0.01,10,Rx_base,-14.060334,"base reaction, int_base sigma_s n dA (N/m)","S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,1,600,0.01,10,Rx_base,-14.162778,"base reaction, int_base sigma_s n dA (N/m)","S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,2,2400,0.01,10,Rx_base,-14.191252,"base reaction, int_base sigma_s n dA (N/m)","S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,4,9600,0.04,6,Rx_base,-14.200898,"base reaction, int_base sigma_s n dA (N/m)","S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,0.5,150,0.01,10,Ry_base,24.743027,base reaction (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,1,600,0.01,10,Ry_base,25.021357,base reaction (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,2,2400,0.01,10,Ry_base,25.108563,base reaction (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,4,9600,0.04,6,Ry_base,25.124727,base reaction (N/m),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,0.5,150,0.01,10,dp,35.870654,mean inlet minus mean outlet pressure (Pa),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,1,600,0.01,10,dp,35.962396,mean inlet minus mean outlet pressure (Pa),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,2,2400,0.01,10,dp,35.98731,mean inlet minus mean outlet pressure (Pa),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M2_BE,4,9600,0.04,6,dp,35.99379,mean inlet minus mean outlet pressure (Pa),"S4F_VS_FENICSX.md (steady_obs2_f*.json, audit driver, dt 0.04, t=5)"
+fenicsx_M1_BE,0.5,150,0.04,6,apex_ux,0.12865316,apex displacement x (m),B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,apex_ux,0.12910028,apex displacement x (m),B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,apex_ux,0.12927696,apex displacement x (m),B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,apex_ux,0.1293386,apex displacement x (m),B1_RESULTS.md
+fenicsx_M1_BE,0.5,150,0.04,6,apex_uy,-0.011578543,apex displacement y (m),B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,apex_uy,-0.011657805,apex displacement y (m),B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,apex_uy,-0.011684726,apex displacement y (m),B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,apex_uy,-0.011694518,apex displacement y (m),B1_RESULTS.md
+fenicsx_M1_BE,0.5,150,0.04,6,Fx_weak,16.147307,"fluid force on solid, weak form incl. corner nodes (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,Fx_weak,16.274723,"fluid force on solid, weak form incl. corner nodes (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,Fx_weak,16.307467,"fluid force on solid, weak form incl. corner nodes (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,Fx_weak,16.315707,"fluid force on solid, weak form incl. corner nodes (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,0.5,150,0.04,6,Fy_weak,-26.458251,"fluid force on solid, weak form incl. corner nodes (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,Fy_weak,-26.113078,"fluid force on solid, weak form incl. corner nodes (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,Fy_weak,-25.924868,"fluid force on solid, weak form incl. corner nodes (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,Fy_weak,-25.826687,"fluid force on solid, weak form incl. corner nodes (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,0.5,150,0.04,6,Fx_fluid,16.164198,"force applied to the solid, exact-measure interface integral (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,Fx_fluid,16.281026,"force applied to the solid, exact-measure interface integral (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,Fx_fluid,16.309473,"force applied to the solid, exact-measure interface integral (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,Fx_fluid,16.316285,"force applied to the solid, exact-measure interface integral (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,0.5,150,0.04,6,Fy_fluid,-25.658023,"force applied to the solid, exact-measure interface integral (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,Fy_fluid,-25.707731,"force applied to the solid, exact-measure interface integral (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,Fy_fluid,-25.720891,"force applied to the solid, exact-measure interface integral (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,Fy_fluid,-25.724407,"force applied to the solid, exact-measure interface integral (N/m)",B1_RESULTS.md
+fenicsx_M1_BE,0.5,150,0.04,6,Rx_base,-15.674998,base reaction (N/m),B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,Rx_base,-16.016909,base reaction (N/m),B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,Rx_base,-16.169239,base reaction (N/m),B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,Rx_base,-16.241569,base reaction (N/m),B1_RESULTS.md
+fenicsx_M1_BE,0.5,150,0.04,6,Ry_base,25.221967,base reaction (N/m),B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,Ry_base,25.507615,base reaction (N/m),B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,Ry_base,25.620222,base reaction (N/m),B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,Ry_base,25.670806,base reaction (N/m),B1_RESULTS.md
+fenicsx_M1_BE,0.5,150,0.04,6,dp,35.923547,mean inlet minus mean outlet pressure (Pa),B1_RESULTS.md
+fenicsx_M1_BE,1,600,0.04,6,dp,36.015125,mean inlet minus mean outlet pressure (Pa),B1_RESULTS.md
+fenicsx_M1_BE,2,2400,0.04,6,dp,36.039758,mean inlet minus mean outlet pressure (Pa),B1_RESULTS.md
+fenicsx_M1_BE,4,9600,0.04,6,dp,36.046044,mean inlet minus mean outlet pressure (Pa),B1_RESULTS.md
+s4f_M2_original,0.5,150,0.01,4,apex_ux,0.1081818,apex displacement x (m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,1,600,0.01,4,apex_ux,0.1172623,apex displacement x (m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,2,2400,0.01,4,apex_ux,0.1196884,apex displacement x (m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,4,9600,0.005,4,apex_ux,0.1202075,apex displacement x (m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,0.5,150,0.01,4,apex_uy,-0.012625,apex displacement y (m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,1,600,0.01,4,apex_uy,-0.0137248,apex displacement y (m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,2,2400,0.01,4,apex_uy,-0.0139834,apex displacement y (m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,4,9600,0.005,4,apex_uy,-0.0140179,apex displacement y (m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,0.5,150,0.01,4,Fx_fluid,14.4348002,fluid-reported force (forces function object) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,1,600,0.01,4,Fx_fluid,15.8270139,fluid-reported force (forces function object) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,2,2400,0.01,4,Fx_fluid,16.1967701,fluid-reported force (forces function object) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,4,9600,0.005,4,Fx_fluid,16.2712446,fluid-reported force (forces function object) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,0.5,150,0.01,4,Fy_fluid,-23.2735691,fluid-reported force (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,1,600,0.01,4,Fy_fluid,-24.9802012,fluid-reported force (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,2,2400,0.01,4,Fy_fluid,-25.4356414,fluid-reported force (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,4,9600,0.005,4,Fy_fluid,-25.5415674,fluid-reported force (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,0.5,150,0.01,4,Rx_base,-12.2038646,base reaction from written boundary stress (estimator) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,1,600,0.01,4,Rx_base,-13.5700623,base reaction from written boundary stress (estimator) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,2,2400,0.01,4,Rx_base,-14.0040925,base reaction from written boundary stress (estimator) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,4,9600,0.005,4,Rx_base,-14.1391627,base reaction from written boundary stress (estimator) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,0.5,150,0.01,4,Ry_base,22.7819641,base reaction (estimator) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,1,600,0.01,4,Ry_base,24.4266617,base reaction (estimator) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,2,2400,0.01,4,Ry_base,24.895429,base reaction (estimator) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,4,9600,0.005,4,Ry_base,25.0260026,base reaction (estimator) (N/m),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,0.5,150,0.01,4,dp,32.404055,mean inlet minus mean outlet pressure (owner-cell value at inlet) (Pa),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,1,600,0.01,4,dp,34.966043,mean inlet minus mean outlet pressure (owner-cell value at inlet) (Pa),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,2,2400,0.01,4,dp,35.737896,mean inlet minus mean outlet pressure (owner-cell value at inlet) (Pa),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_M2_original,4,9600,0.005,4,dp,35.957836,mean inlet minus mean outlet pressure (owner-cell value at inlet) (Pa),"s4f_side/SERIES_RESULTS.md, FOURWAY_S4F_HALF.md, S4F_VS_FENICSX.md"
+s4f_EAREA_diagnostic,0.5,150,0.01,4,apex_ux,0.1167945,apex displacement x (m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,1,600,0.01,4,apex_ux,0.1264192,apex displacement x (m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,2,2400,0.01,4,apex_ux,0.1288523,apex displacement x (m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,0.5,150,0.01,4,apex_uy,-0.010597,apex displacement y (m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,1,600,0.01,4,apex_uy,-0.0115092,apex displacement y (m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,2,2400,0.01,4,apex_uy,-0.011754,apex displacement y (m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,0.5,150,0.01,4,Fx_fluid,14.4891054,fluid-reported force (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,1,600,0.01,4,Fx_fluid,15.8887028,fluid-reported force (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,2,2400,0.01,4,Fx_fluid,16.2574839,fluid-reported force (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,0.5,150,0.01,4,Fy_fluid,-23.4142243,fluid-reported force (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,1,600,0.01,4,Fy_fluid,-25.1504802,fluid-reported force (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,2,2400,0.01,4,Fy_fluid,-25.6138973,fluid-reported force (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,0.5,150,0.01,4,Rx_base,-13.7869347,base reaction from written boundary stress (estimator) (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,1,600,0.01,4,Rx_base,-15.4783102,base reaction from written boundary stress (estimator) (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,2,2400,0.01,4,Rx_base,-16.0256747,base reaction from written boundary stress (estimator) (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,0.5,150,0.01,4,Ry_base,23.1836121,base reaction (estimator) (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,1,600,0.01,4,Ry_base,24.9905504,base reaction (estimator) (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md
+s4f_EAREA_diagnostic,2,2400,0.01,4,Ry_base,25.5174869,base reaction (estimator) (N/m),s4f_side/EAREA_SPATIAL_RESULTS.md

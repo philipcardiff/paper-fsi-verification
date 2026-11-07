@@ -1,0 +1,12 @@
+observable,status,p_observed,limit,GCI_fine_percent,note
+apex_ux,accepted,1.445,0.0576543,0.0449,"finest triple F=1,2,4; coarsest triple p=1.366, limit 0.0576595, GCI 0.134%"
+apex_uy,NOT accepted (non-monotone; p=0.196 and 0.474 per triple),,,,not extrapolated
+Fx_fluid_on_solid,NOT accepted (non-monotone),,,,not extrapolated
+Fy_fluid_on_solid,accepted,0.925,-15.6769,0.614,"coarsest triple p=0.906, GCI 1.19%; first-order-like"
+P_M1,accepted,2.02,0.655814,0.039,
+P_M2,accepted,1.947,0.633856,0.0478,
+V_fluid,accepted,1.987,9.3674,0.00094,
+Q_out,NOT accepted (non-monotone),,,,
+Q_in,not analysed (identical to rounding),,,,
+dp,not recorded by the frozen 1484d94 driver,,,,
+"s4f t=1 ux (own sequence, mixed dt)",accepted,2.192,0.0577633,0.126,"limit-vs-limit with FEniCSx ux: 0.0576543 vs 0.0577633, difference 0.189% = 1.41 x combined GCI (7.73e-5 abs)"

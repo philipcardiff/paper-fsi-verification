@@ -1,0 +1,10 @@
+item,value,qualification,source
+uy gap FEniCSx M2 vs s4f M2 (extrapolated limits),-0.697 %,combined GCI of the apex sequences 0.050 %,S4F_VS_FENICSX.md
+"solid-only, apex uy under FEniCSx coupled load (F=2 o2)",-0.013930,,SAME_SHAPE_VERDICT.md item 4
+"solid-only, apex uy under s4f coupled-applied load",-0.014027,+0.70 % vs FEniCSx load (+0.678 % in the later 96-chord run),SAME_SHAPE_VERDICT.md; MANUSCRIPT_READINESS.md
+"solid-only, apex uy under s4f static-wall load",,+0.623 %,MANUSCRIPT_READINESS.md
+load difference FEniCSx fixed-shape vs s4f coupled-applied (resultants),"Fx -0.134 %, Fy +0.020 %","preregistered rule 0.13 % resultant, 0.02 N/bin: DISAGREE (marginal, by 0.004 %)",SAME_SHAPE_VERDICT.md
+load difference FEniCSx fixed-shape vs s4f static-wall load,"Fx -0.078 %, Fy +0.034 %, <= 0.0113 N/bin",passes the same rule; reference chosen after the coupled comparison (post hoc),SAME_SHAPE_VERDICT.md addendum
+amplification into uy,"about 5.8 x for the Fx resultant (0.70/0.12); about 10 x quoted per bin (0.06 % Fx, 0.036 % Fy, <= 0.012 N/bin -> 0.62 % uy)",a sensitivity estimate; the load-uncertainty input is not independently bounded,review report C3; MANUSCRIPT_READINESS.md
+s4f coupled vs static-wall fluid state (not explained),Fx -0.056 %,"untested causes: additionalMeshCorrection ordering, PIMPLE inner convergence, IQN tolerance",MANUSCRIPT_READINESS.md
+load difference s4f static-wall vs FEniCSx coupled (used in the solid-only swap),"Fx -0.062 %, Fy +0.036 %, <= 0.0117 N/bin",post hoc reference; the swap with this load reproduces 92 % of the uy change produced by the s4f coupled load; remaining 8 % untested,SAME_SHAPE_VERDICT.md addendum

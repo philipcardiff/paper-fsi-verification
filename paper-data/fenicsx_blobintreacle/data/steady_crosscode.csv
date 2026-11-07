@@ -1,0 +1,36 @@
+row,observable,level_or_triple,s4f_M2,fenicsx_M2,fenicsx_over_s4f_minus_1_percent,s4f_p,s4f_GCI_percent,fenicsx_p,fenicsx_GCI_percent,combined_GCI_percent
+same_level,apex_ux,x0.5/F0.5,0.1081818,0.1194481,10.414,,,,,
+same_level,apex_ux,x1/F1,0.1172623,0.1199599,2.300,,,,,
+same_level,apex_ux,x2/F2,0.1196884,0.1201636,0.397,,,,,
+same_level,apex_ux,x4/F4,0.1202075,0.12024,0.027,,,,,
+extrapolated,apex_ux,"finest3 (1,2,4)",0.1203488,0.1202859,-0.052,2.22,0.147,1.41,0.0477,0.154
+same_level,apex_uy,x0.5/F0.5,-0.012625,-0.01382264,9.486,,,,,
+same_level,apex_uy,x1/F1,-0.0137248,-0.01390005,1.277,,,,,
+same_level,apex_uy,x2/F2,-0.0139834,-0.01391885,-0.462,,,,,
+same_level,apex_uy,x4/F4,-0.0140179,-0.01392375,-0.672,,,,,
+extrapolated,apex_uy,"finest3 (1,2,4)",-0.01402321,-0.01392548,-0.697,2.91,0.047,1.94,0.0155,0.050
+same_level,Fx_fluid,x0.5/F0.5,14.4348,16.10548,11.574,,,,,
+same_level,Fx_fluid,x1/F1,15.82701,16.22277,2.500,,,,,
+same_level,Fx_fluid,x2/F2,16.19677,16.25141,0.337,,,,,
+same_level,Fx_fluid,x4/F4,16.27124,16.2584,-0.079,,,,,
+extrapolated,Fx_fluid,"finest3 (1,2,4)",16.29003,16.26066,-0.180,2.31,0.144,2.03,0.0174,0.145
+same_level,Fy_fluid,x0.5/F0.5,-23.27357,-25.47494,9.459,,,,,
+same_level,Fy_fluid,x1/F1,-24.9802,-25.52689,2.188,,,,,
+same_level,Fy_fluid,x2/F2,-25.43564,-25.54148,0.416,,,,,
+same_level,Fy_fluid,x4/F4,-25.54157,-25.54561,0.016,,,,,
+extrapolated,Fy_fluid,"finest3 (1,2,4)",-25.57367,-25.54724,-0.103,2.10,0.157,1.82,0.0080,0.157
+same_level,Rx_base,x0.5/F0.5,-12.20386,-14.06033,15.212,,,,,
+same_level,Rx_base,x1/F1,-13.57006,-14.16278,4.368,,,,,
+same_level,Rx_base,x2/F2,-14.00409,-14.19125,1.336,,,,,
+same_level,Rx_base,x4/F4,-14.13916,-14.2009,0.437,,,,,
+extrapolated,Rx_base,"finest3 (1,2,4)",-14.20019,-14.20584,0.040,1.68,0.540,1.56,0.0435,0.541
+same_level,Ry_base,x0.5/F0.5,22.78196,24.74303,8.608,,,,,
+same_level,Ry_base,x1/F1,24.42666,25.02136,2.435,,,,,
+same_level,Ry_base,x2/F2,24.89543,25.10856,0.856,,,,,
+same_level,Ry_base,x4/F4,25.026,25.12473,0.394,,,,,
+extrapolated,Ry_base,"finest3 (1,2,4)",25.07642,25.1284,0.207,1.84,0.252,2.43,0.0183,0.252
+same_level,dp,x0.5/F0.5,32.40405,35.87065,10.698,,,,,
+same_level,dp,x1/F1,34.96604,35.9624,2.849,,,,,
+same_level,dp,x2/F2,35.7379,35.98731,0.698,,,,,
+same_level,dp,x4/F4,35.95784,35.99379,0.100,,,,,
+extrapolated,dp,"finest3 (1,2,4)",36.04548,35.99607,-0.137,1.81,0.305,1.94,0.0079,0.305

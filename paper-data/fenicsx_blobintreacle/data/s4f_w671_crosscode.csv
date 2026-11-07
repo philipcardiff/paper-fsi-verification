@@ -1,0 +1,33 @@
+observable,arm,level_or_limits,s4f,fenicsx_M2,gap_s4f_over_fenicsx_minus_1_pct,u_combined_GCI_pct,gap_over_u,reading
+apex_ux,LEGACY,limits,0.1203491,0.1202859,+0.053,0.155,0.34,within combined GCI
+apex_ux,LEGACY,x1,0.1172657,0.1199599,-2.246,,,
+apex_ux,LEGACY,x2,0.1196884,0.1201636,-0.395,,,
+apex_ux,LEGACY,x4,0.1202075,0.12024,-0.027,,,
+apex_ux,CORRECTED,limits,0.120276,0.1202859,-0.008,0.236,0.03,within combined GCI
+apex_ux,CORRECTED,x1,0.1164791,0.1199599,-2.902,,,
+apex_ux,CORRECTED,x2,0.1193581,0.1201636,-0.670,,,
+apex_ux,CORRECTED,x4,0.1200541,0.12024,-0.155,,,
+apex_uy,LEGACY,limits,-0.01402328,-0.01392548,+0.702,0.050,14.02,outside 2u
+apex_uy,LEGACY,x1,-0.01372612,-0.01390005,-1.251,,,
+apex_uy,LEGACY,x2,-0.01398344,-0.01391885,+0.464,,,
+apex_uy,LEGACY,x4,-0.01401794,-0.01392375,+0.676,,,
+apex_uy,CORRECTED,limits,-0.01399883,-0.01392548,+0.527,0.104,5.08,outside 2u
+apex_uy,CORRECTED,x1,-0.0136348,-0.01390005,-1.908,,,
+apex_uy,CORRECTED,x2,-0.01393418,-0.01391885,+0.110,,,
+apex_uy,CORRECTED,x4,-0.01398735,-0.01392375,+0.457,,,
+Fx_fluid,LEGACY,limits,16.29005,16.26066,+0.181,0.146,1.24,outside combined GCI (x1)
+Fx_fluid,LEGACY,x1,15.82753,16.22277,-2.436,,,
+Fx_fluid,LEGACY,x2,16.19677,16.25141,-0.336,,,
+Fx_fluid,LEGACY,x4,16.27124,16.2584,+0.079,,,
+Fx_fluid,CORRECTED,limits,16.27796,16.26066,+0.106,0.215,0.49,within combined GCI
+Fx_fluid,CORRECTED,x1,15.74551,16.22277,-2.942,,,
+Fx_fluid,CORRECTED,x2,16.15603,16.25141,-0.587,,,
+Fx_fluid,CORRECTED,x4,16.25004,16.2584,-0.051,,,
+dp,LEGACY,limits,36.04555,35.99607,+0.137,0.305,0.45,within combined GCI
+dp,LEGACY,x1,34.96645,35.9624,-2.769,,,
+dp,LEGACY,x2,35.7379,35.98731,-0.693,,,
+dp,LEGACY,x4,35.95784,35.99379,-0.100,,,
+dp,CORRECTED,limits,36.04924,35.99607,+0.148,0.312,0.47,within combined GCI
+dp,CORRECTED,x1,34.9733,35.9624,-2.750,,,
+dp,CORRECTED,x2,35.73861,35.98731,-0.691,,,
+dp,CORRECTED,x4,35.95956,35.99379,-0.095,,,

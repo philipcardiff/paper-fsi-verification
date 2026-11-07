@@ -1,0 +1,13 @@
+scheme,observable,status_convergence.analyse,p_finest_triple,richardson_limit,GCI_fine_percent,pairwise_orders_vs_reference_R1,note
+BE (dt .02/.01/.005),apex_ux,accepted,1.04,0.0575011,0.0116,"1.04, 1.04",
+BE,apex_uy,not accepted (p=0.335),,,,"0.58, 0.72",pointwise uy(1) not accepted for BE
+BE,Fx,accepted,0.928,7.6094,0.0176,"0.94, 0.96",
+BE,Fy,accepted,0.515,-15.9594,0.0716,"0.71, 0.85",p near the 0.5 acceptance bound
+BDF2 (dt .04/.02/.01/.005),apex_ux,accepted (finest triple),1.571,0.0575014,0.00152,"0.41, 1.75, 2.28","coarse pairs pre-asymptotic; quote the asymptotic pairs, not the triple"
+BDF2,apex_uy,not accepted (p=0.296),,,,"1.99, 0.96, 2.14",uy(1) not accepted pointwise
+BDF2,Fx,accepted,1.141,7.60932,0.00087,"2.27, 1.45, 2.22",
+BDF2,Fy,accepted,1.205,-15.9542,0.0119,"-0.06, 1.49, 2.24",
+CN consistent (dt .04...005),apex_ux,accepted,1.005,0.0575011,0.0269,"1.00, 1.01, 1.01",first order
+CN consistent,apex_uy,not accepted (not monotone),,,,,
+CN consistent,Fx,accepted,1.0,7.60926,0.321,"1.00, 1.00, 1.00",
+CN consistent,Fy,accepted,0.994,-15.9555,0.4,"1.00, 1.00, 1.00",

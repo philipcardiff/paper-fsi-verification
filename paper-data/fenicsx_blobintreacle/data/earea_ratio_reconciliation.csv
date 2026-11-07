@@ -1,0 +1,5 @@
+observable,E-AREA_limit_coarse_triple_x0.5-1-2,M2_limit_coarse_triple_x0.5-1-2,like_for_like_ratio,M2_limit_finest_triple_x1-2-4,mixed_level_ratio,source
+apex_ux,0.12967545,0.1205729,1.0755,0.12034882,1.0775,s4f_side/EAREA_RATIO_RECONCILIATION.md
+apex_uy,-0.011843792,-0.014062937,0.8422,-0.01402326,0.8446,same
+Fx_fluid,16.3894177,16.33049,1.0036,16.29003,1.0061,same (mixed-level ratio computed here; do not use)
+Fy_fluid,-25.7826189,-25.60142,1.0071,-25.57367,1.0082,same (mixed-level ratio computed here; do not use)

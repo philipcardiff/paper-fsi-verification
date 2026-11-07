@@ -1,0 +1,5 @@
+ratio,numerator,denominator,levels,use,apex_ux,apex_uy,Fx_fluid,Fy_fluid
+"FEniCSx M1 / M2, extrapolated limits",fenicsx_M1_BE,fenicsx_M2_BE,"F1,F2,F4 in both",preferred FEniCSx ratio,1.0755,0.8402,1.0036,1.0070
+"FEniCSx M1 / M2, extrapolated limits",fenicsx_M1_BE,fenicsx_M2_BE,"F0.5,F1,F2 in both",coarse-triple check,1.0756,0.8401,1.0036,1.0070
+"solids4foam E-AREA / M2, like-for-like",s4f_EAREA_diagnostic,s4f_M2_original,"x0.5,x1,x2 in both (E-AREA has no x4)",preferred s4f ratio,1.0755,0.8422,1.0036,1.0071
+"solids4foam E-AREA / M2, MIXED level",s4f_EAREA_diagnostic,s4f_M2_original,"E-AREA x0.5,x1,x2 over M2 x1,x2,x4",NOT to be used,1.0775,0.8446,1.0061,1.0082

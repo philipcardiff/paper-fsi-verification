@@ -1,0 +1,9 @@
+observable,pair,observed_order,pure_second_order_prediction,deviation,within_0.05
+apex_ux,dt 0.01/0.005,2.03,2.07,-0.04,yes
+apex_ux,dt 0.005/0.0025,2.32,2.32,-0.00,yes
+apex_uy,dt 0.01/0.005,1.89,2.07,-0.18,no
+apex_uy,dt 0.005/0.0025,2.27,2.32,-0.05,no
+Fx,dt 0.01/0.005,2.06,2.07,-0.01,yes
+Fx,dt 0.005/0.0025,2.86,2.32,+0.53,no
+Fy,dt 0.01/0.005,1.99,2.07,-0.08,no
+Fy,dt 0.005/0.0025,2.29,2.32,-0.03,yes
