@@ -46,5 +46,9 @@ Errors are measured against the Featflow finest level:
 | 1x | p = 3 | −3.92% | −1.74% | −0.80% | −0.46% |
 | 2x | p = 1 | −0.97% | −4.63% | −0.24% | +1.56% |
 | 2x | p = 3 | −1.33% | −0.83% | −0.24% | −0.17% |
+| 4x | p = 3 | −0.27% | −0.48% | −0.04% | −0.10% |
 
-The 4x p = 3 level is queued on MeluXina (job 5426960).
+The 4x p = 3 level ran on MeluXina (job 5426960, 32 cores, 11.8 h, same commit), results in `p3_4x_sweep.csv`.
+The driver halves the step with each mesh level, so 4x uses Δt = 0.0125 s.
+The driver marks the run as failed because the lift spread over the closing window is 3.5 × 10⁻³ against its 10⁻³ tolerance.
+The tip displacement is steady over t = 10–30 s (u_x to 1 × 10⁻⁵ and u_y to 6 × 10⁻⁵ relative), and the lift fluctuates by about ±0.2% about its mean, so the tabulated values are converged in time to the digits shown.
