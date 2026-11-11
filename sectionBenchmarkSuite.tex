@@ -739,7 +739,7 @@ The measured steady tip deflection is $16.41\,\mathrm{mm}$, and the deformed cen
 \subsubsection{Blob in treacle [PROVISIONAL]}\label{sec:blob}
 %%-------------------------------------------------------------------
 
-\todo{PROVISIONAL BENCHMARK / candidate for supplementary material: retain in the main text only if (i) an independent converged reference (COMSOL being arranged) replaces the coarse, figure-digitised preprint reference; and (ii) the time study is extended below $\Delta t = 0.03125\,\mathrm{s}$ with tightened coupling and solver tolerances, showing orders close to 2 rather than the present super-nominal 2.4--2.5.}
+\todo{PROVISIONAL BENCHMARK. Redefined with a finite-strain solid (solids4foam PR \#694). Authors: decide whether it leaves the provisional set. It now has near-nominal self-convergence in space and time and a same-group second implementation, but no independent reference.}
 
 \begin{figure}[htbp]
 	\centering
@@ -749,9 +749,10 @@ The measured steady tip deflection is $16.41\,\mathrm{mm}$, and the deformed cen
 \end{figure}
 
 An elastic half-cylinder in a highly viscous channel flow (Fig.~\ref{fig:blob_geom}), proposed by~\citet{Liu2014} to measure the temporal order of a coupled scheme, is strongly damped and undergoes large deformation.
-The reference is C-weak: \citet{Liu2014} report only self-convergence norms, and the preprint~\citep{Liu2013} gives figure-extracted interface shapes at $t = 1\,\mathrm{s}$ (first-order time integration, own time error $\approx4\%$) and at steady state (1\,239 fluid and 370 solid triangles).
-At $t = 1\,\mathrm{s}$, $\Delta t = 0.25$ to $0.03125\,\mathrm{s}$ gives top-point $u_x = 0.0558737$, $0.0564184$, $0.0565219$ and $0.0565398\,\mathrm{m}$, with observed orders 2.39 and 2.54 ($u_x$) and 2.39 and 2.41 (interface shape); below $\Delta t = 0.03125\,\mathrm{s}$ the changes reach the coupling/solver-tolerance level ($\approx10^{-5}\,\mathrm{m}$).
-Orders above the formal value indicate a pre-asymptotic sequence; they are reported as observed self-convergence behaviour, not as a measured order.
-Four mesh levels give steady $u_x$ from $0.108206$ to $0.120152\,\mathrm{m}$ with decreasing changes (observed order 2.40, above the formal value); no extrapolated value is given.
-The $t = 1\,\mathrm{s}$ interface shape is within $1.6\%$ of the preprint, inside its own time error; at steady state $u_x$ is $7.4\%$ smaller and $|u_y|$ $20\%$ larger, an offset not yet explained (reference-mesh coarseness is plausible but unconfirmed).
+We use it with a finite-strain solid: a total Lagrangian neo-Hookean solid with the Lam\'e constants of~\citet{Liu2014} ($\lambda = 500\,\mathrm{Pa}$, $\mu = 50\,\mathrm{Pa}$), with the fluid, meshes, inflow and time steps of the solids4foam tutorial.
+The small-strain solid of the earlier tutorial integrated the fluid traction over its undeformed surface and received about $12\%$ less $x$-force than the fluid exerted; with the finite-strain solid the interface forces balance to about $10^{-6}$. A St Venant--Kirchhoff solid is not used, because it softens in compression and collapses at $t \approx 1.8\,\mathrm{s}$.
+Because the case is redefined, the published values do not apply. The reference is C-weak: self-convergence, and a second implementation by the same group (monolithic finite elements, FEniCSx; Supplementary Material, which also audits the earlier small-strain definition).
+At $t = 1\,\mathrm{s}$ on the tutorial mesh, $\Delta t = 0.25$ to $0.03125\,\mathrm{s}$ gives top-point $u_x = 0.0590302$, $0.0595007$, $0.0596084$ and $0.0596316\,\mathrm{m}$, with observed orders 2.13 and 2.21 ($u_x$) and 2.12 and 2.00 (interface position); below $\Delta t = 0.03125\,\mathrm{s}$ the changes ($\approx10^{-5}\,\mathrm{m}$) reach the coupling and solver tolerances.
+Four mesh levels (120 to 7\,680 fluid cells, both meshes refined together) give steady $u_x = 0.124852$, $0.135581$, $0.139075$ and $0.139948\,\mathrm{m}$, converging at an observed order of 2.00 to $0.14024\,\mathrm{m}$; the tutorial level is $3.3\%$ and the finest level $0.2\%$ below this value.
+The FEniCSx implementation converges to limits within $0.05$--$0.19\%$ of ours for the top-point displacement, the interface forces and the pressure drop, although its own displacement converges at only about first order.
 No coupling study exists, and the temporal-order contribution partly overlaps with ringAddedMass and collapsibleChannel.

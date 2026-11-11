@@ -31,7 +31,7 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		Hessenthaler$^\ast$ & -- & realistic 3-D geometry, large deformation; steady-state iterative error; validation data kept separate & solid, $\Delta t$ and coupling converged; fluid convergence open \\
 		mokLidDrivenCavity & B & tension-dominated membrane; problem-definition sensitivity; coupling robustness & four levels, combined refinement; orders below nominal; within $\approx1\%$ of Kratos; $128^2$ needs relaxed outer correctors \\
 		cavityFlexibleBottom$^\ast$ & C-weak & steady internal flow, large deformation & provisional \\
-		blobInTreacle$^\ast$ & C-weak & temporal order in viscous large-deformation flow & provisional; possibly supplementary \\
+		blobInTreacle$^\ast$ & C-weak & temporal and spatial order in viscous large-deformation flow; interface force balance & four levels and four time steps at near-nominal orders; same-group second implementation; provisional \\
 		\bottomrule
 		\multicolumn{4}{l}{$^\ast$ Provisional; tier not frozen.}
 	\end{tabular}
