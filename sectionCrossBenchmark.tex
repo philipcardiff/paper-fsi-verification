@@ -36,7 +36,7 @@ The observations are specific to this suite and to one code family, and are not 
 		mokLidDrivenCavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
 		cavityFlexibleBottom$^\ast$ & 1.96, 2.02 ($u_y$, four levels) & pseudo-time step $\leq0.014\%$; strict vs default coupling test $\leq0.02\%$ & SD \\
 		beamInCrossFlow$^\ast$ & $u_x(A)$ 1.64, $F_x$ 1.60 (levels 1--3, corrected inflow; Appendix~\ref{app:beam}) & $\Delta t$ (Rhie--Chow) $\approx1/240$ of the level-2-to-3 change & SD \\
-		blobInTreacle$^\ast$ & 2.40 (super-nominal) & 2.39--2.54 (super-nominal) & SD \\
+		blobInTreacle$^\ast$ & 2.00 & 2.13, 2.21 (interface 2.12, 2.00) & SD; Richardson \\
 		\bottomrule
 		\multicolumn{4}{l}{$^\ast$ Provisional cases.}
 	\end{tabular}
@@ -57,7 +57,7 @@ Third levels changed the conclusions drawn from two in two of the three cases wh
 In Hron--Turek FSI3 the two-level apparent orders of 2.6--3.8 arose from a sequence crossing the reference value, and the three-level observed order of the displacements with the tutorial set-up is about one; with a corrected set-up the displacements form a plateau at 2x$'$/4x$'$ that a fourth level shows to be non-asymptotic (Section~\ref{sec:fsi23}).
 In 3dTube the small two-level change in $u_{r,\max}$ reported earlier was obtained with an interface interpolation operator that changed between the levels; after correction its changes grow on the third level.
 In FSI1 the third and fourth levels confirmed convergence towards Featflow, but showed that $u_x$, first order, crosses the reference between 4x and 8x. FSI2 still has two levels, so the large-amplitude Hron--Turek case remains the least completely verified.
-Orders well above the formal value (the FSI3 filtered lift amplitude, 3.1; the rigid-flag force amplitudes, 2.8--3.3; the blobInTreacle temporal orders, 2.4--2.5) are interpreted as pre-asymptotic; no super-convergence is claimed, and they are not used for extrapolation.
+Orders well above the formal value (the FSI3 filtered lift amplitude, 3.1; the rigid-flag force amplitudes, 2.8--3.3) are interpreted as pre-asymptotic; no super-convergence is claimed, and they are not used for extrapolation.
 
 \emph{Coupled limit-cycle QoIs can converge sub-nominally when the components behave well.}
 In Hron--Turek FSI3 the solid alone approaches second order, the rigid-flag fluid converges to within the reference uncertainty, and the code defects of 3dTube have no effect; yet the coupled displacements of the tutorial set-up converge at an observed order of about one. The cause was the set-up, not the discretisation: a path-dependent mesh motion that drifts under periodic motion, and a first-order wall-pressure condition (Section~\ref{sec:fsi23}). With these corrected, the first-order sequence disappears, but the displacements still change by $1$--$2\%$ between 4x$'$ and 8x$'$, in the direction predicted by the in-phase fluid load under a prescribed motion: the remaining error is a spatial error on the fluid side that the 2x$'$/4x$'$ pair had hidden.
@@ -222,7 +222,7 @@ This is a statement about the specific values used, not about the quality of the
 		collapsibleChannel & Published problem (pre-stressed, massless wall) unsuitable for continuum/partitioned comparison & Modified problem and regenerated reference used \\
 		beamInCrossFlow & Quoted values ($5.95\times10^{-5}\,\mathrm{m}$, $1.33\,\mathrm{N}$) are rounded extrapolations of \citet{Richter2012}, often cited to a later paper; printed inflow peak ($0.3\,\mathrm{m/s}$) is an error, inconsistent with the stated mean and $Re$, and the author confirms the reference values used $0.2\,\mathrm{m/s}$; earlier calculations solved a different beam position, monitoring point and inflow & The printed inflow gives $1.8$ times the reference values; with the corrected $0.2\,\mathrm{m/s}$ peak level 3 is within $0.1$--$0.2\%$ (Appendix~\ref{app:beam}) \\
 		cavityFlexibleBottom & Same-lineage, from the figure; published forces per $0.05\,\mathrm{m}$ depth; the published and ANSYS displacements are consistent with neo-Hookean and logarithmic-strain plates, not St Venant--Kirchhoff & Forces agree to $0.07$--$0.7\%$; the independent St Venant--Kirchhoff (COMSOL; plane strain to be confirmed) displacement agrees to $1.0\%$ \\
-		blobInTreacle & Preprint figures only; first-order time, coarse steady mesh & Steady offset of 7--20\% unexplained \\
+		blobInTreacle & Preprint figures only, with a small-strain solid; first-order time, coarse steady mesh & Redefined with a finite-strain solid, so the published values are not used; a small-strain solid integrating over the undeformed surface received $12\%$ less $x$-force than the fluid exerted \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -256,7 +256,7 @@ Disagreements between codes can originate in the discretisation of the reference
 		mokLidDrivenCavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
 		cavityFlexibleBottom$^\ast$ & three-level sweep $\approx10$\,min serial \\
 		beamInCrossFlow$^\ast$ & level 3 ($4.2\times10^{6}$ fluid cells) $\approx45$ node-hours on 128-core nodes; both inflows to level 3 with checks $158$ node-hours ($2.0\times10^{4}$ core-hours) \\
-		blobInTreacle$^\ast$ & full study $\approx33$\,min \\
+		blobInTreacle$^\ast$ & full study $\approx40$\,min \\
 		Hessenthaler$^\ast$ & strict test from $t=0$ to steady state: F3S2 ($1.5\times10^{6}$ fluid cells) $\approx145$\,h on 256 ranks ($\approx3.7\times10^{4}$ core-hours); F4S2 ($4.2\times10^{6}$ cells) estimated $\approx10^{5}$ core-hours \\
 		\bottomrule
 	\end{tabular}

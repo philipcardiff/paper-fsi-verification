@@ -163,7 +163,7 @@ Results computed before that PR are affected only where an interface is three-di
 		3dTube level 3 & \texttt{c45b30b7e}; replicates \texttt{b200718f4} & v2412; v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$; GCC 11.4 and 13.3 \texttt{-O3} & MeluXina; Linux (cluster node, desktop) & fixes before merge; after \\
 		mokLidDrivenCavity & \texttt{6e69ddb6c}$^a$; coupling-test study \texttt{a421f063d}$^\dagger$ & v2412; v2512 & Clang \texttt{-O3}; GCC 13.3 \texttt{-O2}$^\ddagger$ & macOS; MeluXina & before; after \\
 		cavityFlexibleBottom$^\ast$ & \texttt{0698d55cd} (results \texttt{5f6f7a6da}) & v2512 & Clang \texttt{-O3} & macOS & after \\
-		blobInTreacle$^\ast$ & \texttt{14672e1d6}$^a$ & v2512 & n.r. & Linux & before \\
+		blobInTreacle$^\ast$ & \texttt{206437983} with PR \#694 (merged as \texttt{1b5ab0963}) & v2512 & GCC \texttt{-O3} & Linux & after \\
 		Hessenthaler$^\ast$ & \texttt{aee0c8e35} & v2412 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & before; A/B on S2, S3 \\
 		beamInCrossFlow$^\ast$ (Appendix~\ref{app:beam}) & \texttt{aee0c8e35} & v2412 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & before \\
 		Tolerance sweeps & \texttt{a421f063d} & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & after \\
@@ -176,4 +176,4 @@ Results computed before that PR are affected only where an interface is three-di
 % READMEs, completed 2026-11-03 (paper-data/provenance_audit_2026-11-03.md); ancestry of commits relative to PR #546 (978ffc8dd) checked with
 % git merge-base. 3dTube used the branch commits 635ff464f and 0ff7f462b,
 % the fixes later merged (rebased) as #546.
-\todo{Provenance not recoverable: the working-tree state behind the README-recorded results (the commits are upper bounds, and no logs survive for ring, collapsible and blob), the host of the blobInTreacle runs (Linux, probably the xenosim node) and its compiler, and the exact Apple Clang build. Evidence: \texttt{paper-data/provenance\_audit\_2026-11-03.md}. Plan a Zenodo archive of case set-ups, drivers, raw CSV outputs and reference files.}
+\todo{Provenance not recoverable: the working-tree state behind the README-recorded results (the commits are upper bounds, and no logs survive for ring and collapsible), the GCC version of the blobInTreacle runs (Linux, xenosim), and the exact Apple Clang build. Evidence: \texttt{paper-data/provenance\_audit\_2026-11-03.md}. Plan a Zenodo archive of case set-ups, drivers, raw CSV outputs and reference files.}
