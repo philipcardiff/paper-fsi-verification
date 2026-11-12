@@ -1,0 +1,5 @@
+item,cpu_h
+"production runs P1-P4,T1,S1,M2 (sacct)",7.416
+"coupled campaign incl. geometry/preflight/scan/rigid/scaling, all jobs incl. failed (ledger wall x ranks)",7.7245
+of which non-production (ledger),0.3217
+C1/C2 plate-only and fluid-only preflight (sacct),0.263

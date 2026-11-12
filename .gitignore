@@ -313,3 +313,6 @@ TSWLatexianTemp*
 
 # Standalone supplement PDF
 supplement_febio_ring.pdf
+
+# Standalone supplement PDF (FEniCSx cavityFlexibleBottom)
+supplement_fenicsx_cavityflexiblebottom.pdf
