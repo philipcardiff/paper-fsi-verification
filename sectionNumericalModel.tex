@@ -70,10 +70,10 @@ Two interface formulations are used.
 \paragraph{Dirichlet--Neumann.}
 The fluid receives the interface displacement (mesh motion and wall velocity) and the solid receives the fluid traction.
 Each time step starts with a solid predictor, i.e.\ a solid solve with the fluid traction of the previous step, whose displacement is passed to the fluid without relaxation in the first iteration~\citep{Tukovic2018}.
-Subsequent interface displacements are updated by fixed under-relaxation, by Aitken dynamic relaxation~\citep{kuttler2008fixed}, or by the interface quasi-Newton inverse least-squares method (IQN-ILS)~\citep{Degroote2009}, which builds an approximate inverse Jacobian of the interface residual from the secant information of the current and, optionally, previous time steps; secant columns that are repeated or nearly linearly dependent are filtered before the least-squares solve.
+Subsequent interface displacements are updated by fixed under-relaxation, by Aitken dynamic relaxation~\citep{kuttler2008fixed}, or by the interface quasi-Newton inverse least-squares method (IQN-ILS)~\citep{Degroote2009, Degroote2013}, which builds an approximate inverse Jacobian of the interface residual from the secant information of the current and, optionally, previous time steps; secant columns that are repeated or nearly linearly dependent are filtered before the least-squares solve~\citep{Haelterman2016}.
 
 \paragraph{Robin--Neumann.}
-The fluid pressure satisfies a Robin condition on the interface that accounts for the solid inertia through an estimate $\rho_S h_S$ of the solid interface impedance~\citep{Tukovic2018b}, and the iterations are unrelaxed fixed-point iterations.
+The fluid pressure satisfies a Robin condition on the interface that accounts for the solid inertia through an estimate $\rho_S h_S$ of the solid interface impedance~\citep{BadiaNobile2008, Tukovic2018b}, and the iterations are unrelaxed fixed-point iterations.
 The Robin condition modifies the discrete interface condition within the iterations; at convergence the interface flux is made consistent with the mesh motion.
 Because it changes the iteration rather than only accelerating it, the converged Robin--Neumann and Dirichlet--Neumann solutions need not agree to the coupling tolerance (Section~\ref{sec:ref_hierarchy}).
 
