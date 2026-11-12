@@ -29,7 +29,7 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		3dTube & C-weak & 3-D wave propagation with added mass; time-discretisation sensitivity; cross-platform and toolchain checks & three levels; $u_{r,\max}$ not yet converging \\
 		beamInCrossFlow$^\ast$ & C & 3-D steady external flow; displacement and force convergence & four levels, corrected inflow; orders rising to 1.6 (Appendix~\ref{app:beam}) \\
 		Hessenthaler$^\ast$ & -- & realistic 3-D geometry, large deformation; steady-state iterative error; validation data kept separate & solid, $\Delta t$ and coupling converged; fluid convergence open \\
-		mokLidDrivenCavity & B & tension-dominated membrane; problem-definition sensitivity; coupling robustness & four levels, combined refinement; orders below nominal; within $\approx1\%$ of Kratos; $128^2$ diverges \\
+		mokLidDrivenCavity & B & tension-dominated membrane; problem-definition sensitivity; coupling robustness & four levels, combined refinement; orders below nominal; within $\approx1\%$ of Kratos; $128^2$ needs relaxed outer correctors \\
 		cavityFlexibleBottom$^\ast$ & C-weak & steady internal flow, large deformation & provisional \\
 		blobInTreacle$^\ast$ & C-weak & temporal order in viscous large-deformation flow & provisional; possibly supplementary \\
 		\bottomrule
@@ -51,7 +51,7 @@ Each core result should state its reference category, the number of levels and t
 % mokLidDrivenCavity placed in the extended suite (Philip, 2 Nov 2026): cheap
 % and a different solid regime, but sub-nominal orders and no clean further
 % refinement. Category B since 10 Nov 2026 (independent Kratos solution, pfv#77).
-\todo{mokLidDrivenCavity: now category B (Kratos). Whether it should move to the core suite depends on debugging the solids4foam divergence on finer meshes ($128^2$, and the strict-coupling-test stalls on $96^2$ and $128^2$ from $t \approx 14\,\mathrm{s}$), so that the two codes can be compared on converged sequences.}
+\todo{mokLidDrivenCavity: now category B (Kratos). Whether it should move to the core suite depends on the strict-coupling-test stalls on $96^2$ and $128^2$ from $t \approx 14\,\mathrm{s}$ (the $128^2$ divergence itself is diagnosed: the fluid's unrelaxed PIMPLE outer loop), so that the two codes can be compared on converged sequences.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Extended and high-cost suite}\label{sec:extended_suite}
