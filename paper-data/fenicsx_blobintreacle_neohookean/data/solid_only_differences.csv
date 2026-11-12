@@ -1,0 +1,5 @@
+load,obs,diff_x0.5_pct,diff_x1_pct,diff_x2_pct,diff_x4_pct,FE_increment_order_1,FE_increment_order_2,s4f_increment_order_1,s4f_increment_order_2,s4f_increments
+L1,ux,-0.898,-0.52,-0.215,-0.105,0.895,1.02,1.99,0.404,non-monotone
+L1,uy,0.603,0.832,0.732,0.475,0.861,0.802,0.204,0.152,monotone
+L2,ux,-1.97,-0.998,-0.445,-0.211,0.685,0.743,1.03,2.88,monotone
+L2,uy,-0.886,1.38,1.48,0.996,0.754,0.719,-2.35,-0.0196,monotone

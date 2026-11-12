@@ -1,0 +1,11 @@
+level,obs,value,source
+0.5,ux,0.124852,solids4foam PR 694 verification README (u_x at t=3)
+1,ux,0.135581,solids4foam PR 694 verification README
+2,ux,0.139075,solids4foam PR 694 verification README
+4,ux,0.139948,solids4foam PR 694 verification README
+0.5,uy,-0.012477,solids4foam PR 694 verification README
+1,uy,-0.013376,solids4foam PR 694 verification README
+2,uy,-0.013717,solids4foam PR 694 verification README
+4,uy,-0.013872,solids4foam PR 694 verification README
+1,Fx,15.75,solids4foam PR 694 README (F at x1 only)
+1,Fy,-25.06,solids4foam PR 694 README (F at x1 only)

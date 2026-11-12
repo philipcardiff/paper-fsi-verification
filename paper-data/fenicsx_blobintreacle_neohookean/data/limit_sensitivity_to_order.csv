@@ -1,0 +1,31 @@
+obs,estimator,FE,s4f,diff_FE_minus_s4f_pct
+ux,fixed p=1,0.1403153,0.1408198,-0.358
+ux,fixed p=1.5,0.140201,0.1404246,-0.159
+ux,fixed p=2,0.1401472,0.1402383,-0.065
+ux,"least squares f0+c h^p (FE p=1.05, s4f p=1.69)",0.1402959,0.1404738,-0.127
+ux,"data-driven p, finest triple (preregistered rule)",0.1403023,0.1402377,0.0461
+ux,no extrapolation: matched x4 mesh,0.1400631,0.1399476,0.0826
+uy,fixed p=1,-0.01400248,-0.01402649,-0.171
+uy,fixed p=1.5,-0.01396562,-0.0139563,0.0668
+uy,fixed p=2,-0.01394825,-0.01392321,0.18
+uy,"least squares f0+c h^p (FE p=1.07, s4f p=1.33)",-0.01398755,-0.01396018,0.196
+uy,"data-driven p, finest triple (preregistered rule)",-0.01401511,-0.01400086,0.102
+uy,no extrapolation: matched x4 mesh,-0.01392113,-0.01387158,0.357
+Fx,fixed p=1,16.24376,16.32179,-0.478
+Fx,fixed p=1.5,16.24213,16.28206,-0.245
+Fx,fixed p=2,16.24135,16.26334,-0.135
+Fx,"least squares f0+c h^p (FE p=2.24, s4f p=1.79)",16.2418,16.28617,-0.272
+Fx,"data-driven p, finest triple (preregistered rule)",16.24083,16.25907,-0.112
+Fx,no extrapolation: matched x4 mesh,16.24015,16.23411,0.0372
+Fy,fixed p=1,-25.68834,-25.79969,-0.432
+Fy,fixed p=1.5,-25.68682,-25.7442,-0.223
+Fy,fixed p=2,-25.6861,-25.71804,-0.124
+Fy,"least squares f0+c h^p (FE p=1.95, s4f p=1.81)",-25.68626,-25.7381,-0.201
+Fy,"data-driven p, finest triple (preregistered rule)",-25.68607,-25.71781,-0.123
+Fy,no extrapolation: matched x4 mesh,-25.68498,-25.67722,0.0302
+dp,fixed p=1,35.9896,36.1838,-0.537
+dp,fixed p=1.5,35.98794,36.0827,-0.263
+dp,fixed p=2,35.98716,36.03505,-0.133
+dp,"least squares f0+c h^p (FE p=2.10, s4f p=1.76)",35.98766,36.05399,-0.184
+dp,"data-driven p, finest triple (preregistered rule)",35.98675,36.05373,-0.186
+dp,no extrapolation: matched x4 mesh,35.98595,35.96067,0.0703

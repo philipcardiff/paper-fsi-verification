@@ -1,0 +1,11 @@
+class,jobs,cpu_h
+fe_addendum_A1,10,1.491
+fe_addendum_A2,6,0.1261
+fe_production,12,1.845
+phase0_small,36,0.2267
+s4f_build,1,0.5878
+s4f_post,6,0.002222
+s4f_run,10,6.953
+TOTAL,81,11.23
+of which cancelled jobs,1,0.873
+peak concurrent cores (from start/elapsed),,36

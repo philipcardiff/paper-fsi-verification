@@ -1,0 +1,12 @@
+id,prediction_or_criterion,outcome,values
+P1,u_x within 3 % of s4f at every matched level and shrinking,"FAILED at x0.5; met at x1, x2, x4",x0.5 10.71 %; x1 2.74 %; x2 0.53 %; x4 0.08 %
+P2,u_y within 8 %,met,max 7.02 % (x0.5)
+P3,"F_x, F_y within 3 % at every matched level","FAILED at x0.5; met at x1 (F_x close to the limit), x2, x4","x0.5 F_x 11.43 %, F_y 9.56 %; x1 F_x 2.94 %, F_y 2.41 %"
+P4,(a) FE u_x(1) within 3 % of s4f at dt <= 0.0625; (b) larger difference at dt = 0.25,(a) met; (b) FAILED,"differences at dt 0.25..0.03125: 2.06 %, 2.05 %, 2.07 %, 2.05 %"
+P5,FE u_x limit within 3 % of the PR extrapolated 0.14024,met,"0.140302 m, +0.045 % from 0.140239 m"
+V4,"u_x, F_x, dp order 1.5-2; u_y, F_y 0.7-1.5","u_x FAILED; F_x, dp, F_y above the range; u_y met","finest-triple p: ux 1.04, uy 0.90, Fx 2.66, Fy 2.03, dp 2.47"
+V5,"first two time-order pairs in [1.6, 3.0] (u_x and interface change)",FAILED for u_x (second pair); interface met,"u_x 2.02, 3.09; interface 2.02, 2.70"
+V1,"every run completes, every SNES step converged",met,"28 runs, all reached_end, none failed, min SNES reason 2"
+V2,steady drift < 1e-5 over the last 0.5,met,max drift 5.34e-07
+V6,closure <= 1e-6 N/m,met (internal consistency of the weak form),max 4.21e-10 over all non-A2 runs; A2 (from step 2) max 1.62e-10
+V7,"no inverted cell, solid J > 0.2",met (fluid ALE warning at x4),"solid J min 0.346 (x4), fluid J min 0.1898 (x4)"

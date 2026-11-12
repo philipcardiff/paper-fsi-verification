@@ -1,0 +1,17 @@
+check,value,source
+"P: UFL-differentiated vs numpy (max rel., 20 F)",1.014e-14,law_checks.json
+P: analytic vs numpy,5.542e-15,law_checks.json
+sigma: UFL vs numpy 3-D Cauchy,1.669e-15,law_checks.json
+sigma = P F^T/J vs P from Cauchy,5.713e-15,law_checks.json
+S = F^-1 P symmetry,1.498e-16,law_checks.json
+tangent: UFL derivative vs central finite difference,3.568e-10,law_checks.json
+objectivity (rotation) of P,9.682e-14,law_checks.json
+objectivity (rotation) of sigma,1.059e-13,law_checks.json
+"small-strain limit, relative error at eps=1e-5",1.191e-05,law_checks.json
+"s4f formulas (C++ transcription) vs module: sigma, s4f constants",5.551e-15,s4f_transcript_comparison.json
+"s4f formulas (C++ transcription) vs module: P, s4f constants",6.527e-15,s4f_transcript_comparison.json
+"s4f formulas vs module: sigma, exact (50, 533.33) constants",1.000e-07,s4f_transcript_comparison.json
+"s4f tutorial E,nu rounding: relative deviation of mu",3.094e-09,law_checks.json
+"s4f tutorial E,nu rounding: relative deviation of K",1.000e-07,law_checks.json
+"internal audit, separate 3x3 re-implementation (F_zz=1): Cauchy stress vs module",4e-16,"REPORTED in the internal audit report (evidence archive, NH_INDEPENDENT_AUDIT.md); not regenerated"
+"internal audit, separate re-implementation: tangent vs finite difference",1.3e-09,"REPORTED in the internal audit report (evidence archive, NH_INDEPENDENT_AUDIT.md); not regenerated"

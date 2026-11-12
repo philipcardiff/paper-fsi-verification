@@ -1,0 +1,5 @@
+series,order_pair1,order_pair2,order_pair3,order_pair4
+FE u_x change,2.02,3.09,1.21,0.631
+FE interface change (vertices),2.02,2.7,1.3,0.682
+s4f u_x change,2.13,2.21,,
+s4f interface change,2.12,2,,

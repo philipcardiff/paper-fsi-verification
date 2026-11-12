@@ -1,0 +1,5 @@
+check,value
+"A1: max relative difference of all five observables at t=1, tight SNES vs main, six dt",6.44e-12
+"A1: u_x change orders, tight SNES","2.02, 3.09, 1.21, 0.631"
+"A2: u_x change orders, 16 backward-Euler substeps in step 1","1.8, 3.11, 1.16, 0.714"
+A2: u_x change values,"0.0004194, 0.0001201, 1.387e-05, 6.224e-06, 3.795e-06"
