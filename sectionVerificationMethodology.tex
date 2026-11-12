@@ -4,7 +4,7 @@
 % Evidence base: paper-data/benchmark_inventory.md, paper-data/benchmarks.yaml
 % and the verification/ directories of the solids4foam development branch.
 
-Code verification asks whether the discrete equations are solved correctly and whether the discretisation error vanishes at the expected rate; it does not ask whether the governing equations describe a physical system~\citep{Roache1998, Oberkampf2010}.
+Code verification asks whether the discrete equations are solved correctly and whether the discretisation error vanishes at the expected rate; it does not ask whether the governing equations describe a physical system~\citep{Roache1998, Roy2005, Oberkampf2008, Oberkampf2010}. Exact solutions can be manufactured for any set of equations~\citep{Roache2002}; this paper instead uses exact solutions of physical problems and independent numerical references.
 For a coupled fluid--structure interaction (FSI) calculation it is useful to think of the difference between a computed quantity $f$ and the exact solution $f_\mathrm{exact}$ of the stated mathematical problem in terms of three dominant sources,
 \begin{equation}
 	f - f_\mathrm{exact} \approx \varepsilon_h + \varepsilon_{\Delta t} + \varepsilon_\mathrm{it},
@@ -89,16 +89,16 @@ Where three levels satisfy the criterion above, a Richardson estimate
 \end{equation}
 is used to estimate the remaining discretisation error of the finest solution~\citep{Richardson1911, Roache1998}, never to promote a non-asymptotic sequence into a converged value.
 Richardson estimates are the primary error measure.
-A grid-convergence index~\citep{Roache1994, Roache1998},
+A grid-convergence index~\citep{Roache1994, Roache1998, Celik2008},
 \begin{equation}
 	\mathrm{GCI} = F_s\,\frac{|f_1 - f_2|}{r^{p} - 1}, \qquad F_s = 1.25,
 	\label{eq:gci}
 \end{equation}
 is reported only for self-convergence studies that satisfy the same criterion (here the Hessenthaler solid refinement and the zero-flow calibration). Where a sequence of four or more levels is monotone with a stable but sub-nominal observed order (Hron--Turek FSI1), the Richardson value with that order and the GCI of the finest level are given as conditional indicators, labelled as such; the GCI is centred on the finest-level value.
-Where a sequence does not satisfy it, a GCI computed with the observed order is labelled a provisional indicator, and values computed with an assumed order are labelled as such; neither is a bound or a confidence interval.
+Where a sequence does not satisfy it, a GCI computed with the observed order is labelled a provisional indicator, and values computed with an assumed order are labelled as such; neither is a bound or a confidence interval (for uncertainty estimates from data outside the asymptotic range, see~\citet{Eca2014}).
 
 \paragraph{Iterative and coupling errors.}
-Interface iterations at each time step are stopped when a coupling residual falls below a tolerance, and the field solvers have their own tolerances.
+Interface iterations at each time step are stopped when a coupling residual falls below a tolerance, and the field solvers have their own tolerances; in unsteady simulations both add iterative errors that accumulate over the time steps~\citep{Eca2019}.
 The resulting iterative error must be small compared with the discretisation error being measured, otherwise a refinement study converges towards a tolerance floor rather than to the continuum solution.
 The direct test is a tolerance sweep at fixed discretisation; the indirect test is a comparison of two coupling algorithms.
 Only a minority of the present cases contain a systematic tolerance sweep (Section~\ref{sec:iterative_errors}).
