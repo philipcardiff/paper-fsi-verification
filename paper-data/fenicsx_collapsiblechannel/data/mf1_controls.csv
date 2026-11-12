@@ -1,0 +1,14 @@
+item,value,note
+C1_rerun_vs_stored_S2_max_abs_diff_over_max_abs_d,1.728e-14,tolerance 1e-8
+C2_replayed_continuum_vs_coupled_bottom_max_abs_diff_over_max_abs_d,1.012e-07,tolerance 1e-6
+C2_replayed_continuum_vs_coupled_midplane_max_abs_diff_over_max_abs_d,1.012e-07,tolerance 1e-6
+C2_abs_max_diff_bottom_m,2.187e-08,
+rerun_status,OK all_converged=True,"240 steps, max Newton 3, min Jacobian 0.778, max |q-sum| 3.30e-10"
+beam_reproduction_ne160_max_abs_diff_m,0.000e+00,"rerun from the saved load file, job 18902"
+beam_reproduction_ne80_max_abs_diff_m,0.000e+00,job 18903
+beam320_run,OK,ok=True reached_end=True steps=240 of 240 max Newton 4 wall 45.7 s (job 18904)
+amend1_control_ne160_max_abs_diff_m,1.249e-09,"ne160 rerun with the amended criterion (residual < 1e-4 and update < 1e-10 m), job 18911; AMEND1 asked <= 1e-9: exceeded by 25 %, see README"
+amend1_ne320_vs_floor_run_max_abs_diff_m,1.674e-13,"amended ne320 (job 18912) against the 30-iteration state of diagnostic job 18908 (residual at its roundoff floor, update 4e-14 m)"
+first_ne320_run_tol1e-5,FAIL,"job 18904: all 240 steps reached the 30-iteration cap (residual floor 1.0-1.6e-5 > 1e-5); result retained, not used"
+amend1_ne320_final_residual_and_update_max,1.62e-05 / 9.86e-11,"residual 2-norm (floor 1.0-1.6e-5) / max-norm of the last Newton update in m, over all 240 steps"
+replay_continuum_max_newton,4,ok=True

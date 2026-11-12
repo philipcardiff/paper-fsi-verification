@@ -1,0 +1,5 @@
+fe_cell,window_t_max_s,corr_FEminusExtrap_vs_s4fF4minusExtrap,Linf_FE_minus_extrap_pctP,Linf_s4fF4_minus_extrap_pctP,Linf_FE_minus_s4fF4_pctP
+S2_dt0.00625,1.25,-0.7861,0.080318,0.22213,0.29886
+S2_dt0.00625,1.5,-0.81286,0.10506,0.334,0.43481
+S3_dt0.00625,1.25,-0.5836,0.075194,0.22213,0.27947
+S3_dt0.00625,1.5,-0.52275,0.075193,0.334,0.40327

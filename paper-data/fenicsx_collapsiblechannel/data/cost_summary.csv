@@ -1,0 +1,9 @@
+campaign,jobs,jobs_not_COMPLETED,cpu_h_sacct
+COL-1 preflight,21,6,1.098055556
+COL-2 preflight,22,12,0.6105555556
+COL-3 preflight/solver,37,10,1.416111111
+COL-P MF1,12,3,0.82
+COL-P production,26,1,11.03111111
+auditor,1,0,0.1444444444
+COL-P production + MF1,,,11.85111111
+COL-P production + MF1 + auditor,,,11.99555556

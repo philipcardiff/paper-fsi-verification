@@ -1,0 +1,22 @@
+campaign,test,quantity,value,status_or_note,source_report_label_REPORTED_not_recomputed
+COL-1,T1,Q2 320x8 static wall mid u_y vs beam (200 Pa),-0.14368316 m; -0.038 %,G1 PASS (gate 0.3 %),COL1_RESULTS.md
+COL-1,T1,Q2 320x8 quarter u_y vs beam,-0.09646949 m; -0.011 %,G2 PASS (gate 0.5 %),COL1_RESULTS.md
+COL-1,T1,"observed order of the nx ladder, Q2 / Q3",1.33 / 1.19 (registered 1.5),G3 FAILED as registered; corner singularity inferred not tested,COL1_RESULTS.md
+COL-1,T1,"continuum limit minus beam, mid, Q2 / Q3",-0.050 % / -0.053 %,model form + discretisation separated by Richardson,COL1_RESULTS.md
+COL-1,T2,"F1 free-vibration period error vs Euler-Bernoulli, dt = T1/100,/200,/400 (80x4)",-0.231 / -0.2007 / -0.1743 %,gate 0.5 % met; registered order test NOT MET; replacement F1c orders 1.50 / 1.44 NOT MET,COL1_RESULTS.md
+COL-1,T2,F2 Newmark energy drift at dt = T1/100,0.78 %,met (gate 1 %),COL1_RESULTS.md
+COL-1,T2,F2 BDF2 net energy loss '77 %',RETRACTED as a statement on the tutorial scheme,"computed with the (2,-5,4,-1)/dt^2 operator, not the solids4foam backward d2dt2 operator (corrected by COL-3)",COL1_RESULTS.md; COL3_RESULTS.md
+COL-1,T2,F3 slow-ramp part,not completed (Newton failure at 1e-7 Pa),"FAILED item, not rerun",COL1_RESULTS.md
+COL-1,T2,F4 ramp-and-hold order study,"not evaluable (dry-wall ringing, non-monotone)",FAILED item,COL1_RESULTS.md
+COL-2,F1,"fixed-shape fluid: wall-load spread, pressure parity, mass",<= 1.1e-4; <= 1e-5 of wall pressure; <= 1e-14,all gates PASS; no wall-normal row-parity mode in P2/P1 (collapsed fixed shape),COL2_RESULTS.md
+COL-2,F2,"prescribed-motion test at t = 0.25 s: p_wall(x=10), ny = 8/12/16",156.198 / 156.631 / 156.822 Pa; A_par/p <= 1.8e-5,"all registered gates PASS; the FEBio row-parity mechanism (193/77 Pa) absent; prescribed analytic shape, not a coupled solution",COL2_RESULTS.md
+COL-2,F3,"dry-wall beam vs 2-D StVK continuum gap, max_t, fraction of peak, tutorial ramp (160x4, mid)",0.101 / 0.117 / 0.100 % at x = 7.5 / 10 / 12.5 (bottom face 0.126 / 0.112 / 0.125),gate 0.1 % FAIL / UNRESOLVED (continuum mesh change 0.12-0.16 %),COL2_RESULTS.md
+COL-2,F3,"same gap, near-step load (160x4, mid)",0.25 / 0.24 / 0.25 %,gate 0.1 % FAIL / UNRESOLVED (continuum mesh change 0.33-0.43 %),COL2_RESULTS.md
+COL-2,F3,summary: dry-wall beam-vs-continuum gap,"0.10-0.25 % P, unresolved",beam cannot be certified as the same model at the 0.1 % level,COL2_RESULTS.md
+COL-3,S2,null coupled state: max |d| after 3 steps (registered 1e-9),2.5e-8 m,registered criterion MISSED by a factor 25; discrete state difference at the end corners,COL3_RESULTS.md
+COL-3,S2,BDF-GCL mass residual relative to max |dV/dt| at dt 0.0125 (registered 1e-6),7.8e-6,"registered criterion MISSED; second order in dt (recomputed in data/gates_H8.csv: 7.8e-6, 2.1e-6, 5.3e-7)",COL3_RESULTS.md
+COL-3,S2,quasistatic coupled wall vs S1 static value on the same mesh,agreement 1e-9 relative,PASS,COL3_RESULTS.md
+COL-3,S2,"COL-2 prescribed-motion consistency p_wall(x=10,t=0.25), ny_f 8 / 12",156.172 / 156.601 Pa vs 156.198 / 156.631,PASS (tolerance 0.1 Pa),COL3_RESULTS.md
+COL-3,S1,"dry-wall period error (Newmark, dt = T1/200, 3 periods), 80x4 / 160x4",-0.259 % / -0.162 %,PASS (gate 0.5 %),COL3_RESULTS.md
+COL-3,S2,interface force: weak nodal vs direct fluid-side (smoke),0.31 % of max |F|,within 2 % criterion; solid-side stress-recovered force is not a valid check (up to 380 % off),COL3_RESULTS.md
+COL-3,S2,audit-time bug: conditional collective call hung runs with >= 3 ranks,found and fixed; hung jobs cancelled,2-rank results unaffected,COL3_RESULTS.md

@@ -1,0 +1,11 @@
+item,V1_pctP,note
+oomph refine-1 reference (Richardson in time),-100.00055,"refine-1 reference: spatial error 0.53 % of the peak (history L-inf), +0.19 % P at the first trough (PR #74)"
+oomph dt160,-99.875772,same-dt
+oomph dt320,-99.979877,same-dt
+FE S2 dt 0.00625,-100.03064,
+FE S3 dt 0.00625,-100.04865,finest S3 at dt 0.003125 covers t <= 1.25 s
+FE S3 dt 0.003125,-100.14853,finest S3 at dt 0.003125 covers t <= 1.25 s
+"s4f F1 (Robin, dt 0.00625; pre-#671 legacy run)",-99.841174,"wallMid; solids4foam a421f063d, 2 Nov 2026"
+"s4f F2 (Robin, dt 0.00625; pre-#671 legacy run)",-99.961343,"wallMid; solids4foam a421f063d, 2 Nov 2026"
+"s4f F3 (Robin, dt 0.00625; pre-#671 legacy run)",-100.02213,"wallMid; solids4foam a421f063d, 2 Nov 2026"
+"s4f F4 (Robin, dt 0.00625; pre-#671 legacy run)",-100.04781,"wallMid; solids4foam a421f063d, 2 Nov 2026"

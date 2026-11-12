@@ -1,0 +1,4 @@
+mesh,max_abs_mismatch_all_x_pctP,max_abs_mismatch_x10_pctP,min_abs_mismatch_x10_pctP
+S1,0.026456,0.022129,0.002355
+S2,0.023237,0.014198,0.003135
+S3,0.015615,0.006584,0.004225

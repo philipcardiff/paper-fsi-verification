@@ -1,5 +1,7 @@
 # Ignore the main PDF
 article.pdf
+# Standalone supplement PDF (FEniCSx collapsibleChannel)
+supplement_fenicsx_collapsiblechannel.pdf
 
 # macOS
 .DS_Store

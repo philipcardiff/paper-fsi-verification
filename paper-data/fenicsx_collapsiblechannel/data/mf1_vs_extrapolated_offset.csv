@@ -1,0 +1,7 @@
+x_m,FE_mesh_dt_0.00625,FE_bottom_minus_extrapolated_oomph,FE_midplane_minus_extrapolated_oomph,open_loop_continuum_minus_beam_ne160,open_loop_continuum_minus_beam_ne320,sign_midplane_offset_vs_ne320_gap,midplane_offset_over_ne320_gap
+7.5,S2,0.060799,0.03787,0.053284,0.069336,same sign,0.5461809161
+7.5,S3,0.035444,0.012521,0.053284,0.069336,same sign,0.1805844006
+10,S2,0.03763,0.03041,0.032923,0.057148,same sign,0.5321271086
+10,S3,0.01962,0.0124,0.032923,0.057148,same sign,0.2169804718
+12.5,S2,0.057629,0.034756,0.055511,0.071834,same sign,0.483837737
+12.5,S3,0.032536,0.009673,0.055511,0.071834,same sign,0.134657683

@@ -1,0 +1,4 @@
+x_m,beam_ne160_vs_ne80_max_abs_pctP,beam_d2dt2_vs_newmark_ne160_max_abs_pctP,continuum_midplane_vs_bottom_max_abs_pctP,beam_ne320_vs_ne160_max_abs_pctP
+7.5,0.032831,0.004265,0.022978,0.016051
+10.0,0.049233,0.0043862,0.0072194,0.024224
+12.5,0.033341,0.0033935,0.022915,0.016321
