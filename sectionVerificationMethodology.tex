@@ -41,8 +41,8 @@ The category describes the reference, not the benchmark problem and not the qual
 		Category & Definition & Cases \\
 		\midrule
 		A & Analytical or semi-analytical solution of the stated continuum problem, with any numerical error of its own (e.g.\ collocation) controlled to near round-off. & ringAddedMass, womersleyTube \\
-		B & Independently computed numerical solution, by a different code and with its own convergence evidence, either of the same problem or of a problem with a small, explicitly identified model-form difference whose effect on the QoIs is quantified and small compared with the numerical errors of interest. & Hron--Turek FSI1 (Featflow, six levels); collapsibleChannel (oomph-lib, beam wall model); mokLidDrivenCavity (Kratos, group-B definition, outlet condition) \\
-		C & Published benchmark value whose own discretisation error is only partly quantified. & Hron--Turek FSI2, FSI3 (Featflow level 4); beamInCrossFlow (\citet{Richter2012}, corrected inflow) \\
+		B & Independently computed numerical solution, by a different code and with its own convergence evidence, either of the same problem or of a problem with a small, explicitly identified model-form difference whose effect on the QoIs is quantified and small compared with the numerical errors of interest. & Hron--Turek FSI1 (Featflow, six levels); Hron--Turek FSI3 (\citet{Failer2020}, six levels); collapsibleChannel (oomph-lib, beam wall model); mokLidDrivenCavity (Kratos, group-B definition, outlet condition) \\
+		C & Published benchmark value whose own discretisation error is only partly quantified. & Hron--Turek FSI2 (Featflow level 4); beamInCrossFlow (\citet{Richter2012}, corrected inflow) \\
 		C-weak & As C, but digitised from figures, single-mesh, mutually inconsistent, preprint-only, or from the same code lineage as the code under test. & 3dTube, cavityFlexibleBottom, blobInTreacle \\
 		\bottomrule
 	\end{tabular}
