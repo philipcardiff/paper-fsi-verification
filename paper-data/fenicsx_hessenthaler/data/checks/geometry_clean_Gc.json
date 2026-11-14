@@ -1,0 +1,12 @@
+{
+ "n_short_edges": 2,
+ "merged": 2,
+ "refused": 0,
+ "dropped_tets": 4,
+ "dropped_tris": 4,
+ "min_q_before": 0.018325263113975247,
+ "min_q_after": 0.1435229743713432,
+ "n_q_lt_0p05_before": 2,
+ "n_q_lt_0p05_after": 0,
+ "n_inverted_after": 0
+}
