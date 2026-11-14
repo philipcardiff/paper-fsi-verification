@@ -1,0 +1,4 @@
+Stopped by hand 2026-11-11 ~19:50 UTC during step 1. With fluid Newton 1e-8 and AMGCL 1e-10 the step-1
+coupling residuals match the production run f2_dt1.25e-5_bdf2_amg (Newton 1e-6, AMGCL 1e-8) to about 9
+digits for 21 iterations, including the floor near 1.7e-9 m at iteration 15 and the drift after it. The
+inner tolerances are not the cause; the stall is in the MVQN update. Production run kept.

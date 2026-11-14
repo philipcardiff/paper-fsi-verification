@@ -1,0 +1,151 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| solids4foam: solid mechanics and fluid-solid interaction simulations        |
+| Version:     v2.4                                                           |
+| Web:         https://solids4foam.github.io                                  |
+| Disclaimer:  This offering is not approved or endorsed by OpenCFD Limited,  |
+|              producer and distributor of the OpenFOAM software via          |
+|              www.openfoam.com, and owner of the OPENFOAM® and OpenCFD®      |
+|              trade marks.                                                   |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     solids4Foam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.01;
+
+deltaT          2.5e-05;
+
+writeControl    runTime;
+
+writeInterval   0.01;
+
+purgeWrite      0;
+
+writeFormat     binary;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+adjustTimeStep  no;
+
+functions
+{
+    verificationWallZ050
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.005);
+    }
+    verificationWallZ100
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.01);
+    }
+    verificationWallZ150
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.015);
+    }
+    verificationWallZ200
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.02);
+    }
+    verificationWallZ250
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.025);
+    }
+    verificationWallZ300
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.03);
+    }
+    verificationWallZ350
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.035);
+    }
+    verificationWallZ400
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.04);
+    }
+    verificationWallZ450
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.045);
+    }
+    verificationAxisPressure
+    {
+        type            probes;
+        libs            ("libsampling.so");
+        region          fluid;
+        writeControl    timeStep;
+        writeInterval   1;
+        fields          (p);
+        probeLocations  ((0.0005 0.0005 0.005) (0.0005 0.0005 0.01) (0.0005 0.0005 0.015) (0.0005 0.0005 0.02) (0.0005 0.0005 0.025) (0.0005 0.0005 0.03) (0.0005 0.0005 0.035) (0.0005 0.0005 0.04) (0.0005 0.0005 0.045));
+    }
+    displacement
+    {
+        type            solidPointDisplacement;
+        region          solid;
+        point           (0 0.005 0.025);
+    }
+    solidForce
+    {
+        type           solidForces;
+        historyPatch   inner-wall;
+    }
+    forces
+    {
+        type                forces;
+        libs                ( "libforces.so" );
+        writeControl        timeStep;
+        writeInterval       1;
+        patches             (wall);
+        "pName|p"           p;
+        "UName|U"           U;
+        "rhoName|rho"       rhoInf;
+        log                 false;
+        rhoInf              1000;
+        CofR                (0.5 0.1 0);
+        region              fluid;
+    }
+    fsiConvData
+    {
+        type fsiConvergenceData;
+        region fluid;
+    }
+
+}
+
+// ************************************************************************* //

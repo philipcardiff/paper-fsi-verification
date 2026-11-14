@@ -1,0 +1,915 @@
+ |  /           |                  
+ ' /   __| _` | __|  _ \   __|    
+ . \  |   (   | |   (   |\__ \  
+_|\_\_|  \__,_|\__|\___/ ____/
+           Multi-Physics 10.3."0"-Release-10.3.0-14ee273e-Release-x86_64
+           Compiled for GNU/Linux and Python3.11 with GCC-10.2
+Compiled with threading and MPI support. Threading support with OpenMP.
+Maximum number of threads: 6.
+Running without MPI.
+Importing    KratosFluidDynamicsApplication 
+Initializing KratosFluidDynamicsApplication...
+Importing    KratosFSIApplication 
+Initializing KratosFSIApplication...
+Importing    KratosStructuralMechanicsApplication 
+    KRATOS   ___|  |                   |                   |
+           \___ \  __|  __| |   |  __| __| |   |  __| _` | |
+                 | |   |    |   | (    |   |   | |   (   | |
+           _____/ \__|_|   \__,_|\___|\__|\__,_|_|  \__,_|_| MECHANICS
+Initializing KratosStructuralMechanicsApplication...
+Importing    KratosMeshMovingApplication 
+    KRATOS  __  __        _    __  __         _
+           |  \/  |___ __| |_ |  \/  |_____ _(_)_ _  __ _
+           | |\/| / -_|_-< ' \| |\/| / _ \ V / | ' \/ _` |
+           |_|  |_\___/__/_||_|_|  |_\___/\_/|_|_||_\__, |
+                                                    |___/
+Initializing KratosMeshMovingApplication...
+[WARNING] DataCommunicator: This function is deprecated, please retrieve the DataCommunicator through the ModelPart (or by name in special cases)
+Importing    LinearSolversApplication 
+    Kratos  _     _                       ____        _
+           | |   (_)_ __   ___  __ _ _ __/ ___|  ___ | |_   _____ _ __ ___
+           | |   | | '_ \ / _ \/ _` | '__\___ \ / _ \| \ \ / / _ \ '__/ __|
+           | |___| | | | |  __/ (_| | |   ___) | (_) | |\ V /  __/ |  \__ \
+           |_____|_|_| |_|\___|\__,_|_|  |____/ \___/|_| \_/ \___|_|  |___/
+Initializing KratosLinearSolversApplication...
+Importing    KratosMappingApplication 
+    KRATOS ______  ___                      _____
+           ___   |/  /_____ ___________________(_)_____________ _
+           __  /|_/ /_  __ `/__  __ \__  __ \_  /__  __ \_  __ `/
+           _  /  / / / /_/ /__  /_/ /_  /_/ /  / _  / / /  /_/ /
+           /_/  /_/  \__,_/ _  .___/_  .___//_/  /_/ /_/_\__, /
+                            /_/     /_/                 /____/
+Initializing KratosMappingApplication...
+::[MechanicalSolver]:: : Construction finished 
+::[ImplicitMechanicalSolver]:: : Construction finished 
+PartitionedFSIBaseSolver: Structure solver construction finished. 
+NavierStokesMonolithicSolver: Construction of NavierStokesMonolithicSolver finished. 
+PartitionedFSIBaseSolver: Fluid solver construction finished. 
+::[MeshSolverBase]:: Construction finished: 
+::[MeshSolverStructuralSimilarity]:: Construction finished: 
+PartitionedFSIBaseSolver: ALE mesh solver construction finished. 
+PartitionedFSIBaseSolver: Partitioned FSI base solver construction finished. 
+::[MechanicalSolver]:: : Variables ADDED 
+::[ImplicitMechanicalSolver]:: : Variables ADDED 
+NavierStokesMonolithicSolver: Fluid solver variables added correctly. 
+::[MeshSolverBase]:: Variables ADDED.: 
+::[PythonSolver]::: Reading model part. 
+SingleImportModelPart: Reading model part from file: "/mnt/raid/cloner0110/kratos/cases/tube3d/runs/f1_dt2.5e-5_bdf2/tube_fluid".mdpa
+ModelPartIO:   [Reading Nodes    : 18306 nodes read]
+ModelPartIO:   [Reading Elements : 96000 elements read] [Type: Element3D4N]
+ModelPartIO:   [Reading Conditions : 400 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Reading Conditions : 400 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Reading Conditions : 3200 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Total Lines Read : 241890]
+SingleImportModelPart: Finished reading model part from mdpa file.
+ModelPart: -FluidModelPart- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 7
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 18306
+        Number of Properties  : 2
+        Number of Elements    : 96000
+        Number of Conditions  : 4000
+        Number of Constraints : 0
+
+    -FluidInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1701
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 3200
+            Number of Constraints : 0
+    -Inlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 226
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 400
+            Number of Constraints : 0
+    -MeshEnds- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 452
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Outlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 226
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 400
+            Number of Constraints : 0
+    -Parts_Fluid- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 18306
+            Number of Properties  : 0
+            Number of Elements    : 96000
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryX- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1296
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryY- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1296
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+::[PythonSolver]::: Reading model part. 
+SingleImportModelPart: Reading model part from file: "/mnt/raid/cloner0110/kratos/cases/tube3d/runs/f1_dt2.5e-5_bdf2/tube_structure".mdpa
+ModelPartIO:   [Reading Nodes    : 8505 nodes read]
+ModelPartIO:   [Reading Elements : 6400 elements read] [Type: SmallDisplacementElement3D8N]
+ModelPartIO:   [Reading Conditions : 3200 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Total Lines Read : 38987]
+SingleImportModelPart: Finished reading model part from mdpa file.
+ModelPart: -Structure- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 5
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+    OSS_SWITCH : 0
+    IS_RESTARTED : 0
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 8505
+        Number of Properties  : 1
+        Number of Elements    : 6400
+        Number of Conditions  : 3200
+        Number of Constraints : 0
+
+    -ClampedEnds- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 210
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Parts_Structure- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 8505
+            Number of Properties  : 0
+            Number of Elements    : 6400
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -StructureInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1701
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 3200
+            Number of Constraints : 0
+    -SymmetryX- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 405
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryY- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 405
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+::[PythonSolver]::: Reading model part. 
+::[PythonSolver]::: Using already imported model part - no reading necessary. 
+ModelPart: -FluidModelPart- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 7
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 18306
+        Number of Properties  : 2
+        Number of Elements    : 96000
+        Number of Conditions  : 4000
+        Number of Constraints : 0
+
+    -FluidInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1701
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 3200
+            Number of Constraints : 0
+    -Inlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 226
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 400
+            Number of Constraints : 0
+    -MeshEnds- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 452
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Outlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 226
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 400
+            Number of Constraints : 0
+    -Parts_Fluid- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 18306
+            Number of Properties  : 0
+            Number of Elements    : 96000
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryX- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1296
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryY- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1296
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+RFluidModelPart.Parts_Fluid
+ead materials: Started
+[WARNING] Read materials: Ignoring module information for component LinearElastic3DLaw
+Read materials: Finished
+::[MechanicalSolver]:: : Constitutive law was successfully imported. 
+::[MechanicalSolver]::: ModelPart prepared for Solver. 
+Read materials: Started
+[WARNING] ReadMaterialsUtility: WARNING:: The properties ID: 1 is already defined in model part FluidModelPart.Parts_Fluid. This will overwrite the existing values
+Read materials: Finished
+[WARNING] DEPRECATION-Warning; CheckAndPrepareModelProcessFluid: Construction from model part is deprecated. Please provide a 'Model' container and use full model part names. 
+TetrahedralMeshOrientationCheck: No inverted elements found
+No inverted conditions found
+NavierStokesMonolithicSolver: Model reading finished. 
+PartitionedFSIBaseSolver: Fluid fluid_positive FSI coupling interface created 
+PartitionedFSIBaseSolver: Coupling strategy construction finished 
+PartitionedFSIBaseSolver: Structure FSI coupling interface created 
+::[MechanicalSolver]:: : DOF's ADDED 
+::[ImplicitMechanicalSolver]:: : DOF's ADDED 
+NavierStokesMonolithicSolver: Fluid solver DOFs added correctly. 
+::[MeshSolverBase]:: DOFs ADDED.: 
+[WARNING] DEPRECATION-Warning; MappingApplication: The "MapperFactory" was moved to the Core! (used for "CreateMapper") 
+::[MechanicalSolver]:: : Initializing ... 
+::[MechanicalSolver]:: No linear solver was specified, using fastest available solver: 
+Linear-Solver-Factory: Creating "sparse_lu" as fastest available direct solver 
+::[MechanicalSolver]:: : Finished initialization. 
+Linear-Solver-Factory: Constructing a regular (non-complex) linear-solver 
+NavierStokesMonolithicSolver: Solver initialization finished. 
+Linear-Solver-Factory: Constructing a regular (non-complex) linear-solver 
+::[MeshSolverBase]:: Finished initialization.: 
+tube3d: Analysis -START- 
+tube3d: STEP =  1 
+tube3d: TIME =  2.5e-05 
+[WARNING] ResidualBasedBlockBuilderAndSolver: ATTENTION! setting the RHS to zero!
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.957750321397608e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 6.065932311939674e-05 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 8.785918633394002e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.5909116712347392e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 9.814605045660835e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.206761526528248e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.8283718109180504e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 7.947098472377382e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 3.425999936368262e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 10 |res|/sqrt(nDOFS) = 1.4687767497437921e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 11 |res|/sqrt(nDOFS) = 5.899780011303831e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 12 |res|/sqrt(nDOFS) = 2.534374458161484e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 13 |res|/sqrt(nDOFS) = 1.0278662739546029e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 14 |res|/sqrt(nDOFS) = 4.378826232771653e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 14 iterations. 
+tube3d: STEP =  2 
+tube3d: TIME =  5e-05 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.966048152304202e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.3271152768351815e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 4.631817195459414e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 5.946491806273941e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 9.727533743789398e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.7374998602378347e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 4.559797568239679e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  3 
+tube3d: TIME =  7.500000000000001e-05 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.4434047040908747e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.967055322634536e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.441222026783348e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 3.66462358807492e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 2.8444279847981812e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.570882652003633e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.049407647956838e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 2.2498790894255496e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 8 iterations. 
+tube3d: STEP =  4 
+tube3d: TIME =  0.0001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.681295908190983e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.257366715419081e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.0519193846116582e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.2202453864252217e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.8983305264083217e-08 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 6.358161793243746e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 2.0497679582933767e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 1.7965726973882971e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 4.99731805921565e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 9 iterations. 
+tube3d: STEP =  5 
+tube3d: TIME =  0.000125 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.953059892812136e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.532585684379519e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.0039070386699502e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.2404661010608377e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 8.486059018148445e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 7.2769277206378905e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.4183163370407088e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 5.661586069906747e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 8 iterations. 
+tube3d: STEP =  6 
+tube3d: TIME =  0.00015000000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.275841581140318e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.472720916463711e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.6969058722235464e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 9.414942446247197e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 5.548110405659171e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 2.0846146815695335e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 6.067681876075225e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  7 
+tube3d: TIME =  0.00017500000000000003 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.6827283577705924e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.6040392572861838e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.6615256499305666e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 8.972147738951465e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.698748566570612e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.6024414931725461e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.3057771478803653e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 3.0091247576599495e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 8 iterations. 
+tube3d: STEP =  8 
+tube3d: TIME =  0.00020000000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.121664139215478e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.0307277875596145e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 8.490769341984355e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 6.210384086834825e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.748483185214157e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.50788913366696e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 6.939782041980997e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  9 
+tube3d: TIME =  0.00022500000000000005 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.742492984850961e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.064460445686303e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.1568886444616143e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.3906657986084894e-08 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 6.119847418790135e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.870987635332932e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 7.203898518303546e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  10 
+tube3d: TIME =  0.00025000000000000006 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.453856427159469e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.0642871257478362e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.7893770383546432e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.7296112958936175e-08 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.868151218233767e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 2.3030585564752365e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 7.223534334583236e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  11 
+tube3d: TIME =  0.00027500000000000007 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.058940544619644e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.1328195575706291e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 5.90847709027489e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 4.584529647302569e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.0267037239904879e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 7.705971177108376e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 5.0478560380036944e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 3.7144753073831974e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 1.4900189506643948e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 10 |res|/sqrt(nDOFS) = 9.780443664281474e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 10 iterations. 
+tube3d: STEP =  12 
+tube3d: TIME =  0.0003000000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.0813702351030675e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.313166250335352e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.4461851618050436e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.5731022839400161e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.054213124340268e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.572166293228375e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.0042076880699192e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 9.154292232881034e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 2.7189356366197568e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 10 |res|/sqrt(nDOFS) = 7.737600438845602e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 10 iterations. 
+tube3d: STEP =  13 
+tube3d: TIME =  0.0003250000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.3015045390474615e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.1197257292189223e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.778299031721528e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.980699614640297e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.736810555353807e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.0255810815142425e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.4449640717747628e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 1.5513807383121188e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 3.8965992674917443e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 9 iterations. 
+tube3d: STEP =  14 
+tube3d: TIME =  0.0003500000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.895844538010916e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.734011187110008e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.818524693306062e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.9967367646436154e-08 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 9.462696033327005e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 5.418310928115767e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.605796795426361e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 3.801118174677613e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 8 iterations. 
+tube3d: STEP =  15 
+tube3d: TIME =  0.0003750000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.7979610775071226e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.75544576887223e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.822146270939349e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.90723867384971e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.1264895306926624e-08 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 2.842764305047092e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.011436551960811e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 3.8962857574895e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 8 iterations. 
+tube3d: STEP =  16 
+tube3d: TIME =  0.00040000000000000013 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.5840023311881705e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.651564789239371e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.69217255469617e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.5433241478596182e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 2.4194728466612506e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 9.773266034562218e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 4.489302613901421e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 1.553103714473917e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 1.2402172315662096e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 10 |res|/sqrt(nDOFS) = 2.9010789746144256e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 10 iterations. 
+tube3d: STEP =  17 
+tube3d: TIME =  0.00042500000000000014 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.8378280935077195e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.769265555050282e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.382918734640035e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 8.202850766126659e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.1109499157659006e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.692523135517296e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 3.4475465649824653e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  18 
+tube3d: TIME =  0.00045000000000000015 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.603397048448384e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.020359187051076e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.753751417126312e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.0339478156086313e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.3170548478167173e-08 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.024881438269856e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 1.8615138662914296e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 4.688768705658761e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 8 iterations. 
+tube3d: STEP =  19 
+tube3d: TIME =  0.00047500000000000016 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.4945450793323294e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.411577535027575e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.422289529090592e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 7.809213613290408e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.6808107655421873e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 9.6395988571988e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  20 
+tube3d: TIME =  0.0005000000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.652874726121648e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.637133261399925e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.0460616386852679e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 7.997677353143012e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.5297111597504347e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.1911018060556605e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 3.114682834653337e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 1.0073288618439117e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 2.7736413365359923e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 9 iterations. 
+tube3d: STEP =  21 
+tube3d: TIME =  0.0005250000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1401483098642528e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.5810536292103374e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 9.386774406526487e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 7.513080705053576e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.185853229097969e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.3930407096403733e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 4.245883011291622e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  22 
+tube3d: TIME =  0.00055 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0083784234092318e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 6.363459257916875e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.4258437311291364e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 8.883723304122594e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 4.927858918288651e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.0517605671838708e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 2.75639698272877e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  23 
+tube3d: TIME =  0.000575 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.488135028989454e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.52809995163279e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.044353596286364e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 3.209120474945506e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.5510385566348833e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.4057728525642816e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  24 
+tube3d: TIME =  0.0006 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1054731405982255e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.8414378593796437e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.1473138988885595e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 5.481895939941757e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.8531383199542307e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 8.468281179248658e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  25 
+tube3d: TIME =  0.0006249999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.645221939687217e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.401470682779594e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.720163299065268e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 5.4954143241742776e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.0683478203868372e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 9.485918923518768e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  26 
+tube3d: TIME =  0.0006499999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.128547838141571e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.1349389602298081e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 5.618400870471767e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.6066549488883498e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 4.116024069845449e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.0840132862426216e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 3.1607927478844213e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  27 
+tube3d: TIME =  0.0006749999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.6443043459401e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.847759826298195e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.310723877124584e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 9.622813172990369e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.616815859529247e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.1745562166601655e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 4.810883591588639e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  28 
+tube3d: TIME =  0.0006999999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.151750645424063e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.400779721859343e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 9.82184969436302e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 5.719405360595283e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.4054216629677396e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 8.552816082504571e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  29 
+tube3d: TIME =  0.0007249999999999997 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.369765171221315e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.6184404807220957e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.24330171843374e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 5.571580183786605e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.2345045959115259e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 5.261870885555629e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  30 
+tube3d: TIME =  0.0007499999999999997 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.808231965852168e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.3412325479344571e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 9.511072819523036e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 5.059059208979272e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.4464809399391514e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 9.176101229866821e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  31 
+tube3d: TIME =  0.0007749999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.7674436596381668e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.920243917233505e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.7254310447547265e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.8861750225916853e-08 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.5622842813415565e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.284989609621533e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 8.572009085451675e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  32 
+tube3d: TIME =  0.0007999999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.560754034065204e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.895643025547506e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.511946975981698e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.2843990359690323e-08 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 2.494991526712877e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 9.341526089853788e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  33 
+tube3d: TIME =  0.0008249999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.5887770675826245e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.46693711952321e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.9242689871692174e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.4797207645524802e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 3.661722999965035e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.8744537617972307e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 7.195445837967547e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  34 
+tube3d: TIME =  0.0008499999999999995 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.2852738917513745e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.317221677964655e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 5.836757853842482e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.5789189590310976e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.4375106475955098e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.835674320253245e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  35 
+tube3d: TIME =  0.0008749999999999995 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.716182203922828e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.3818925295624521e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 9.336420530055308e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 6.688649595145248e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 2.319747578644719e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.0163192345857335e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 3.9434476112265885e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  36 
+tube3d: TIME =  0.0008999999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.6118515110811792e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.3189922032185406e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 8.50172042386107e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.204856188265304e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.3278856311727233e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 5.459649209907875e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  37 
+tube3d: TIME =  0.0009249999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.0035507774496133e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.5538045958519167e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.447983680132843e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 6.126904252299176e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.2173123105049114e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 3.5489993400642865e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  38 
+tube3d: TIME =  0.0009499999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.475697248063304e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.091749388992883e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.123386239804571e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.852550982714238e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 7.75947561054219e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.5892136472531533e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 6.416697004121998e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  39 
+tube3d: TIME =  0.0009749999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0128149211393839e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.001873950807089e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.5287118909677384e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 8.310773578173547e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 4.845358127863968e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 8.872749282679138e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  40 
+tube3d: TIME =  0.0009999999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.466829320733814e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.4014945539425672e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.6464219638082318e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 5.426268409872452e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 2.1565486838061e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 8.240167834207535e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  41 
+tube3d: TIME =  0.0010249999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.6337001321901017e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.708228720609049e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.2151953393701044e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.2162496847553855e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 8.712984153866685e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 5 iterations. 
+tube3d: STEP =  42 
+tube3d: TIME =  0.0010499999999999995 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.968399946166196e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.2031564476196483e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.2567449104000023e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.2845072910561216e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 6.257574625595201e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 1.3387048288123975e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 6.562024661460563e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 7 iterations. 
+tube3d: STEP =  43 
+tube3d: TIME =  0.0010749999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.51599095965433e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.007431645000532e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 9.894203124435758e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 7.69772951598446e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.526627305108837e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 6.013819553718477e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  44 
+tube3d: TIME =  0.0010999999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.476655144950909e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.4944109317680702e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 8.50647469905903e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 3.6718218547845264e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.6726854741705367e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.874306899270227e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  45 
+tube3d: TIME =  0.0011249999999999997 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.515213979308936e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.4759872643440776e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 4.510748579487537e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 3.786093878372803e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.0207165096682341e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 2.722364868906929e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  46 
+tube3d: TIME =  0.0011499999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.019828079117271e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.922222925418657e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.313670988129443e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 5.0225285161019995e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.6849506902354384e-09 
+[WARNING] JacobiSingularValueDecomposition: Maximum number of iterations (500) reached without convergence.
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 5.146206127956981e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  47 
+tube3d: TIME =  0.0011749999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.7961049816338033e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.1472599120654319e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.3895993313589586e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.1226850045761433e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 9.16803754342554e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 5 iterations. 
+tube3d: STEP =  48 
+tube3d: TIME =  0.0012 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.280993156475004e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 6.218620653372544e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.5406617825903747e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 4.674292843667951e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.464165571200525e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.3333134703619414e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 6 iterations. 
+tube3d: STEP =  49 
+tube3d: TIME =  0.001225 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0441535387640806e-06 
+Partition

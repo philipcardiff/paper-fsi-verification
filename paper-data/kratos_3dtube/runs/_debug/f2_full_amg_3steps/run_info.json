@@ -1,0 +1,13 @@
+{
+  "kratos_version": "10.3.\"0\"-Release-10.3.0-14ee273e-Release-x86_64",
+  "python": "3.11.18",
+  "host": "etsmartsim",
+  "cpu": "Intel(R) Core(TM) i9-10900X CPU @ 3.70GHz",
+  "omp_num_threads_env": "5",
+  "kratos_threads": 5,
+  "parameters_file": "ProjectParameters.json",
+  "scheme": "bdf2",
+  "end_time": 3.75e-05,
+  "wall_total_s": 1913.603,
+  "wall_solution_loop_s": 1879.564
+}

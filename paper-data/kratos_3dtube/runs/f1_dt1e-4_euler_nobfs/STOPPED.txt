@@ -1,0 +1,1 @@
+stopped by hand at 2026-11-10 (coupling diverged at t = 10.3 ms, backflow at the inlet); history valid to 10.2 ms

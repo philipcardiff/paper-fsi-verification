@@ -1,0 +1,8 @@
+input_set=/home/cloner0110/raid/kratos/cases/tube3d/inputs/gen/f2_dt1.25e-5_bdf2_amg_tight
+threads=6
+start=2026-11-11T19:01:57Z
+load_before=11.04 12.43 14.48
+end=2026-11-11T19:48:37Z
+load_after=12.91 12.69 12.88
+exit=143
+max_iterations_warnings=0
