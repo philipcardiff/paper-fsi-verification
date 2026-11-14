@@ -1,0 +1,22 @@
+** Hron-Turek FSI1 plate: St Venant-Kirchhoff (*ELASTIC + NLGEOM), plane strain via u_z = 0
+*INCLUDE, INPUT=mesh.inp
+*MATERIAL, NAME=SVK
+*ELASTIC
+ 1.4E6, 0.4
+*DENSITY
+ 1000.
+*SOLID SECTION, ELSET=Eall, MATERIAL=SVK
+*STEP, NLGEOM, INC=1000000
+*DYNAMIC, DIRECT
+ @DT@, 28.
+*BOUNDARY
+Nfix, 1, 3
+*BOUNDARY
+Nall, 3
+*CLOAD
+ Nsurface, 1, 0.0
+ Nsurface, 2, 0.0
+ Nsurface, 3, 0.0
+*NODE FILE, FREQUENCY=80
+ U
+*END STEP

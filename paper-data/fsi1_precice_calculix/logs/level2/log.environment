@@ -1,0 +1,10 @@
+Mon Nov  9 12:16:21 AM GMT 2026
+ECORE
+OpenFOAM v2512
+This is Version 2.20
+Version: 3.4.1
+nproc 1, fluid ranks 1 + 1 solid
+load at start:  00:16:21 up 58 days, 14:35,  4 users,  load average: 1.06, 1.09, 1.12
+OPENBLAS_NUM_THREADS=1
+OMP_NUM_THREADS=1
+load at end:  00:42:59 up 58 days, 15:01,  4 users,  load average: 1.74, 1.60, 1.45

@@ -1,0 +1,47 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+
+// Fluid tolerances 1e-9, as in the solids4foam FSI1 verification
+solvers
+{
+    "(p|pcorr)(Final)?"
+    {
+        solver          GAMG;
+        smoother        GaussSeidel;
+        tolerance       1e-9;
+        relTol          0;
+        minIter         1;
+        maxIter         1000;
+    }
+    "(U|UFinal)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-9;
+        relTol          0;
+        minIter         1;
+    }
+    "cellDisplacement.*"
+    {
+        solver          GAMG;
+        smoother        GaussSeidel;
+        tolerance       1e-9;
+        relTol          0;
+        minIter         1;
+    }
+}
+
+PIMPLE
+{
+    momentumPredictor           on;
+    nOuterCorrectors            3;
+    nCorrectors                 3;
+    nNonOrthogonalCorrectors    1;
+    correctPhi                  yes;
+    moveMeshOuterCorrectors     no;
+}

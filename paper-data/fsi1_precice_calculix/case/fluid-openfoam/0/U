@@ -1,0 +1,44 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+
+dimensions      [0 1 -1 0 0 0 0];
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        // FSI1: parabolic profile, maximum 0.3 m/s (mean 0.2 m/s),
+        // ramped with 0.5*(1 - cos(pi t/2)) over the first 2 s
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            fsi1ParabolicInlet;
+        code
+        #{
+            const scalar H = 0.41;
+            const scalar Umax = 0.3;
+            const scalar T = 2.0;
+            const scalar t = this->db().time().value();
+            const scalar ramp =
+                (t < T) ? 0.5*(1.0 - cos(constant::mathematical::pi*t/T)) : 1.0;
+            const vectorField& Cf = patch().Cf();
+            vectorField& field = *this;
+            forAll(Cf, faceI)
+            {
+                const scalar y = Cf[faceI].y();
+                field[faceI] = vector(ramp*Umax*4.0*y*(H - y)/(H*H), 0, 0);
+            }
+        #};
+    }
+    outlet              { type zeroGradient; }
+    plate               { type movingWallVelocity; value uniform (0 0 0); }
+    cylinder            { type noSlip; }
+    top                 { type noSlip; }
+    bottom              { type noSlip; }
+    frontAndBackPlanes  { type empty; }
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Hron-Turek FSI1: OpenFOAM (pimpleFoam) fluid + CalculiX (NLGEOM, St Venant-Kirchhoff) solid -->
+<precice-configuration>
+  <log>
+    <sink filter="%Severity% > debug and %Rank% = 0"
+          format="---[precice] %Severity% %Message%" enabled="true" />
+  </log>
+
+  <data:vector name="Force" />
+  <data:vector name="Displacement" />
+
+  <mesh name="Fluid-Mesh-Centers" dimensions="2">
+    <use-data name="Force" />
+  </mesh>
+  <mesh name="Fluid-Mesh-Nodes" dimensions="2">
+    <use-data name="Displacement" />
+  </mesh>
+  <mesh name="Solid-Mesh" dimensions="2">
+    <use-data name="Force" />
+    <use-data name="Displacement" />
+  </mesh>
+
+  <participant name="Fluid">
+    <provide-mesh name="Fluid-Mesh-Centers" />
+    <provide-mesh name="Fluid-Mesh-Nodes" />
+    <receive-mesh name="Solid-Mesh" from="Solid" />
+    <write-data name="Force" mesh="Fluid-Mesh-Centers" />
+    <read-data name="Displacement" mesh="Fluid-Mesh-Nodes" />
+    <!-- RBF both ways, local support (0.03 m = 9-36 solid node spacings); a plate-length radius
+         made the read mapping ill-conditioned on the 2x/4x solids -->
+    <mapping:rbf direction="write" from="Fluid-Mesh-Centers" to="Solid-Mesh" constraint="conservative" >
+      <basis-function:compact-polynomial-c6 support-radius="0.03" />
+    </mapping:rbf>
+    <mapping:rbf direction="read" from="Solid-Mesh" to="Fluid-Mesh-Nodes" constraint="consistent">
+      <basis-function:compact-polynomial-c6 support-radius="0.03" />
+    </mapping:rbf>
+  </participant>
+
+  <participant name="Solid">
+    <provide-mesh name="Solid-Mesh" />
+    <read-data name="Force" mesh="Solid-Mesh" />
+    <write-data name="Displacement" mesh="Solid-Mesh" />
+    <watch-point mesh="Solid-Mesh" name="PointA" coordinate="0.6;0.2" />
+  </participant>
+
+  <m2n:sockets acceptor="Fluid" connector="Solid" exchange-directory=".." />
+
+  <coupling-scheme:parallel-implicit>
+    <time-window-size value="@DT@" />
+    <max-time value="28" />   <!-- coupled from t = 2 s (end of the ramp) to t = 30 s -->
+    <participants first="Fluid" second="Solid" />
+    <exchange data="Force" mesh="Solid-Mesh" from="Fluid" to="Solid" />
+    <exchange data="Displacement" mesh="Solid-Mesh" from="Solid" to="Fluid" />
+    <max-iterations value="50" />
+    <relative-convergence-measure limit="1e-6" data="Displacement" mesh="Solid-Mesh" />
+    <relative-convergence-measure limit="1e-6" data="Force" mesh="Solid-Mesh" />
+    <acceleration:IQN-ILS>
+      <data name="Displacement" mesh="Solid-Mesh" />
+      <data name="Force" mesh="Solid-Mesh" />
+      <preconditioner type="residual-sum" />
+      <filter type="QR2" limit="1e-3" />
+      <initial-relaxation value="0.1" />
+      <max-used-iterations value="60" />
+      <time-windows-reused value="10" />
+    </acceleration:IQN-ILS>
+  </coupling-scheme:parallel-implicit>
+</precice-configuration>

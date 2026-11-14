@@ -1,0 +1,4 @@
+    cells:            5336
+ramp 0-2 s: 15 s
+coupled 2-30 s: 744 s  (fluid rc 0, solid rc 0)
+total: 759 s on 2 cores (1 fluid rank(s) + 1 solid process)
