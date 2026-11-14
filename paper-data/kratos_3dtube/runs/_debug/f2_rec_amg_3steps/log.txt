@@ -1,0 +1,431 @@
+ |  /           |                  
+ ' /   __| _` | __|  _ \   __|    
+ . \  |   (   | |   (   |\__ \  
+_|\_\_|  \__,_|\__|\___/ ____/
+           Multi-Physics 10.3."0"-Release-10.3.0-14ee273e-Release-x86_64
+           Compiled for GNU/Linux and Python3.11 with GCC-10.2
+Compiled with threading and MPI support. Threading support with OpenMP.
+Maximum number of threads: 5.
+Running without MPI.
+Importing    KratosFluidDynamicsApplication 
+Initializing KratosFluidDynamicsApplication...
+Importing    KratosFSIApplication 
+Initializing KratosFSIApplication...
+Importing    KratosStructuralMechanicsApplication 
+    KRATOS   ___|  |                   |                   |
+           \___ \  __|  __| |   |  __| __| |   |  __| _` | |
+                 | |   |    |   | (    |   |   | |   (   | |
+           _____/ \__|_|   \__,_|\___|\__|\__,_|_|  \__,_|_| MECHANICS
+Initializing KratosStructuralMechanicsApplication...
+Importing    KratosMeshMovingApplication 
+    KRATOS  __  __        _    __  __         _
+           |  \/  |___ __| |_ |  \/  |_____ _(_)_ _  __ _
+           | |\/| / -_|_-< ' \| |\/| / _ \ V / | ' \/ _` |
+           |_|  |_\___/__/_||_|_|  |_\___/\_/|_|_||_\__, |
+                                                    |___/
+Initializing KratosMeshMovingApplication...
+[WARNING] DataCommunicator: This function is deprecated, please retrieve the DataCommunicator through the ModelPart (or by name in special cases)
+Importing    LinearSolversApplication 
+    Kratos  _     _                       ____        _
+           | |   (_)_ __   ___  __ _ _ __/ ___|  ___ | |_   _____ _ __ ___
+           | |   | | '_ \ / _ \/ _` | '__\___ \ / _ \| \ \ / / _ \ '__/ __|
+           | |___| | | | |  __/ (_| | |   ___) | (_) | |\ V /  __/ |  \__ \
+           |_____|_|_| |_|\___|\__,_|_|  |____/ \___/|_| \_/ \___|_|  |___/
+Initializing KratosLinearSolversApplication...
+Importing    KratosMappingApplication 
+    KRATOS ______  ___                      _____
+           ___   |/  /_____ ___________________(_)_____________ _
+           __  /|_/ /_  __ `/__  __ \__  __ \_  /__  __ \_  __ `/
+           _  /  / / / /_/ /__  /_/ /_  /_/ /  / _  / / /  /_/ /
+           /_/  /_/  \__,_/ _  .___/_  .___//_/  /_/ /_/_\__, /
+                            /_/     /_/                 /____/
+Initializing KratosMappingApplication...
+::[MechanicalSolver]:: : Construction finished 
+::[ImplicitMechanicalSolver]:: : Construction finished 
+PartitionedFSIBaseSolver: Structure solver construction finished. 
+NavierStokesMonolithicSolver: Construction of NavierStokesMonolithicSolver finished. 
+PartitionedFSIBaseSolver: Fluid solver construction finished. 
+::[MeshSolverBase]:: Construction finished: 
+::[MeshSolverStructuralSimilarity]:: Construction finished: 
+PartitionedFSIBaseSolver: ALE mesh solver construction finished. 
+PartitionedFSIBaseSolver: Partitioned FSI base solver construction finished. 
+::[MechanicalSolver]:: : Variables ADDED 
+::[ImplicitMechanicalSolver]:: : Variables ADDED 
+NavierStokesMonolithicSolver: Fluid solver variables added correctly. 
+::[MeshSolverBase]:: Variables ADDED.: 
+::[PythonSolver]::: Reading model part. 
+SingleImportModelPart: Reading model part from file: "/media/raidStorage/cloner0110/kratos/cases/tube3d/runs/_debug/f2_rec_amg_3steps/tube_fluid".mdpa
+ModelPartIO:   [Reading Nodes    : 137011 nodes read]
+ModelPartIO:   [Reading Elements : 768000 elements read] [Type: Element3D4N]
+ModelPartIO:   [Reading Conditions : 1600 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Reading Conditions : 1600 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Reading Conditions : 12800 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Total Lines Read : 1862090]
+SingleImportModelPart: Finished reading model part from mdpa file.
+ModelPart: -FluidModelPart- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 7
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 137011
+        Number of Properties  : 2
+        Number of Elements    : 768000
+        Number of Conditions  : 16000
+        Number of Constraints : 0
+
+    -FluidInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 6601
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 12800
+            Number of Constraints : 0
+    -Inlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 851
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 1600
+            Number of Constraints : 0
+    -MeshEnds- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1702
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Outlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 851
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 1600
+            Number of Constraints : 0
+    -Parts_Fluid- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 137011
+            Number of Properties  : 0
+            Number of Elements    : 768000
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryX- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 4991
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryY- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 4991
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+::[PythonSolver]::: Reading model part. 
+SingleImportModelPart: Reading model part from file: "/media/raidStorage/cloner0110/kratos/cases/tube3d/runs/_debug/f2_rec_amg_3steps/tube_structure".mdpa
+ModelPartIO:   [Reading Nodes    : 59409 nodes read]
+ModelPartIO:   [Reading Elements : 51200 elements read] [Type: SmallDisplacementElement3D8N]
+ModelPartIO:   [Reading Conditions : 12800 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Total Lines Read : 257111]
+SingleImportModelPart: Finished reading model part from mdpa file.
+ModelPart: -Structure- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 5
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+    OSS_SWITCH : 0
+    IS_RESTARTED : 0
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 59409
+        Number of Properties  : 1
+        Number of Elements    : 51200
+        Number of Conditions  : 12800
+        Number of Constraints : 0
+
+    -ClampedEnds- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 738
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Parts_Structure- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 59409
+            Number of Properties  : 0
+            Number of Elements    : 51200
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -StructureInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 6601
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 12800
+            Number of Constraints : 0
+    -SymmetryX- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1449
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryY- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1449
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+::[PythonSolver]::: Reading model part. 
+::[PythonSolver]::: Using already imported model part - no reading necessary. 
+ModelPart: -FluidModelPart- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 7
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 137011
+        Number of Properties  : 2
+        Number of Elements    : 768000
+        Number of Conditions  : 16000
+        Number of Constraints : 0
+
+    -FluidInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 6601
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 12800
+            Number of Constraints : 0
+    -Inlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 851
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 1600
+            Number of Constraints : 0
+    -MeshEnds- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1702
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Outlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 851
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 1600
+            Number of Constraints : 0
+    -Parts_Fluid- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 137011
+            Number of Properties  : 0
+            Number of Elements    : 768000
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryX- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 4991
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -SymmetryY- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 4991
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of FluidModelPart.Parts_Fluid
+Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+Read materials: Started
+[WARNING] Read materials: Ignoring module information for component LinearElastic3DLaw
+Read materials: Finished
+::[MechanicalSolver]:: : Constitutive law was successfully imported. 
+::[MechanicalSolver]::: ModelPart prepared for Solver. 
+Read materials: Started
+[WARNING] ReadMaterialsUtility: WARNING:: The properties ID: 1 is already defined in model part FluidModelPart.Parts_Fluid. This will overwrite the existing values
+Read materials: Finished
+[WARNING] DEPRECATION-Warning; CheckAndPrepareModelProcessFluid: Construction from model part is deprecated. Please provide a 'Model' container and use full model part names. 
+TetrahedralMeshOrientationCheck: No inverted elements found
+No inverted conditions found
+NavierStokesMonolithicSolver: Model reading finished. 
+PartitionedFSIBaseSolver: Fluid fluid_positive FSI coupling interface created 
+PartitionedFSIBaseSolver: Coupling strategy construction finished 
+PartitionedFSIBaseSolver: Structure FSI coupling interface created 
+::[MechanicalSolver]:: : DOF's ADDED 
+::[ImplicitMechanicalSolver]:: : DOF's ADDED 
+NavierStokesMonolithicSolver: Fluid solver DOFs added correctly. 
+::[MeshSolverBase]:: DOFs ADDED.: 
+[WARNING] DEPRECATION-Warning; MappingApplication: The "MapperFactory" was moved to the Core! (used for "CreateMapper") 
+::[MechanicalSolver]:: : Initializing ... 
+Linear-Solver-Factory: Constructing a regular (non-complex) linear-solver 
+::[MechanicalSolver]:: : Finished initialization. 
+Linear-Solver-Factory: Constructing a regular (non-complex) linear-solver 
+NavierStokesMonolithicSolver: Solver initialization finished. 
+Linear-Solver-Factory: Constructing a regular (non-complex) linear-solver 
+::[MeshSolverBase]:: Finished initialization.: 
+tube3d: Analysis -START- 
+tube3d: STEP =  1 
+tube3d: TIME =  1.25e-05 
+[WARNING] ResidualBasedBlockBuilderAndSolver: ATTENTION! setting the RHS to zero!
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.458598855160803e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.881915657619931e-05 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 8.524174652057299e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.532349288500958e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 9.931966473887975e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 4.5770885597083265e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 2.2277522080650564e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 1.1145201793526406e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 5.66605719081333e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 10 |res|/sqrt(nDOFS) = 2.897915150146106e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 11 |res|/sqrt(nDOFS) = 1.4618709961218861e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 12 |res|/sqrt(nDOFS) = 7.3510346471272425e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 13 |res|/sqrt(nDOFS) = 3.64919431518983e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 14 |res|/sqrt(nDOFS) = 1.806352114055605e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 15 |res|/sqrt(nDOFS) = 8.817764603448787e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 15 iterations. 
+tube3d: STEP =  2 
+tube3d: TIME =  2.5e-05 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.53564638872368e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.0410739750820082e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.60264591592692e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 1.0076940797646661e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 1.8977791633784213e-08 
+PartitionedFSIBaseSolver{
+  "kratos_version": "10.3.\"0\"-Release-10.3.0-14ee273e-Release-x86_64",
+  "python": "3.11.18",
+  "host": "etsmartsim",
+  "cpu": "Intel(R) Core(TM) i9-10900X CPU @ 3.70GHz",
+  "omp_num_threads_env": "5",
+  "kratos_threads": 5,
+  "parameters_file": "ProjectParameters.json",
+  "scheme": "bdf2",
+  "end_time": 3.75e-05,
+  "wall_total_s": 923.546,
+  "wall_solution_loop_s": 890.086
+}
+: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 5.646750828563899e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 4.14186217375995e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 2.7128008628209015e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 1.7239079208193864e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 10 |res|/sqrt(nDOFS) = 7.845711589680097e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 10 iterations. 
+tube3d: STEP =  3 
+tube3d: TIME =  3.7500000000000003e-05 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.908574754175113e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.5829228723477605e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.0290453349065397e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 3.3908707461661757e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 5 |res|/sqrt(nDOFS) = 8.383165911760098e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 6 |res|/sqrt(nDOFS) = 7.332111128413853e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 7 |res|/sqrt(nDOFS) = 4.404334708227222e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 8 |res|/sqrt(nDOFS) = 6.570875893382611e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 9 |res|/sqrt(nDOFS) = 2.9561924493591375e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 10 |res|/sqrt(nDOFS) = 1.7873651565143657e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 11 |res|/sqrt(nDOFS) = 7.956642381683515e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 11 iterations. 
+tube3d: Analysis -END-  
+Deregistering KratosMultiphysics
+Deregistering FluidDynamicsApplication
+Deregistering FSIApplication
+Deregistering StructuralMechanicsApplication
+Deregistering MeshMovingApplication
+Deregistering LinearSolversApplication
+Deregistering MappingApplication

@@ -1,0 +1,8 @@
+input_set=/home/cloner0110/raid/kratos/cases/tube3d/inputs/gen/f1_dt1e-4_euler_dtau1_bfs
+threads=4
+start=2026-11-10T16:29:01Z
+load_before=4.26 4.12 3.33
+end=2026-11-10T17:27:00Z
+load_after=3.32 4.86 5.34
+exit=0
+max_iterations_warnings=0
