@@ -1,0 +1,33 @@
+{
+ "ranks": 16,
+ "dofs": 633540,
+ "nnz": 107473392,
+ "b_norm": 0.009128126237768227,
+ "A_fieldsplit_gamg": {
+  "setup_s": 0.3042604923248291,
+  "solve_s": 11.31599736213684,
+  "its": 35,
+  "reason": 2,
+  "rel_res": 1.0000011228611827,
+  "peak_rss_gb_sum": 13.611096,
+  "cpu_h_setup_plus_solve": 0.05164559046427409
+ },
+ "C_asm_ilu1": {
+  "setup_s": 0.9505891799926758,
+  "solve_s": 30.191986322402954,
+  "its": 0,
+  "reason": -11,
+  "rel_res": NaN,
+  "peak_rss_gb_sum": 17.915532,
+  "cpu_h_setup_plus_solve": 0.13841144667731392
+ },
+ "R_lu_mumps": {
+  "setup_s": 180.6912395954132,
+  "solve_s": 3.0879387855529785,
+  "its": 1,
+  "reason": 4,
+  "rel_res": 1.479960725220289e-11,
+  "peak_rss_gb_sum": 61.160096,
+  "cpu_h_setup_plus_solve": 0.8167963483598497
+ }
+}

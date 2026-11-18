@@ -1,0 +1,26 @@
+{
+ "t": 0.5,
+ "ramp": 1.0,
+ "Q_up": 0.0001186008158,
+ "Q_lo": 0.0001157757413,
+ "Q_out": 0.0002343765572,
+ "Q_nominal": {
+  "up": 0.0001186557161413208,
+  "lo": 0.00011583058004271793
+ },
+ "Q_polygon_estimate": {
+  "up": 0.00011811183689113428,
+  "lo": 0.00011528658022441927
+ },
+ "rel_dev_up_vs_nominal": -0.0004626860222680662,
+ "rel_dev_lo_vs_nominal": -0.00047343924806120263,
+ "rel_dev_up_vs_polygon_est": 0.004139965322158323,
+ "rel_dev_lo_vs_polygon_est": 0.004243001003486402,
+ "mass_imbalance_rel": 4.2666373784861895e-10,
+ "backflow_frac": 0.0,
+ "max_newton": 4,
+ "all_converged": true,
+ "Fy_uN": 116.49162919999999,
+ "Fz_uN": -346.643387,
+ "GATE_C": "PASS"
+}

@@ -1,0 +1,15 @@
+{
+ "Pufl_vs_Panalytic_rel": 1.875139207129899e-15,
+ "P_vs_numpy_rel": 6.806060825878892e-15,
+ "P_vs_dW_fd_rel": 1.4744789766880564e-09,
+ "tangent_vs_FD_rel": 4.659791964358412e-10,
+ "tangent_major_symmetry_rel": 2.2582982076198027e-16,
+ "W_frame_indiff_rel": 1.2871029180018135e-14,
+ "sigma_covariance_and_PFt_rel": 5.704998394287099e-15,
+ "rotation_stress_over_mu": 4.625929269271488e-15,
+ "small_strain_limit_rel": 1.2299997971186277e-06,
+ "P_at_I": 0.0,
+ "bulk_pressure_check": 8.731149137020111e-11,
+ "K_bulk": 620600.0000000001,
+ "GATE_B1": "PASS"
+}

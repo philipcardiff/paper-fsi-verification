@@ -1,0 +1,141 @@
+job_id,name,source_commit_at_ledger_build,mesh_level,cores,node,mem_request,start,end,cpu_h,completion_status_slurm,numerical_acceptance
+17441,hess-geoG0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:31:02,2026-11-11T00:31:40,0.021,CANCELLED by 1010,n/a
+17442,hess-geoG0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:34:32,2026-11-11T00:36:09,0.054,CANCELLED by 1010,n/a
+17443,hess-geoG0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:36:09,2026-11-11T00:36:13,0.002,FAILED,n/a
+17445,hess-geoG0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:37:55,2026-11-11T00:39:00,0.036,COMPLETED,n/a
+17448,hess-geoGc,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:40:19,2026-11-11T00:40:55,0.020,COMPLETED,n/a
+17449,hess-geoGm,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:40:19,2026-11-11T00:41:10,0.028,COMPLETED,n/a
+17450,hess-gateA-G0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:41:07,2026-11-11T00:41:10,0.002,COMPLETED,n/a
+17451,hess-gateA-Gc,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:41:07,2026-11-11T00:41:09,0.001,COMPLETED,n/a
+17454,hess-gateA-Gm,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:42:13,2026-11-11T00:42:16,0.002,COMPLETED,n/a
+17455,hess-geoGc,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:43:36,2026-11-11T00:44:24,0.027,COMPLETED,n/a
+17456,hess-geoG0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:43:36,2026-11-11T00:45:16,0.056,COMPLETED,n/a
+17457,hess-geoGc,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:47:28,2026-11-11T00:49:14,0.059,COMPLETED,n/a
+17458,hess-geoGm,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:47:28,2026-11-11T00:50:27,0.099,COMPLETED,n/a
+17459,hess-geoG0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T00:47:28,2026-11-11T00:52:14,0.159,COMPLETED,n/a
+17460,hess-B-S1,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T00:48:05,2026-11-11T00:48:11,0.003,FAILED,B: accepted
+17461,hess-B-S2,59faf5f,solid-only cube-box S1-S3,4,xenosim,16G,2026-11-11T00:48:05,2026-11-11T00:48:33,0.031,FAILED,B: accepted
+17462,hess-B-S3,59faf5f,solid-only cube-box S1-S3,8,xenosim,16G,2026-11-11T00:48:05,2026-11-11T00:49:35,0.200,FAILED,B: accepted
+17463,hess-B-mat,59faf5f,geometry/analysis,1,xenosim,750000M,2026-11-11T00:48:05,2026-11-11T00:48:50,0.013,COMPLETED,n/a
+17467,hess-B-S1,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T00:50:49,2026-11-11T00:50:54,0.003,FAILED,B: accepted
+17470,hess-B-S1,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T00:51:39,2026-11-11T00:53:35,0.064,CANCELLED by 1010,B: accepted
+17471,hess-B-S2,59faf5f,solid-only cube-box S1-S3,4,xenosim,16G,2026-11-11T00:51:39,2026-11-11T00:53:35,0.129,CANCELLED by 1010,B: accepted
+17472,hess-B-S3,59faf5f,solid-only cube-box S1-S3,8,xenosim,16G,2026-11-11T00:51:39,2026-11-11T00:53:35,0.258,CANCELLED by 1010,B: accepted
+17474,hess-B-S1lu,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T00:53:35,2026-11-11T00:54:30,0.031,CANCELLED by 1010,B: accepted
+17478,hess-B-S1,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T00:55:38,2026-11-11T00:56:13,0.019,FAILED,B: accepted
+17479,hess-B-S2,59faf5f,solid-only cube-box S1-S3,4,xenosim,16G,2026-11-11T00:55:38,2026-11-11T00:57:48,0.144,FAILED,B: accepted
+17480,hess-B-S3,59faf5f,solid-only cube-box S1-S3,8,xenosim,16G,2026-11-11T00:55:38,2026-11-11T00:59:39,0.536,CANCELLED by 1010,B: accepted
+17485,hess-B-S1,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T00:59:39,2026-11-11T01:00:23,0.024,COMPLETED,B: accepted
+17486,hess-B-S2,59faf5f,solid-only cube-box S1-S3,4,xenosim,16G,2026-11-11T00:59:39,2026-11-11T01:00:58,0.088,CANCELLED by 1010,B: accepted
+17487,hess-B-S1,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T01:01:03,2026-11-11T01:05:42,0.155,CANCELLED by 1010,B: accepted
+17488,hess-B-S1g,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T01:01:03,2026-11-11T01:01:45,0.023,COMPLETED,B: accepted
+17489,hess-B-S1,59faf5f,solid-only cube-box S1-S3,2,xenosim,24G,2026-11-11T01:02:00,2026-11-11T01:04:02,0.068,CANCELLED by 1010,B: accepted
+17490,hess-B-S2,59faf5f,solid-only cube-box S1-S3,4,xenosim,24G,2026-11-11T01:02:00,2026-11-11T01:04:02,0.136,CANCELLED by 1010,B: accepted
+17491,hess-B-S3,59faf5f,solid-only cube-box S1-S3,8,xenosim,64G,2026-11-11T01:02:00,2026-11-11T01:04:02,0.271,CANCELLED by 1010,B: accepted
+17492,hess-geoG0a4,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:02:06,2026-11-11T01:07:22,0.176,COMPLETED,n/a
+17493,hess-geoG0a10,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:02:06,2026-11-11T01:06:34,0.149,COMPLETED,n/a
+17496,hess-B-S2,59faf5f,solid-only cube-box S1-S3,4,xenosim,24G,2026-11-11T01:04:02,2026-11-11T01:13:21,0.621,COMPLETED,B: accepted
+17497,hess-B-S3,59faf5f,solid-only cube-box S1-S3,8,xenosim,64G,2026-11-11T01:04:02,2026-11-11T02:22:03,10.402,COMPLETED,B: accepted
+17498,hess-B-S1,59faf5f,solid-only cube-box S1-S3,2,xenosim,16G,2026-11-11T01:04:02,2026-11-11T01:05:50,0.060,COMPLETED,B: accepted
+17502,hess-geoG0b,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:08:57,2026-11-11T01:09:00,0.002,FAILED,n/a
+17503,hess-geoGmt1,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:10:53,2026-11-11T01:14:24,0.117,COMPLETED,n/a
+17504,hess-geoGmt2,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:10:53,2026-11-11T01:13:53,0.100,COMPLETED,n/a
+17505,hess-geoGmt3,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:10:53,2026-11-11T01:14:26,0.118,COMPLETED,n/a
+17511,hess-geoGc,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:16:10,2026-11-11T01:18:00,0.061,COMPLETED,n/a
+17512,hess-geoGm,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:16:10,2026-11-11T01:19:05,0.097,COMPLETED,n/a
+17513,hess-geoG0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:16:10,2026-11-11T01:17:17,0.037,FAILED,n/a
+17519,hess-gateA-Gc,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:24:38,2026-11-11T01:24:39,0.001,FAILED,n/a
+17520,hess-gateA-Gm,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:24:38,2026-11-11T01:24:39,0.001,FAILED,n/a
+17521,hess-gateA-G0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:24:38,2026-11-11T01:24:40,0.001,FAILED,n/a
+17528,hess-gateA-Gc,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:28:00,2026-11-11T01:28:01,0.001,FAILED,n/a
+17529,hess-gateA-Gm,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:28:00,2026-11-11T01:28:01,0.001,FAILED,n/a
+17530,hess-gateA-G0,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T01:28:00,2026-11-11T01:28:02,0.001,FAILED,n/a
+17549,hess-C-Gc16,59faf5f,Gc,16,xenosim,150G,2026-11-11T01:35:38,2026-11-11T01:52:59,4.627,CANCELLED by 1010,dev / superseded / failed
+17564,hess-C-dbg,59faf5f,Gc,4,xenosim,60G,2026-11-11T01:55:54,2026-11-11T01:59:37,0.248,CANCELLED by 1010,dev / superseded / failed
+17565,hess-C-dbg,59faf5f,Gc,4,xenosim,60G,2026-11-11T01:59:37,2026-11-11T02:01:22,0.117,CANCELLED by 1010,dev / superseded / failed
+17566,hess-C-dbg1,59faf5f,Gc,1,xenosim,30G,2026-11-11T02:01:30,2026-11-11T02:03:40,0.036,CANCELLED by 1010,dev / superseded / failed
+17567,hess-C-dbg4,59faf5f,Gc,4,xenosim,60G,2026-11-11T02:03:42,2026-11-11T02:04:52,0.078,COMPLETED,dev / superseded / failed
+17568,hess-C-dbg4,59faf5f,Gc,4,xenosim,60G,2026-11-11T02:05:19,2026-11-11T02:06:47,0.098,COMPLETED,dev / superseded / failed
+17572,hess-C-dbg4,59faf5f,Gc,4,xenosim,60G,2026-11-11T02:10:22,2026-11-11T02:19:17,0.594,CANCELLED by 1010,dev / superseded / failed
+17575,hess-C-Gc16,59faf5f,Gc,16,xenosim,200G,2026-11-11T02:19:17,2026-11-11T02:38:03,5.004,CANCELLED by 1010,dev / superseded / failed
+17576,hess-C-Gc16,59faf5f,Gc,16,xenosim,200G,2026-11-11T02:27:25,2026-11-11T02:38:03,2.836,CANCELLED by 1010,dev / superseded / failed
+17577,hess-B-S1mu60,59faf5f,solid-only cube-box S1-S3,2,xenosim,24G,2026-11-11T02:27:34,2026-11-11T02:29:59,0.081,COMPLETED,B: diagnostic probe
+17578,hess-B-S2mu60,59faf5f,solid-only cube-box S1-S3,4,xenosim,24G,2026-11-11T02:27:34,2026-11-11T02:38:11,0.708,COMPLETED,B: diagnostic probe
+17579,hess-C-diag,59faf5f,Gc,2,xenosim,40G,2026-11-11T02:31:04,2026-11-11T02:31:23,0.011,COMPLETED,dev / superseded / failed
+17580,hess-C-Gc16,59faf5f,Gc,16,xenosim,200G,2026-11-11T02:32:31,2026-11-11T02:40:30,2.129,CANCELLED by 1010,dev / superseded / failed
+17584,hess-D-diag,59faf5f,?,2,xenosim,60G,2026-11-11T02:38:18,2026-11-11T02:38:37,0.011,COMPLETED,?
+17585,hess-geoGci,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T02:40:07,2026-11-11T02:41:48,0.056,COMPLETED,n/a
+17586,hess-geoGmi,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T02:40:07,2026-11-11T02:42:30,0.079,CANCELLED by 1010,n/a
+17587,hess-C-Gc16,59faf5f,Gc,16,xenosim,200G,2026-11-11T02:40:30,2026-11-11T02:40:33,0.013,FAILED,dev / superseded / failed
+17588,hess-geoGci,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T02:42:24,2026-11-11T02:42:59,0.019,FAILED,n/a
+17589,hess-geoGmi,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T02:42:24,2026-11-11T02:45:06,0.090,COMPLETED,n/a
+17590,hess-C-Gc16,59faf5f,Gc,16,xenosim,200G,2026-11-11T02:44:23,2026-11-11T02:52:00,2.031,CANCELLED by 1010,dev / superseded / failed
+17591,hess-geoGci,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T02:44:28,2026-11-11T02:45:04,0.020,FAILED,n/a
+17594,hess-cleanGmi,59faf5f,geometry/analysis,1,xenosim,750000M,2026-11-11T02:48:13,2026-11-11T02:48:19,0.002,COMPLETED,n/a
+17595,hess-geoGci10,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T02:49:55,2026-11-11T02:50:50,0.031,FAILED,n/a
+17596,hess-geoGci4,59faf5f,geometry/analysis,2,xenosim,750000M,2026-11-11T02:49:55,2026-11-11T02:50:45,0.028,FAILED,n/a
+17597,hess-C-Gmi32,59faf5f,Gmi,32,xenosim,350G,2026-11-11T02:50:12,2026-11-11T03:06:32,8.711,CANCELLED by 1010,C: accepted (final run n32d)
+17598,hess-D-Gcdev16,59faf5f,Gc,16,xenosim,200G,2026-11-11T02:59:51,2026-11-11T03:06:05,1.662,FAILED,dev (Gate A fail level)
+17599,hess-C-Gmi32,59faf5f,Gmi,32,xenosim,350G,2026-11-11T03:06:32,2026-11-11T03:11:10,2.471,CANCELLED by 1010,C: accepted (final run n32d)
+17602,hess-C-Gmi32,59faf5f,Gmi,32,xenosim,350G,2026-11-11T03:11:10,2026-11-11T03:15:39,2.391,CANCELLED by 1010,C: accepted (final run n32d)
+17603,hess-D-Gcdev16,59faf5f,Gc,16,xenosim,200G,2026-11-11T03:11:10,2026-11-11T03:15:39,1.196,CANCELLED by 1010,dev (Gate A fail level)
+17604,hess-C-Gmi32,59faf5f,Gmi,32,xenosim,350G,2026-11-11T03:15:40,2026-11-11T04:06:12,26.951,COMPLETED,C: accepted (final run n32d)
+17605,hess-D-Gcdev16,59faf5f,Gc,16,xenosim,200G,2026-11-11T03:15:40,2026-11-11T03:47:24,8.462,COMPLETED,dev (Gate A fail level)
+17607,hess-D-Gcdev16,59faf5f,Gc,16,xenosim,200G,2026-11-11T03:48:04,2026-11-11T04:02:09,3.756,COMPLETED,dev (Gate A fail level)
+17608,hess-D-Gmi32,59faf5f,Gmi,32,xenosim,350G,2026-11-11T04:06:25,2026-11-11T05:29:12,44.151,CANCELLED by 1010,"D: partial, stopped t=0.71 s"
+17613,hess-D-Gcdev16,59faf5f,Gc,16,xenosim,200G,2026-11-11T04:35:03,2026-11-11T05:29:24,14.493,CANCELLED by 1010,dev (Gate A fail level)
+17614,hess-D-Gmi32,59faf5f,Gmi,32,xenosim,350G,2026-11-11T05:29:17,2026-11-11T07:28:50,63.760,CANCELLED by 1010,"D: partial, stopped t=0.71 s"
+17615,hess-D-Gcdev16,59faf5f,Gc,16,xenosim,200G,2026-11-11T05:29:27,2026-11-11T05:58:55,7.858,CANCELLED by 1010,dev (Gate A fail level)
+17616,hess-E-Gc8,59faf5f,Gc,8,xenosim,150G,2026-11-11T05:59:04,2026-11-11T06:11:16,1.627,COMPLETED,E scaling diagnostic
+17617,hess-E-Gc24,59faf5f,Gc,24,xenosim,150G,2026-11-11T05:59:04,2026-11-11T06:17:36,7.413,COMPLETED,E scaling diagnostic
+17640,hess-fig1,59faf5f,geometry/analysis,1,xenosim,750000M,2026-11-11T06:57:16,2026-11-11T06:57:18,0.001,COMPLETED,n/a
+17641,hess-fig1,59faf5f,geometry/analysis,1,xenosim,750000M,2026-11-11T06:58:06,2026-11-11T06:58:08,0.001,COMPLETED,n/a
+17642,hess-D-Gcmexp2,59faf5f,Gc,8,xenosim,120G,2026-11-11T07:08:52,2026-11-11T08:18:50,9.329,CANCELLED by 1010,dev (Gate A fail level)
+17643,hess-D-Gmipost,59faf5f,Gmi,32,xenosim,300G,2026-11-11T07:29:15,2026-11-11T07:29:21,0.053,COMPLETED,"D: partial, stopped t=0.71 s"
+17689,hess-figs,59faf5f,geometry/analysis,1,xenosim,750000M,2026-11-11T08:19:13,2026-11-11T08:19:14,0.000,FAILED,n/a
+17690,hess-figs,59faf5f,geometry/analysis,1,xenosim,750000M,2026-11-11T08:20:06,2026-11-11T08:20:10,0.001,COMPLETED,n/a
+17691,hess-F1-Gcreg,59faf5f,Gc,8,xenosim,120G,2026-11-11T08:27:45,2026-11-11T08:34:38,0.918,COMPLETED,F1 force diagnostic
+17692,hess-F1-Gcstiff,59faf5f,Gc,8,xenosim,120G,2026-11-11T08:27:45,2026-11-11T08:35:08,0.984,COMPLETED,F1 force diagnostic
+17693,hess-F1-Gmireg,59faf5f,Gc,16,xenosim,250G,2026-11-11T08:35:49,2026-11-11T08:45:03,2.462,COMPLETED,F1 force diagnostic
+17729,hess-D-Gcincr16,59faf5f,Gc,16,xenosim,200G,2026-11-11T08:36:23,2026-11-11T09:53:36,20.591,CANCELLED by 1010,dev (Gate A fail level)
+17809,hess-S-T0,59faf5f,?,16,xenosim,200G,2026-11-11T09:55:09,2026-11-11T10:14:57,5.280,CANCELLED by 1010,?
+17810,hess-S-T1,59faf5f,?,16,xenosim,200G,2026-11-11T09:55:09,2026-11-11T10:14:57,5.280,CANCELLED by 1010,?
+17811,hess-S-T3,59faf5f,?,16,xenosim,200G,2026-11-11T10:15:07,2026-11-11T10:34:01,5.040,COMPLETED,?
+17812,hess-S-P,59faf5f,?,16,xenosim,200G,2026-11-11T10:15:07,2026-11-11T10:19:03,1.049,COMPLETED,?
+17813,hess-S-P2,59faf5f,?,16,xenosim,200G,2026-11-11T10:24:58,2026-11-11T10:25:25,0.120,COMPLETED,?
+17814,hess-S-T3b,59faf5f,?,16,xenosim,200G,2026-11-11T10:34:30,2026-11-11T11:10:50,9.689,COMPLETED,?
+17817,hess-FD-Gc_t01,59faf5f,?,8,xenosim,120G,2026-11-11T10:45:46,2026-11-11T10:57:59,1.629,COMPLETED,?
+17818,hess-FD-Gmi_t01,59faf5f,?,16,xenosim,250G,2026-11-11T10:45:46,2026-11-11T10:56:57,2.982,COMPLETED,?
+17819,hess-FD-Gc_t05,59faf5f,?,16,xenosim,200G,2026-11-11T10:45:46,2026-11-11T10:54:02,2.204,COMPLETED,?
+17820,hess-S-J,59faf5f,?,16,xenosim,150G,2026-11-11T10:46:02,2026-11-11T10:46:15,0.058,COMPLETED,?
+17826,hess-SC-Gc32,59faf5f,?,32,xenosim,150G,2026-11-11T10:58:28,2026-11-11T11:01:59,1.876,COMPLETED,?
+17827,hess-SC-Gc48,59faf5f,?,48,xenosim,150G,2026-11-11T11:01:59,2026-11-11T11:05:09,2.533,COMPLETED,?
+17828,hess-SC-Gc64,59faf5f,?,64,xenosim,150G,2026-11-11T11:05:09,2026-11-11T11:07:30,2.507,COMPLETED,?
+17829,hess-SC-Gc72,59faf5f,?,72,xenosim,150G,2026-11-11T11:07:30,2026-11-11T11:10:47,3.940,COMPLETED,?
+17831,hess-P-Gcdt01,59faf5f,?,16,xenosim,200G,2026-11-11T11:11:16,2026-11-11T11:40:51,7.889,COMPLETED,?
+17832,hess-P-Gmidt01,59faf5f,?,32,xenosim,350G,2026-11-11T11:11:16,2026-11-11T11:41:05,15.902,CANCELLED by 1010,?
+18868,hess-AR-bs,59faf5f,?,16,xenosim,100G,2026-11-11T16:19:20,2026-11-11T16:19:30,0.044,COMPLETED,?
+18869,hess-AR-poc,59faf5f,?,16,xenosim,200G,2026-11-11T16:21:16,2026-11-11T16:21:27,0.049,FAILED,?
+18870,hess-AR-pocdbg,59faf5f,?,16,xenosim,100G,2026-11-11T16:22:26,2026-11-11T16:22:38,0.053,FAILED,?
+18871,hess-AR-pocdbg,59faf5f,?,16,xenosim,100G,2026-11-11T16:24:25,2026-11-11T16:24:34,0.040,FAILED,?
+18872,hess-AR-pocdbg,59faf5f,?,16,xenosim,100G,2026-11-11T16:26:15,2026-11-11T16:26:26,0.049,COMPLETED,?
+18873,hess-AR-poc,59faf5f,?,16,xenosim,200G,2026-11-11T16:28:01,2026-11-11T16:33:20,1.418,COMPLETED,?
+18874,hess-AR-pocN,59faf5f,?,16,xenosim,200G,2026-11-11T16:33:49,2026-11-11T16:40:32,1.791,CANCELLED by 1010,?
+18876,hess-AR-pocN,59faf5f,?,16,xenosim,200G,2026-11-11T16:40:32,2026-11-11T16:42:43,0.582,FAILED,?
+18877,hess-AR-pocN,59faf5f,?,16,xenosim,200G,2026-11-11T16:48:55,2026-11-11T16:57:09,2.196,CANCELLED by 1010,?
+18878,hess-AR-poc2,59faf5f,?,16,xenosim,200G,2026-11-11T16:57:14,2026-11-11T16:58:29,0.333,COMPLETED,?
+18879,hess-AR-pocN2,59faf5f,?,16,xenosim,200G,2026-11-11T16:58:45,2026-11-11T17:04:33,1.547,COMPLETED,?
+18880,hess-AR-proflu,59faf5f,?,16,xenosim,200G,2026-11-11T17:15:24,2026-11-11T17:24:27,2.413,COMPLETED,?
+18881,hess-AR-profblk,59faf5f,?,16,xenosim,200G,2026-11-11T17:15:24,2026-11-11T17:19:17,1.036,COMPLETED,?
+18882,hess-A5-fluid,59faf5f,?,16,xenosim,150G,2026-11-11T17:47:49,2026-11-11T17:48:59,0.311,COMPLETED,?
+18883,hess-A5-fluidb,59faf5f,?,16,xenosim,150G,2026-11-11T17:49:14,2026-11-11T17:50:25,0.316,COMPLETED,?
+18884,hess-A5-fluidc,59faf5f,?,16,xenosim,150G,2026-11-11T17:51:00,2026-11-11T17:53:15,0.600,COMPLETED,?
+18885,hess-A5-nl,59faf5f,?,16,xenosim,200G,2026-11-11T17:53:38,2026-11-11T17:55:51,0.591,CANCELLED by 1010,?
+18909,hess-s4fbuild,59faf5f,?,12,xenosim,24G,2026-11-11T20:10:04,2026-11-11T20:13:34,0.700,FAILED,?
+18913,hess-s4fapp,59faf5f,?,4,xenosim,8G,2026-11-11T20:13:59,2026-11-11T20:14:05,0.007,FAILED,?
+18914,hess-s4fapp,59faf5f,?,4,xenosim,8G,2026-11-11T20:15:45,2026-11-11T20:15:46,0.001,COMPLETED,?
+18915,hess-s4fmesh,59faf5f,?,8,xenosim,24G,2026-11-11T20:15:58,2026-11-11T20:16:04,0.013,COMPLETED,?
+18916,hess-s4frun,59faf5f,?,16,xenosim,60G,2026-11-11T20:16:55,2026-11-11T20:24:39,2.062,COMPLETED,?
+18918,hess-s4frun2,59faf5f,?,16,xenosim,60G,2026-11-11T20:24:56,2026-11-11T20:24:58,0.009,FAILED,?
+18920,hess-s4frun3,59faf5f,?,16,xenosim,60G,2026-11-11T20:35:48,2026-11-11T21:30:01,14.458,COMPLETED,?
+TOTAL,,,,,,,,,361.491,,Slurm COMPLETED/CANCELLED is not numerical acceptance; see report

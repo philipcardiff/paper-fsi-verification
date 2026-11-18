@@ -1,0 +1,13 @@
+{
+ "second_pass_collapses": 1,
+ "n_short_edges": 1,
+ "merged": 1,
+ "refused": 0,
+ "dropped_tets": 0,
+ "dropped_tris": 4,
+ "min_q_before": 0.019590570579038104,
+ "min_q_after": 0.15681736787871228,
+ "n_q_lt_0p05_before": 2,
+ "n_q_lt_0p05_after": 0,
+ "n_inverted_after": 0
+}

@@ -1,0 +1,2 @@
+SHA=517a44921bc9b43ec532e4b30089ef09364e64f6 (git archive, unmodified)
+PETSc=/opt/petsc/3.24; OpenFOAM=v2512; gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
