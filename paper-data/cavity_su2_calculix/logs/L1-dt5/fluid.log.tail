@@ -1,0 +1,60 @@
+---[precice]  Mapping "Displacement" for t=240 from "Solid-Mesh" to "Fluid-Mesh"
+---[precice]  it 2 (min: 1, max: 50), time-window 48, t 235 (max: 250), Dt 5, max-dt 5
++-------------------------------------------------------------------------------------------------------+
+|   Time_Iter|    Cur_Time|  Inner_Iter|      rms[P]|      rms[U]|      rms[V]|          CD|          CL|
++-------------------------------------------------------------------------------------------------------+
+|          49|  2.4000e+02|           0|   -9.162291|   -9.246398|   -9.832281|   -0.008827|   -5.365674|
+|          49|  2.4000e+02|          10|  -10.630015|  -10.127352|  -10.652485|   -0.008827|   -5.365678|
+---[precice]  Mapping "Force" for t=240 from "Fluid-Mesh" to "Solid-Mesh"
+---[precice]  Time window completed
+---[precice]  Mapping "Displacement" for t=240 from "Solid-Mesh" to "Fluid-Mesh"
+---[precice]  it 1 (min: 1, max: 50), time-window 49, t 240 (max: 250), Dt 5, max-dt 5
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_00049.dat             |
++-----------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------+
+|   Time_Iter|    Cur_Time|  Inner_Iter|      rms[P]|      rms[U]|      rms[V]|          CD|          CL|
++-------------------------------------------------------------------------------------------------------+
+|          50|  2.4500e+02|           0|   -9.888012|   -9.204243|   -9.834505|   -0.008827|   -5.365676|
+|          50|  2.4500e+02|          10|  -10.739284|  -10.204888|  -10.814245|   -0.008827|   -5.365674|
+---[precice]  Mapping "Force" for t=245 from "Fluid-Mesh" to "Solid-Mesh"
+---[precice]  Time window completed
+---[precice]  Mapping "Displacement" for t=245 from "Solid-Mesh" to "Fluid-Mesh"
+---[precice]  it 1 (min: 1, max: 50), time-window 50, t 245 (max: 250), Dt 5, max-dt 5
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_00050.dat             |
+|Paraview                           |flow_00050.vtu                     |
+|CSV file                           |surface_flow_00050.csv             |
++-----------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------+
+|   Time_Iter|    Cur_Time|  Inner_Iter|      rms[P]|      rms[U]|      rms[V]|          CD|          CL|
++-------------------------------------------------------------------------------------------------------+
+|          51|  2.5000e+02|           0|  -10.862809|   -9.684437|  -10.300834|   -0.008827|   -5.365674|
+|          51|  2.5000e+02|           7|  -10.609043|  -10.001865|  -11.032915|   -0.008827|   -5.365675|
+---[precice]  Mapping "Force" for t=250 from "Fluid-Mesh" to "Solid-Mesh"
+---[precice]  Time window completed
+---[precice]  Mapping "Displacement" for t=250 from "Solid-Mesh" to "Fluid-Mesh"
+---[precice]  Reached end at: final time-window: 50, final time: 250
+
+------------------------- Solver Postprocessing -------------------------
+Deleted CNumerics container.
+Deleted CIntegration container.
+Deleted CSolver container.
+Deleted CIteration container.
+Deleted CInterface container.
+Deleted CGeometry container.
+Deleted CFreeFormDefBox class.
+Deleted CSurfaceMovement class.
+Deleted CVolumetricMovement class.
+Deleted CConfig container.
+Deleted nInst container.
+Deleted COutput class.
+-------------------------------------------------------------------------
+
+------------------------- Exit Success (SU2_CFD) ------------------------
+
+---[precice]  Close communication channels
