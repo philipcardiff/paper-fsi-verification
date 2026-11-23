@@ -317,13 +317,15 @@ With the corrected inflow, $u_x(A)$ and $F_x$ converge monotonically with observ
 The comparison was made after the sequence was characterised: level 3 lies within $0.1\%$ ($u_x$) and $0.2\%$ ($F_x$) of the reference values, and conditional Richardson extrapolations from levels 1--3 lie $0.5$--$0.8\%$ above them, within their stated $1\%$; $F_y$ is within $0.3\%$ of the same-lineage value of \citet{Tukovic2018}.
 
 \paragraph{An independent solution.}
-A co-author computed both inflows with Kratos Multiphysics~10.3~\citep{Dadvand2010}, which shares no code with solids4foam (P1/P1 stabilised fluid on tetrahedra obtained by splitting the hexahedra of levels 0 and 1, a total Lagrangian St Venant--Kirchhoff plate of trilinear hexahedra, Dirichlet--Neumann coupling with MVQN; \texttt{paper-data/kratos\_beam\_richter/}).
-With the corrected inflow its level-1 $u_x(A) = 5.976\times10^{-5}\,\mathrm{m}$ is $0.54\%$ above our level 3, $0.36\%$ below our conditional Richardson value and $0.44\%$ above the reference value; with the printed inflow it is $1.761$ times larger (ours: $1.758$), so an independent code also reaches the reference values only with the $0.2\,\mathrm{m/s}$ peak.
-From level 0 to level 1 its $u_x(A)$ falls by $1.1\%$, whereas ours rises by $19\%$, because the force on the plate falls with refinement in Kratos and rises in ours.
-Its $F_x$ is not converged: two estimates, from the interface reactions and from the traction integral, still differ by $4.5\%$ on level 1 and bracket both our level 3 and the reference value.
-With two levels the Kratos solution is independent but not converged, and the reference category is unchanged.
+A co-author computed both inflows with Kratos Multiphysics~10.3~\citep{Dadvand2010}, which shares no code with solids4foam (P1/P1 stabilised fluid on tetrahedra obtained by splitting the hexahedra of levels 0, 1 and 2, the finest with $3.1\times10^{6}$ tetrahedra, a total Lagrangian St Venant--Kirchhoff plate of trilinear hexahedra, Dirichlet--Neumann coupling with MVQN; \texttt{paper-data/kratos\_beam\_richter/}).
+With the corrected inflow its $u_x(A)$ falls by $1.1\%$ from level 0 to level 1 and by $0.10\%$ from level 1 to level 2, to $5.970\times10^{-5}\,\mathrm{m}$, which is $0.44\%$ above our level 3 and $0.34\%$ above the reference value; its conditional Richardson value, $5.970\times10^{-5}\,\mathrm{m}$ (apparent order $3.5$), is $0.47\%$ below ours ($5.998\times10^{-5}\,\mathrm{m}$).
+Ours rises by $19\%$ from level 0 to level 1, because the force on the plate falls with refinement in Kratos and rises in ours, so the two codes approach the displacement from opposite sides.
+With the printed inflow the level-2 displacement is $1.759$ times larger (ours: $1.758$), so an independent code also reaches the reference values only with the $0.2\,\mathrm{m/s}$ peak.
+Kratos gives two estimates of $F_x$, from the interface reactions and from the traction integral; their difference falls from $4.5\%$ on level 1 to $2.6\%$ on level 2, and they still bracket both our level 3 and the reference value.
+The reaction estimate falls monotonically (apparent order $1.8$) to a conditional Richardson value of $1.3324\,\mathrm{N}$, which agrees with ours ($1.3325\,\mathrm{N}$) to $0.01\%$, and to $0.01\%$ also at the printed inflow ($2.3931$ against $2.3928\,\mathrm{N}$).
+The independent force thus confirms our extrapolated force closely, while the extrapolated displacements of the two codes differ by $0.5\%$; with the apparent orders of $3.5$ and $1.8$ and a non-monotone traction estimate, the Kratos sequence is not shown to be asymptotic, and the reference category is unchanged \hl{[author decision: category with three Kratos levels]}.
 The case is kept provisional until a level with consistent observed orders confirms the asymptotic range; a fifth mesh (level 4, about $3.3\times10^{7}$ fluid cells) is estimated at $340$--$930$ node-hours.
-The computations cost $158$ node-hours on MeluXina (128 cores per node) for both inflows, of which $53$ for the corrected inflow.
+Levels 0 and 1 cost $158$ node-hours on MeluXina (128 cores per node) for both inflows, of which $53$ for the corrected inflow; level 2 ran on a shared workstation (wall times in \texttt{paper-data/kratos\_beam\_richter/README.md}).
 
 
 
