@@ -55,6 +55,8 @@ All 3 200 time steps met the robin convergence criteria. The driver's checks pas
 - `mesh_robin_backward.csv`: driver output (one row, level 3).
 - `mesh_robin_backward.png`: point-A history against the published curves.
 - `histories/robin_backward_mesh3.csv`: point-A histories (radial and axial displacement, axis pressure), one row per time step.
+- `postProcessing/`: the case's raw monitor files. These are the wall displacements at the nine stations (`0/solidPointDisplacement_*.dat`), the axis pressure probes (`verificationAxisPressure/fluid/0/p`), the solid and fluid forces, and the FSI convergence data and residuals.
+- `verification_settings.json`: the run settings the driver recorded for the case.
 - `logs/log.solids4Foam.xz`: the solver log (53 MB uncompressed).
 - `logs/log.blockMesh.{fluid,solid}`, `logs/log.decomposePar.{fluid,solid}`, `logs/log.Allrun.case`: meshing, decomposition and the case's Allrun log.
 - `logs/log.Allverify`, `logs/log.Allverify.reuse`, `logs/log.environment`: the driver logs (original and post-processing rerun) and the environment.

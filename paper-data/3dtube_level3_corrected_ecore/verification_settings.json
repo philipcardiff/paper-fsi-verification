@@ -1,0 +1,25 @@
+{
+  "coupling": "robin",
+  "refinement": 4,
+  "delta_t_s": "6.25e-06",
+  "end_time_s": "0.02",
+  "time_scheme": "backward",
+  "solid_preconditioner": "hypre",
+  "stations_z_m": [
+    0.005,
+    0.01,
+    0.015,
+    0.02,
+    0.025,
+    0.03,
+    0.035,
+    0.04,
+    0.045
+  ],
+  "pressure_probe_offset_m": 0.0005,
+  "interface_predictor": false,
+  "inner_radius_m": 0.005,
+  "cores": 32,
+  "openfoam": "OpenFOAM-v2512",
+  "tutorial_inputs": "5a712344a8cb15dc7be4a285a9064b01e210b19faa6eb7a06b72f910ada89b3c"
+}
