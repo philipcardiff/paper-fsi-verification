@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Figures for the Kratos beamInCrossFlow runs (need matplotlib).
 
-levels.png:    steady u_x(A) and F_x against the level for both inflow peaks, Kratos levels 0 and 1 (F_x
+levels.png:    steady u_x(A) and F_x against the level for both inflow peaks, Kratos levels 0 to 2 (F_x
                from the reactions, Fc, and the direct traction integral, Ff) with solids4foam levels 0 to 3
                and Richter (2012).
-histories.png: u_x(A) and F_x against time for the four main runs, the march to the steady state.
+histories.png: u_x(A) and F_x against time for the six main runs, the march to the steady state.
 
 Usage (from this folder): python scripts/plot_beam.py --runs runs --s4f ../beam_richter --out figures
 """
@@ -19,6 +19,8 @@ import matplotlib.pyplot as plt
 INK, INK2, GRID = "#1f1f1e", "#5f5e5a", "#e4e3df"
 BLUE, ORANGE, AQUA, YELLOW = "#2a78d6", "#eb6834", "#1baf7a", "#eda100"   # validated slots 1-4
 RICHTER = {"ux": 5.95e-5, "Fx": 1.33}
+RUNS = {(0, 0.2): "f1_U0.2_dt0.05", (1, 0.2): "f2_U0.2_dt0.05", (2, 0.2): "f4_U0.2_dt0.05_amg",
+        (0, 0.3): "f1_U0.3_dt0.05", (1, 0.3): "f2_U0.3_dt0.05", (2, 0.3): "f4_U0.3_dt0.05_amg"}
 
 
 def history(run):
@@ -47,14 +49,14 @@ def style(ax, xlabel):
 def levels_figure(runs, ref, out):
     fig, axes = plt.subplots(2, 2, figsize=(10, 7.2), dpi=160)
     for j, U in enumerate((0.2, 0.3)):
-        k = [history(os.path.join(runs, f"f{2 ** lev}_U{U}_dt0.05")) for lev in (0, 1)]
-        kl = [0, 1]
+        kl = [0, 1, 2]
+        k = [history(os.path.join(runs, RUNS[(lev, U)])) for lev in kl]
         sl = sorted(ref[U])
         a_u, a_f = axes[0, j], axes[1, j]
         a_u.plot(sl, [1e5 * ref[U][l][0] for l in sl], color=INK2, linewidth=1.4, marker="o", markersize=5,
                  label="solids4foam, levels 0–3")
         a_u.plot(kl, [1e5 * h["ux"][-1] for h in k], color=BLUE, linewidth=2.0, marker="s", markersize=6,
-                 label="Kratos, levels 0–1")
+                 label="Kratos, levels 0–2")
         a_f.plot(sl, [ref[U][l][1] for l in sl], color=INK2, linewidth=1.4, marker="o", markersize=5,
                  label="solids4foam, levels 0–3")
         a_f.plot(kl, [h["Fcx"][-1] for h in k], color=BLUE, linewidth=2.0, marker="s", markersize=6,
@@ -82,10 +84,9 @@ def levels_figure(runs, ref, out):
 
 def histories_figure(runs, out):
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(11, 4.2), dpi=160)
-    series = [("level 1, peak 0.2", "f2_U0.2_dt0.05", BLUE, "-", 2.0),
-              ("level 0, peak 0.2", "f1_U0.2_dt0.05", BLUE, (0, (4, 2)), 1.6),
-              ("level 1, peak 0.3", "f2_U0.3_dt0.05", ORANGE, "-", 2.0),
-              ("level 0, peak 0.3", "f1_U0.3_dt0.05", ORANGE, (0, (4, 2)), 1.6)]
+    styles = {2: ("-", 2.0), 1: ((0, (4, 2)), 1.6), 0: ((0, (1, 1.5)), 1.5)}
+    series = [(f"level {lev}, peak {U}", RUNS[(lev, U)], color, *styles[lev])
+              for U, color in ((0.2, BLUE), (0.3, ORANGE)) for lev in (2, 1, 0)]
     for label, run, color, ls, lw in series:
         h = history(os.path.join(runs, run))
         a1.plot(h["t"], [1e5 * v for v in h["ux"]], color=color, linestyle=ls, linewidth=lw, label=label)
@@ -97,7 +98,7 @@ def histories_figure(runs, out):
     a2.set_ylabel("Fc_x on the half plate (N)")
     a1.set_title("u_x(A), implicit Euler, Δt 0.05 s", loc="left", color=INK, fontsize=10)
     a2.set_title("F_x from the interface reactions", loc="left", color=INK, fontsize=10)
-    a1.legend(loc="lower right", frameon=False, fontsize=8.5, labelcolor=INK)
+    a1.legend(loc="upper right", ncol=2, frameon=False, fontsize=8.5, labelcolor=INK)
     fig.tight_layout()
     fig.savefig(out, facecolor="white", bbox_inches="tight", pad_inches=0.15)
     print("wrote", out)

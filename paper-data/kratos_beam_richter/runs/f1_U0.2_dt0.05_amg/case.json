@@ -1,0 +1,59 @@
+{
+  "out": "inputs/gen/f1_U0.2_dt0.05_amg",
+  "factor": 1,
+  "thickness_multiplier": 2,
+  "inlet_peak": 0.2,
+  "dt": 0.05,
+  "end_time": 20.0,
+  "scheme": "euler",
+  "dynamic_tau": 0.0,
+  "nl_tol": 1e-10,
+  "fluid_rel_tol": 1e-08,
+  "amgcl_tol": 1e-10,
+  "fluid_echo": 0,
+  "vtk_every": 5.0,
+  "steady_window": 1.0,
+  "steady_tol": 1e-06,
+  "steady_after": 4.0,
+  "structure_solver": "amgcl",
+  "structure_tol": 1e-12,
+  "fluid_nodes": 9677,
+  "fluid_tets": 48672,
+  "fluid_hex_equivalent": 8112,
+  "fluid_volume": 0.23599999999998014,
+  "boundary_faces": {
+    "inlet": 392,
+    "outlet": 392,
+    "floor": 1104,
+    "top": 1232,
+    "side": 1232,
+    "symmetry": 1104,
+    "interface": 512
+  },
+  "grid_lines": [
+    45,
+    15,
+    15
+  ],
+  "min_dx": 0.009606290850654009,
+  "plate_base_edge_nodes": 25,
+  "solid_nodes": 729,
+  "solid_hexes": 512,
+  "solid_cells_xyz": [
+    8,
+    8,
+    8
+  ],
+  "generator": "beam_case.py",
+  "ramp_s": 1.0,
+  "point_a": [
+    0.45,
+    0.15,
+    -0.15
+  ],
+  "inlet": {
+    "y_max": 0.4,
+    "z_half": 0.4
+  },
+  "mu": 1.0
+}

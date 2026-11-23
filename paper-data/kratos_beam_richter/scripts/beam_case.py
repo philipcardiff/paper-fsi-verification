@@ -23,6 +23,7 @@ a node at every level.
 Usage:
   python beam_case.py <out dir> --factor 1 --inlet-peak 0.2 [--thickness-multiplier 2] [--dt 0.05]
                       [--end-time 20] [--scheme euler|bdf2] [--dynamic-tau 0] [--nl-tol 1e-10]
+                      [--structure-solver direct|amgcl] [--structure-tol 1e-12]
 """
 import argparse
 import json
@@ -324,7 +325,15 @@ def parameters(args, vtk_steps):
                 "time_stepping": {"time_step": args.dt},
                 "convergence_criterion": "residual_criterion",
                 "residual_relative_tolerance": 1e-9, "residual_absolute_tolerance": 1e-11,
-                "max_iteration": 20, "rotation_dofs": False},
+                "max_iteration": 20, "rotation_dofs": False,
+                **({"linear_solver_settings": {
+                    # Kratos's default for the plate is the direct sparse_lu, single-threaded and slow at
+                    # factor 4 (about 108k DOFs); the dynamic plate matrix is symmetric positive definite,
+                    # so CG with AMG is cheap (as for the 3dTube wall)
+                    "solver_type": "amgcl", "krylov_type": "cg", "smoother_type": "ilu0",
+                    "coarsening_type": "aggregation", "use_block_matrices_if_possible": True,
+                    "tolerance": args.structure_tol, "max_iteration": 1000, "verbosity": 0}}
+                   if args.structure_solver == "amgcl" else {})},
             "fluid_solver_settings": {
                 "solver_type": "Monolithic", "model_part_name": fluid, "domain_size": 3,
                 "model_import_settings": {"input_type": "mdpa", "input_filename": FLUID_MDPA},
@@ -417,6 +426,10 @@ def main():
     ap.add_argument("--steady-tol", type=float, default=1e-6,
                     help="stop when u_x(A) and F_x change by less than this (relative) over the window")
     ap.add_argument("--steady-after", type=float, default=4.0)
+    ap.add_argument("--structure-solver", choices=("direct", "amgcl"), default="direct",
+                    help="direct = Kratos's default (sparse_lu, levels 0 and 1); amgcl = CG with AMG")
+    ap.add_argument("--structure-tol", type=float, default=1e-12,
+                    help="relative residual tolerance of the amgcl plate solve")
     args = ap.parse_args()
     if os.path.exists(args.out):
         raise SystemExit(f"{args.out} exists, refusing to overwrite")
@@ -429,7 +442,10 @@ def main():
     with open(os.path.join(args.out, "ProjectParameters.json"), "w") as fo:
         json.dump(parameters(args, vtk_steps), fo, indent=4)
     write_materials(args.out)
-    case = dict(vars(args), **finfo, **sinfo, generator="beam_case.py", ramp_s=RAMP, point_a=POINT_A,
+    opts = vars(args).copy()
+    if args.structure_solver == "direct":   # keep case.json of the direct runs as it was
+        del opts["structure_solver"], opts["structure_tol"]
+    case = dict(opts, **finfo, **sinfo, generator="beam_case.py", ramp_s=RAMP, point_a=POINT_A,
                 inlet={"y_max": Y2, "z_half": -Z0}, mu=MU_F)
     with open(os.path.join(args.out, "case.json"), "w") as fo:
         json.dump(case, fo, indent=2)

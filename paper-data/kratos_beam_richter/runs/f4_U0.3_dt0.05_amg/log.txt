@@ -1,0 +1,1965 @@
+ |  /           |                  
+ ' /   __| _` | __|  _ \   __|    
+ . \  |   (   | |   (   |\__ \  
+_|\_\_|  \__,_|\__|\___/ ____/
+           Multi-Physics 10.3."0"-Release-10.3.0-14ee273e-Release-x86_64
+           Compiled for GNU/Linux and Python3.11 with GCC-10.2
+Compiled with threading and MPI support. Threading support with OpenMP.
+Maximum number of threads: 8.
+Running without MPI.
+Importing    KratosFSIApplication 
+Initializing KratosFSIApplication...
+Importing    KratosFluidDynamicsApplication 
+Initializing KratosFluidDynamicsApplication...
+Importing    KratosStructuralMechanicsApplication 
+    KRATOS   ___|  |                   |                   |
+           \___ \  __|  __| |   |  __| __| |   |  __| _` | |
+                 | |   |    |   | (    |   |   | |   (   | |
+           _____/ \__|_|   \__,_|\___|\__|\__,_|_|  \__,_|_| MECHANICS
+Initializing KratosStructuralMechanicsApplication...
+Importing    KratosMeshMovingApplication 
+    KRATOS  __  __        _    __  __         _
+           |  \/  |___ __| |_ |  \/  |_____ _(_)_ _  __ _
+           | |\/| / -_|_-< ' \| |\/| / _ \ V / | ' \/ _` |
+           |_|  |_\___/__/_||_|_|  |_\___/\_/|_|_||_\__, |
+                                                    |___/
+Initializing KratosMeshMovingApplication...
+[WARNING] DataCommunicator: This function is deprecated, please retrieve the DataCommunicator through the ModelPart (or by name in special cases)
+Importing    LinearSolversApplication 
+    Kratos  _     _                       ____        _
+           | |   (_)_ __   ___  __ _ _ __/ ___|  ___ | |_   _____ _ __ ___
+           | |   | | '_ \ / _ \/ _` | '__\___ \ / _ \| \ \ / / _ \ '__/ __|
+           | |___| | | | |  __/ (_| | |   ___) | (_) | |\ V /  __/ |  \__ \
+           |_____|_|_| |_|\___|\__,_|_|  |____/ \___/|_| \_/ \___|_|  |___/
+Initializing KratosLinearSolversApplication...
+Importing    KratosMappingApplication 
+    KRATOS ______  ___                      _____
+           ___   |/  /_____ ___________________(_)_____________ _
+           __  /|_/ /_  __ `/__  __ \__  __ \_  /__  __ \_  __ `/
+           _  /  / / / /_/ /__  /_/ /_  /_/ /  / _  / / /  /_/ /
+           /_/  /_/  \__,_/ _  .___/_  .___//_/  /_/ /_/_\__, /
+                            /_/     /_/                 /____/
+Initializing KratosMappingApplication...
+::[MechanicalSolver]:: : Construction finished 
+::[ImplicitMechanicalSolver]:: : Construction finished 
+PartitionedFSIBaseSolver: Structure solver construction finished. 
+NavierStokesMonolithicSolver: Construction of NavierStokesMonolithicSolver finished. 
+PartitionedFSIBaseSolver: Fluid solver construction finished. 
+::[MeshSolverBase]:: Construction finished: 
+::[MeshSolverStructuralSimilarity]:: Construction finished: 
+PartitionedFSIBaseSolver: ALE mesh solver construction finished. 
+PartitionedFSIBaseSolver: Partitioned FSI base solver construction finished. 
+::[MechanicalSolver]:: : Variables ADDED 
+::[ImplicitMechanicalSolver]:: : Variables ADDED 
+NavierStokesMonolithicSolver: Fluid solver variables added correctly. 
+::[MeshSolverBase]:: Variables ADDED.: 
+::[PythonSolver]::: Reading model part. 
+SingleImportModelPart: Reading model part from file: "/media/raidStorage/cloner0110/kratos/cases/beamInCrossFlow/runs/f4_U0.3_dt0.05_amg/beam_fluid".mdpa
+ModelPartIO:   [Reading Nodes    : 543329 nodes read]
+ModelPartIO:   [Reading Elements : 3115008 elements read] [Type: Element3D4N]
+ModelPartIO:   [Reading Conditions : 6272 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Reading Conditions : 6272 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Reading Conditions : 8192 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Total Lines Read : 7441823]
+SingleImportModelPart: Finished reading model part from mdpa file.
+ModelPart: -FluidModelPart- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 7
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 543329
+        Number of Properties  : 2
+        Number of Elements    : 3115008
+        Number of Conditions  : 20736
+        Number of Constraints : 0
+
+    -FluidInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 4193
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 8192
+            Number of Constraints : 0
+    -Inlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 3249
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 6272
+            Number of Constraints : 0
+    -MeshFixed- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 34984
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -NoSlip- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 28824
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Outlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 3249
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 6272
+            Number of Constraints : 0
+    -Parts_Fluid- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 543329
+            Number of Properties  : 0
+            Number of Elements    : 3115008
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Symmetry- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 9097
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+::[PythonSolver]::: Reading model part. 
+SingleImportModelPart: Reading model part from file: "/media/raidStorage/cloner0110/kratos/cases/beamInCrossFlow/runs/f4_U0.3_dt0.05_amg/beam_structure".mdpa
+ModelPartIO:   [Reading Nodes    : 35937 nodes read]
+ModelPartIO:   [Reading Elements : 32768 elements read] [Type: TotalLagrangianElement3D8N]
+ModelPartIO:   [Reading Conditions : 8192 conditions read] [Type: SurfaceCondition3D3N]
+ModelPartIO:   [Total Lines Read : 160213]
+SingleImportModelPart: Finished reading model part from mdpa file.
+ModelPart: -Structure- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 4
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+    OSS_SWITCH : 0
+    IS_RESTARTED : 0
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 35937
+        Number of Properties  : 1
+        Number of Elements    : 32768
+        Number of Conditions  : 8192
+        Number of Constraints : 0
+
+    -Clamped- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1089
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Parts_Structure- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 35937
+            Number of Properties  : 0
+            Number of Elements    : 32768
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -StructureInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 4193
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 8192
+            Number of Constraints : 0
+    -Symmetry- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 1089
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+::[PythonSolver]::: Reading model part. 
+::[PythonSolver]::: Using already imported model part - no reading necessary. 
+ModelPart: -FluidModelPart- model part
+    Buffer Size : 1
+    Number of tables : 0
+    Number of sub model parts : 7
+    Current solution step index : 0
+    DOMAIN_SIZE : 3
+
+    Number of Geometries  : 0
+    Mesh 0 :
+        Number of Nodes       : 543329
+        Number of Properties  : 2
+        Number of Elements    : 3115008
+        Number of Conditions  : 20736
+        Number of Constraints : 0
+
+    -FluidInterface- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 4193
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 8192
+            Number of Constraints : 0
+    -Inlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 3249
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 6272
+            Number of Constraints : 0
+    -MeshFixed- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 34984
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -NoSlip- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 28824
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Outlet- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 3249
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 6272
+            Number of Constraints : 0
+    -Parts_Fluid- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 543329
+            Number of Properties  : 0
+            Number of Elements    : 3115008
+            Number of Conditions  : 0
+            Number of Constraints : 0
+    -Symmetry- model part
+        Number of tables : 0
+        Number of sub model parts : 0
+
+        Number of Geometries  : 0
+        Mesh 0 :
+            Number of Nodes       : 9097
+            Number of Properties  : 0
+            Number of Elements    : 0
+            Number of Conditions  : 0
+            Number of Constraints : 0
+ 
+::[PythonSolver]:: : Finished reading model part. 
+Read materials: Started
+[WARNING] Read materials: Ignoring module information for component LinearElastic3DLaw
+Read materials: Finished
+::[MechanicalSolver]:: : Constitutive law was successfully imported. 
+::[MechanicalSolver]::: ModelPart prepared for Solver. 
+Read maFluidModelPart.Parts_Fluid
+terials: Started
+[WARNING] ReadMaterialsUtility: WARNING:: The properties ID: 1 is already defined in model part FluidModelPart.Parts_Fluid. This will overwrite the existing values
+Read materials: Finished
+[WARNING] DEPRECATION-Warning; CheckAndPrepareModelProcessFluid: Construction from model part is deprecated. Please provide a 'Model' container and use full model part names. 
+TetrahedralMeshOrientationCheck: No inverted elements found
+No inverted conditions found
+NavierStokesMonolithicSolver: Model reading finished. 
+PartitionedFSIBaseSolver: Fluid fluid_positive FSI coupling interface created 
+PartitionedFSIBaseSolver: Coupling strategy construction finished 
+PartitionedFSIBaseSolver: Structure FSI coupling interface created 
+::[MechanicalSolver]:: : DOF's ADDED 
+::[ImplicitMechanicalSolver]:: : DOF's ADDED 
+NavierStokesMonolithicSolver: Fluid solver DOFs added correctly. 
+::[MeshSolverBase]:: DOFs ADDED.: 
+[WARNING] DEPRECATION-Warning; MappingApplication: The "MapperFactory" was moved to the Core! (used for "CreateMapper") 
+::[MechanicalSolver]:: : Initializing ... 
+Linear-Solver-Factory: Constructing a regular (non-complex) linear-solver 
+::[MechanicalSolver]:: : Finished initialization. 
+Linear-Solver-Factory: Constructing a regular (non-complex) linear-solver 
+NavierStokesMonolithicSolver: Solver initialization finished. 
+Linear-Solver-Factory: Constructing a regular (non-complex) linear-solver 
+::[MeshSolverBase]:: Finished initialization.: 
+beam: Analysis -START- 
+beam: STEP =  1 
+beam: TIME =  0.05 
+[WARNING] ResidualBasedBlockBuilderAndSolver: ATTENTION! setting the RHS to zero!
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.20910475381852e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.8021517307472404e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.198073125196437e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 3.08071588187014e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 4 iterations. 
+beam: STEP =  2 
+beam: TIME =  0.1 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.637292443975594e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.221070433548002e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.0121131398535632e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 4 |res|/sqrt(nDOFS) = 2.6282408626548774e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 4 iterations. 
+beam: STEP =  3 
+beam: TIME =  0.15000000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.4916740496785696e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.347375364823577e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.744697539619314e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  4 
+beam: TIME =  0.2 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.200002930169744e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.01468721831482e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 4.132625581184817e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  5 
+beam: TIME =  0.25 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.3272670237991083e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.4510717572136378e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.5644040670323406e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  6 
+beam: TIME =  0.3 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.027231312982526e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.923373580790875e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.5980680866196332e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  7 
+beam: TIME =  0.35 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.316608242379973e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.9574359107154297e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.2114452643183368e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  8 
+beam: TIME =  0.39999999999999997 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.231839482601122e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.3650497846479812e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.885033219907712e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  9 
+beam: TIME =  0.44999999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.489190457817262e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.416478962986475e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 5.1518849364198785e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  10 
+beam: TIME =  0.49999999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0382475763246852e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.853921764494065e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.166512211660585e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  11 
+beam: TIME =  0.5499999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1036858325054254e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 6.977849633836142e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.94507427171882e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  12 
+beam: TIME =  0.6 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1455889185805925e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.269161585177048e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.514357289207437e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  13 
+beam: TIME =  0.65 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.163266496290394e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.095696965411355e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.553019123518721e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  14 
+beam: TIME =  0.7000000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.156687962810986e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.1184827524222257e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.34066592279852e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  15 
+beam: TIME =  0.7500000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1259414206561352e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.260991921940773e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 6.799135476974478e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  16 
+beam: TIME =  0.8000000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.070808537521822e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.0008960308337314e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 5.930782686537379e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  17 
+beam: TIME =  0.8500000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.909311943555651e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.1937695827504602e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 4.9626943151941744e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  18 
+beam: TIME =  0.9000000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.867085611145653e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.1360087592561408e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.83826998936601e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  19 
+beam: TIME =  0.9500000000000003 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.59417650966909e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.455839442635644e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 2.7437809544075947e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  20 
+beam: TIME =  1.0000000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.113755886621466e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.517296726289611e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.826896742768724e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  21 
+beam: TIME =  1.0500000000000003 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.805828307297699e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.348378779089643e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.63446435576509e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  22 
+beam: TIME =  1.1000000000000003 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.457402219805331e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.578457616390393e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 7.621544812657673e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  23 
+beam: TIME =  1.1500000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.466804643457955e-06 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 6.82256510078577e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 1.920424783420167e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  24 
+beam: TIME =  1.2000000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.909608200779328e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 6.263812805007187e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 4.7368686089705745e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  25 
+beam: TIME =  1.2500000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.324257525226008e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.109064320118452e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.935950456797516e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  26 
+beam: TIME =  1.3000000000000005 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.618020618449539e-07 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.181792520160948e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 3 |res|/sqrt(nDOFS) = 3.564860092079751e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 3 iterations. 
+beam: STEP =  27 
+beam: TIME =  1.3500000000000005 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.154580004147851e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.7641912342811056e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  28 
+beam: TIME =  1.4000000000000006 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.7840367737728614e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.3413770731489303e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  29 
+beam: TIME =  1.4500000000000006 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.591655584830441e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.541594089171537e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  30 
+beam: TIME =  1.5000000000000007 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.535760925716759e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.1227750483111778e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  31 
+beam: TIME =  1.5500000000000007 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.3418543130335745e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.8108318653485083e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  32 
+beam: TIME =  1.6000000000000008 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.012550144740797e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.4408646589300613e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  33 
+beam: TIME =  1.6500000000000008 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.6973489486201646e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.980677569810585e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  34 
+beam: TIME =  1.7000000000000008 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.429115403773917e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.430732680191019e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  35 
+beam: TIME =  1.7500000000000009 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1904134483766377e-08 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.764580794005315e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  36 
+beam: TIME =  1.800000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.672093978870167e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.953227993873739e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  37 
+beam: TIME =  1.850000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.558684527247012e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.978837900152057e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  38 
+beam: TIME =  1.900000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.579247847437386e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.837504658113344e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  39 
+beam: TIME =  1.950000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.779733762582983e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.540584192193762e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  40 
+beam: TIME =  2.000000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.2815286963640967e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.1181428660676845e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  41 
+beam: TIME =  2.0500000000000007 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.5278141857434845e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.6271080690391344e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  42 
+beam: TIME =  2.1000000000000005 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.020296463886443e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.1695636571029393e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  43 
+beam: TIME =  2.1500000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.993651198552361e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.9127124502981366e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  44 
+beam: TIME =  2.2 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.964128481793783e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.0133843069224595e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  45 
+beam: TIME =  2.25 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.8324954623964825e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.4320011347311093e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  46 
+beam: TIME =  2.3 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.581365369190542e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.999575161618567e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  47 
+beam: TIME =  2.3499999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.211926518051334e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.586016845263995e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  48 
+beam: TIME =  2.3999999999999995 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.7291838245979246e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.118400680256586e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  49 
+beam: TIME =  2.4499999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.1377327025374435e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.5579345998808714e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  50 
+beam: TIME =  2.499999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.440915623044043e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.8860375815715944e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  51 
+beam: TIME =  2.549999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.641328319420296e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.0974739489228996e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  52 
+beam: TIME =  2.5999999999999988 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.741741551427185e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.1962916352244715e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  53 
+beam: TIME =  2.6499999999999986 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.745988232849474e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.192824282271689e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  54 
+beam: TIME =  2.6999999999999984 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.659554816751656e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.1012364692164666e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  55 
+beam: TIME =  2.7499999999999982 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.489814963773584e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.93750773029569e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  56 
+beam: TIME =  2.799999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.245935973091181e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.717861967260978e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  57 
+beam: TIME =  2.849999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.9385339610596724e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.4576461636501104e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  58 
+beam: TIME =  2.8999999999999977 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.5791878013590065e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.170612577571772e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  59 
+beam: TIME =  2.9499999999999975 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.179884997762279e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.868553382622124e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  60 
+beam: TIME =  2.9999999999999973 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.752496406520977e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.5611845371763194e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  61 
+beam: TIME =  3.049999999999997 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.308300159526318e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.2562183656412524e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  62 
+beam: TIME =  3.099999999999997 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.857617408545109e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.959538305920773e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  63 
+beam: TIME =  3.149999999999997 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.40954207254564e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.6754350138703485e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  64 
+beam: TIME =  3.1999999999999966 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.97178726490751e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.4068593381504138e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  65 
+beam: TIME =  3.2499999999999964 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.550626593321496e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.1556618243050076e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  66 
+beam: TIME =  3.2999999999999963 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.150911817326338e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.9228261441032277e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  67 
+beam: TIME =  3.349999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.7761629079231434e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.708660569843837e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  68 
+beam: TIME =  3.399999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.4286917018147767e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.5129688073152523e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  69 
+beam: TIME =  3.4499999999999957 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.109757778186489e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.3351884171159088e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  70 
+beam: TIME =  3.4999999999999956 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.8197369520856584e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.1745028263372761e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  71 
+beam: TIME =  3.5499999999999954 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.5582838349451548e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.029931465888266e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  72 
+beam: TIME =  3.599999999999995 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.3244923635656878e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.003972399207152e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  73 
+beam: TIME =  3.649999999999995 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1170403971363388e-09 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.847792882981007e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  74 
+beam: TIME =  3.699999999999995 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.34313935256993e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 6.819497757239144e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  75 
+beam: TIME =  3.7499999999999947 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.745180643943505e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.97828975860165e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  76 
+beam: TIME =  3.7999999999999945 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.359686010852528e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.159997417138925e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  77 
+beam: TIME =  3.8499999999999943 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.161811575830258e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.4448432152676576e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  78 
+beam: TIME =  3.899999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.1388516841251606e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.811989253538737e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  79 
+beam: TIME =  3.949999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.2709042458759105e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.2582861944425665e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  80 
+beam: TIME =  3.999999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.5422322467577495e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.775330400067948e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  81 
+beam: TIME =  4.049999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.9386983525925023e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.3554572415071874e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  82 
+beam: TIME =  4.099999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.4492826618499212e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.991555179893673e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  83 
+beam: TIME =  4.149999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0673124597623918e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.6771948558733701e-12 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  84 
+beam: TIME =  4.199999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.924495561186392e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  85 
+beam: TIME =  4.249999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.875708136519395e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  86 
+beam: TIME =  4.299999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.974607853090382e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  87 
+beam: TIME =  4.3499999999999925 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.008577246027828e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  88 
+beam: TIME =  4.399999999999992 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.6888570518783176e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  89 
+beam: TIME =  4.449999999999992 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0026555973306083e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.23712488838122e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  90 
+beam: TIME =  4.499999999999992 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.182763990788459e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  91 
+beam: TIME =  4.549999999999992 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.9174851349153575e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  92 
+beam: TIME =  4.599999999999992 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0122875928732083e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.386102194965497e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  93 
+beam: TIME =  4.6499999999999915 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.69887583950569e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  94 
+beam: TIME =  4.699999999999991 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.840417193428062e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  95 
+beam: TIME =  4.749999999999991 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.3760402286788325e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.800749985006062e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  96 
+beam: TIME =  4.799999999999991 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.5997420435213244e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  97 
+beam: TIME =  4.849999999999991 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.6621551379661206e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  98 
+beam: TIME =  4.899999999999991 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.655008718870777e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  99 
+beam: TIME =  4.94999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.512140877749458e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  100 
+beam: TIME =  4.99999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0637197382040415e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.163419997935365e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  101 
+beam: TIME =  5.04999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.2454317785094194e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  102 
+beam: TIME =  5.09999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.216356314635937e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  103 
+beam: TIME =  5.14999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.998274110102063e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  104 
+beam: TIME =  5.1999999999999895 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.77098020386372e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  105 
+beam: TIME =  5.249999999999989 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0386356196173021e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.2731945820120302e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  106 
+beam: TIME =  5.299999999999989 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.8321775293375763e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  107 
+beam: TIME =  5.349999999999989 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.883494190652715e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  108 
+beam: TIME =  5.399999999999989 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.4026018849881e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  109 
+beam: TIME =  5.449999999999989 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.7404948693196516e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  110 
+beam: TIME =  5.4999999999999885 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.9859353997272105e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  111 
+beam: TIME =  5.549999999999988 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.5135823942470092e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  112 
+beam: TIME =  5.599999999999988 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.347691141034056e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  113 
+beam: TIME =  5.649999999999988 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.4704084432393857e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  114 
+beam: TIME =  5.699999999999988 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.408537775404802e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  115 
+beam: TIME =  5.749999999999988 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.4202682251358105e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  116 
+beam: TIME =  5.799999999999987 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.429969323984146e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  117 
+beam: TIME =  5.849999999999987 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.502487832609005e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  118 
+beam: TIME =  5.899999999999987 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.2292769034716737e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.1717400174168735e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  119 
+beam: TIME =  5.949999999999987 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.143415856748856e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  120 
+beam: TIME =  5.999999999999987 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.324439287705998e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  121 
+beam: TIME =  6.0499999999999865 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.030358181165527e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  122 
+beam: TIME =  6.099999999999986 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1618595873766621e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.0464453615882268e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  123 
+beam: TIME =  6.149999999999986 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.160131392346961e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  124 
+beam: TIME =  6.199999999999986 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.56408604900717e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  125 
+beam: TIME =  6.249999999999986 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.028466140760544e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  126 
+beam: TIME =  6.299999999999986 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0767373702593951e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.92287099790805e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  127 
+beam: TIME =  6.349999999999985 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.147949919466797e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  128 
+beam: TIME =  6.399999999999985 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.217420492410019e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  129 
+beam: TIME =  6.449999999999985 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.1779924355864995e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  130 
+beam: TIME =  6.499999999999985 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0320139526113771e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.933260086463674e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  131 
+beam: TIME =  6.549999999999985 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.37117081157057e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  132 
+beam: TIME =  6.5999999999999845 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.157904105243929e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  133 
+beam: TIME =  6.649999999999984 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.580389292327606e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  134 
+beam: TIME =  6.699999999999984 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0369721384121712e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.0616847404195743e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  135 
+beam: TIME =  6.749999999999984 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.882222395442772e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  136 
+beam: TIME =  6.799999999999984 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.417380910454227e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  137 
+beam: TIME =  6.849999999999984 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.3181733436979545e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  138 
+beam: TIME =  6.8999999999999835 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.098391977401551e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.1901264856882833e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  139 
+beam: TIME =  6.949999999999983 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.770301744148091e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  140 
+beam: TIME =  6.999999999999983 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.062964924840494e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  141 
+beam: TIME =  7.049999999999983 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.503726168424042e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  142 
+beam: TIME =  7.099999999999983 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.229416689551344e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.3354264182204807e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  143 
+beam: TIME =  7.149999999999983 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.161756051843352e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  144 
+beam: TIME =  7.199999999999982 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.198914600646627e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  145 
+beam: TIME =  7.249999999999982 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.292614573007445e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  146 
+beam: TIME =  7.299999999999982 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.45010868606671e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.478953145832441e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  147 
+beam: TIME =  7.349999999999982 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.23210920976196e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  148 
+beam: TIME =  7.399999999999982 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.977340661051153e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  149 
+beam: TIME =  7.4499999999999815 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0899927185599453e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.3281532836080495e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  150 
+beam: TIME =  7.499999999999981 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.245382314060252e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.391058579065974e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  151 
+beam: TIME =  7.549999999999981 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.136196318625505e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  152 
+beam: TIME =  7.599999999999981 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.557775243174316e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  153 
+beam: TIME =  7.649999999999981 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.4839070582706386e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  154 
+beam: TIME =  7.699999999999981 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.349028406017415e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  155 
+beam: TIME =  7.7499999999999805 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.098508234645588e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  156 
+beam: TIME =  7.79999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1557844580896757e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.5219859303215608e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  157 
+beam: TIME =  7.84999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.81230903336948e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  158 
+beam: TIME =  7.89999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.57003907262811e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  159 
+beam: TIME =  7.94999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.353634130506423e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  160 
+beam: TIME =  7.99999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.5230004822350168e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.4828267116861053e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  161 
+beam: TIME =  8.04999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0560498439167753e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.422513899574023e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  162 
+beam: TIME =  8.09999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.5325778993474764e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  163 
+beam: TIME =  8.14999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.2055623508952194e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  164 
+beam: TIME =  8.199999999999982 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.6969093967014524e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  165 
+beam: TIME =  8.249999999999982 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.20926614579343e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  166 
+beam: TIME =  8.299999999999983 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.445625795927539e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  167 
+beam: TIME =  8.349999999999984 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.09959736391811e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.334996422772833e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  168 
+beam: TIME =  8.399999999999984 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0810409525723237e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 1.0186108077962847e-13 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  169 
+beam: TIME =  8.449999999999985 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.82676062748439e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  170 
+beam: TIME =  8.499999999999986 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.080925040626625e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  171 
+beam: TIME =  8.549999999999986 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 3.394273987966489e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  172 
+beam: TIME =  8.599999999999987 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.462263667179882e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  173 
+beam: TIME =  8.649999999999988 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.703051209139705e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  174 
+beam: TIME =  8.699999999999989 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0338777298563709e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.721009929238941e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  175 
+beam: TIME =  8.74999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.413958607297369e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  176 
+beam: TIME =  8.79999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.778299344681801e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  177 
+beam: TIME =  8.84999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.951916337902075e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  178 
+beam: TIME =  8.899999999999991 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.3974225733278296e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.845586046294119e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  179 
+beam: TIME =  8.949999999999992 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0133699581839769e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.422307197991204e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  180 
+beam: TIME =  8.999999999999993 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.997089948065937e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  181 
+beam: TIME =  9.049999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.2270902182538293e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  182 
+beam: TIME =  9.099999999999994 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.0728951105857706e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  183 
+beam: TIME =  9.149999999999995 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.963597214649612e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  184 
+beam: TIME =  9.199999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.583568150190307e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  185 
+beam: TIME =  9.249999999999996 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0399923244582087e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.29411310999784e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  186 
+beam: TIME =  9.299999999999997 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.793540578829341e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  187 
+beam: TIME =  9.349999999999998 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.515321068881614e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  188 
+beam: TIME =  9.399999999999999 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.223880905537702e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 6.578283667946841e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  189 
+beam: TIME =  9.45 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0071350128105632e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.3758788775532726e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  190 
+beam: TIME =  9.5 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.068107718642518e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  191 
+beam: TIME =  9.55 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.3188378747237497e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  192 
+beam: TIME =  9.600000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.031437971616084e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  193 
+beam: TIME =  9.650000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.184870004413679e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  194 
+beam: TIME =  9.700000000000003 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.591760478902037e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  195 
+beam: TIME =  9.750000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0666990814601232e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.5402648802311382e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  196 
+beam: TIME =  9.800000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.793938146922798e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  197 
+beam: TIME =  9.850000000000005 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.662235714036781e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  198 
+beam: TIME =  9.900000000000006 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.2205685965644347e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 5.13231291366438e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  199 
+beam: TIME =  9.950000000000006 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0280881928517398e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.202960202103596e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  200 
+beam: TIME =  10.000000000000007 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 5.02768209964918e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  201 
+beam: TIME =  10.050000000000008 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.4149610531883567e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  202 
+beam: TIME =  10.100000000000009 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.949548088542181e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  203 
+beam: TIME =  10.15000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.298609369021302e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  204 
+beam: TIME =  10.20000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.53388747291874e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  205 
+beam: TIME =  10.25000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0787606319214683e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.5507496351423715e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  206 
+beam: TIME =  10.300000000000011 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.708119988738186e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  207 
+beam: TIME =  10.350000000000012 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.702769184961046e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  208 
+beam: TIME =  10.400000000000013 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.207190623536814e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.3524240880126275e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  209 
+beam: TIME =  10.450000000000014 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.035686709936485e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.6315893967816633e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  210 
+beam: TIME =  10.500000000000014 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.953947410160937e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  211 
+beam: TIME =  10.550000000000015 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.4689221262855478e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  212 
+beam: TIME =  10.600000000000016 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.842369600770832e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  213 
+beam: TIME =  10.650000000000016 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.33178393691378e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  214 
+beam: TIME =  10.700000000000017 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.414480028957834e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  215 
+beam: TIME =  10.750000000000018 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0785871650561419e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.670906404787044e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  216 
+beam: TIME =  10.800000000000018 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.555769950351347e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  217 
+beam: TIME =  10.85000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.654639655633534e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  218 
+beam: TIME =  10.90000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1859837984942098e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.922754354795565e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  219 
+beam: TIME =  10.95000000000002 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.032198721900992e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.3412249879687226e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  220 
+beam: TIME =  11.000000000000021 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.85374781472018e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  221 
+beam: TIME =  11.050000000000022 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.4871314810246994e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  222 
+beam: TIME =  11.100000000000023 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.716970971386834e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  223 
+beam: TIME =  11.150000000000023 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.298752654063263e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  224 
+beam: TIME =  11.200000000000024 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.247482427588184e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  225 
+beam: TIME =  11.250000000000025 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0685155693323709e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.7412482578003754e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  226 
+beam: TIME =  11.300000000000026 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.353200184193043e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  227 
+beam: TIME =  11.350000000000026 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.537414908291109e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  228 
+beam: TIME =  11.400000000000027 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1590488892335198e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.649202495924203e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  229 
+beam: TIME =  11.450000000000028 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0199354954506242e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.1655809007649562e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  230 
+beam: TIME =  11.500000000000028 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.734181094819342e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  231 
+beam: TIME =  11.55000000000003 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.476939533662086e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  232 
+beam: TIME =  11.60000000000003 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.579805421025253e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  233 
+beam: TIME =  11.65000000000003 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.214495583201545e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  234 
+beam: TIME =  11.700000000000031 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.046367678895416e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  235 
+beam: TIME =  11.750000000000032 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0509125911436729e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.7646414642717464e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  236 
+beam: TIME =  11.800000000000033 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.115441948130935e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  237 
+beam: TIME =  11.850000000000033 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.369387459748421e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  238 
+beam: TIME =  11.900000000000034 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1282278390931485e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.4414562849309285e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  239 
+beam: TIME =  11.950000000000035 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0011338659792732e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.039306027525475e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  240 
+beam: TIME =  12.000000000000036 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.6016473054812864e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  241 
+beam: TIME =  12.050000000000036 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.44533588283026e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  242 
+beam: TIME =  12.100000000000037 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.436028973664655e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  243 
+beam: TIME =  12.150000000000038 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.092762385131877e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  244 
+beam: TIME =  12.200000000000038 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.822623166798634e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  245 
+beam: TIME =  12.250000000000039 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0279009293864429e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.757340199598899e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  246 
+beam: TIME =  12.30000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.854914364228298e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  247 
+beam: TIME =  12.35000000000004 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.166038205944618e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  248 
+beam: TIME =  12.400000000000041 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.094983987328197e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.263298331578504e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  249 
+beam: TIME =  12.450000000000042 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.777309760898984e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  250 
+beam: TIME =  12.500000000000043 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.299029129514743e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  251 
+beam: TIME =  12.550000000000043 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1985291091794563e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.1492818691471367e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  252 
+beam: TIME =  12.600000000000044 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1161010162463946e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.514233069340091e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  253 
+beam: TIME =  12.650000000000045 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.913526229710575e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  254 
+beam: TIME =  12.700000000000045 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.8099732441868247e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  255 
+beam: TIME =  12.750000000000046 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.659549300326867e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  256 
+beam: TIME =  12.800000000000047 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.794229600966967e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  257 
+beam: TIME =  12.850000000000048 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.385358753560447e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  258 
+beam: TIME =  12.900000000000048 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1355484906457923e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.14110748732183e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  259 
+beam: TIME =  12.950000000000049 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.45860844135151e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  260 
+beam: TIME =  13.00000000000005 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.916775902681573e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  261 
+beam: TIME =  13.05000000000005 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1657250210368112e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.144404893909807e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  262 
+beam: TIME =  13.100000000000051 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0729703939129779e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.354896096710495e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  263 
+beam: TIME =  13.150000000000052 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.720495228390029e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  264 
+beam: TIME =  13.200000000000053 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.68340546588879e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  265 
+beam: TIME =  13.250000000000053 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.484936183748211e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  266 
+beam: TIME =  13.300000000000054 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.504582160701518e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  267 
+beam: TIME =  13.350000000000055 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.057636758535781e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  268 
+beam: TIME =  13.400000000000055 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0882614012289278e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.855589647418538e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  269 
+beam: TIME =  13.450000000000056 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.091702784646279e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  270 
+beam: TIME =  13.500000000000057 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.554291065925533e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  271 
+beam: TIME =  13.550000000000058 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1209804543314524e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.0556653374598415e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  272 
+beam: TIME =  13.600000000000058 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0289560124175425e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.216536753678001e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  273 
+beam: TIME =  13.650000000000059 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.541313945440112e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  274 
+beam: TIME =  13.70000000000006 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.568540233616862e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  275 
+beam: TIME =  13.75000000000006 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.3198751869630074e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  276 
+beam: TIME =  13.800000000000061 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.239759324538549e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  277 
+beam: TIME =  13.850000000000062 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.750985202726763e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  278 
+beam: TIME =  13.900000000000063 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0447464594350811e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.58157062256092e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  279 
+beam: TIME =  13.950000000000063 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.747860178963281e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  280 
+beam: TIME =  14.000000000000064 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.218622606999152e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  281 
+beam: TIME =  14.050000000000065 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0789254367200312e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 2.96554086206822e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  282 
+beam: TIME =  14.100000000000065 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.882950589938477e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  283 
+beam: TIME =  14.150000000000066 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.269440959208077e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  284 
+beam: TIME =  14.200000000000067 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.2165832302132843e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.173018077961644e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  285 
+beam: TIME =  14.250000000000068 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.108701562858278e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.882493115283124e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  286 
+beam: TIME =  14.300000000000068 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.9959547636272786e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  287 
+beam: TIME =  14.350000000000069 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.7488186989510526e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  288 
+beam: TIME =  14.40000000000007 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.778607990333549e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  289 
+beam: TIME =  14.45000000000007 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.759721319988521e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  290 
+beam: TIME =  14.500000000000071 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.516759190870949e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  291 
+beam: TIME =  14.550000000000072 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1356080889632006e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 3.245525580493312e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  292 
+beam: TIME =  14.600000000000072 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.628026583259224e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  293 
+beam: TIME =  14.650000000000073 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.979788998542814e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  294 
+beam: TIME =  14.700000000000074 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1904204390022018e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.974497682142966e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  295 
+beam: TIME =  14.750000000000075 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0777840562270322e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.6738431138501814e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  296 
+beam: TIME =  14.800000000000075 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.825220294451492e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  297 
+beam: TIME =  14.850000000000076 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.6626209114472496e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  298 
+beam: TIME =  14.900000000000077 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.6140235281975235e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  299 
+beam: TIME =  14.950000000000077 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.539080738627375e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  300 
+beam: TIME =  15.000000000000078 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.228579757348863e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  301 
+beam: TIME =  15.050000000000079 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0987320693945543e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.232011451462622e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  302 
+beam: TIME =  15.10000000000008 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.298286608537063e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  303 
+beam: TIME =  15.15000000000008 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.675435301652833e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  304 
+beam: TIME =  15.200000000000081 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1491132326868138e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.68394175092319e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  305 
+beam: TIME =  15.250000000000082 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0414809098137741e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.498828565687162e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  306 
+beam: TIME =  15.300000000000082 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.657485541851465e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  307 
+beam: TIME =  15.350000000000083 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.5745534334231967e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  308 
+beam: TIME =  15.400000000000084 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.451711172781493e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  309 
+beam: TIME =  15.450000000000085 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.318030391931005e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  310 
+beam: TIME =  15.500000000000085 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.94263275098961e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  311 
+beam: TIME =  15.550000000000086 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0613020066838733e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.933917840703793e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  312 
+beam: TIME =  15.600000000000087 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.974392304827406e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  313 
+beam: TIME =  15.650000000000087 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.377565416323066e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  314 
+beam: TIME =  15.700000000000088 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1089640370387079e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.396054933275117e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  315 
+beam: TIME =  15.750000000000089 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0058260716649891e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.33081854238055e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  316 
+beam: TIME =  15.80000000000009 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.494203446231767e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  317 
+beam: TIME =  15.85000000000009 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.4876671361815847e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  318 
+beam: TIME =  15.900000000000091 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.294270348993068e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  319 
+beam: TIME =  15.950000000000092 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.101186419467092e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  320 
+beam: TIME =  16.000000000000092 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 7.664343640079964e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  321 
+beam: TIME =  16.050000000000093 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0246667745716954e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.646010401880121e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  322 
+beam: TIME =  16.100000000000094 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.659367923471333e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  323 
+beam: TIME =  16.150000000000095 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.08666972770921e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  324 
+beam: TIME =  16.200000000000095 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0699472012147656e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.113118674370926e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  325 
+beam: TIME =  16.250000000000096 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.709777730106607e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  326 
+beam: TIME =  16.300000000000097 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.148169737053443e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  327 
+beam: TIME =  16.350000000000097 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.193657284749028e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 9.176665043560336e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  328 
+beam: TIME =  16.400000000000098 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0953829860269358e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.671272508117025e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  329 
+beam: TIME =  16.4500000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.8965204739033846e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  330 
+beam: TIME =  16.5000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.7283805803192964e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  331 
+beam: TIME =  16.5500000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.6693408878866184e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  332 
+beam: TIME =  16.6000000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.672529049100052e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  333 
+beam: TIME =  16.6500000000001 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.348647500354855e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  334 
+beam: TIME =  16.700000000000102 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1193648972552346e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.261050251035155e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  335 
+beam: TIME =  16.750000000000103 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.429212276909798e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  336 
+beam: TIME =  16.800000000000104 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.823907689171962e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  337 
+beam: TIME =  16.850000000000104 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.1645305282870668e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.91448641748957e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  338 
+beam: TIME =  16.900000000000105 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.059961281587616e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.480382613331447e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  339 
+beam: TIME =  16.950000000000106 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.716614098587049e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  340 
+beam: TIME =  17.000000000000107 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.627847758722899e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  341 
+beam: TIME =  17.050000000000107 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.499700646171634e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  342 
+beam: TIME =  17.100000000000108 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 6.426675061520222e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  343 
+beam: TIME =  17.15000000000011 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.044287342953501e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  344 
+beam: TIME =  17.20000000000011 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0782635416058174e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 7.964904190302137e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  345 
+beam: TIME =  17.25000000000011 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 9.085559884146878e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  346 
+beam: TIME =  17.30000000000011 
+PartitionedFSIBaseSolver{
+  "kratos_version": "10.3.\"0\"-Release-10.3.0-14ee273e-Release-x86_64",
+  "python": "3.11.18",
+  "host": "etsmartsim",
+  "cpu": "Intel(R) Core(TM) i9-10900X CPU @ 3.70GHz",
+  "omp_num_threads_env": "8",
+  "kratos_threads": 8,
+  "parameters_file": "ProjectParameters.json",
+  "scheme": "euler",
+  "end_time": 20.0,
+  "stop_reason": "steady at t = 17.55 s (change over 1.0 s: u_x 9.73e-07, F_x 9.65e-07)",
+  "wall_total_s": 136730.406,
+  "wall_solution_loop_s": 136685.88
+}
+: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 8.500810113218983e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  347 
+beam: TIME =  17.35000000000011 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.122139600446869e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 8.58327913882715e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  348 
+beam: TIME =  17.400000000000112 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 1.0211068608905352e-10 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 2 |res|/sqrt(nDOFS) = 4.322243553879508e-14 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 2 iterations. 
+beam: STEP =  349 
+beam: TIME =  17.450000000000113 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.5451253729204004e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  350 
+beam: TIME =  17.500000000000114 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 2.531078763704365e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: STEP =  351 
+beam: TIME =  17.550000000000114 
+PartitionedFSIBaseSolver: FSI non-linear iteration = 1 |res|/sqrt(nDOFS) = 4.3366092228972926e-11 
+PartitionedFSIBaseSolver: FSI non-linear iteration convergence achieved in 1 iterations. 
+beam: Analysis -END-  
+Deregistering KratosMultiphysics
+Deregistering FSIApplication
+Deregistering FluidDynamicsApplication
+Deregistering StructuralMechanicsApplication
+Deregistering MeshMovingApplication
+Deregistering LinearSolversApplication
+Deregistering MappingApplication
