@@ -175,6 +175,7 @@ The solver paper (paper-monolithic-fsi) keeps a matching register for the quasi-
 Set-up details that cost time because the tutorial or its reference did not say them:
 
 - **Cavity force depth:** the published forces are for a 0.05 m depth, and the tutorial is 1 m deep.
+- **Cavity inflow profile:** parabolic, with a peak of 1.5 m/s (mean 1 m/s). Neither the tutorial README nor, until 2026-11-23, the paper stated it, so an independent COMSOL solution used a uniform inflow of the same mean and came out about 2 % high in both u_y and F_y (pfv#88).
 - **Cavity plate law:** the Tuković et al. plate law is not confirmed; it may be neo-Hookean rather than StVK.
 - **collapsibleChannel:** needs the Poiseuille initial flow (`setPoiseuilleFlow`). The oomph-lib reference is first order in `--refine`.
 - **FSI3:** ring+box meshes as in entry 10. `linearUpwind grad(U)` convection and the coupling tolerances of the shared set-up.
