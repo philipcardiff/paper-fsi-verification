@@ -1,0 +1,43 @@
+/* solids4foam source tree the libraries are built against: by default the
+   WM_PROJECT_USER_DIR of the environment; override with SOLIDS4FOAM_ROOT */
+SOLIDS4FOAM_ROOT ?= $(WM_PROJECT_USER_DIR)
+
+sinclude $(SOLIDS4FOAM_ROOT)/etc/wmake-options
+
+ifdef PETSC_DIR
+    include $(GENERAL_RULES)/mpi-rules
+    VERSION_SPECIFIC_INC += \
+        $(PINC) -I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include \
+        -DUSE_PETSC
+endif
+
+EXE_INC = \
+    -O1 \
+    -Wno-old-style-cast -Wno-deprecated-declarations -Wno-unused-variable \
+    $(VERSION_SPECIFIC_INC) \
+    -I../../../derive/generated \
+    -I$(SOLIDS4FOAM_ROOT)/src/solids4FoamModels/lnInclude \
+    -I$(SOLIDS4FOAM_ROOT)/src/solids4FoamModels/numerics/compatibilityFunctions \
+    -I$(SOLIDS4FOAM_ROOT)/src/blockCoupledSolids4FoamTools/lnInclude \
+    -I$(SOLIDS4FOAM_ROOT)/ThirdParty/eigen3 \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/dynamicFvMesh/lnInclude \
+    -I$(LIB_SRC)/fvMotionSolver/lnInclude \
+    -I$(LIB_SRC)/sampling/lnInclude \
+    -I$(LIB_SRC)/fvOptions/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/dynamicMesh/lnInclude \
+    -I$(LIB_SRC)/dynamicFvMesh/lnInclude
+
+LIB_LIBS = \
+    -lfiniteVolume \
+    -lfvOptions \
+    -lmeshTools \
+    -L$(FOAM_USER_LIBBIN) \
+    -L$(SOLIDS4FOAM_ROOT)/platforms/$(WM_OPTIONS)/lib \
+    -lsolids4FoamModels

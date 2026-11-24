@@ -1,0 +1,9 @@
+mmsFsiSource.C
+mmsFsiFvPatchFields.C
+mmsFsiVelocityCorrectedFvPatchVectorField.C
+mmsFsiSolidFvPatchFields.C
+mmsFsiSolidTractionFvPatchVectorField.C
+mmsFsiPressureOracleFvPatchScalarField.C
+mmsFsiErrorsFunctionObject.C
+
+LIB = $(FOAM_USER_LIBBIN)/libmmsFsiMu10

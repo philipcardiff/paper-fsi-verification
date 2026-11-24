@@ -1,0 +1,205 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Manufactured FSI solution: construction, boundary data and checks.
+% LaTeX-ready text for the verification paper (subsection + appendix).
+% Notation of sectionMathModel.tex: v_F, D_S, sigma_S, P_S, p_F (kinematic),
+% nu = mu_F/rho_F, OpenFOAM gradient convention (grad a)_ij = d a_j/d x_i,
+% F = I + (grad_0 D_S)^T. Uses \bb (= \boldsymbol) from article.tex.
+% Source of every formula: derive/mms_fsi.py (sympy/symengine), with the
+% checks in derive/generated*.derive.log and derive/generated*.check.log.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{A manufactured solution for ALE fluid--structure interaction}
+\label{sec:mmsc}
+
+The manufactured solution couples a two-dimensional channel flow to a compliant, finite-strain wall.
+It is closed form, starts from rest, and satisfies both interface conditions~\eqref{eqn:kinematic_interface} exactly, so that the coupling is tested without an interface source term.
+The fluid occupies $0 < x < L$, $0 < y < h(x,t)$, with an inlet at $x = 0$, an outlet at $x = L$, a no-slip wall at $y = 0$ and the interface $y = h(x,t)$.
+The solid occupies $0 < X < L$, $H < Y < H + T$ in its initial configuration, with the interface at $Y = H$, a clamped top at $Y = H + T$, and ends at $X = 0$ and $X = L$.
+The parameters are $L = 2$, $H = 1$, $T = 1/2$; $\rho_F = 1$, $\mu_F = 1/100$; $\rho_{S,0} = 1$, $E_S = 10$, $\nu_S = 3/10$; and the period is $1$, $\omega = 2\pi$.
+The density ratio is one, so added-mass effects are strong.
+The motion is built from the time factors
+\begin{equation}
+  r(t) = \tfrac{1}{2}\left(1 - \cos\omega t\right), \qquad r_2(t) = \sin^2\omega t,
+  \label{eq:mmsc_r}
+\end{equation}
+which vanish with their first derivatives at $t = 0$.
+The displacement, the velocities and the pressure are therefore zero initially (the sources are not), and the calculation starts from rest on an undeformed mesh.
+
+\paragraph{Interface motion, built from the solid side.}
+The kinematic condition holds at the current position of each material interface point, $\bb{x}^\Gamma(X,t) = (x^\Gamma, y^\Gamma)$, whereas the fluid is written in Eulerian coordinates.
+The construction therefore starts from the solid, and uses an interface parametrisation $X \mapsto x^\Gamma$ with a closed-form inverse.
+The tangential motion is a M\"obius map of $[0,L]$ onto itself,
+\begin{equation}
+  x^\Gamma(X,t) = \frac{L\,q}{q + \kappa(1-q)}, \qquad
+  \Xi(x,t) = \frac{L\,\kappa\,\hat{x}}{1 - \hat{x} + \kappa\,\hat{x}}, \qquad
+  q = \frac{X}{L}, \quad \hat{x} = \frac{x}{L}, \quad \kappa(t) = 1 + \tfrac{1}{10}\,r_2(t),
+  \label{eq:mmsc_mobius}
+\end{equation}
+where $\Xi$ is the inverse, $\Xi(x^\Gamma(X,t),t) = X$.
+It fixes both end points and stretches the interface tangentially by up to $10\%$.
+The normal motion is prescribed in Eulerian form, as the channel height
+\begin{equation}
+  h(x,t) = H + \hat\eta(x,t), \qquad
+  \hat\eta = \tfrac{1}{10}\,\sin^2\!\left(\frac{\pi x}{L}\right) r(t)\left[1 + \tfrac{1}{2}\sin\!\left(\frac{2\pi x}{L} - \omega t\right)\right],
+  \label{eq:mmsc_h}
+\end{equation}
+a pulsing wave with a travelling part.
+The interface displacement is $\xi = x^\Gamma - X$ tangentially and $\eta(X,t) = \hat\eta(x^\Gamma(X,t),t)$ normally.
+Prescribing $h$ in Eulerian rather than Lagrangian form keeps the swept area $\int h\,\mathrm{d}x$, which the fluid flux needs, elementary.
+The factor $\sin^2(\pi x/L)$ makes $\hat\eta$ and its slope vanish at the ends, where the solid is clamped.
+In the \emph{flat} variant the interface stays flat, $\hat\eta = \tfrac{1}{10}\,r(t)\left[1 + \tfrac12\sin\omega t\right]$ and $\kappa = 1$, so that the fluid mesh stays orthogonal at the interface; the solid ends then carry the exact displacement instead of a clamp, and the other definitions are unchanged.
+
+\paragraph{Solid displacement and the shear identity.}
+With $\hat{y} = (Y - H)/T$ and $g = (1 - \hat{y})(1 + \tfrac14\hat{y})$,
+\begin{equation}
+  D_{S,x} = \xi\,g + (Y - H)(1 - \hat{y})^2\,(m_0 + m_1), \qquad
+  D_{S,y} = \eta\,g .
+  \label{eq:mmsc_DS}
+\end{equation}
+$\bb{D}_S$ vanishes on the top and, in the full variant, on both ends, so that the interface is then the only solid boundary with non-zero data.
+The stress is the compressible neo-Hookean law of solids4foam (\texttt{neoHookeanElastic}) in plane strain ($F_{zz} = 1$),
+\begin{equation}
+  \bb{\sigma}_S = \frac{\mu_S}{J}\,\mathrm{dev}\!\left(J^{-2/3}\bb{F}\bb{F}^T\right) + \frac{K_S}{2}\,\frac{J^2 - 1}{J}\,\bb{I},
+  \qquad K_S = \lambda_S + \tfrac{2}{3}\mu_S ,
+  \label{eq:mmsc_law}
+\end{equation}
+with $J = \det\bb{F}$, the three-dimensional deviator $\mathrm{dev}\,\bb{A} = \bb{A} - \tfrac13(\mathrm{tr}\,\bb{A})\bb{I}$, and the Lam\'e parameters $\mu_S = E_S/(2(1+\nu_S))$ and $\lambda_S = \nu_S E_S/((1+\nu_S)(1-2\nu_S))$.
+For an arbitrary displacement the interface shear traction is of order $\mu_S$ times the strain; balancing it with $\mu_F = 10^{-2}$ would need unphysically large fluid shear rates.
+For the law~\eqref{eq:mmsc_law}, the volumetric and the isotropic terms give no shear, and the deformed normal is parallel to $\bb{F}^{-T}\bb{N}$, with $|\bb{F}^{-T}\bb{N}| = |\bb{a}|/J$ in two dimensions.
+The shear traction on the interface is therefore
+\begin{equation}
+  \bb{\tau}\cdot\bb{\sigma}_S\cdot\hat{\bb{n}} = \pm\,\mu_S\,J^{-2/3}\,\frac{\bb{a}\cdot\bb{b}}{|\bb{a}|^2},
+  \qquad
+  \bb{a} = \frac{\partial\bb{x}}{\partial X}, \quad \bb{b} = \frac{\partial\bb{x}}{\partial Y},
+  \label{eq:mmsc_shear}
+\end{equation}
+where $\bb{\tau} = \bb{a}/|\bb{a}|$ is the unit tangent and $\hat{\bb{n}} = \hat{\bb{n}}_F$ (with the solid normal $\hat{\bb{n}}_S$ the sign is reversed).
+The shear vanishes when the deformed material fibre $\bb{b}$ is orthogonal to the deformed interface.
+On $Y = H$, $\bb{a} = (1 + \xi_{,X},\ \eta_{,X})$ and $\bb{b} = (\xi g_0' + m_0 + m_1,\ 1 + \eta g_0')$, with $g_0' = g'(H) = -3/(4T)$.
+The choice
+\begin{equation}
+  m_0 = -\frac{\eta_{,X}\left(1 + \eta\,g_0'\right)}{1 + \xi_{,X}} - \xi\,g_0', \qquad
+  m_1 = \tfrac{1}{50}\,\sin\!\left(\frac{2\pi X}{L}\right) r(t)
+  \label{eq:mmsc_m}
+\end{equation}
+makes $\bb{a}\cdot\bb{b} = 0$ for $m_1 = 0$.
+$m_1$ then adds a small, smooth shear of known size: at most $0.08$ in magnitude, against a normal traction of up to $3.0$ (maxima over a $401\times401$ grid in $X$ and $t$).
+Over a sampling grid the solid reaches a Green--Lagrange strain (Frobenius norm) of $0.26$, a rotation of $0.23$\,rad and $0.69 \le J \le 1.09$.
+
+\paragraph{Divergence-free fluid velocity.}
+The fluid velocity is the curl of a stream function in the stretched coordinate $s = y/h(x,t)$,
+\begin{equation}
+  \bb{v}_F = \left(\frac{\partial\psi}{\partial y},\, -\frac{\partial\psi}{\partial x}\right), \qquad
+  \psi = Q\,B(s) + h\,V_x\,C(s) + s^2(1-s)^2\,\Phi(x,t) + s^2(1-s)^3\,\Omega(x,s,t),
+  \label{eq:mmsc_psi}
+\end{equation}
+so that $\bb{\nabla}\cdot\bb{v}_F = 0$ identically and no mass source is needed.
+Here $\bb{V}(x,t) = \partial\bb{D}_S/\partial t\,(\Xi(x,t), H, t)$ is the interface velocity at the Eulerian abscissa, and $B = 3s^2 - 2s^3$ and $C = s^3 - s^2$ are Hermite functions.
+Every term vanishes with its $s$-derivative at $s = 0$ (no slip).
+At $s = 1$, $\psi = Q$ and $\partial\psi/\partial y = V_x$, and $v_{F,y} = -Q_{,x} + h_{,x}V_x$.
+With $Q_{,x} = -h_{,t}$ this is $h_{,t} + h_{,x}V_x = V_y$, the rate of change of the height following the sliding interface point, so $\bb{v}_F = \bb{V}$ on the interface.
+The flux
+\begin{equation}
+  Q(x,t) = r(t) + \frac{\partial}{\partial t}\int_x^L \hat\eta(x',t)\,\mathrm{d}x'
+  \label{eq:mmsc_Q}
+\end{equation}
+prescribes a non-negative outlet flux $Q(L,t) = r(t)$; the inlet absorbs the change of volume of the channel, and the outlet never sees backflow.
+The last term of~\eqref{eq:mmsc_psi} is a vortex train travelling downstream,
+\begin{equation}
+  \Omega = 8\,r(t)\,\sin^2\!\left(\frac{\pi x}{L}\right)\sin\!\left(\frac{2\pi x}{L} - \omega t\right)\left(1 + \tfrac{1}{2}\cos\pi s\right).
+\end{equation}
+It is faded out at both ends, and its weight $s^2(1-s)^3$ vanishes with two derivatives at $s = 1$, so it changes neither the interface velocity nor the interface traction.
+The peak speed is about $2.1$, and the Reynolds number $\rho_F |\bb{v}_F|_{\max} H/\mu_F$ is about $200$.
+
+\paragraph{Traction continuity without an interface source.}
+On $y = h$, the unit normal and tangent are $\hat{\bb{n}}_F = (-h_{,x}, 1)/\sqrt{1 + h_{,x}^2}$ and $\bb{\tau} = (1, h_{,x})/\sqrt{1 + h_{,x}^2}$.
+$\hat{\bb{n}}_F = -\hat{\bb{n}}_S$, where $\hat{\bb{n}}_S = \bb{F}^{-T}\bb{N}/|\bb{F}^{-T}\bb{N}|$ is the outward normal of the deformed solid and $\bb{N} = (0,-1)$.
+The fluid traction $\rho_F\,\hat{\bb{n}}_F\cdot\bb{\sigma}_F^*$ is linear in two functions that are still free on the interface: $\Phi$ and the interface pressure.
+The term $s^2(1-s)^2\Phi$ has zero value and slope at $s = 1$, so $\Phi$ leaves the interface velocity unchanged and enters the interface shear rate only through its second $s$-derivative.
+The tangential balance is therefore algebraic in $\Phi$,
+\begin{equation}
+  c_0 + c_1\,\Phi = \bb{\tau}\cdot\bb{\sigma}_S\cdot\hat{\bb{n}}_F,
+  \qquad c_1 = \frac{2\mu_F\left(1 + h_{,x}^2\right)}{h^2},
+  \label{eq:mmsc_Phi}
+\end{equation}
+where $c_0$ is the fluid shear traction of the other terms of~\eqref{eq:mmsc_psi}, and $\bb{\sigma}_S$ is evaluated at $(\Xi(x,t), H, t)$.
+This gives $\Phi$ in closed form.
+The normal balance gives the interface pressure, and a term that vanishes on the interface completes the pressure field:
+\begin{equation}
+  \rho_F\,p_F = \rho_F\,p_\Gamma + (1 - s)\,\tfrac{1}{2}\,r(t)\cos\!\left(\frac{\pi x}{L}\right), \qquad
+  \rho_F\,p_\Gamma = 2\mu_F\,\hat{\bb{n}}_F\cdot\bb{d}\cdot\hat{\bb{n}}_F - \hat{\bb{n}}_F\cdot\bb{\sigma}_S\cdot\hat{\bb{n}}_F,
+  \label{eq:mmsc_p}
+\end{equation}
+with $\bb{d}$ the rate of strain of $\bb{v}_F$.
+Both conditions~\eqref{eqn:kinematic_interface} then hold exactly.
+
+\paragraph{Sources.}
+The body forces are the residuals of the exact fields in Equations~\eqref{eqn:fluid_momentum_ale} and~\eqref{eqn:solid_momentum_TL}:
+\begin{equation}
+  \bb{b}_F = \frac{\partial\bb{v}_F}{\partial t} + \bb{v}_F\cdot\bb{\nabla}\bb{v}_F - \bb{\nabla}\cdot\bb{\sigma}_F^*, \qquad
+  \rho_{S,0}\,\bb{b}_S = \rho_{S,0}\,\frac{\partial^2\bb{D}_S}{\partial t^2} - \bb{\nabla}_0\cdot\bb{P}_S^T .
+  \label{eq:mmsc_sources}
+\end{equation}
+$\bb{b}_F$ is Eulerian, and applies unchanged on the moving mesh, since $\partial_t\bb{v}_F|_{\chi} + (\bb{v}_F - \bb{v}^\Gamma)\cdot\bb{\nabla}\bb{v}_F = \partial_t\bb{v}_F|_{\bb{x}} + \bb{v}_F\cdot\bb{\nabla}\bb{v}_F$ for any velocity $\bb{v}^\Gamma$ of the mesh points, with $\chi$ the mesh coordinates.
+It is evaluated at the current cell centres at the new time level, and $\bb{b}_S$ at the initial cell centres.
+The solid source per unit initial volume, $\rho_{S,0}\bb{b}_S$, is what the code applies.
+Both are of the size of the physical terms: $|\bb{b}_F| \approx 10$ against $|\partial\bb{v}_F/\partial t| \approx 9$ and $|\bb{\nabla}p_F| \approx 8$ (maxima over a sampling grid, full variant).
+
+\paragraph{Boundary data.}
+Every prescribed boundary value and gradient is the exact one (Table~\ref{tab:mmsc_bc}); the interface data, and the momentum-balance and flux-consistent pressure gradients, are computed by the solver from the numerical fields.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Boundary conditions of the manufactured FSI solution. ``Exact'' means the manufactured value or normal gradient evaluated at the face centre at the new time level.}
+  \label{tab:mmsc_bc}
+  \begin{tabular}{lll}
+    \toprule
+    Boundary & Velocity / displacement & Pressure \\
+    \midrule
+    Inlet, $x = 0$ & exact $\bb{v}_F$ & QM: exact $\partial p_F/\partial n$; partitioned: flux-consistent gradient \\
+    Outlet, $x = L$ & exact $\partial\bb{v}_F/\partial n$ & exact $p_F$ (sets the level) \\
+    Wall, $y = 0$ & $\bb{v}_F = \bb{0}$ & QM: momentum balance; partitioned: flux-consistent gradient \\
+    Interface & from the coupling & from the coupling \\
+    Solid top & $\bb{D}_S = \bb{0}$ & --- \\
+    Solid ends & full: $\bb{D}_S = \bb{0}$; flat: exact $\bb{D}_S$ & --- \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The fluid mesh follows the interface.
+Its interior moves by a displacement Laplacian with quadratic inverse-distance diffusivity, and the inlet and outlet points are fixed (full variant) or move with the exact linear stretching $y \mapsto y\,h(t)/H$ (flat variant).
+In the full variant this moves the cells next to the interface almost vertically.
+They therefore become non-orthogonal to the tilting interface: $|\bb{k}|/(\hat{\bb{n}}\cdot\bb{d})$ reaches $0.24$ in the interface cells, about $13^\circ$, where $\bb{d}$ is the vector from the cell centre to the face centre and $\bb{k} = (\bb{I} - \hat{\bb{n}}\hat{\bb{n}})\cdot\bb{d}$.
+The flat variant removes this at the interface; its inlet and outlet cells are slightly non-orthogonal ($|\bb{k}|/(\hat{\bb{n}}\cdot\bb{d}) \approx 0.15$).
+The initial fields are zero.
+
+\paragraph{Error measures.}
+The errors are taken against the exact fields at the cell centres of the current mesh (fluid) and the initial mesh (solid).
+They are reported as volume-weighted $L_2$ norms, $\|e\|_2 = (\sum_i V_i e_i^2/\sum_i V_i)^{1/2}$, and as maxima.
+On the interface, the norms of the solid displacement and of the traction applied to the solid are weighted by the face areas of the initial solid interface; the applied traction is compared with $\bb{\sigma}_S\cdot\hat{\bb{n}}_S$, evaluated with the exact normal.
+The meshes are one cell thick, with $n \times n/2$ fluid and $n \times n/4$ solid square cells for $n$ faces on the interface.
+In a temporal study on a fixed mesh, successive time-step solutions are differenced as root-mean-square values over the cells; the fluid meshes of different time steps differ by the mesh motion, so the exact solution is first subtracted at each run's own cell centres.
+
+\paragraph{Checks of the construction.}
+The fields are built in sympy and differentiated in symengine.
+Eleven properties are checked symbolically, or at $40$ significant digits at random points:
+\begin{itemize}
+  \item the inverse map, $\Xi(x^\Gamma(X,t),t) = X$, and $\bb{\nabla}\cdot(\bb{\nabla}\times\psi) = 0$ for any $\psi$, both symbolically;
+  \item $h(x^\Gamma) = y^\Gamma$ and $\bb{\nabla}\cdot\bb{v}_F = 0$;
+  \item the kinematic condition and no slip on $y = 0$;
+  \item traction continuity, with the normal from Nanson's formula;
+  \item zero solid interface shear for $m_1 = 0$, and the coefficient $c_1$;
+  \item the clamps and the zero initial state.
+\end{itemize}
+The largest residuals are $3\times10^{-38}$ for the kinematic condition and $1.4\times10^{-38}$ for the traction (both variants), against an interface traction of order one.
+
+The fields are evaluated in double precision by generated C++ (common-subexpression elimination).
+A separate program checks the generated code independently of the symbolic pipeline:
+\begin{itemize}
+  \item fourth-order finite differences of the generated velocity and pressure reproduce $\bb{b}_F$ to $5\times10^{-10}$ and give $\bb{\nabla}\cdot\bb{v}_F$ to $4\times10^{-11}$;
+  \item an independent implementation of the neo-Hookean law, applied to finite differences of $\bb{D}_S$, reproduces $\bb{\sigma}_S$ to $4\times10^{-10}$ and $\rho_{S,0}\bb{b}_S$ to $2\times10^{-7}$ (nested finite differences), against components of up to $8$;
+  \item the kinematic condition, the interface normal and traction continuity hold, the last to $7\times10^{-15}$;
+  \item at four reference points the generated values agree with the $40$-digit symbolic values to $2\times10^{-14}$, measured as $|a - b|/(1 + |b|)$.
+\end{itemize}
+All checks pass for both variants, and for a set with $\rho_F = 2$, $\rho_{S,0} = 3$ that tests the density scaling.
