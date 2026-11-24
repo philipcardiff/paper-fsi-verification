@@ -1,23 +1,23 @@
 FD-based checks (200 random points; FD truncation ~1e-9..1e-7):
-[PASS] fluid: FD residual of NS from U,p  vs  generated f         2.13e-10 (tol 1e-07)
-[PASS] fluid: generated gradU, gradp vs FD                        1.35e-10 (tol 1e-07)
-[PASS] fluid: div U from FD of U                                  3.15e-11 (tol 1e-08)
+[PASS] fluid: FD residual of NS from U,p  vs  generated f         2.65e-10 (tol 1e-07)
+[PASS] fluid: generated gradU, gradp vs FD                        2.16e-10 (tol 1e-07)
+[PASS] fluid: div U from FD of U                                  3.62e-11 (tol 1e-08)
 [PASS] solid: generated sigma vs re-implemented s4f law           3.62e-10 (tol 1e-07)
 [PASS] solid: U vs FD dD/dt                                       2.74e-12 (tol 1e-08)
 [PASS] solid: rho D_tt - Div P (FD, s4f law) vs generated b0      2.19e-07 (tol 1e-05)
 [PASS] interface: v_f(x_G) = U_s(X,H) = d x_G/dt                  3.61e-12 (tol 1e-08)
 [PASS] interface: normal from FD tangent; h(x_G) = y_G            2.03e-12 (tol 1e-08)
-[PASS] interface: sigma_f n = sigma_s n = generated traction      8.88e-15 (tol 1e-11)
-fluid momentum source  : max |FD residual - f| = 2.13e-10   (max |f| = 9.83e+00)
-fluid gradU vs FD      : 1.35e-10
-fluid div U            : 3.15e-11
+[PASS] interface: sigma_f n = sigma_s n = generated traction      6.88e-15 (tol 1e-11)
+fluid momentum source  : max |FD residual - f| = 2.65e-10   (max |f| = 8.69e+00)
+fluid gradU vs FD      : 2.16e-10
+fluid div U            : 3.62e-11
 solid sigma vs s4f law : 3.62e-10
 solid source           : max |FD residual - b0| = 2.19e-07   (max |b0| = 1.17e+01)
 interface kinematics   : 3.61e-12
-interface traction     : 8.88e-15
+interface traction     : 6.88e-15
 
 magnitudes (max over sample grid, t in 0.15..0.9):
- fluid |U| 2.58  |p/rho| 1.48  |f| 13 | dU/dt 13.7  conv 8.55  grad p 4.18  visc 1.05
+ fluid |U| 2.13  |p/rho| 1.48  |f| 9.08 | dU/dt 8.63  conv 6.3  grad p 4.18  visc 0.607
  solid |D| 0.123  |E_GL| 0.262  rot 0.227 rad  J in [0.690, 1.093]  |b0| 14 | rho*acc 14.8  |Div P| 10.9
-[PASS] generated double vs 40-digit symbolic values (rel.)        2.11e-14 (tol 1e-12)
+[PASS] generated double vs 40-digit symbolic values (rel.)        2.04e-14 (tol 1e-12)
 all generated-code checks passed

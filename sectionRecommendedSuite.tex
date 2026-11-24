@@ -22,7 +22,7 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		ringAddedMass & A & added mass over $m^* = 0.1$--$10$; temporal phase error; solid-independent coupling check & core \\
 		womersleyTube & A & viscous wave propagation; amplitude versus phase/attenuation; truncated-domain boundary consistency & core \\
 		collapsibleChannel & B & thin bending wall, large deformation, strong added mass; solid discretisation & core \\
-		manufactured FSI$^\dagger$ & A & finite-strain solid, normal interface motion and mesh motion against an exact solution; boundary non-orthogonality (flat and tilting variants); density ratio one & core (proposed); four levels, combined refinement \\
+		manufactured FSI$^\dagger$ & A & finite-strain solid, normal interface motion and mesh motion against an exact solution; boundary non-orthogonality (flat and tilting variants); outlet treatment and face-flux time-derivative correction of the segregated fluid; start-up and traction-area errors of the solid; density ratio one & core (proposed); four levels, combined refinement; fluid-only and solid-only diagnostics \\
 		Hron--Turek FSI1 & B & steady large-deformation coupling & core \\
 		\midrule
 		\multicolumn{4}{l}{\emph{Extended / high-cost suite}} \\
@@ -34,7 +34,7 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		cavityFlexibleBottom$^\ast$ & C-weak & steady internal flow, large deformation & provisional \\
 		blobInTreacle$^\ast$ & C-weak & temporal and spatial order in viscous large-deformation flow; interface force balance & four levels and four time steps at near-nominal orders; same-group second implementation; provisional \\
 		\bottomrule
-		\multicolumn{4}{l}{$^\ast$ Provisional; tier not frozen. $^\dagger$ Section~\ref{sec:mms_fsi}; \hl{[case and derivation to be released]}.}
+		\multicolumn{4}{l}{$^\ast$ Provisional; tier not frozen. $^\dagger$ Section~\ref{sec:mms_fsi}; case files in \texttt{paper-data/mms\_fsi/}; \hl{[case to be added to the suite]}.}
 	\end{tabular}
 \end{table}
 

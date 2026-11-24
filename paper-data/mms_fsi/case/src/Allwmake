@@ -1,0 +1,19 @@
+#!/bin/bash
+# Build the case libraries against a solids4foam build.
+#   ./Allwmake [envfile]
+# envfile loads OpenFOAM and sets WM_PROJECT_USER_DIR to the solids4foam
+# checkout (the libraries are installed in its FOAM_USER_LIBBIN). The QM runs
+# need solids4foam with #751 (fvOptions in the QM solvers), merged in
+# feature-petsc-snes-quasi-monolithic db3039b76.
+# Each library is rebuilt from scratch: wmkdepend cannot scan the large
+# generated header, so header changes are not tracked.
+# mmsFsiMu10 (ten times the fluid viscosity) is built only if
+# ../../derive/generated_mu10 exists.
+cd "${0%/*}" || exit 1
+[ -n "$1" ] && source "$1" > /dev/null
+libs="mmsFsi mmsFsiFlat"
+[ -d ../../derive/generated_mu10 ] && libs="$libs mmsFsiMu10"
+for d in $libs
+do
+    (cd $d && wclean > /dev/null && wmake libso > log.wmake 2>&1; echo "$d exit $?"; grep " error" log.wmake)
+done

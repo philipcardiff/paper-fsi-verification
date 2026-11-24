@@ -6,7 +6,7 @@
 % convergence-test evidence (Section iterative_errors), which comes from a
 % preliminary calculation on a different fluid mesh and has no Section-5 counterpart.
 
-\todo{Synthesis first written on the evidence of 2026-10-10 and updated since. Pending results that will change it: (a) the FSI3 Gmsh unstructured family (levels 1--3; level 3 running, expected about 24--25 November 2026), which replaces the ring+box values marked \hl{[FSI3: ring+box, to be replaced]} below; (b) the A/B comparison for the moving-wall non-orthogonal correction (Section~\ref{sec:fluid_solver}). Not yet included: the manufactured solution (Section~\ref{sec:mms_fsi}: first-order partitioned pressure, IQN-ILS failure, quasi-monolithic boundary non-orthogonality), in Table~\ref{tab:orders} and Section~\ref{sec:defects}; author decision on how it enters the synthesis. Pending contributor: merge of the SU2--CalculiX cavity data.}
+\todo{Synthesis first written on the evidence of 2026-10-10 and updated since. Pending results that will change it: (a) the FSI3 Gmsh unstructured family (levels 1--3; level 3 running, expected about 24--25 November 2026), which replaces the ring+box values marked \hl{[FSI3: ring+box, to be replaced]} below; (b) the A/B comparison for the moving-wall non-orthogonal correction (Section~\ref{sec:fluid_solver}). The manufactured solution (Section~\ref{sec:mms_fsi}) entered Tables~\ref{tab:orders} and~\ref{tab:defects} on 24 November 2026; author to confirm how it enters the rest of the synthesis. Pending contributor: merge of the SU2--CalculiX cavity data.}
 
 This section draws together the findings of Section~\ref{sec:benchmark_suite} by theme.
 In this suite the strength of a verification statement is usually limited by the quality of the reference, the number of refinement levels that could be afforded, or the iterative error, or by sub-nominal convergence whose cause is only partly identified.
@@ -36,6 +36,7 @@ The observations are specific to this suite and to one code family, and are not 
 		Mok lid-driven cavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
 		Flexible-bottom cavity$^\ast$ & $u_y$ 1.93, 1.98; $F_y$ 2.03, 1.86 (four levels, scaled) & pseudo-time step ($\Delta t \to 0.0625\,\mathrm{s}$): $0.18$, $0.03$, $0.001\%$ on levels 1--3 & SD \\
 		Beam in cross-flow$^\ast$ & $u_x(A)$ 1.64, $F_x$ 1.60 (levels 1--3, corrected inflow; Appendix~\ref{app:beam}) & $\Delta t$ (Rhie--Chow) $\approx1/240$ of the level-2-to-3 change & SD \\
+		Manufactured FSI & partitioned: $p_F$ 0.9--1.2, $\bb{v}_F$ 1.2--1.4; solid 1.7--2.4 to $n = 64$, 0.7--0.8 to 128; QM: 1.2--2.5 (2.0 with corrections under review) & partitioned fluid alone: pressure error grows as $\Delta t$ falls; QM 2.0 with corrections & vs exact; scaled; fixed-mesh time study (QM) \\
 		Blob in treacle$^\ast$ & 2.00 & 2.13, 2.21 (interface 2.12, 2.00) & SD; Richardson \\
 		\bottomrule
 		\multicolumn{4}{l}{$^\ast$ Provisional cases.}
@@ -172,7 +173,7 @@ In the ring added-mass problem, IQN-ILS produces a mesh-dependent amplitude loss
 \subsection{Defects exposed by verification}\label{sec:defects}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Four defects or hazards in the code under test were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}).
+Seven defects or hazards in the code under test were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}).
 
 \begin{table}[htbp]
 	\centering
@@ -187,6 +188,9 @@ Four defects or hazards in the code under test were found by the studies of Sect
 		Womersley tube & $O(\Delta t)$ inconsistency of the end flux under a mixed velocity condition & temporal order falling towards one against an exact reference \\
 		3-D pressure-pulse tube & wall viscous force miscompiled at \texttt{-O3} (temporary-storage aliasing under \texttt{\_\_restrict\_\_}) & deterministic $1.5$--$3\%$ difference in one QoI between two platforms \\
 		3-D pressure-pulse tube & degenerate barycentric weights below a fixed absolute area threshold; interpolation operator changed with mesh level & first divergence after the fix above; broken symmetry and rank dependence \\
+		Manufactured FSI & segregated fluid: the time-derivative correction of the momentum-interpolated face flux makes the pressure error grow as $\Delta t$ falls; first-order pressure layer at the outlet (cause open) & first-order pressure against an exact solution; fluid-only runs and outlet, flux-correction and time-step variants \\
+		Manufactured FSI & total Lagrangian solid: first-order-in-time start-up of the displacement form under a non-zero initial acceleration; $O(h)$ deformed traction area from the cell-centre gradient & first-order solid displacement against an exact solution; solid-only runs driven by the exact traction \\
+		Manufactured FSI & IQN-ILS stagnates with the tutorial filtering and inverts the solid without it & failure to complete; filtering and convergence-test variants \\
 		Hessenthaler flap & legacy coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\
 		\bottomrule
 	\end{tabular}
