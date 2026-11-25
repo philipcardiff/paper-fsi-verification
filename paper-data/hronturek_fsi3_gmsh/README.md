@@ -45,7 +45,7 @@ periods/duration; drag and lift on cylinder + flag per unit depth.
 | frequency (Hz) | 5.4714 | 5.4737 | 5.4746 | +0.04 % | +0.02 % | 3.0 | 0.01 % | – | +0.27 % |
 | drag (max+min)/2 (N/m) | 460.99 | 461.17 | 461.28 | +0.04 % | +0.02 % | 1.5 | 0.04 % | +0.17 % | +0.17 % |
 | drag amplitude (N/m) | 28.427 | 28.285 | 28.335 | −0.50 % | +0.18 % | – | – | +1.52 % | +2.14 % |
-| lift amplitude (N/m) | 163.69 | 160.90 | 159.09 | −1.70 % | −1.12 % | 1.2 | 2.64 % | +1.59 % | +3.37 % |
+| lift amplitude (N/m) | 163.69 | 160.90 | 159.09 | −1.70 % | −1.13 % | 1.2 | 2.64 % | +1.59 % | +3.37 % |
 
 - Effective refinement ratio r = (387 219 / 96 712)^(1/4) = 1.415 (per level 1.417 and 1.412);
   Δt is reduced by √2 per level, so the study is scaled (combined space–time).
