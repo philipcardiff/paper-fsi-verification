@@ -1,0 +1,4 @@
+level,fluid_cells,solid_cells,dt_s,coupled_steps_t2_6,iter_mean_t2_6,iter_max_t2_6,iter_mean_qoi_window,steps_at_nOuterCorr_50,r1_accept_median,r1_accept_max,source_of_iteration_counts
+1,96712,10320,2.0e-4,20000,5.05,20,4.87,0,5.68e-07,9.99993e-07,log.solids4Foam (residual1 lines per step minus 1; fsiResiduals.dat holds only t > 6)
+2,194183,20672,1.41421e-4,28284,5.44,21,5.23,0,6.00e-07,9.99941e-07,fsiResiduals.dat (ht_coupled_analysis.py)
+3,387219,41280,1.0e-4,40000,6.01,24,5.78,0,6.32e-07,9.99988e-07,fsiResiduals.dat.upto_5.2424 + fsiResiduals.dat (ht_coupled_analysis.py)

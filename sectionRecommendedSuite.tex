@@ -7,7 +7,7 @@
 No single benchmark verifies a continuum FSI code, and in the present suite the most widely used benchmarks are not the most discriminating.
 We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membership determined by complementary challenges, reference quality, cost, and suitability for routine versus high-end use.
 
-\todo{Pending result for this table: the FSI3 Gmsh family. Author decision: the tier of cavityFlexibleBottom once the SU2--CalculiX data are merged.}
+\todo{Author decision: the tier of cavityFlexibleBottom once the SU2--CalculiX data are merged.}
 \begin{table}[htbp]
 	\centering
 	\footnotesize
@@ -26,7 +26,7 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		Turek--Hron FSI1 & B & steady large-deformation coupling & core \\
 		\midrule
 		\multicolumn{4}{l}{\emph{Extended / high-cost suite}} \\
-		Turek--Hron FSI2, FSI3 & C (FSI2), B (FSI3) & self-excited oscillation; lift amplitude; tolerance sensitivity; sensitivity of the in-phase fluid load to mesh motion and wall conditions & FSI3 four levels, not asymptotic \hl{[FSI3: ring+box, to be replaced]}; FSI2 two levels \\
+		Turek--Hron FSI2, FSI3 & C (FSI2), B (FSI3) & self-excited oscillation; lift amplitude; tolerance sensitivity; sensitivity of the in-phase fluid load to mesh motion and wall conditions & FSI3 three levels (scaled), displacements not asymptotic; FSI2 two levels \\
 		3dTube & C-weak & 3-D wave propagation with added mass; time-discretisation sensitivity; cross-platform and toolchain checks & three levels; $u_{r,\max}$ not yet converging \\
 		beamInCrossFlow$^\ast$ & C & 3-D steady external flow; displacement and force convergence & four levels, corrected inflow; orders rising to 1.6 (Appendix~\ref{app:beam}) \\
 		Hessenthaler$^\ast$ & C-weak & realistic 3-D geometry, large deformation; steady-state iterative error; validation data kept separate & three fluid levels, not shown to be asymptotic (mesh sensitivity only) \\
@@ -59,7 +59,7 @@ Each core result should state its reference category, the number of levels and t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The extended suite does not establish formal order, which the core suite does more cheaply and reliably, but tests whether that accuracy carries over to three dimensions, complex geometry, large mesh motion and slowly converging QoIs.
-Turek--Hron FSI2/FSI3 belong here despite being two-dimensional, because their slowest QoIs need resolutions well beyond the core suite, the FSI3 displacements converge at an observed order of about one unless the mesh motion and wall pressure are chosen with care (Appendix~\ref{app:lessons}) and are not in the asymptotic range on a fluid mesh of $7.5\times10^5$ cells \hl{[FSI3: ring+box, to be replaced]}, and the Featflow FSI3 table carries a $3$--$5\%$ uncertainty in $u_x$ and the force amplitudes.
+Turek--Hron FSI2/FSI3 belong here despite being two-dimensional, because their slowest QoIs need resolutions well beyond the core suite, the FSI3 displacements converge at an observed order of about one unless the mesh motion and wall pressure are chosen with care (Appendix~\ref{app:lessons}) and are not in the asymptotic range on three levels up to $3.9\times10^5$ fluid cells, where they still differ from the independent reference by up to $2\%$, and the Featflow FSI3 table carries a $3$--$5\%$ uncertainty in $u_x$ and the force amplitudes.
 The Mok lid-driven cavity is inexpensive but belongs here too: its published references are mutually inconsistent, and although an independent Kratos solution agrees to about $1\%$, neither sequence is in the asymptotic range for the peak; its value is as a test of sensitivity to the problem definition and of coupling robustness (Section~\ref{sec:mok}).
 Published values should be quoted with their source (e.g.\ Featflow table or summary value) and reference category, and agreement with them should not be presented as verification without self-convergence evidence.
 

@@ -3,9 +3,8 @@
      - Open, re-executable FSI verification suite with graded reference quality
      - Spatial, temporal and iterative error evidence assessed per case, gaps stated
      - Closed-form manufactured solution for ALE FSI with a finite-strain solid
-     - Hron-Turek FSI3 displacements are not in the asymptotic range on four mesh levels
-     - A common coupling convergence test accepts unconverged steps and causes drift
-     The FSI3 bullet still depends on the ring+box family (see its note below). -->
+     - Turek–Hron FSI3 displacements are not in the asymptotic range on three mesh levels
+     - A common coupling convergence test accepts unconverged steps and causes drift -->
 
 # Highlights (Elsevier: 3-5 bullets, at most 85 characters each)
 
@@ -13,8 +12,7 @@
 
 - Open, executable verification suite for continuum FSI with graded reference quality
 - Spatial, temporal and iterative error evidence assessed per case, gaps stated
-- Hron-Turek FSI3 displacements are not in the asymptotic range on four mesh levels
-<!-- FSI3 bullet rests on the ring+box family (8x' level); recheck when the Gmsh family replaces it. -->
+- Turek–Hron FSI3 displacements are not in the asymptotic range on three mesh levels
 - A common coupling convergence test accepts unconverged steps and causes drift
 - Drivers and machine-readable references released for re-executable verification
 - Closed-form manufactured solution for ALE FSI with a finite-strain solid
