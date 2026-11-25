@@ -236,3 +236,10 @@ No other number was changed.
 - The "uniform family" coupling studies (force noise, RN vs IQN-ILS) stay in 5.3.1, although that family's displacement results are now only in App. D.
 - The FEBio "source inspection found no defect" sentence was removed (contributor debugging).
 - I kept the Hessenthaler preliminary drift in 6.3 as the evidence for the strict coupling test. It is a finding about a coupling test, but it comes from a preliminary run.
+
+## Corrections after an independent review of the diff
+- The FSI3 sequence statements (Sec. 5.3.1, 6.1, Table 19, Conclusions) now say explicitly that the 4x′→8x′ change of 1–2% compares two levels computed with the uncorrected wall-normal velocity derivative. The apparent order of about three comes from the corrected 1x′–4x′ levels.
+- The prescribed-motion load is stated as using the coupled 2x trajectory of the uniform family, not 2x′. The 6% time-step share is attached to that load change, as in the source (§20.1), not to the coupled displacement change.
+- The 8x′ effect of the wall derivative (about 0.4%) is stated as expected, not measured.
+- The cross run (solid and fluid shares) is qualified as computed with the uncorrected derivative, in Sec. 5.3.1 and 6.6.
+- App. D: orders of 1.1–1.3 are stated only for the treatments run on three levels. The wall velocity condition and the mesh-motion diffusivity are two-level results.
