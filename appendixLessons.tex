@@ -36,13 +36,13 @@ Several boundary conditions, including the moving-wall and interface velocity co
 On the OpenCFD releases used here that vector is purely normal on non-coupled patches, so the correction is identically zero, while on another OpenFOAM fork it is not.
 The omission was found with the tilting-interface variant of the manufactured solution, whose orders separate the effect of boundary non-orthogonality (Section~\ref{sec:mms_fsi}).
 On a moving wall it leaves a viscous traction error of about $\nu\tan\theta\,|\partial\bb{v}/\partial\tau|$ that does not vanish under refinement at a fixed non-orthogonality angle $\theta$; it is zero at a steady state, where the wall velocity does not vary along the wall.
-Its effect on the transient partitioned results is stated in Section~\ref{sec:fluid_solver} \hl{[insert the outcome of the A/B comparison]}.
+Its effect on the transient partitioned results (Section~\ref{sec:fluid_solver}) is \hl{[insert the outcome of the A/B comparison]}.
 A unit test that a boundary correction is non-zero on a skewed patch would have caught it.
 
 \paragraph{Interpolation of the continuity flux.}
-In the flexible-bottom cavity (Section~\ref{sec:cavity}), four levels gave a steady force limit with a GCI of $0.02\%$ that lay $0.05\%$ from three independent solutions.
+In the flexible-bottom cavity (Section~\ref{sec:cavity}), four levels gave a steady force limit with a GCI of $0.02\%$ that lay $0.05\%$ from three other solutions, a fully independent SU2--CalculiX solution, a FEniCSx solution and a quasi-monolithic solution of the same code family, which agree with one another.
 The face flux of the continuity equation was interpolated with plain linear interpolation, the default, although the velocity interpolation of the set-up was skew-corrected; near the clamped ends of the plate the deformed cells are strongly skewed, and the resulting error converges so slowly that the sequence looks converged.
-With a skew-corrected continuity flux the limit agrees with the independent solutions to within $0.016\%$.
+With a skew-corrected continuity flux the limit agrees with all three to within $0.016\%$.
 On a moving or deforming mesh, every interpolated flux should be checked for skew correction, not only those named in the set-up; and a small GCI from one code is not evidence that the limit is correct.
 
 \paragraph{A steady state that depends on the pseudo-time step.}

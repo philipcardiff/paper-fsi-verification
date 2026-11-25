@@ -132,6 +132,10 @@ The cross-benchmark defects section (`sec:defects`) now points to the appendix. 
 - The non-orthogonal-correction paragraph of the appendix contains `\hl{[insert the outcome of the A/B comparison]}`.
 - Section 5 still tells the FSI3 and 3-D tube stories partly in chronological form, for example "baseline" and "corrected" set-ups, and an earlier wall condition. I did not change that, because you have not reviewed Section 5 yet. When you do, much of the FSI3 diagnosis could move to Appendix D.
 
+- Section 3.1 now notes that the Mok coupling-test study uses the unlimited scheme.
+- Text in Sections 5–7 that still refers to computations in progress or planned, for example in the Turek–Hron, flexible-bottom cavity and recommended-suite sections, was not changed, because those sections are outside this review. It should be turned into statements with `\hl` placeholders when you review them.
+- The abstract's last sentence ("The cases, drivers and machine-readable references are released.") depends on the release tag and archive that the Data Availability to-do still lists.
+
 ## Build
 
 `latexmk -pdf article.tex` finishes with no errors and no undefined references. The remaining warnings are the duplicate hyperref destinations that were already there before these changes.
