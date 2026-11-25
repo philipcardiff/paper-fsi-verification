@@ -7,7 +7,7 @@
 Every benchmark couples an incompressible Newtonian fluid to an elastic solid.
 The fluid occupies $\Omega_F(t)$ and the solid $\Omega_S(t)$, and they meet on the interface $\Gamma_\text{fsi}(t) = \partial\Omega_F(t) \cap \partial\Omega_S(t)$; $\hat{\bb{n}}_F$ and $\hat{\bb{n}}_S$ are the outward unit normals of the two regions, so that $\hat{\bb{n}}_F = -\hat{\bb{n}}_S$ on $\Gamma_\text{fsi}$.
 Subscripts $F$ and $S$ mark the region and are dropped where the region is clear, and a subscript $0$ marks the initial configuration.
-Following OpenFOAM, the gradient of a vector is $(\bb{\nabla}\bb{a})_{ij} = \partial a_j/\partial x_i$, the transpose of the usual continuum-mechanics convention, and $\bb{\nabla}_0$ differentiates with respect to the initial coordinates.
+Following OpenFOAM notation, the gradient of a vector is $(\bb{\nabla}\bb{a})_{ij} = \partial a_j/\partial x_i$, the transpose of the usual continuum-mechanics convention, and $\bb{\nabla}_0$ differentiates with respect to the initial coordinates.
 Body forces are per unit mass.
 
 %%--------------------------------------------------------------------------------------------------------------------%%
@@ -34,7 +34,7 @@ The solid boundaries carry prescribed displacements, prescribed tractions or sym
 \label{sec:fluid_governing_eqn}
 %%--------------------------------------------------------------------------------------------------------------------%%
 
-The fluid is laminar, isothermal, incompressible and Newtonian, and is described on the moving domain $\Omega_F(t)$ in arbitrary Lagrangian--Eulerian (ALE) form, with $\bb{v}^\Gamma$ the velocity of the domain.
+The fluid is laminar, isothermal, incompressible and Newtonian, and is described on the moving domain $\Omega_F(t)$ in ALE form, with $\bb{v}^\Gamma$ the velocity of the domain.
 The domain follows the solid on $\Gamma_\text{fsi}$; inside $\Omega_F$ its motion is a numerical choice (Section~\ref{sec:fluid_mesh_motion}) that must satisfy the geometric conservation law
 \begin{equation}
     \frac{d}{dt} \int_{\Omega_F} \text{d}\Omega_F - \oint_{\Gamma_F} \hat{\bb{n}}_F \cdot \bb{v}^\Gamma \, \text{d}\Gamma_F = 0 .

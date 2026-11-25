@@ -1,0 +1,88 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lessons for FSI solver developers}
+\label{app:lessons}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sources: solids4foam_learnings.md (register entries 1-18), the defect
+% table of Section 6 (sec:defects), Sections 5.1.3, 5.3.1 and 5.3.2, and
+% paper-data/r1_audit/ for the coupling-test audit.
+
+This appendix collects the issues that the verification campaign revealed in the code under test, its set-ups and the benchmark definitions.
+Each is stated generically, with solids4foam as the example, together with the evidence that revealed it and how it was resolved or what remains open.
+None was found by comparison with a published benchmark value; the defects proper are also listed in Table~\ref{tab:defects}.
+
+\paragraph{Aliasing in field algebra under optimisation.}
+In the 3-D pressure-pulse tube (Section~\ref{sec:3dtube}) two platforms gave deterministic results that differed by $1.5$--$3\%$ in one QoI while the others agreed to $0.1$--$0.2\%$.
+The wall viscous force was formed as an inner product of two temporary fields; OpenFOAM's field algebra writes such a product into the storage of a temporary operand while its loops access result and operands through \texttt{\_\_restrict\_\_} pointers, so at \texttt{-O3} one component was formed from already overwritten values, whereas \texttt{-O2} builds were correct.
+The site and about 15 others with the same mechanism were corrected.
+The general lesson is that the compiled executable is the code under test: the compiler and optimisation level belong in the verification record, and a replicate on a second build or platform is a cheap check that no refinement study on one platform replaces.
+
+\paragraph{Scale-dependent tolerances in interpolation weights.}
+After the correction above, the first remaining divergence between the platforms, a broken symmetry of the quarter tube and a dependence on the domain decomposition led to the solid-to-fluid point transfer.
+Its barycentric weights fell back to the degenerate values $(1/3, 1/3, 1/3)$ when the squared triangle area fell below a fixed absolute threshold, which every interface triangle of levels 2 and 3 did but none of level 1; the interpolation operator therefore changed with refinement, and the mesh study compared different operators.
+Scale-invariant weights resolved it.
+Any absolute geometric tolerance in a transfer or search operator should be suspected when an observed order changes between levels; symmetry and decomposition-invariance checks expose it at little cost.
+
+\paragraph{Coupling convergence tests.}
+A test that accepts a step when the smaller of two residual measures, one relative to the largest residual of the step ($r_1$) and one relative to the total interface displacement ($r_2$), is below the tolerance does not bound the reduction of the interface residual within the step.
+An audit of the solver logs (\texttt{paper-data/r1\_audit/}) found steps accepted with $r_1$ above the tolerance in every benchmark audited: in $21$--$36\%$ of the steps of the ring added-mass problem and about $31\%$ of those of the 3-D pressure-pulse tube ($r_1$ at most $12$ times the tolerance); in almost every step of the FSI2 study, of the baseline FSI3 sequence (median $r_1$ about ten times the tolerance) and of the Robin--Neumann runs of the Womersley tube ($r_1 \leq 60$ times the tolerance), but not in the IQN-ILS run of the Womersley tube; and, worst, in steady problems, where an FSI1 run accepted $r_1 = 0.72$ and the flexible-bottom cavity accepted pseudo-time steps after a single iteration with $r_1 = 1$, i.e.\ with no reduction of the interface mismatch.
+For the collapsible channel, FSI2 and the Mok lid-driven cavity, runs with the same set-up and coupling settings were audited in place of the reported studies, whose logs were not kept.
+In the Hessenthaler flap the accepted steps produced a slow drift larger than the spatial differences under study, which a steadiness check on the QoI did not detect.
+No step of the strict-test FSI3 runs ($\approx7\times10^{4}$ steps) was accepted with $r_1$ above the tolerance.
+The remedy is to require every measure to meet the tolerance and to record the residuals at acceptance.
+A purely relative measure has its own limitation: at a true steady state the residual is at round-off from the first iteration, $r_1$ cannot fall below the tolerance, and every step runs to the iteration limit with a false warning, at four to six times the cost; an absolute floor on $r_1$ is the obvious remedy and is not yet implemented.
+
+\paragraph{Boundary non-orthogonal corrections that vanish silently.}
+Several boundary conditions, including the moving-wall and interface velocity conditions of the fluid, build their non-orthogonal correction from the tangential part of the boundary delta vector.
+On the OpenCFD releases used here that vector is purely normal on non-coupled patches, so the correction is identically zero, while on another OpenFOAM fork it is not.
+The omission was found with the tilting-interface variant of the manufactured solution, whose orders separate the effect of boundary non-orthogonality (Section~\ref{sec:mms_fsi}).
+On a moving wall it leaves a viscous traction error of about $\nu\tan\theta\,|\partial\bb{v}/\partial\tau|$ that does not vanish under refinement at a fixed non-orthogonality angle $\theta$; it is zero at a steady state, where the wall velocity does not vary along the wall.
+Its effect on the transient partitioned results (Section~\ref{sec:fluid_solver}) is small: on the coarsest corrected Turek--Hron FSI3 mesh, at most $0.37\%$ in the displacements and $0.18\%$ in the forces.
+A unit test that a boundary correction is non-zero on a skewed patch would have caught it.
+
+\paragraph{Interpolation of the continuity flux.}
+In the flexible-bottom cavity (Section~\ref{sec:cavity}), four levels gave a steady force limit with a GCI of $0.02\%$ that lay $0.05\%$ from three other solutions, a fully independent SU2--CalculiX solution, a FEniCSx solution and a quasi-monolithic solution of the same code family, which agree with one another.
+The face flux of the continuity equation was interpolated with plain linear interpolation, the default, although the velocity interpolation of the set-up was skew-corrected; near the clamped ends of the plate the deformed cells are strongly skewed, and the resulting error converges so slowly that the sequence looks converged.
+With a skew-corrected continuity flux the limit agrees with all three to within $0.016\%$.
+On a moving or deforming mesh, every interpolated flux should be checked for skew correction, not only those named in the set-up; and a small GCI from one code is not evidence that the limit is correct.
+
+\paragraph{A steady state that depends on the pseudo-time step.}
+A steady solution reached by pseudo-time stepping of a segregated solver with momentum interpolation depends on the pseudo-time step, since the coefficient of the pressure--velocity coupling term does.
+In the flexible-bottom cavity the force changed by $0.18\%$ on level 1 when $\Delta t$ was reduced eightfold, but only by $0.03\%$ and $0.001\%$ on levels 2 and 3.
+A steady study should state $\Delta t$ per level and repeat one level at a second $\Delta t$; when $\Delta t$ is scaled with $h$, this dependence is mixed into the mesh convergence.
+
+\paragraph{Path-dependent mesh motion.}
+In Turek--Hron FSI3 a third level turned a two-level agreement with the reference into a first-order-like displacement sequence (Section~\ref{sec:fsi23}).
+Isolating the components (the solid alone, the fluid around a rigid flag, the fluid under a prescribed periodic motion) located it in the fluid's in-phase response to the moving flag, and showed that a mesh motion driven by a Laplacian of the mesh velocity is path dependent: under periodic motion the interior mesh drifts from cycle to cycle, so the in-phase load drifted without settling and the levels were compared after different elapsed times.
+A Laplacian of the mesh displacement with the same diffusivity removes the drift.
+For periodic problems the mesh motion should be a function of the current interface position, not of its history.
+
+\paragraph{Wall pressure and wall velocity conditions.}
+A zero normal pressure gradient on an accelerating wall omits the term $-\rho_F\,\bb{n}\cdot\bb{a}$ of the normal momentum equation and gives an $O(h)$ wall-pressure error; it contributed to the first-order FSI3 sequence above.
+A flux-based pressure condition, applied on a wall where the velocity is prescribed, silently reduces to a zero gradient, as an independent preCICE solution of FSI3 showed when its two variants agreed to $2\times10^{-5}$.
+An acceleration-consistent condition is used here (Section~\ref{sec:fluid_solver}); its viscous term is still omitted.
+Separately, the wall-normal derivative of the normal velocity in the moving-wall condition was inconsistent with continuity; correcting it changed the FSI3 displacements and force amplitudes by $1.5$--$3.8\%$, towards the reference, and the other cases by at most $0.4\%$.
+The wall conditions of the fluid on a moving interface are part of the coupled discretisation and deserve their own order tests.
+
+\paragraph{Errors that only an exact finite-deformation solution exposes.}
+The manufactured solution (Section~\ref{sec:mms_fsi}) revealed errors that the linear exact problems could not.
+Fluid-only runs with the exact interface motion reproduced the coupled errors, which located the first-order pressure in the segregated fluid: the time-derivative correction of the momentum-interpolated face flux makes the pressure error grow as $\Delta t$ falls, and the outlet treatment produces a corner error and a first-order layer whose cause is open.
+Solid-only runs driven by the exact traction located two first-order solid errors: a start-up error of the displacement-form solid when the motion starts from rest with a non-zero acceleration, and an $O(h)$ error in the deformed traction area evaluated with the cell-centre deformation gradient.
+In the Womersley tube a similar exact-reference test traced a temporal order falling towards one to an $O(\Delta t)$ inconsistency of the end flux under a mixed velocity condition, which a flux-consistent end treatment removed (Section~\ref{sec:womersley}).
+Fluid-only and solid-only runs against the exact fields are the quickest way to attribute a coupled error to a field solver or to the coupling.
+
+\paragraph{Robustness of the coupling and of the fluid iteration.}
+On the manufactured solution, IQN-ILS with the secant-column filtering of the tutorials stagnated, and without filtering it proposed an interface displacement that inverted solid cells; a step-length guard or a fallback to relaxation is untested.
+In the Mok lid-driven cavity at $128^2$ cells ($\nu\Delta t/h^2 \approx 4$) an unrelaxed segregated fluid diverged inside a coupling iteration with the interface frozen, which looked like a coupling failure; under-relaxation of the fluid outer iterations removes it.
+A relaxed first coupling iterate without a solid predictor caused late added-mass instabilities in FSI3; a predictor is now the default.
+
+\paragraph{Mesh families and geometry.}
+Refinement studies assume that the levels of a family differ only in resolution.
+A block-structured FSI3 family with neighbour size ratios of $2$--$2.8$ through the wake on every level kept its size-jump error under refinement and gave unreliable observed orders; the neighbour size ratios of a family should be audited before a convergence study.
+In the 3-D pressure-pulse tube, curved walls defined to too few digits left the fluid and solid walls about $1\,\mu\mathrm{m}$ apart, which the non-conformal interface transfer saw as a gap; reporting the largest interface gap at start-up would catch this.
+
+\paragraph{Unstated benchmark definitions.}
+Several discrepancies were definitions, not discretisations.
+The printed inflow of the beam in cross-flow is inconsistent with its stated mean velocity, Reynolds number and reference values (Appendix~\ref{app:beam}).
+The forces of the flexible-bottom cavity are for a $0.05\,\mathrm{m}$ depth, and its inflow profile is parabolic; an independent solution with a uniform inflow of the same mean came out about $2\%$ high in both QoIs.
+The frequently quoted FSI3 summary values differ from the detailed reference tables by up to $18\%$ (Section~\ref{sec:fsi23}), and the location of a monitoring point (top surface, mid-thickness or nearest node) changed the cavity displacement by up to $1.2\%$.
+A benchmark definition should state the inflow profile, the depth or per-unit-depth convention, the exact monitoring points and the source table of every reference value, and a case set-up should be checked against it before any comparison.
