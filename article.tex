@@ -62,6 +62,7 @@ textheight=24cm, % llncs has 19.3cm
 \usepackage{enumitem}
 \usepackage{color,soul}
 \usepackage{xfrac}
+\usepackage{etoolbox}
 
 %% New math commands
 \newcommand{\s}[1]{\overset{*}{#1}}
@@ -113,6 +114,14 @@ textheight=24cm, % llncs has 19.3cm
 \renewcommand\paragraph[1]{\par\addvspace{1.2ex plus .4ex minus .2ex}%
 	\noindent{\normalfont\bfseries #1}\hspace{0.5em}\ignorespaces}
 
+% sn-jnl.cls sets each author name in \Authorfont, which ends in \boldmath, and
+% expands \artauthors outside a group in \@maketitle, so the bold maths version
+% leaks into the affiliations and the abstract (e.g. $O(h)$ printed bold).
+% Group the author list so that \boldmath stays local to it.
+\makeatletter
+\patchcmd{\@maketitle}{\artauthors\par}{{\artauthors\par}}{}{\PackageWarning{article}{Could not patch maketitle: abstract maths may be bold}}
+\makeatother
+
 \begin{document}
 
 \title[Verification benchmarks for fluid--solid interaction]{Benchmark problems are not benchmark solutions: an open verification suite for continuum fluid--solid interaction with quantified numerical uncertainty}
@@ -145,17 +154,13 @@ textheight=24cm, % llncs has 19.3cm
 
 
 \abstract{
-Many benchmark problems exist for fluid--solid interaction (FSI), but few benchmark solutions come with a rigorously established numerical uncertainty, and agreement with a published value is often taken as evidence that a code is correct.
-This paper assembles an open, executable verification suite for continuum FSI and classifies each reference by its quality: analytical (A), independently converged numerical with at most a small, quantified model-form difference (B), published but incompletely quantified (C), and weak (C-weak).
-For each benchmark the evidence on spatial, temporal and iterative errors is assessed separately, with its gaps stated, and the quantities of interest are reported with their observed convergence behaviour; verification against the mathematical problem is kept separate from validation against experiment.
-All calculations use the partitioned finite volume FSI framework of the open-source toolbox solids4foam: a PIMPLE-type arbitrary Lagrangian--Eulerian fluid, small-strain and total Lagrangian solids of standard and high-order accuracy, and Dirichlet--Neumann (Aitken, IQN-ILS) or Robin--Neumann coupling.
-For two analytical problems (an added-mass ring and a thick-walled Womersley tube) and an independently computed collapsible channel, most quantities converge at observed orders close to the nominal two, and the finest solutions agree with the references to within the reference uncertainty or a small identified error.
-A new closed-form manufactured solution for transient arbitrary Lagrangian--Eulerian FSI with a finite-strain continuum solid, normal interface motion and exact traction continuity at constant fluid viscosity (no interface source and no manufactured material field), to our knowledge the first such solution applied to a cell-centred finite volume code, extends exact verification to finite deformation. With it the partitioned fluid pressure converges at first order; fluid-only calculations trace this to the segregated fluid, not to the coupling, namely to its outlet treatment and to the time-derivative correction of its momentum-interpolated face flux, whose error grows as the time step falls. The partitioned solid shows a first-order start-up error in time and, on the finest mesh, an $O(h)$ error in its deformed traction area, and IQN-ILS fails on the case. A quasi-monolithic coupling of the same code family converges at close to second order where the interface cells stay orthogonal, is limited to about first order by an uncorrected boundary non-orthogonality where the interface tilts, and converges at second order in space and time with corrections under review.
-The widely used benchmarks are less conclusive.
-For the Hron--Turek FSI3 problem, a two-level agreement with the Featflow reference disappears on a third level: with the baseline set-up the displacements converge at an observed order of about one. This was traced to a path-dependent mesh motion and a first-order wall-pressure condition. With these corrected, the large changes between levels disappear, but a fourth level ($7.5\times10^5$ fluid cells) shows that the displacements are still not in the asymptotic range: they change by 1--2\% from the third level, towards the reference, and differ from it by 2\% ($u_y$) and 4.5\% ($u_x$), while the reference itself changes by up to 4\% between its two finest levels. \hl{[FSI3: ring+box, to be replaced]}
-For a three-dimensional pressure-pulse tube, verification exposed two solver defects, a compiler-dependent aliasing error and a mesh-dependent degeneracy of the interface interpolation, and showed that much of a 20--25\% discrepancy between published solutions is reproduced by the difference in time integration.
-A third finding concerns the iterative error: a widely used form of the coupling convergence test can accept unconverged steps in slowly varying phases, producing a drift that a steadiness check on the quantity of interest does not detect.
-The suite, its drivers and its machine-readable references are released so that verification claims can be re-executed rather than accepted on trust.
+Many benchmark problems exist for fluid--solid interaction (FSI), but few come with a benchmark solution of established numerical uncertainty, and agreement with a published value is often taken as evidence of correctness.
+This paper assembles an open, executable verification suite for continuum FSI in which every reference is classified by quality (analytical, independently converged numerical, published but incompletely quantified, or weak) and the spatial, temporal and iterative errors are assessed separately.
+The suite comprises two analytical problems, an added-mass ring and a thick-walled Womersley tube; a new closed-form manufactured solution for transient arbitrary Lagrangian--Eulerian FSI with a finite-strain solid and exact traction continuity at constant viscosity; and widely used problems (Turek--Hron, a three-dimensional pressure-pulse tube, a collapsible channel, a lid-driven cavity), several with independent solutions from other codes.
+Against the exact and independent references, a nominally second-order partitioned finite volume code converges at close to second order for most quantities, but not all: the manufactured solution reveals first-order pressure and solid-displacement errors that the linear exact problems cannot, and the Turek--Hron FSI3 displacements are not yet in the asymptotic range. \hl{[FSI3: ring+box, to be replaced]}
+Published references disagree for identifiable reasons: much of a 20--25\% discrepancy in the pressure-pulse tube is reproduced by first-order time integration, the printed inflow of a three-dimensional beam benchmark is inconsistent with its reference values, and the frequently quoted FSI3 values differ from the detailed reference tables by up to 18\%.
+A common coupling convergence test can accept unconverged steps.
+The cases, drivers and machine-readable references are released.
 }
 
 \keywords{Fluid--solid interaction, Code verification, Benchmark, Reference solution, Numerical uncertainty, Partitioned coupling, Finite volume method, solids4foam, OpenFOAM}
@@ -213,7 +218,7 @@ The main conclusions are:
 Several directions remain:
 \begin{enumerate}
 	\item \textbf{Independent converged references where none exists}, above all for the 3-D pressure-pulse tube, whose independent Kratos solution has two levels and is not converged in the peak radial displacement, and the Hessenthaler flap, which has none; they need their own mesh and time studies, as the Kratos solution of the Mok lid-driven cavity has.
-	\item \textbf{Further levels where the evidence stops at two or three}: Hron--Turek FSI2, and a fourth fluid level for the Hessenthaler flap.
+	\item \textbf{Further levels where the evidence stops at two or three}: Turek--Hron FSI2, and a fourth fluid level for the Hessenthaler flap.
 	\item \textbf{Completion of the provisional cases}: the beam in cross-flow (a fifth mesh, level 4), the flexible-bottom cavity and the blob in treacle (an independent reference for the redefined case).
 	\item \textbf{Wider coverage}: compressible and non-Newtonian fluids, contact and free surfaces; the companion paper~\citep{CardiffBatistic2026QM} applies the same suite to a quasi-monolithic coupling.
 	\item \textbf{Higher-order discretisation}, for which the exact references of the suite can measure orders above two.
@@ -228,7 +233,7 @@ Several directions remain:
 \bmhead{Data Availability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \hl{[Philip: check this statement once the release tag and archive exist]}
-The solids4foam toolbox is publicly available at \url{https://github.com/solids4foam/solids4foam}; the benchmark cases, their verification drivers (\texttt{Allverify}), the machine-readable reference files and the analysis scripts are in the \texttt{tutorials/fluidSolidInteraction} directories of that repository. \todo{Give the release tag or commit and the Zenodo DOI of the archived case set-ups, drivers, raw outputs and reference files; several verification branches (3dTube, Hron--Turek diagnostics, Hessenthaler) are not yet merged, and the manufactured-solution case is not yet in the solids4foam suite.} The derivation of the manufactured solution, its generated code and checks, the case libraries and the case generator are in \texttt{paper-data/mms\_fsi/} of the paper repository (Appendix~\ref{app:mms}).
+The solids4foam toolbox is publicly available at \url{https://github.com/solids4foam/solids4foam}; the benchmark cases, their verification drivers (\texttt{Allverify}), the machine-readable reference files and the analysis scripts are in the \texttt{tutorials/fluidSolidInteraction} directories of that repository. \todo{Give the release tag or commit and the Zenodo DOI of the archived case set-ups, drivers, raw outputs and reference files; several verification branches (3dTube, Turek--Hron diagnostics, Hessenthaler) are not yet merged, and the manufactured-solution case is not yet in the solids4foam suite.} The derivation of the manufactured solution, its generated code and checks, the case libraries and the case generator are in \texttt{paper-data/mms\_fsi/} of the paper repository (Appendix~\ref{app:mms}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -250,9 +255,9 @@ The authors wish to acknowledge the Irish Centre for High-End Computing (ICHEC) 
 \textbf{Philip Cardiff:} Conceptualization, Methodology, Software, Investigation, Formal analysis, Writing -- original draft, Writing -- review \& editing, Supervision, Funding acquisition.
 \textbf{Emad Tandis:} Investigation, Validation (independent ANSYS and COMSOL solutions of the flexible-bottom cavity), Writing -- review \& editing \hl{TBD: confirm}.
 \textbf{Sairam Pamulaparthi Venkata:} Investigation, Software (FEBio models), Validation (independent FEBio solutions of the ring added-mass problem), Formal analysis, Writing -- review \& editing.
-\textbf{Seevani Bali:} Investigation, Software (preCICE--CalculiX models), Validation (level 3 of the 3-D pressure-pulse tube mesh study on the corrected meshes, and its third-platform replication on the earlier meshes; preCICE--CalculiX solutions of Hron--Turek FSI1 and FSI3), Writing -- review \& editing \hl{TBD: confirm}.
+\textbf{Seevani Bali:} Investigation, Software (preCICE--CalculiX models), Validation (level 3 of the 3-D pressure-pulse tube mesh study on the corrected meshes, and its third-platform replication on the earlier meshes; preCICE--CalculiX solutions of Turek--Hron FSI1 and FSI3), Writing -- review \& editing \hl{TBD: confirm}.
 \textbf{Amirhossein Taran:} Investigation, Software (Kratos models), Validation (independent Kratos solutions of the lid-driven cavity, the 3-D pressure-pulse tube and the beam in cross-flow), Writing -- review \& editing \hl{TBD: confirm}.
-\textbf{Dylan Armfield:} Investigation, Software (preCICE--SU2--CalculiX models), Validation (independent SU2--CalculiX solutions of Hron--Turek FSI1, the ring added-mass problem and the flexible-bottom cavity), Writing -- review \& editing.
+\textbf{Dylan Armfield:} Investigation, Software (preCICE--SU2--CalculiX models), Validation (independent SU2--CalculiX solutions of Turek--Hron FSI1, the ring added-mass problem and the flexible-bottom cavity), Writing -- review \& editing.
 \textbf{Ivan Batisti\'{c}:} Software (high-order solid discretisation), Writing -- review \& editing \hl{TBD: confirm}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -266,6 +271,7 @@ The authors declare that they have no known competing financial interests or per
 \todo{All authors: agree the wording of this declaration against the journal's policy during the full-draft review.}
 \hl{TBD: wording to be confirmed by the authors}
 During the preparation of this work the authors used AI coding and writing assistants (Anthropic Claude and OpenAI Codex) to help set up and run the verification campaigns, post-process the results, implement and test parts of the software, and draft and edit the text.
+The manufactured solution of Section~\ref{sec:mms_fsi} and Appendix~\ref{app:mms} (its derivation, the generation of its evaluation code and its checks) was developed with substantial assistance from an AI coding assistant, Claude (Anthropic) \hl{[author: insert model name and version]}, under the authors' direction, and was verified by the authors' symbolic and numerical checks (Appendix~\ref{app:mms}).
 After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
 
 
@@ -366,6 +372,11 @@ These are reconstructions and one-element-gradient dissipation estimates, not me
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{appendixMMS.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{appendixLessons.tex}
+\input{appendixProvenance.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{appendices}
