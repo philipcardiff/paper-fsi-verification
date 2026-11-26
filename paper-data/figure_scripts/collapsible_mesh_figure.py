@@ -1,12 +1,13 @@
 """collapsibleChannel fluid-mesh study figure for the verification paper
 (fig:collapsible_mesh): (a) wall-midpoint vertical displacement for fluid
-levels F1-F4 against the oomph-lib reference at the same time step; (b, c)
-zooms at the first trough and the second peak; (d) maximum error against the
+levels L1-L4 against the oomph-lib reference at the same time step; (b, c)
+zooms at the first trough and the second peak; (d) maximum difference from the
 reference, as a percentage of the reference peak, against the number of
 fluid cells, with the reference uncertainty marked.
 
 Usage: collapsible_mesh_figure.py HIST_DIR REF_CSV REF_CONVERGED_CSV OUT.pdf [UNCERTAINTY [LABEL]]
-  HIST_DIR: F1.dat ... F4.dat (solidPointDisplacement_wallMid.dat of each level)
+  HIST_DIR: F1.dat ... F4.dat (solidPointDisplacement_wallMid.dat of fluid levels
+    L1 ... L4; the file names keep the driver's F prefix)
     and mesh_study.csv of the tutorial driver (fluid cell counts)
   REF_CSV: oomph-lib solution at the same time step (collapsibleChannel_oomph_dt160.csv)
   REF_CONVERGED_CSV: converged reference (collapsibleChannel_oomph_reference.csv),
@@ -14,7 +15,7 @@ Usage: collapsible_mesh_figure.py HIST_DIR REF_CSV REF_CONVERGED_CSV OUT.pdf [UN
   UNCERTAINTY: uncertainty of REF_CSV in % of the peak (default 0.3, the
     tutorial reference at --refine 1)
   LABEL: label of the shaded band in (d) (default "reference uncertainty")
-Prints the per-level maximum error."""
+Prints the per-level maximum difference."""
 import bisect, csv, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "figstyle"))
@@ -60,7 +61,7 @@ runs = {l: hist(hist_dir / f"F{l}.dat") for l in CELLS}
 err = {}
 for l, c in runs.items():
     err[l] = 100 * max(abs(u - interp(r, t)) for t, u in c if t <= r[-1][0]) / scale
-    print(f"F{l}: {CELLS[l]} cells, max error {err[l]:.3f}% of the reference peak")
+    print(f"L{l}: {CELLS[l]} cells, max difference {err[l]:.3f}% of the reference peak")
 
 fig = plt.figure(figsize=(figstyle.TEXTWIDTH, 3.9))
 gs = fig.add_gridspec(2, 3, height_ratios=[1.1, 1], hspace=0.45, wspace=0.55,
@@ -69,7 +70,7 @@ ax = fig.add_subplot(gs[0, :])
 # reference underneath (thick, grey-black); levels on top, colour and line style
 sty = {1: (C[1], ":"), 2: (C[4], "-."), 3: (C[2], "--"), 4: (C[0], "-")}
 curves = [(r, "0.55", 2.2, "-", "oomph-lib (same $\\Delta t$)")] + [
-    (runs[l], sty[l][0], 1.0, sty[l][1], f"F{l}") for l in sorted(runs)]
+    (runs[l], sty[l][0], 1.0, sty[l][1], f"L{l}") for l in sorted(runs)]
 for c, col, lw, ls, lab in curves:
     ax.plot(*zip(*c), color=col, lw=lw, ls=ls, label=lab)
 ax.set_xlabel("$t$ (s)", labelpad=1); ax.set_ylabel("wall-midpoint $u_y$ (m)")
@@ -98,14 +99,14 @@ bx.axhspan(0.01, REF_UNCERTAINTY, color="0.85", lw=0)
 bx.axhline(REF_UNCERTAINTY, color="0.4", lw=0.6, ls="--")
 bx.text(n[-1], REF_UNCERTAINTY * 0.9, BAND_LABEL, color="0.25", fontsize=7,
         ha="right", va="top")
-bx.loglog(n, e, "o-", color="black", label="max error")
+bx.loglog(n, e, "o-", color="black", label="max difference")
 bx.loglog([n[0], n[2]], [e[0], e[0] * n[0] / n[2]], ":", color="0.4", lw=0.8, label="order 2")
 for l, x, y in zip(sorted(CELLS), n, e):
     first = l == min(CELLS)
-    bx.annotate(f"F{l}", (x, y), textcoords="offset points", xytext=(4, 1) if first else (-3, -3),
+    bx.annotate(f"L{l}", (x, y), textcoords="offset points", xytext=(4, 1) if first else (-3, -3),
                 fontsize=7, ha="left" if first else "right", va="bottom" if first else "top")
 bx.set_xticks(n); bx.set_xticklabels([f"{v / 1000:g}" for v in n]); bx.minorticks_off()
-bx.set_xlabel("fluid cells ($10^3$)", labelpad=1); bx.set_ylabel("max error (% of peak)", labelpad=1)
+bx.set_xlabel("fluid cells ($10^3$)", labelpad=1); bx.set_ylabel("max difference (% of peak)", labelpad=1)
 bx.set_ylim(0.02, 8)
 bx.set_yticks([0.05, 0.1, 0.2, 0.5, 1, 2, 5])
 bx.set_yticklabels(["0.05", "0.1", "0.2", "0.5", "1", "2", "5"])

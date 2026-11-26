@@ -18,7 +18,7 @@ The general lesson is that the compiled executable is the code under test: the c
 
 \paragraph{Scale-dependent tolerances in interpolation weights.}
 After the correction above, the first remaining divergence between the platforms, a broken symmetry of the quarter tube and a dependence on the domain decomposition led to the solid-to-fluid point transfer.
-Its barycentric weights fell back to the degenerate values $(1/3, 1/3, 1/3)$ when the squared triangle area fell below a fixed absolute threshold, which every interface triangle of levels 2 and 3 did but none of level 1; the interpolation operator therefore changed with refinement, and the mesh study compared different operators.
+Its barycentric weights fell back to the degenerate values $(1/3, 1/3, 1/3)$ when the squared triangle area fell below a fixed absolute threshold, which every interface triangle of L2 and L3 did but none of L1; the interpolation operator therefore changed with refinement, and the mesh study compared different operators.
 Scale-invariant weights resolved it.
 Any absolute geometric tolerance in a transfer or search operator should be suspected when an observed order changes between levels; symmetry and decomposition-invariance checks expose it at little cost.
 
@@ -48,7 +48,7 @@ On a moving or deforming mesh, every interpolated flux should be checked for ske
 
 \paragraph{A steady state that depends on the pseudo-time step.}
 A steady solution reached by pseudo-time stepping of a segregated solver with momentum interpolation depends on the pseudo-time step, since the coefficient of the pressure--velocity coupling term does.
-In the flexible-bottom cavity the force changed by $0.18\%$ on level 1 when $\Delta t$ was reduced eightfold, but only by $0.03\%$ and $0.001\%$ on levels 2 and 3.
+In the flexible-bottom cavity the force changed by $0.18\%$ on L1 when $\Delta t$ was reduced eightfold, but only by $0.03\%$ and $0.001\%$ on L2 and L3.
 A steady study should state $\Delta t$ per level and repeat one level at a second $\Delta t$; when $\Delta t$ is scaled with $h$, this dependence is mixed into the mesh convergence.
 
 \paragraph{Path-dependent mesh motion.}
