@@ -87,16 +87,10 @@ With $\hat{y} = (Y - H)/T$ and $g = (1 - \hat{y})(1 + \tfrac14\hat{y})$, so that
 \end{equation}
 where $m_0$ and $m_1$ change only the through-thickness shear on the interface.
 $\bb{D}_S$ vanishes on the top and, in the full variant, on both ends, where $\xi$, $\eta$, $\eta_{,X}$, $m_0$ and $m_1$ vanish; the interface is then the only solid boundary with non-zero data.
-The stress is the compressible neo-Hookean law of solids4foam (\texttt{neoHookeanElastic}) in plane strain ($F_{zz} = 1$),
-\begin{equation}
-	\bb{\sigma}_S = \frac{\mu_S}{J}\,\mathrm{dev}\!\left(J^{-2/3}\bb{F}\bb{F}^T\right) + \frac{K_S}{2}\,\frac{J^2 - 1}{J}\,\bb{I},
-	\qquad K_S = \lambda_S + \tfrac{2}{3}\mu_S ,
-	\label{eq:mms_law}
-\end{equation}
-with $\bb{F} = \bb{I} + (\bb{\nabla}_0\bb{D}_S)^T$ and $J = \det\bb{F}$ as in Section~\ref{sec:solid_model}, the three-dimensional deviator $\mathrm{dev}\,\bb{A} = \bb{A} - \tfrac13(\mathrm{tr}\,\bb{A})\bb{I}$, and the Lam\'e parameters $\mu_S = E_S/(2(1+\nu_S))$ and $\lambda_S = \nu_S E_S/((1+\nu_S)(1-2\nu_S))$.
+The stress is the neo-Hookean law~\eqref{eqn:neo_hookean} in plane strain ($F_{zz} = 1$), with $\bb{F} = \bb{I} + (\bb{\nabla}_0\bb{D}_S)^T$ and $J = \det\bb{F}$ as in Section~\ref{sec:solid_model}.
 
 For an arbitrary displacement the interface shear traction is of order $\mu_S$ times the strain, i.e.\ of order one here; balancing it with $\mu_F = 10^{-2}$ needs fluid shear rates of order $10^2$, and gave fluid velocities of about 30 in a first attempt.
-For the law~\eqref{eq:mms_law}, let $\bb{a} = \partial\bb{x}/\partial X$ and $\bb{b} = \partial\bb{x}/\partial Y$ be the deformed material tangent and through-thickness fibre on the interface.
+For the law~\eqref{eqn:neo_hookean}, let $\bb{a} = \partial\bb{x}/\partial X$ and $\bb{b} = \partial\bb{x}/\partial Y$ be the deformed material tangent and through-thickness fibre on the interface.
 The volumetric and the isotropic terms give no shear, and the deformed normal is parallel to $\bb{F}^{-T}\bb{N}$, with $|\bb{F}^{-T}\bb{N}| = |\bb{a}|/J$ in two dimensions.
 The shear traction on the interface is therefore
 \begin{equation}
@@ -163,13 +157,18 @@ Both conditions~\eqref{eqn:kinematic_interface} then hold exactly, and no interf
 An interface source would have required a new term, implemented consistently, in each interface treatment (the quasi-monolithic traction transfer, the Neumann condition of the Dirichlet--Neumann coupling and the Robin condition), and would have bypassed part of the traction transfer under test.
 
 \paragraph{Sources.}
-The body forces are the residuals of the exact fields in Equations~\eqref{eqn:fluid_momentum_ale} and~\eqref{eqn:solid_momentum_TL}:
+No mass source is needed, since $\bb{\nabla}\cdot\bb{v}_F = 0$ identically, and no interface source, since both interface conditions hold exactly.
+The fluid and solid momentum equations~\eqref{eqn:fluid_momentum_ale} and~\eqref{eqn:solid_momentum_TL} carry the body forces
 \begin{equation}
 	\bb{b}_F = \frac{\partial\bb{v}_F}{\partial t} + \bb{v}_F\cdot\bb{\nabla}\bb{v}_F - \bb{\nabla}\cdot\bb{\sigma}_F^*, \qquad
 	\rho_{S,0}\,\bb{b}_S = \rho_{S,0}\,\frac{\partial^2\bb{D}_S}{\partial t^2} - \bb{\nabla}_0\cdot\bb{P}_S^T ,
 	\label{eq:mms_sources}
 \end{equation}
-where, with the gradient convention of Section~\ref{sec:math_model}, $\bb{v}_F\cdot\bb{\nabla}\bb{v}_F$ is the convective acceleration.
+the residuals of the exact fields.
+Here $\bb{v}_F$ is the velocity of Equation~\eqref{eq:mms_psi} and $p_F$ the kinematic pressure of Equation~\eqref{eq:mms_p}; $\bb{\sigma}_F^* = \nu\left[\bb{\nabla}\bb{v}_F + (\bb{\nabla}\bb{v}_F)^T\right] - p_F\bb{I}$, with $\nu = \mu_F/\rho_F$, so that $\bb{\nabla}\cdot\bb{\sigma}_F^* = \nu\nabla^2\bb{v}_F - \bb{\nabla}p_F$; $\bb{D}_S$ is the displacement of Equation~\eqref{eq:mms_DS}, $\bb{P}_S = J\bb{\sigma}_S\bb{F}^{-T}$ with $\bb{\sigma}_S$ from Equation~\eqref{eqn:neo_hookean}, and $\rho_{S,0}$ the initial solid density.
+The time derivative of $\bb{v}_F$ is taken at fixed $\bb{x}$ and that of $\bb{D}_S$ at fixed $\bb{X}$.
+In Cartesian components, $(\bb{v}_F\cdot\bb{\nabla}\bb{v}_F)_i = v_j\,\partial v_i/\partial x_j$ and $(\bb{\nabla}_0\cdot\bb{P}_S^T)_i = \partial P_{iJ}/\partial X_J$, summed over repeated indices.
+After differentiation the closed forms run to thousands of terms and are not printed: they are generated from these definitions by the derivation script \texttt{paper-data/mms\_fsi/derive/mms\_fsi.py}, and the generated C++ evaluation code, \texttt{derive/generated/mmsFsiExact.H} (\texttt{generated\_flat/} for the flat variant), gives $\bb{v}_F$, $p_F$, $\bb{D}_S$, $\bb{b}_F$ and $\rho_{S,0}\bb{b}_S$ at any point and time, so that the case can be reproduced in another code without the symbolic pipeline.
 $\bb{b}_F$ is Eulerian, and applies unchanged on the moving mesh, since $\partial_t\bb{v}_F|_{\chi} + (\bb{v}_F - \bb{v}^\Gamma)\cdot\bb{\nabla}\bb{v}_F = \partial_t\bb{v}_F|_{\bb{x}} + \bb{v}_F\cdot\bb{\nabla}\bb{v}_F$ for any velocity $\bb{v}^\Gamma$ of the mesh points, with $\chi$ the mesh coordinates.
 It is per unit mass, as the fluid code uses the kinematic pressure, and is evaluated at the current cell centres at the new time level; $\bb{b}_S$ is evaluated at the initial cell centres, and the solid source per unit initial volume, $\rho_{S,0}\bb{b}_S$, is what the code applies.
 Both are of the size of the physical terms (maxima over a sampling grid, full variant): $|\bb{b}_F| \approx 10$ against $|\partial\bb{v}_F/\partial t| \approx 9$, $|\bb{v}_F\cdot\bb{\nabla}\bb{v}_F| \approx 6$ and $|\bb{\nabla}p_F| \approx 8$; and $|\rho_{S,0}\bb{b}_S| \approx 10$ against $|\rho_{S,0}\,\partial^2\bb{D}_S/\partial t^2| \approx 5$ and $|\bb{\nabla}_0\cdot\bb{P}_S^T| \approx 11$.

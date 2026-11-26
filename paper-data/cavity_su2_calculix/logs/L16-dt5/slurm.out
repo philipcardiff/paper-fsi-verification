@@ -1,0 +1,7 @@
+Job 869 (cavity-su2-calculix)  host lugh  CPUs 1  tasks 32  mem 65536 MB  GPU none  start 2026-11-16T11:59:22+00:00
+case /scratch/users/dylan/FSI_benchmarks/runs/cavity-su2-calculix/cases/L16  stage coupled  steady ranks 32  coupled: SU2 ranks 31 + CalculiX 1
+fluid level 16 (cavity_L16.su2), solid level 16: 640x64 C3D8I (40960 elements), 641 interface points, depth 1.0 m; dt 5.0 s, coupled t_end 250.0 s, inner iter 1000, inner minval -10.0, steady iter 20000, write every 5 windows
+stage 1 (steady rigid) not re-run: restart_steady.dat + history_steady.csv copied from checks/rigid-fluid/L16 (job 860; identical mesh, inlet profile and cfg except ITER 40000 vs 20000; converged at 2370 its)
+windows 50  mean coupling its 3.82  max 50  at-cap 1
+stage 2 exit 0 (solid 0, fluid 0), wall 7517 s
+Exit 0  end 2026-11-16T14:04:39+00:00  wall 7517 s

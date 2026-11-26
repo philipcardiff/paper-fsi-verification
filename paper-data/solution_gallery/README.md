@@ -45,3 +45,17 @@ in this repository.
 | (g) cavity | rerun: skew-corrected level-2 case (`cavgap/skew_L2/.../aitken/mesh2`), serial, written at t = 200 s | t = 200 s | tip u_y -0.231268 m, identical to the stripped original run |
 | (h) Hessenthaler | this paper's partitioned rF1 run on Sonic, `/scratch/pcardiff/hv/P_rF1_LUST_b02_mwp` (read-only; IQN-ILS, build 206437983 + PR 676 outlet BC); t = 45 copied and reconstructed on the Mac | t = 45 s, plane x = 0.3 mm | flap tip u_y 16.65 mm |
 | (i) blob | rerun: tutorial at `1b5ab0963` (PR #694, finite-strain neo-Hookean solid), mesh factor 2 of its verification study (1 920 fluid cells, dt 0.01 s, IQN-ILS), serial | t = 3 s | top-point u_x 0.139127 m (paper level 3: 0.139075 m, 0.04%) |
+
+## Panel details (moved from the figure caption)
+
+The caption of `fig:solution_gallery` gives one line per panel; the details are:
+
+- (a) Ring added-mass problem, strong level ($m^* = 10.08$): exact $n = 2$ mode at maximum displacement, drawn as 0.1 m; potential-flow pressure; black curves are stream-function contours of the mode's flow, whose velocity is zero at this instant; dotted: the modelled quadrant.
+- (b) Mok cavity, $64^2$, IQN-ILS: speed at a peak of the membrane-midpoint deflection, $t = 24.5$ s; openings in orange.
+- (c) Womersley tube, exact solution: axial velocity, with $u_x(r)$ profiles drawn to an arbitrary velocity scale.
+- (d) Collapsible channel, fluid level F2, Robin-Neumann: speed at the first minimum of the wall-midpoint displacement ($3 \le x \le 19$ m shown).
+- (e) Turek-Hron FSI3, Gmsh level 2, IQN-ILS: vorticity, clipped at $\pm120$ 1/s, near the maximum upward tip deflection.
+- (f) 3-D tube, level 1, Robin-Neumann: pressure on the symmetry plane, quarter model mirrored about the axis.
+- (g) Flexible-bottom cavity, level 2, Aitken: steady speed ($x \le 8$ m shown).
+- (h) Hessenthaler flap, rF1, IQN-ILS: magnitude of the in-plane velocity on the $y$-$z$ plane 0.3 mm from the mid-plane, with curves following the projected velocity.
+- (i) Blob in treacle, third mesh level, IQN-ILS: steady speed.

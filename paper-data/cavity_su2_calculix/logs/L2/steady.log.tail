@@ -1,0 +1,30 @@
+|                      rms[P]|      -12.5024|         < -12|         Yes|
+|                      rms[U]|      -12.1261|         < -12|         Yes|
+|                      rms[V]|      -12.7262|         < -12|         Yes|
++-----------------------------------------------------------------------+
+-------------------------------------------------------------------------
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_steady.dat                 |
+|Paraview                           |flow_steady.vtu                    |
+|CSV file                           |surface_steady.csv                 |
++-----------------------------------------------------------------------+
+
+------------------------- Solver Postprocessing -------------------------
+Deleted CNumerics container.
+Deleted CIntegration container.
+Deleted CSolver container.
+Deleted CIteration container.
+Deleted CInterface container.
+Deleted CGeometry container.
+Deleted CFreeFormDefBox class.
+Deleted CSurfaceMovement class.
+Deleted CVolumetricMovement class.
+Deleted CConfig container.
+Deleted nInst container.
+Deleted COutput class.
+-------------------------------------------------------------------------
+
+------------------------- Exit Success (SU2_CFD) ------------------------
+

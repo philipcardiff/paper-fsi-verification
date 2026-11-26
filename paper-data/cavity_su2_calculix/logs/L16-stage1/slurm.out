@@ -1,0 +1,3 @@
+Job 860 (cavity-rigid-L16)  host lugh  tasks 16  mem 32768 MB  start 2026-11-15T20:41:30+00:00
+case /scratch/users/dylan/FSI_benchmarks/runs/cavity-su2-calculix/checks/rigid-fluid/L16
+Exit 0  end 2026-11-15T21:09:35+00:00  wall 1685 s  history lines 2372

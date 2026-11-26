@@ -1,0 +1,7 @@
+Job 878 (cavity-su2-calculix)  host lugh  CPUs 1  tasks 9  mem 24576 MB  GPU none  start 2026-11-16T16:57:53+00:00
+case /scratch/users/dylan/FSI_benchmarks/runs/cavity-su2-calculix/cases/dt100/L8  stage all  steady ranks 9  coupled: SU2 ranks 8 + CalculiX 1
+fluid level 8 (cavity_L8.su2), solid level 8: 320x32 C3D8I (10240 elements), 321 interface points, depth 1.0 m; dt 100.0 s, coupled t_end 4000.0 s, inner iter 1000, inner minval -10.0, steady iter 20000, write every 10 windows
+stage 1 exit 0, wall 240 s, 849 history lines
+windows 40  mean coupling its 1.70  max 15  at-cap 0
+stage 2 exit 0 (solid 0, fluid 0), wall 1163 s
+Exit 0  end 2026-11-16T17:21:16+00:00  wall 1403 s

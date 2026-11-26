@@ -26,7 +26,14 @@ With the deformation gradient $\bb{F} = \bb{I} + (\bb{\nabla}_0 \bb{D}_S)^T$, $J
 \end{equation}
 with the time derivative taken at fixed material coordinates, so that $\bb{v}_S = \partial\bb{D}_S/\partial t$.
 The stress comes from linear elasticity or from a neo-Hookean or Saint Venant--Kirchhoff hyperelastic law.
-Where the strains and rotations are small, the geometrically linear form is used instead: $\bb{F} \approx \bb{I}$ and $\bb{P}_S \approx \bb{\sigma}_S$ in Equation~\eqref{eqn:solid_momentum_TL}, with Hooke's law and Lam\'e parameters $\mu_S$ and $\lambda_S$.
+The compressible neo-Hookean law used here is
+\begin{equation}
+    \bb{\sigma}_S = \frac{\mu_S}{J}\,\mathrm{dev}\!\left(J^{-2/3}\bb{F}\bb{F}^T\right) + \frac{K_S}{2}\,\frac{J^2 - 1}{J}\,\bb{I},
+    \qquad K_S = \lambda_S + \tfrac{2}{3}\mu_S ,
+    \label{eqn:neo_hookean}
+\end{equation}
+with the three-dimensional deviator $\mathrm{dev}\,\bb{A} = \bb{A} - \tfrac13(\mathrm{tr}\,\bb{A})\bb{I}$ and the Lam\'e parameters $\mu_S = E_S/(2(1+\nu_S))$ and $\lambda_S = \nu_S E_S/((1+\nu_S)(1-2\nu_S))$.
+Where the strains and rotations are small, the geometrically linear form is used instead: $\bb{F} \approx \bb{I}$ and $\bb{P}_S \approx \bb{\sigma}_S$ in Equation~\eqref{eqn:solid_momentum_TL}, with Hooke's law.
 The solid boundaries carry prescribed displacements, prescribed tractions or symmetry conditions, besides the interface conditions of Section~\ref{sec:fsi_interface}.
 
 %%--------------------------------------------------------------------------------------------------------------------%%
