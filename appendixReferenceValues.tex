@@ -107,23 +107,30 @@ The reference (category B) is oomph-lib extrapolated to zero mesh size at the sa
 
 \paragraph{Turek--Hron benchmarks.}
 The QoIs are the displacements $u_x$ and $u_y$ of the flag-tip point A of the benchmark definition~\citep{Turek2006} and the drag and lift per unit depth on the cylinder and flag together.
-FSI1 is steady (Table~\ref{tab:refvals_fsi1}).
+FSI1 is steady (Table~\ref{tab:refvals_fsi1}). The tabulated values are those of a four-level study with the standard solid and the strict coupling test, integrated in pseudo-time with IQN-ILS ($2.6$--$3.0$ coupling iterations per step), which has more levels than the high-order-solid study of Section~\ref{sec:fsi1}.
+All four QoIs converge monotonically; $u_x$ converges at first order from below and crosses the Featflow value between 4x and 8x, whereas the Featflow $u_x$ converges from above, so $u_x$ is the least converged QoI of both sequences.
+Doubling the pseudo-time step at 4x changes every QoI by at most $0.012\%$, every run is steady to a relative spread of at most $2.2\times10^{-4}$ over its last $6\,\mathrm{s}$, and in a two-level study with the legacy test IQN-ILS and Robin--Neumann agree to $0.01\%$.
 For FSI3 (Table~\ref{tab:refvals_fsi3}) the mean is (max+min)/2 and the amplitude (max$-$min)/2, averaged over the last five full periods before $t = 6\,\mathrm{s}$ with the flag held rigid to $t = 2\,\mathrm{s}$; the frequency is that of $u_y$.
 The FSI2 values are \hl{[pending]}: the case is being recomputed on the Gmsh family.
 
 \begin{table}[htbp]
 	\centering
-	\small
-	\caption{Turek--Hron FSI1: steady QoIs ($t = 30\,\mathrm{s}$) on the finest level (8x), the Richardson value from 2x--4x--8x with the observed order and the GCI of 8x (both conditional indicators), and the finest Featflow level (reference, category B). From Table~\ref{tab:fsi1}.}
-	\label{tab:refvals_fsi1}
+	\footnotesize
+	\caption{Turek--Hron FSI1 with the standard solid: steady QoIs on four levels ($\Delta t = 0.00625\,\mathrm{s}$, $t = 30\,\mathrm{s}$; strict coupling test), observed orders from 1x--2x--4x and 2x--4x--8x, the Richardson value from 2x--4x--8x with the observed order and the GCI of 8x (both conditional indicators), and the finest Featflow level (reference, category B). Source: \texttt{paper-data/fsi1\_four\_level/}.}
+	\label{tab:fsi1}\label{tab:refvals_fsi1}
 	\begin{tabular}{lrrrr}
 		\toprule
-		Quantity & 8x & Richardson & GCI (8x) & Featflow \\
+		Level (cells, fluid + solid) & $u_x$ ($10^{-5}\,\mathrm{m}$) & $u_y$ ($10^{-4}\,\mathrm{m}$) & drag (N/m) & lift (N/m) \\
 		\midrule
-		$u_x$ ($10^{-5}\,\mathrm{m}$) & 2.2747 & 2.2824 & $0.42\%$ & 2.2705 \\
-		$u_y$ ($10^{-4}\,\mathrm{m}$) & 8.1560 & 8.1825 & $0.41\%$ & 8.2088 \\
-		drag (N/m) & 14.2977 & 14.3026 & $0.04\%$ & 14.2943 \\
-		lift (N/m) & 0.76414 & 0.76318 & $0.16\%$ & 0.76375 \\
+		1x (5\,966) & 2.2161 & 7.0404 & 14.1890 & 0.80343 \\
+		2x (23\,864) & 2.2507 & 7.8283 & 14.2628 & 0.77559 \\
+		4x (95\,456) & 2.2668 & 8.0856 & 14.2886 & 0.76663 \\
+		8x (381\,824) & 2.2747 & 8.1560 & 14.2977 & 0.76414 \\
+		\midrule
+		Order, 1x--4x / 2x--8x & 1.11 / 1.02 & 1.61 / 1.87 & 1.52 / 1.51 & 1.63 / 1.85 \\
+		Richardson value & 2.2824 & 8.1825 & 14.3026 & 0.76318 \\
+		GCI (8x) & $0.42\%$ & $0.41\%$ & $0.04\%$ & $0.16\%$ \\
+		Featflow, finest level & 2.2705 & 8.2088 & 14.2943 & 0.76375 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
