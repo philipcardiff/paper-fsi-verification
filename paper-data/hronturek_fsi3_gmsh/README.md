@@ -148,3 +148,31 @@ No separate time-step study (Δt is scaled with h), no coupling-tolerance sweep,
 coupling-algorithm comparison, no solid-only refinement and no second-code solution. The coupling
 studies of the uniform block-structured family and the second-solid-code run on the ring+box
 1x′ mesh (`fsi3_precice_calculix/`) are on other meshes.
+
+## History figure (`figure/`, Fig. `fig:fsi3_histories`)
+
+`figures/fsi3_gmsh_histories.pdf`: tip u_y, u_x, lift and drag (cylinder + flag, per unit depth)
+of L1–L3 over the five-period QoI window, with enlargements of one u_y maximum, one u_x minimum
+and one lift maximum, against Failer & Richter (2020) level 6 and Featflow level 4 (mean ±
+amplitude; the u_y and lift reference lines are centred on the L3 (max+min)/2, since only the
+amplitudes are compared). Each level is shifted so that its last upward u_y crossing before
+t = 6 s (the window end: 5.8399, 5.8329, 5.8325 s) is at t − t0 = 0.
+
+| File | Content |
+|---|---|
+| `figure/extract_histories.py` | Stitches the restart segments of postProcessing (last row of each time, as `ht_coupled_analysis.py`), divides the forces by the depth 0.015 m and writes t = 4.5–6 s. With `--check`, recomputes the window statistics from the written CSVs and compares them with `g123.csv`. |
+| `figure/data/fsi3_gmsh_L{1,2,3}_histories.csv` | Columns `t_s, ux_m, uy_m, drag_N_per_m, lift_N_per_m`, every time step (not decimated), t = 4.5–6 s; 0.47, 0.66 and 0.93 MB. |
+| `figure/fsi3_histories_figure.py` | Draws the figure from the CSVs, in the shared style (`../figstyle`). |
+
+```bash
+cd paper-data/hronturek_fsi3_gmsh/figure
+python3 extract_histories.py --out-dir data --check ../g123.csv \
+  --case L1=<results>/g1 --case L2=<results>/g2 --case L3=<fsi3-l3-shared>
+python3 fsi3_histories_figure.py --data-dir data --out ../../../figures/fsi3_gmsh_histories.pdf
+```
+
+The inputs were `~/claude-runs/fsi3gmsh/results/g1`, `g2` and
+`/Volumes/OpenFOAM/philipc-v2512/claude-runs/fsi3-l3-shared`. The check reproduces every QoI of
+`g123.csv` (frequency, (max+min)/2 and amplitude of u_x, u_y, drag and lift) to a relative
+difference of 5e-7 or less (the lift (max+min)/2, a near-zero mean; all others ≤ 5e-8), so the
+CSVs carry the same data as the table.
