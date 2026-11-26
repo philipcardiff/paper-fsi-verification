@@ -1,0 +1,30 @@
+# Shared matplotlib style for the paper figures.
+# Usage: plt.style.use("<repo>/paper-data/figstyle/paper.mplstyle")
+# Figures are drawn at their final printed size, using the widths in README.md,
+# so 8 pt here is 8 pt in print.
+font.family         : serif
+font.serif          : Computer Modern Roman, CMU Serif, DejaVu Serif
+mathtext.fontset    : cm
+text.usetex         : False
+font.size           : 8
+axes.labelsize      : 8
+axes.titlesize      : 8
+legend.fontsize     : 7
+xtick.labelsize     : 7
+ytick.labelsize     : 7
+axes.linewidth      : 0.6
+lines.linewidth     : 1.0
+lines.markersize    : 3.5
+xtick.major.width   : 0.6
+ytick.major.width   : 0.6
+xtick.direction     : in
+ytick.direction     : in
+xtick.top           : True
+ytick.right         : True
+legend.frameon      : False
+axes.prop_cycle     : cycler('color', ['0072B2', 'D55E00', '009E73', 'CC79A7', 'E69F00', '56B4E9', '000000'])
+image.cmap          : viridis
+savefig.dpi         : 400
+savefig.bbox        : tight
+savefig.pad_inches  : 0.02
+pdf.fonttype        : 42
