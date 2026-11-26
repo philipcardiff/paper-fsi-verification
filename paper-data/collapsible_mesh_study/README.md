@@ -15,6 +15,8 @@ order, Δt = 0.00625 s, tutorial tolerances), unchanged except for the work dire
 Figure: `python3 ../figure_scripts/collapsible_mesh_figure.py . REF_dt160.csv REF.csv out.pdf`,
 where the two reference CSVs are `collapsibleChannel_oomph_dt160.csv` and
 `collapsibleChannel_oomph_reference.csv` from the tutorial's `verification/reference/`.
+The paper's figure (`fig:collapsible_mesh`) uses `oomph_extrapolated_dt160.csv` (below) as
+REF_dt160.csv, with `0.05 "model form"`; the full command is in `../figure_scripts/README.md`.
 
 ## oomph-lib spatial refinement (8 Nov 2026)
 

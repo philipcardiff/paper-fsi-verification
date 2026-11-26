@@ -7,10 +7,12 @@ Every plotting script uses `paper.mplstyle`:
 - viridis or cividis for sequential fields, and a diverging map (e.g. `RdBu_r`) centred on zero for errors;
 - vector PDF output, with rasterised field layers (`rasterized=True`) at 400 dpi.
 
-Widths in the sn-jnl layout:
+Widths in the layout of `article.tex`:
 
-- full text width: 372 pt = 5.16 in;
-- half width: about 2.5 in.
+- full text width: 15 cm = 427 pt = 5.93 in (`textwidth=15cm` in `article.tex`);
+- half width: about 209 pt = 2.9 in.
+
+`figstyle.py` holds these widths (`TEXTWIDTH`, `HALFWIDTH`) and `figstyle.use()` loads this style with the CMU Serif fonts of the local TeX installation.
 
 Draw at the final width and include with `width=\textwidth` or the half width, so the fonts are not rescaled.
 
