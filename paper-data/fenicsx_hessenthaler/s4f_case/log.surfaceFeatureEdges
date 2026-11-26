@@ -1,0 +1,30 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2512                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _87ed40d2-20251219 OPENFOAM=2512 version=2512
+Arch   : "LSB;label=32;scalar=64"
+Exec   : surfaceFeatureEdges -angle 45 constant/triSurface/fluidDomain.stl.gz constant/triSurface/fluidDomain.fms
+Date   : Nov 11 2026
+Time   : 20:15:59
+Host   : xenosim
+PID    : 3231267
+I/O    : uncollated
+Case   : <S4F_ROOT>/runs/feF1_strict
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+memory pool : not available
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Writing : "constant/triSurface/fluidDomain.fms"
+End
+
+
+real	0m0.467s
+user	0m0.893s
+sys	0m0.048s
