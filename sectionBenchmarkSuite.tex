@@ -333,11 +333,12 @@ The construction and the generated evaluation code were checked symbolically and
 The solution was developed with substantial assistance from an AI coding assistant under the authors' direction, as stated in the declaration of generative AI at the end of the paper.
 
 \paragraph{Numerical model.}
-The fluid uses Gauss linear gradients, one outer corrector with four pressure correctors and one non-orthogonal corrector, and linear-solver tolerances of $10^{-12}$.
-The solid is the total Lagrangian formulation with the standard variant (stabilisation factor $0.1$).
+The fluid uses Gauss linear gradients, two outer correctors with four pressure correctors and one non-orthogonal corrector, and linear-solver tolerances of $10^{-12}$; the time-derivative correction of the momentum-interpolated face flux is switched off, and at the outlet, where the velocity gradient and the pressure are prescribed, the face flux is built from the boundary velocity rather than from the velocity of the adjacent cell.
+The solid is the total Lagrangian formulation with the standard variant (stabilisation factor $0.1$), with the deformed area of its traction boundary evaluated from a surface gradient over the boundary face; its old-time displacements at $t = -\Delta t$, $-2\Delta t$ and $-3\Delta t$ are set to the exact solution, continued smoothly to $t < 0$, so that the start-up from rest is second order.
+Appendix~\ref{app:lessons} gives the reasons for these settings.
 The fluid mesh moves by a displacement Laplacian with quadratic inverse-distance diffusivity, which moves the cells next to the tilting interface almost vertically, so in the full variant they become non-orthogonal to the interface by up to $13^\circ$.
 Two couplings are compared: Dirichlet--Neumann with Aitken relaxation, with the moving-wall velocity and a flux-consistent pressure gradient on the interface, and Robin--Neumann.
-The coupling tolerance is $10^{-6}$ with the legacy test and at most 200 iterations per step; at acceptance $r_1 \approx 10^{-4}$ for Aitken and $r_1 \approx 10^{-6}$ for Robin--Neumann, and both couplings give the same orders, so the iterative error does not determine them.
+The coupling tolerance is $10^{-6}$ with the legacy test and at most 200 iterations per step; the two couplings give solid displacements that agree to about $2\%$ on every level, so the iterative error does not determine the orders.
 IQN-ILS did not complete the case, because its least-squares update inverted the solid cells next to the interface (Appendix~\ref{app:lessons}).
 The boundary data are exact (Table~\ref{tab:mms_bc}), and the body forces are applied explicitly, the fluid force at the current cell centres at the new time level and the solid force at the reference cell centres.
 The fluid meshes have $n \times n/2$ and the solid meshes $n \times n/4$ square cells, with $n = 16$, $32$, $64$ and $128$ faces on the interface, and $\Delta t = 0.32/n$ ($0.02$ to $0.0025$), i.e.\ space and time are refined together.
@@ -350,7 +351,7 @@ The finest-level error norms are collected in Table~\ref{tab:refvals_mms} (Appen
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\caption{Manufactured FSI solution, full variant, partitioned couplings: L2 errors at $t = 0.4$ and observed orders between successive levels, with $\Delta t \propto h$ ($\Delta t = 0.32/n$). $\bb{v}_F$, $p_F$: fluid velocity and pressure; $\bb{D}_S$: solid displacement; $\bb{D}_S^\Gamma$: interface displacement; $\bb{t}^\Gamma$: traction applied to the solid. Peak exact values: $|\bb{v}_F| \approx 2.1$, $|p_F| \approx 3.0$, $|\bb{D}_S| \approx 0.12$, $|\bb{t}^\Gamma| \approx 3.0$. Source: \texttt{paper-data/mms\_fsi/} (\texttt{summary\_errors\_t0.2\_t0.4.csv}, \texttt{order\_tables/}, \texttt{source\_tables/}).}
+	\caption{Manufactured FSI solution, full variant, partitioned couplings with the case settings of the numerical model above: L2 errors at $t = 0.4$ and observed orders between successive levels, with $\Delta t \propto h$ ($\Delta t = 0.32/n$). $\bb{v}_F$, $p_F$: fluid velocity and pressure; $\bb{D}_S$: solid displacement; $\bb{D}_S^\Gamma$: interface displacement; $\bb{t}^\Gamma$: traction applied to the solid. Peak exact values: $|\bb{v}_F| \approx 2.1$, $|p_F| \approx 3.0$, $|\bb{D}_S| \approx 0.12$, $|\bb{t}^\Gamma| \approx 3.0$. Source: \texttt{paper-data/mms\_fsi/results/partitioned\_final/}.}
 	\label{tab:mms_fsi}
 	\begin{tabular}{llrrrrl}
 		\toprule
@@ -358,24 +359,29 @@ The finest-level error norms are collected in Table~\ref{tab:refvals_mms} (Appen
 		\cmidrule(lr){3-6}
 		Coupling & Quantity & 16 & 32 & 64 & 128 & Orders \\
 		\midrule
-		Aitken & $\bb{v}_F$ & $6.85\times10^{-2}$ & $2.58\times10^{-2}$ & $1.05\times10^{-2}$ & $4.31\times10^{-3}$ & 1.41, 1.30, 1.28 \\
-		 & $p_F$ & $6.41\times10^{-2}$ & $3.48\times10^{-2}$ & $1.82\times10^{-2}$ & $7.83\times10^{-3}$ & 0.88, 0.94, 1.22 \\
-		 & $\bb{D}_S$ & $3.72\times10^{-3}$ & $6.96\times10^{-4}$ & $1.59\times10^{-4}$ & $9.05\times10^{-5}$ & 2.42, 2.13, 0.81 \\
-		 & $\bb{D}_S^\Gamma$ & $5.09\times10^{-3}$ & $1.19\times10^{-3}$ & $3.11\times10^{-4}$ & $1.75\times10^{-4}$ & 2.09, 1.94, 0.83 \\
-		 & $\bb{t}^\Gamma$ & $7.06\times10^{-2}$ & $2.14\times10^{-2}$ & $8.04\times10^{-3}$ & $5.27\times10^{-3}$ & 1.72, 1.41, 0.61 \\
+		Aitken & $\bb{v}_F$ & $3.27\times10^{-2}$ & $1.00\times10^{-2}$ & $2.81\times10^{-3}$ & $7.24\times10^{-4}$ & 1.71, 1.83, 1.96 \\
+		 & $p_F$ & $6.04\times10^{-2}$ & $1.71\times10^{-2}$ & $4.13\times10^{-3}$ & $1.12\times10^{-3}$ & 1.82, 2.05, 1.89 \\
+		 & $\bb{D}_S$ & $3.72\times10^{-3}$ & $7.59\times10^{-4}$ & $1.65\times10^{-4}$ & $3.83\times10^{-5}$ & 2.29, 2.20, 2.11 \\
+		 & $\bb{D}_S^\Gamma$ & $5.05\times10^{-3}$ & $1.35\times10^{-3}$ & $3.28\times10^{-4}$ & $8.09\times10^{-5}$ & 1.90, 2.04, 2.02 \\
+		 & $\bb{t}^\Gamma$ & $7.15\times10^{-2}$ & $2.15\times10^{-2}$ & $4.88\times10^{-3}$ & $1.34\times10^{-3}$ & 1.73, 2.14, 1.87 \\
 		\midrule
-		Robin--Neumann & $\bb{v}_F$ & $7.32\times10^{-2}$ & $2.94\times10^{-2}$ & $1.19\times10^{-2}$ & $5.12\times10^{-3}$ & 1.31, 1.31, 1.21 \\
-		 & $p_F$ & $8.57\times10^{-2}$ & $3.88\times10^{-2}$ & $1.89\times10^{-2}$ & $8.05\times10^{-3}$ & 1.14, 1.03, 1.23 \\
-		 & $\bb{D}_S$ & $3.83\times10^{-3}$ & $7.59\times10^{-4}$ & $2.19\times10^{-4}$ & $1.27\times10^{-4}$ & 2.34, 1.79, 0.78 \\
-		 & $\bb{D}_S^\Gamma$ & $5.24\times10^{-3}$ & $1.30\times10^{-3}$ & $3.91\times10^{-4}$ & $2.37\times10^{-4}$ & 2.01, 1.74, 0.72 \\
-		 & $\bb{t}^\Gamma$ & $1.05\times10^{-1}$ & $3.65\times10^{-2}$ & $1.07\times10^{-2}$ & $6.87\times10^{-3}$ & 1.52, 1.77, 0.64 \\
+		Robin--Neumann & $\bb{v}_F$ & $3.92\times10^{-2}$ & $1.51\times10^{-2}$ & $4.57\times10^{-3}$ & $1.09\times10^{-3}$ & 1.37, 1.73, 2.07 \\
+		 & $p_F$ & $8.08\times10^{-2}$ & $2.65\times10^{-2}$ & $7.76\times10^{-3}$ & $2.45\times10^{-3}$ & 1.61, 1.77, 1.66 \\
+		 & $\bb{D}_S$ & $3.78\times10^{-3}$ & $7.71\times10^{-4}$ & $1.68\times10^{-4}$ & $3.91\times10^{-5}$ & 2.29, 2.19, 2.11 \\
+		 & $\bb{D}_S^\Gamma$ & $5.15\times10^{-3}$ & $1.35\times10^{-3}$ & $3.03\times10^{-4}$ & $7.09\times10^{-5}$ & 1.93, 2.15, 2.10 \\
+		 & $\bb{t}^\Gamma$ & $9.82\times10^{-2}$ & $2.84\times10^{-2}$ & $5.77\times10^{-3}$ & $1.53\times10^{-3}$ & 1.79, 2.30, 1.91 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
-\hl{[pending: final partitioned results after the fluid/solid fixes]}
-With both partitioned couplings, the solid and interface displacements converge at about second order from $n = 16$ to $64$ (orders $1.7$--$2.4$ at $t = 0.4$) and the interface traction at $1.4$--$1.8$, falling to $0.6$--$0.8$ from $n = 64$ to $128$; the fluid velocity converges at orders $1.2$--$1.4$ and the pressure at $0.9$--$1.2$ (Table~\ref{tab:mms_fsi}).
-Fluid-only and solid-only runs against the exact fields attribute these orders to the field solvers, not to the coupling (Appendix~\ref{app:lessons}).
-Aitken needs $26$, $48$, $72$ and $73$ coupling iterations per step on the four levels, and Robin--Neumann $19$, $43$, $77$ and $39$.
+With both partitioned couplings the solid and interface displacements converge at orders $1.9$--$2.3$ on every pair of levels and the interface traction at $1.7$--$2.3$ (Table~\ref{tab:mms_fsi}).
+With Aitken relaxation the fluid velocity converges at $1.71$, $1.83$ and $1.96$ and the pressure at $1.82$, $2.05$ and $1.89$, and at $t = 0.2$ the L2 orders of all five quantities lie between $1.56$ and $2.18$; the finest-level errors exceed those of the quasi-monolithic coupling (Table~\ref{tab:mms_fsi_corr}) by $4$--$33\%$.
+With Robin--Neumann coupling the fluid velocity reaches order $2.07$ on the finest pair, but the pressure stays at $1.6$--$1.8$.
+Its interface pressure condition imposes only the acceleration term of the normal momentum balance and omits the viscous and body-force normal terms, $\nu\nabla^2\bb{v}_F\cdot\bb{n} + \bb{b}_F\cdot\bb{n}$, which leaves an $O(h)$ pressure error in the row of fluid cells next to the interface: half a cell width times the omitted terms (about $4.3$ near $x = 1$) predicts $0.067$ and $0.034$ there on $n = 64$ and $128$, against $0.061$ and $0.031$ measured, so the L2 order tends to $1.5$ and the maximum-norm order is about one \hl{[pending: viscous term in the Robin pressure condition]}.
+With Aitken relaxation the fluid pressure on the interface faces, which is not in the table, converges at only $1.69$, $1.60$ and $1.28$ at $t = 0.4$; in fluid-alone runs the largest pressure error lies in the interface cells near the outlet end ($x \approx 1.85$--$1.9$), and its cause has not been identified.
+The maximum norms of the fluid fields also converge more slowly than the L2 norms (Aitken pressure $1.77$, $1.44$ and $1.25$).
+On the flat variant, computed on $n = 16$ to $64$, the solid and interface displacements converge at orders $1.9$--$2.4$ with both couplings and the fluid velocity and pressure at $1.6$--$1.75$ on the finer pair; the interface traction ($1.4$--$2.2$) is affected by the non-orthogonal interface cells at the inlet and outlet ends of that mesh (Appendix~\ref{app:mms}).
+These orders were reached only after fluid-only and solid-only runs against the exact fields had located four first-order errors in the field solvers and their set-up, not in the coupling, and the settings above had removed them (Appendix~\ref{app:lessons}): before, the fluid pressure converged at orders $0.9$--$1.2$ and the solid displacement at first order at $t = 0.2$.
+Aitken needs $22$, $36$, $56$ and $59$ coupling iterations per step on the four levels of the full variant, and Robin--Neumann $14$, $31$, $52$ and $21$.
 
 The quasi-monolithic coupling, with a near-wall reconstruction of the fluid that is shared by the momentum residual and the traction, a surface-gradient evaluation of the deformed traction area of the solid, and a momentum-interpolation coefficient that does not depend on $\Delta t$, converges at second order in space in every quantity of the full variant, and at second order in time in the solid displacement and the interface traction (Table~\ref{tab:mms_fsi_corr}).
 On the smallest steps the temporal orders of the fluid pressure and velocity fall to $1.6$ and $0.9$; the velocity differences there are $2$--$4\times10^{-4}$, a few per cent of the spatial error on this mesh.
@@ -405,7 +411,7 @@ Without these three treatments the quasi-monolithic interface traction is first 
 None; the reference is exact, and the quasi-monolithic coupling above is a same-lineage cross-check.
 
 \paragraph{Lessons.}
-The exact finite-deformation solution exposed errors in the boundary treatment of the fluid and in the traction boundary of the solid that neither the linear exact problems nor the physical benchmarks of the suite exposed (Appendix~\ref{app:lessons}); fluid-only and solid-only runs against the exact fields were the quickest way to attribute them.
+The exact finite-deformation solution exposed errors in the outlet flux and interface conditions of the fluid and in the start-up and traction boundary of the solid that neither the linear exact problems nor the physical benchmarks of the suite exposed (Appendix~\ref{app:lessons}); fluid-only and solid-only runs against the exact fields were the quickest way to attribute them.
 The pair of variants isolates the effect of boundary non-orthogonality, and a boundary correction that vanishes on the OpenFOAM releases used here was found this way (Appendix~\ref{app:lessons}).
 The interface traction is dominated by pressure (viscous-to-pressure ratio $\approx0.03$), so the viscous traction path is tested only weakly; a second parameter set with a larger viscosity would test it more strongly.
 The partitioned studies refine space and time together, so their orders combine spatial and temporal errors.

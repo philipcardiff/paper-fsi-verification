@@ -29,9 +29,12 @@ the method of the tutorial driver (it reproduces the driver's first trough,
 `troughValue` in `mesh_study.csv`, to all digits).
 
 Pending (marked `pending` here and `[pending]` in the paper): the computed ring values
-(IQN-ILS rerun), the partitioned manufactured-solution errors (fluid and solid fixes),
+(IQN-ILS rerun)
 and Turek-Hron FSI2 (rerun on the Gmsh family). The SU2-CalculiX cavity limits are
 quoted as in the paper, pending the merge of the SU2 data.
+
+The partitioned manufactured-solution errors (Aitken, Robin-Neumann) are the final
+results of `../mms_fsi/results/partitioned_final/` (Table `tab:mms_fsi`).
 
 The exact fields of the manufactured solution are not tabulated: they are evaluated
 by `../mms_fsi/derive/generated/mmsFsiExact.H` (Appendix C of the paper).

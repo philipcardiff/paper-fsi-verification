@@ -37,7 +37,8 @@ Results computed without these corrections are affected only where an interface 
 		beamInCrossFlow$^\ast$ (Appendix~\ref{app:beam}) & \texttt{aee0c8e35} & v2412 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & before \\
 		Tolerance sweeps & \texttt{a421f063d} & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & after \\
 		FEBio ring (solids4foam side) & as ringAddedMass; definition \texttt{1576edcc} & v2412 & GCC 11.4 \texttt{-O3} & Linux & before \\
-		Manufactured FSI solution & \texttt{4071b431e} ($n \leq 64$); \texttt{677865f55} ($n = 128$) & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
+		Manufactured FSI solution, quasi-monolithic & \texttt{4071b431e} ($n \leq 64$); \texttt{677865f55} ($n = 128$) & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
+		Manufactured FSI solution, partitioned (Table~\ref{tab:mms_fsi}) & \texttt{7a2f0a63e} with PRs \#756 and \#776 (unmerged) & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
 		\bottomrule
 		\multicolumn{6}{p{0.95\linewidth}}{$^\ast$ Provisional cases. $^\dagger$ Rerun that reproduces the tabulated errors to the digits given. $^a$ Commit that first recorded the values, an upper bound on the commit of the run; all precede PR \#492, and every one of these runs sets the IQN-ILS predictor explicitly or uses Robin--Neumann coupling with a relaxation factor of~1, so the change of the predictor default in PR \#492 does not affect them. $^\S$ Time-step study and cross-platform replicates (Section~\ref{sec:3dtube}). $^\ddagger$ \texttt{-O2 -fno-tree-vectorize -march=znver2} (v2412 also \texttt{-fno-math-errno}). Clang is Apple Clang (Xcode 27.0). PETSc: 3.24.1 (Linux), 3.22.0 (MeluXina), 3.22.2 (macOS).}
 	\end{tabular}

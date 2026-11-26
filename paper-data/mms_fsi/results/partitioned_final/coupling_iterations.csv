@@ -1,0 +1,15 @@
+series,n,steps,mean_iterations_per_step,max_iterations_per_step
+aitken_full,16,20,22.2,27
+aitken_full,32,40,36.3,49
+aitken_full,64,80,55.5,101
+aitken_full,128,160,59.2,158
+robin_full,16,20,14.4,17
+robin_full,32,40,30.9,44
+robin_full,64,80,51.6,107
+robin_full,128,160,20.6,40
+aitken_flat,16,20,20.9,23
+aitken_flat,32,40,33.0,46
+aitken_flat,64,80,43.5,74
+robin_flat,16,20,14.8,17
+robin_flat,32,40,30.8,43
+robin_flat,64,80,49.6,102
