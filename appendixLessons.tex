@@ -36,7 +36,8 @@ Several boundary conditions, including the moving-wall and interface velocity co
 On the OpenCFD releases used here that vector is purely normal on non-coupled patches, so the correction is identically zero, while on another OpenFOAM fork it is not.
 The omission was found with the tilting-interface variant of the manufactured solution, whose orders separate the effect of boundary non-orthogonality (Section~\ref{sec:mms_fsi}).
 On a moving wall it leaves a viscous traction error of about $\nu\tan\theta\,|\partial\bb{v}/\partial\tau|$ that does not vanish under refinement at a fixed non-orthogonality angle $\theta$; it is zero at a steady state, where the wall velocity does not vary along the wall.
-Its effect on the transient partitioned results is small (Section~\ref{sec:fluid_solver}).
+Its effect on the transient partitioned results is small (Section~\ref{sec:fluid_solver}); on the manufactured solution, a velocity condition of the quasi-monolithic fluid that does correct the viscous boundary gradient changed the errors by less than $1\%$.
+The limitation is not specific to FSI: on the releases concerned, any calculation that uses these velocity conditions on a wall whose velocity varies along it and whose adjacent cells are non-orthogonal, for example a moving or deforming wall in a pure CFD problem, carries the same error.
 A unit test that a boundary correction is non-zero on a skewed patch would have caught it.
 
 \paragraph{Interpolation of the continuity flux.}
@@ -70,11 +71,79 @@ Separately, the wall-normal derivative of the normal velocity in the moving-wall
 The wall conditions of the fluid on a moving interface are part of the coupled discretisation and deserve their own order tests.
 
 \paragraph{Errors that only an exact finite-deformation solution exposes.}
-The manufactured solution (Section~\ref{sec:mms_fsi}) revealed errors that the linear exact problems could not.
-Fluid-only runs with the exact interface motion reproduced the coupled errors, which located the first-order pressure in the segregated fluid: the time-derivative correction of the momentum-interpolated face flux makes the pressure error grow as $\Delta t$ falls (at $\Delta t = 6.25\times10^{-4}$ it is mostly a near-uniform offset, mean $3.4\times10^{-2}$ on $n = 64$), and the outlet treatment produces a corner error and a first-order layer whose cause is open.
-Boundary non-orthogonality (the flat variant gives the same orders), the gradient scheme (least squares instead of Gauss linear), the interface pressure condition (a moving-wall pressure condition, also at small $\Delta t$), the interface velocity condition (the exact interface velocity), and, in the coupled calculation, a skew-corrected interpolation of the face flux in the pressure equation and the exact pressure gradient on the bottom wall each leave the errors unchanged; the remaining candidates are the pressure--velocity splitting with a single outer corrector on the moving mesh, the mass balance between the fixed-pressure outlet and the flux-consistent inlet, and the mesh flux.
-Solid-only runs driven by the exact traction located two first-order solid errors: a start-up error of the displacement-form solid when the motion starts from rest with a non-zero acceleration, and an $O(h)$ error in the deformed traction area evaluated with the cell-centre deformation gradient.
-In the quasi-monolithic fluid the boundary pressure omits the tangential term $\bb{k}\cdot\nabla p$; adding it to the boundary pressure used by the fluid itself excites a near-wall pressure--velocity mode and increases the velocity error, and adding it only to the traction passed to the solid halves the traction error but leaves it first order, since the pressure of the near-wall cells and the viscous wall flux in the skewed cells are themselves first order there.
+The manufactured solution (Section~\ref{sec:mms_fsi}) revealed errors that the linear exact problems could not. They are described here for the partitioned results of Table~\ref{tab:mms_fsi} \hl{[pending: revise after the fluid/solid fixes]}.
+
+\emph{Solid.}
+Two errors of the total Lagrangian solid, both identified in runs of the solid alone driven by the exact interface traction, account for the partitioned solid results.
+At $t = 0.2$ the partitioned solid and interface displacements converge at first order ($0.85$--$1.08$) on every pair of levels, with almost the same errors for the two couplings, whereas the quasi-monolithic solid displacement converges at $2.02$--$2.16$ (\texttt{paper-data/mms\_fsi/order\_tables/}).
+This is explained by a start-up error of the displacement-form solid, which is first order in time when the motion starts from rest with a non-zero acceleration, as it does here: the time factors~\eqref{eq:mms_r} vanish with their first derivatives at $t = 0$, but not with their second.
+In the solid alone this error is about $8.6\times10^{-5}$ at $t = 0.1$ on every mesh, with $\Delta t = 6.25\times10^{-4}$, and falls fourfold when $\Delta t$ is divided by four; scaled linearly to the time steps of Table~\ref{tab:mms_fsi}, it is of the size of the partitioned displacement errors at $t = 0.2$ ($2.6\times10^{-3}$ to $3.9\times10^{-4}$ from $n = 16$ to $128$ with Aitken).
+With $\Delta t \propto h$, it appears as a first-order spatial error in the combined study; the quasi-monolithic coupling uses the velocity form of the solid, which does not show it.
+The drop of the order to $0.7$--$0.8$ from $n = 64$ to $128$ at $t = 0.4$ matches a second, spatial error that both total Lagrangian solids share.
+The deformed area of a traction boundary, $J|\bb{F}^{-T}\bb{N}|$, is evaluated with the deformation gradient of the adjacent cell, half a cell from the face, so the traction data of the solid carry an $O(h)$ error; it scales with the traction and with the normal derivative of the tangential stretch, both of which grow strongly after $t \approx 0.2$, so the order is lost on the finest meshes first.
+For the displacement form, successive-mesh differences of the solid alone at $t = 0.4$ converge at $2.23$ and $1.53$; evaluating the tangential part of the boundary deformation gradient from a surface gradient over the face restores $2.30$ and $2.19$.
+
+\emph{Fluid.}
+The partitioned fluid converges at first order in pressure, and the largest velocity and pressure errors lie at the outlet; on $n = 128$ at $t = 0.4$ the pressure error is largest in the cells next to the outlet, positive in its lower half and negative in its upper half, with a maximum of $7.1\times10^{-2}$ against $3.1\times10^{-3}$ for the quasi-monolithic coupling (Fig.~\ref{fig:mms_fsi}).
+The velocity maximum norm converges at orders of only $0.4$--$1.2$ and the pressure maximum norm at $0.5$--$0.7$.
+The errors belong to the fluid, not to the coupling: the partitioned fluid alone, with the mesh following the exact interface motion and the moving-wall velocity on the interface, reproduces the coupled Aitken errors to within $3\%$ in pressure and $6\%$ in velocity, with the same orders, whereas the quasi-monolithic fluid alone converges at second order (pressure $2.03$, $2.02$; velocity $1.81$, $1.87$; full variant, $t = 0.4$, $n = 16$ to $64$; \texttt{paper-data/mms\_fsi/results/}).
+The velocity error at the corner of the outlet and the bottom wall comes from the outlet condition, a prescribed velocity gradient with a prescribed pressure: with the exact velocity prescribed at the outlet instead, the velocity maximum norm converges at $1.6$--$1.9$ instead of $0.4$--$0.8$, the coupled velocity at second order ($2.03$, $2.05$), and the coupled pressure error falls by a factor of $2.9$ on $n = 64$, to orders $1.40$ and $1.36$.
+The time-derivative correction of the momentum-interpolated face flux makes the pressure error grow as $\Delta t$ falls on a fixed mesh (on $n = 32$ from $3.4\times10^{-2}$ at $\Delta t = 0.02$ to $5.7\times10^{-2}$ at $\Delta t = 0.0025$), so with $\Delta t \propto h$ it adds a part that does not converge; it is the partitioned counterpart, of opposite sign, of the $\Delta t$-dependent stabilisation coefficient of the quasi-monolithic fluid.
+Without this correction and at small $\Delta t$ ($6.25\times10^{-4}$) the interior pressure converges at second order ($1.9$ for $x < 1.5$, $2.0$ for $x < 1.0$); the first-order L2 error that remains is a thin layer in the outlet cells, with its maximum at $x = 1.984$, and with $\Delta t \propto h$ the interior error is then mostly a uniform offset of the pressure level that halves with $\Delta t$ (mean $-1.4\times10^{-2}$ to $-6.1\times10^{-3}$), i.e.\ first order in time.
+Boundary non-orthogonality (the flat variant gives the same orders), the gradient scheme (least squares instead of Gauss linear), the interface pressure condition (a moving-wall pressure condition, also at small $\Delta t$), the interface velocity condition (the exact interface velocity), and, in the coupled calculation, a skew-corrected interpolation of the face flux in the pressure equation and the exact pressure gradient on the bottom wall each leave the errors unchanged; the remaining candidates for the outlet layer and the pressure-level offset are the pressure--velocity splitting with a single outer corrector on the moving mesh, the mass balance between the fixed-pressure outlet and the flux-consistent inlet, and the mesh flux.
+
+\begin{figure}[htbp]
+	\centering
+	% Source: paper-data/mms_fsi/figure/mms_fsi_figure.py with the runs
+	% mms-pfv/base/aitken-n128 and mms-fsi/case/runs/qm-full/n128 at time 0.4
+	% (see paper-data/mms_fsi/README.md); fields were written only at t = 0.4.
+	\includegraphics{figures/mms_fsi_pressure_error}
+	\caption{Manufactured FSI solution: fluid pressure error $p - p_\mathrm{ex}$ at the cell centres at $t = 0.4$, full variant, $n = 128$ ($128\times64$ fluid cells, $\Delta t = 0.0025$), on the deformed mesh and with one colour scale. (a) Partitioned Dirichlet--Neumann coupling with Aitken relaxation; (b) quasi-monolithic coupling without the treatments of Table~\ref{tab:mms_fsi_corr}. The case is shown in Fig.~\ref{fig:mms_fsi_case}. Nondimensional units.}
+	\label{fig:mms_fsi}
+\end{figure}
+
+\emph{Quasi-monolithic coupling and boundary non-orthogonality.}
+Without the three treatments of Table~\ref{tab:mms_fsi_corr}, the quasi-monolithic coupling converges at close to second order on the flat variant: the solid displacement at $2.12$--$2.30$, the fluid velocity at $1.68$--$1.94$, the interface displacement at $1.75$--$2.17$, and the interface traction at $1.85$ and $1.78$, falling to $1.20$ on the finest pair (Table~\ref{tab:mms_fsi_qm}).
+On the full variant the interface traction falls to $1.33$ and $1.17$, and the solid displacement to $1.46$ on the finest pair, while the fluid velocity stays at $1.8$.
+A spatial study at a fixed small step ($\Delta t = 6.25\times10^{-4}$) gives the same picture: on the flat variant the solid displacement converges at $2.37$, $2.23$ and $2.17$ and the traction at $1.81$, $1.96$ and $1.67$, and on the full variant the traction at $1.63$, $1.31$ and $1.11$.
+The difference between the variants is boundary non-orthogonality.
+The fixed-gradient interface pressure of the quasi-monolithic fluid takes its boundary value as $p_b = p_P + g\,(\bb{n}\cdot\bb{d})$, where $p_P$ is the pressure of the adjacent cell, $g$ the prescribed normal gradient and $\bb{d}$ the vector from the cell centre to the face centre, and omits the tangential term $\bb{k}\cdot\nabla p$, with $\bb{k} = (\mathbf{I} - \bb{n}\bb{n})\cdot\bb{d}$.
+On the cells next to the tilting interface $|\bb{k}| = O(h)$, so the boundary pressure, and with it the traction, is first order.
+Evaluated with the exact pressure, the omitted term predicts an interface pressure error of $5.5\times10^{-3}$ on the finest full-variant mesh, against $5.3\times10^{-3}$ measured, with a correlation of $0.96$ along the interface.
+Adding the term to the boundary pressure used by the fluid itself excites a near-wall pressure--velocity mode and increases the velocity error, and adding it only to the traction passed to the solid halves the traction error but leaves it first order, since the pressure of the near-wall cells and the viscous wall flux in the skewed cells are themselves first order there.
+A second-order treatment needs one non-orthogonal boundary reconstruction shared by the momentum pressure gradient, the momentum-interpolated face flux and the viscous flux.
+On the full variant the solid displacement also loses order on the finest pair, by the traction-area error of the solid described above, which is eight times smaller on the flat variant.
+On a fixed mesh ($n = 32$), the temporal differences stop decreasing below $\Delta t \approx 0.005$ (orders of $-0.5$ to $0.4$ on the last pair for the traction, the fluid pressure and, on the flat variant, the solid displacement), since the coefficient of the momentum-interpolated face flux depends on $\Delta t$.
+The three treatments of Table~\ref{tab:mms_fsi_corr} address these three errors: a near-wall reconstruction in the fluid, in which the wall-cell gradients of velocity and pressure take the fixed boundary values at the face centres, the viscous wall flux is corrected for non-orthogonality, and the traction pressure includes $\bb{k}\cdot\nabla p$, all from one reconstruction shared by the momentum residual and the traction; the surface-gradient evaluation of the deformed traction area of the solid; and a momentum-interpolation coefficient built from the stored time history, so that it no longer depends on $\Delta t$.
+Neither of the first two alone gives second order; together they do, and with all three the errors on $n = 128$ fall by factors of up to $4.8$.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\caption{Manufactured FSI solution, quasi-monolithic (QM) coupling of the companion paper~\citep{CardiffBatistic2026QM} without the three treatments of Table~\ref{tab:mms_fsi_corr}: L2 errors at $t = 0.4$ and observed orders, as in Table~\ref{tab:mms_fsi}. Source: \texttt{paper-data/mms\_fsi/}.}
+	\label{tab:mms_fsi_qm}
+	\begin{tabular}{llrrrrl}
+		\toprule
+		 & & \multicolumn{4}{c}{L2 error at $n =$} & \\
+		\cmidrule(lr){3-6}
+		Variant & Quantity & 16 & 32 & 64 & 128 & Orders \\
+		\midrule
+		full & $\bb{v}_F$ & $3.32\times10^{-2}$ & $9.37\times10^{-3}$ & $2.62\times10^{-3}$ & $7.66\times10^{-4}$ & 1.82, 1.84, 1.77 \\
+		 & $p_F$ & $5.81\times10^{-2}$ & $1.34\times10^{-2}$ & $3.36\times10^{-3}$ & $1.06\times10^{-3}$ & 2.12, 1.99, 1.66 \\
+		 & $\bb{D}_S$ & $3.76\times10^{-3}$ & $7.81\times10^{-4}$ & $1.96\times10^{-4}$ & $7.09\times10^{-5}$ & 2.27, 2.00, 1.46 \\
+		 & $\bb{D}_S^\Gamma$ & $4.68\times10^{-3}$ & $1.34\times10^{-3}$ & $3.88\times10^{-4}$ & $1.45\times10^{-4}$ & 1.81, 1.79, 1.42 \\
+		 & $\bb{t}^\Gamma$ & $9.32\times10^{-2}$ & $3.25\times10^{-2}$ & $1.30\times10^{-2}$ & $5.78\times10^{-3}$ & 1.52, 1.33, 1.17 \\
+		\midrule
+		flat & $\bb{v}_F$ & $3.88\times10^{-2}$ & $1.01\times10^{-2}$ & $2.73\times10^{-3}$ & $8.53\times10^{-4}$ & 1.94, 1.89, 1.68 \\
+		 & $p_F$ & $5.47\times10^{-2}$ & $1.37\times10^{-2}$ & $3.67\times10^{-3}$ & $6.34\times10^{-4}$ & 2.00, 1.90, 2.53 \\
+		 & $\bb{D}_S$ & $2.41\times10^{-3}$ & $4.91\times10^{-4}$ & $1.06\times10^{-4}$ & $2.44\times10^{-5}$ & 2.30, 2.22, 2.12 \\
+		 & $\bb{D}_S^\Gamma$ & $2.57\times10^{-3}$ & $7.63\times10^{-4}$ & $1.97\times10^{-4}$ & $4.37\times10^{-5}$ & 1.75, 1.96, 2.17 \\
+		 & $\bb{t}^\Gamma$ & $3.08\times10^{-2}$ & $8.53\times10^{-3}$ & $2.48\times10^{-3}$ & $1.08\times10^{-3}$ & 1.85, 1.78, 1.20 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 Fluid-only and solid-only runs against the exact fields are the quickest way to attribute a coupled error to a field solver or to the coupling.
 
 \paragraph{Flux consistency at truncated boundaries.}
@@ -82,12 +151,20 @@ In the Womersley tube (Section~\ref{sec:womersley}) the temporal order with the 
 The segregated pressure--velocity algorithm treats a mixed velocity condition as fixing the boundary velocity, so the end flux is $\mathbf{U}_b\cdot\mathbf{S}_f - (\Delta t/\gamma)\,\partial p/\partial n\,|\mathbf{S}_f|$, with $\gamma$ the BDF2 leading coefficient, which differs from the boundary-velocity flux by a term proportional to $\Delta t$ and to the axial pressure gradient, about 1--2\% of the end flux at the working steps.
 The behaviour was identical for IQN-ILS and Robin--Neumann, persisted in a fluid-only computation with the exact wall motion on a static mesh, and was independent of the mesh, the start-up, the analysis window, the Rhie--Chow \texttt{ddtCorr} term and tolerances tightened 100-fold.
 Building the pressure-equation flux on the end patches from the boundary velocity removes it: the time error at 200 steps per period falls from $1.6$, $0.9$ and $3.8\times10^{-3}$ to $1.3\times10^{-4}$, $3.3\times10^{-5}$ and $1.6\times10^{-4}$ in the wall amplitude, wave speed and attenuation.
+The flux uses the pressure gradient of the boundary cell, so that the fixed pressure stays implicit.
+It leaves an end-flux inconsistency of $O(\Delta t\,h)$, the same as for a standard fixed-pressure outlet, since the boundary-cell pressure gradient differs from the fixed-value normal gradient by $-(h/4)\,\partial^2 p/\partial n^2$.
+At fixed mesh the scheme is therefore formally first order in time as $\Delta t\to0$, with a coefficient that vanishes with $h$; in a fluid-only computation on the coarsest mesh the observed order turns towards one only beyond $\approx3200$ steps per period (1.97, then 1.57), and by the $h$-scaling beyond $\approx6400$ on the study mesh, against at most 400 used in Section~\ref{sec:womersley}.
+With the usual end condition the temporal orders were 1.29--1.84 from 50/100/200 and 0.75--1.79 from 100/200/400 steps per period, on every mesh.
 Imposing the end flux exactly keeps second order ($2.00$--$2.08$) but over-determines the pressure equation, with a fixed pressure and a prescribed flux on the same boundary, and did not converge robustly; at very fine fixed-mesh steps the default flux-ratio coefficient of the \texttt{ddtCorr} term also limits convergence, at $\approx10^{-6}$.
 The same case showed that the old-time boundary values of the solid must be initialised with the cell values: with exact cell values but zero boundary values, the Robin condition, which imposes the solid's boundary acceleration on the fluid, produced a first-period transient that grows as $\Delta t$ falls ($3.4\%$ of the amplitude at 400 steps per period), and this start-up explained a $0.26\%$ difference in a Robin--Neumann result between two OpenFOAM releases.
 A sub-nominal temporal order in a truncated domain should be traced to the boundary treatment before it is attributed to the coupling.
 
 \paragraph{Robustness of the coupling and of the fluid iteration.}
-On the manufactured solution, IQN-ILS with the secant-column filtering of the tutorials stagnated, and without filtering it proposed an interface displacement that inverted solid cells; a step-length guard or a fallback to relaxation is untested.
+IQN-ILS did not complete the manufactured solution (Section~\ref{sec:mms_fsi}; full variant, $\Delta t = 0.32/n$, tolerance $10^{-6}$, no reuse of secant information from earlier steps).
+With the filtering of the secant columns used in the tutorials, the filter discards so many columns that the update stalls, and the iteration stagnates at a relative residual of about $5\times10^{-4}$ ($6.7\times10^{-4}$ on $n = 16$, $4.7\times10^{-4}$ on $n = 32$) in the first time step.
+Without filtering, it completes on $n = 16$, with errors equal to those of Aitken to four digits and about half the iterations ($12$--$27$ per step, against $26$); on $n = 32$, however, the least-squares update eventually proposes an interface displacement that inverts the cells of the solid next to the interface ($J < 0$) in the fifth step, also with a relaxation factor of $0.01$, and a light filtering only postpones this to the thirteenth step.
+The convergence test has no influence: requiring every residual measure to meet the tolerance gives the same stagnation and the same inversion.
+The case combines a density ratio of one with an interface that moves normal to itself by up to $0.13H$; a step-length guard on the quasi-Newton update, or a fallback to relaxation when $J$ would become non-positive, would probably make IQN-ILS usable here, but neither has been tested.
 In the Mok lid-driven cavity at $128^2$ cells ($\nu\Delta t/h^2 \approx 4$) an unrelaxed segregated fluid diverged inside a coupling iteration with the interface frozen, which looked like a coupling failure; under-relaxation of the fluid outer iterations removes it.
 A relaxed first coupling iterate without a solid predictor caused late added-mass instabilities in FSI3; a predictor is now the default.
 In the Hessenthaler flap (Section~\ref{sec:hessenthaler}), unlimited linear-upwind convection made every partitioned run on a coarse preliminary mesh ($4\times10^{4}$ cells) unstable at $t \approx 5\,\mathrm{s}$: a spanwise oscillation of the tip grew until the flow solution diverged in the cells at the flap-tip corners. Tighter coupling and fluid tolerances, a halved time step, a different solid formulation and removing the viscous traction from the coupling did not change this; first-order upwind convection was stable but lowered the tip deflection by $17\%$; and a blend of $75\%$ linear and $25\%$ linear-upwind interpolation runs to $t = 45\,\mathrm{s}$ at about three coupling iterations per step. Linear-upwind extrapolation with an unlimited gradient is anti-diffusive where the gradient is poorly resolved, as at sharp corners, whereas the linear part of the blend adds no numerical diffusion; we take this as the likely reason, without having proved it.
