@@ -1,0 +1,88 @@
+--- /Volumes/OpenFOAM/philipc-v2512/claude-runs/mms-fsi/package/mms_fsi/case/makeCase.py	2026-11-24 10:13:09
++++ pkg/case/makeCase.py	2026-11-26 18:15:26
+@@ -73,6 +73,10 @@
+ ap.add_argument("--ddtPhiCoeff", default=None, help="pimpleFluid: ddt scheme 'backward <ddtPhiCoeff>'")
+ ap.add_argument("--pimpleGrad", default="Gauss linear", help="pimpleFluid: gradSchemes default")
+ ap.add_argument("--ddtCorr", default=None, choices=["yes", "no"], help="pimpleFluid: PIMPLE ddtCorr")
++ap.add_argument("--pimpleExtra", default="", help="pimpleFluid: extra PIMPLE dict entries")
++ap.add_argument("--nOuter", default="1", help="pimpleFluid: nOuterCorrectors")
++ap.add_argument("--exactOldTime", action="store_true",
++                help="displacement solid: D_0, D_0_0, D_0_0_0 from the exact solution at -dt, -2dt, -3dt")
+ ap.add_argument("--fsiExtra", default="", help="partitioned: extra entries for the coupling coeffs")
+ ap.add_argument("--solidModel", default="velocity", choices=["velocity", "totalDisp"],
+                 help="solid-only mode: velocity (QM solid) or totalDisp (displacement-form TL solid)")
+@@ -135,9 +139,10 @@
+ PIMPLE
+ {{
+     momentumPredictor   on;
+-    nOuterCorrectors    1;
++    nOuterCorrectors    {a.nOuter};
+     nCorrectors         4;
+     nNonOrthogonalCorrectors 1;{DDTCORR}
++    {a.pimpleExtra}
+ }}
+ """
+ 
+@@ -172,6 +177,35 @@
+     }
+     this->operator==(disp);
+ #};""" % os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "derive", "generated_flat"))
++
++
++
++def writeExactOldTime(prefix):
++    """Old-time solid displacements D_0, D_0_0, D_0_0_0 at t = -dt, -2dt, -3dt
++    from the exact solution (smooth continuation to t < 0), at the cell centres
++    and boundary face centres of the uniform solid reference mesh."""
++    import subprocess
++    exe = os.path.join(os.path.dirname(os.path.abspath(__file__)),
++                       "evalExactFlat" if a.variant == "flat" else "evalExact")
++    dx, dy = 2.0/nx, 0.5/nys
++    cells = [((i + 0.5)*dx, 1 + (j + 0.5)*dy) for j in range(nys) for i in range(nx)]
++    faces = {"interface": [((i + 0.5)*dx, 1.0) for i in range(nx)],
++             "top": [((i + 0.5)*dx, 1.5) for i in range(nx)],
++             "left": [(0.0, 1 + (j + 0.5)*dy) for j in range(nys)],
++             "right": [(2.0, 1 + (j + 0.5)*dy) for j in range(nys)]}
++    def ev(pts, t):
++        inp = "".join(f"solid {X:.17g} {Y:.17g} {t:.17g}\n" for X, Y in pts)
++        out = subprocess.run([exe], input=inp, capture_output=True, text=True, check=True).stdout
++        return [tuple(map(float, l.split()[:2])) for l in out.strip().splitlines()]
++    def lst(v):
++        return "nonuniform List<vector> %d\n(\n%s\n)" % (len(v), "\n".join(f"({d[0]:.15g} {d[1]:.15g} 0)" for d in v))
++    for k, name in ((1, "D_0"), (2, "D_0_0"), (3, "D_0_0_0")):
++        t = -k*a.dt
++        body = "dimensions [0 1 0 0 0 0 0];\ninternalField %s;\nboundaryField\n{\n" % lst(ev(cells, t))
++        for pn, pts in faces.items():
++            body += "    %s\n    {\n        type calculated;\n        value %s;\n    }\n" % (pn, lst(ev(pts, t)))
++        body += "    frontAndBack { type empty; }\n}\n"
++        w(prefix + name, body, "volVectorField", name)
+ 
+ QM = a.coupling == "qm"
+ nx, nyf, nys = a.nx, a.nx // 2, a.nx // 4
+@@ -335,6 +369,8 @@
+     if a.solidModel == "velocity":
+         fieldS("0/U", "volVectorField", "[0 1 -1 0 0 0 0]", "uniform (0 0 0)", {
+             "interface": "type zeroGradient;", "top": fv0, "left": sideU, "right": sideU})
++    if a.exactOldTime:
++        writeExactOldTime("0/")
+     RUNS = "solids4Foam > log.solids4Foam 2>&1\n"
+     if a.np > 1:
+         w("system/decomposeParDict", f"""
+@@ -655,7 +691,7 @@
+     w("constant/solid/solidProperties", f"""
+ solidModel      nonLinearGeometryTotalLagrangianTotalDisplacement;
+ nonLinearGeometryTotalLagrangianTotalDisplacementCoeffs
+-{{
++{{{SSG}
+     solutionAlgorithm    PETScSNES;
+     predictor            yes;
+     stabilisation
+@@ -893,6 +929,8 @@
+     field("0/solid/U", "volVectorField", "[0 1 -1 0 0 0 0]", V0, {
+         "interface": "type zeroGradient;", "top": fv0, "left": sideU, "right": sideU})
+ 
++if a.exactOldTime:
++    writeExactOldTime("0/solid/")
+ if a.np > 1:
+     for reg in ("", "fluid/", "solid/"):
+         w(f"system/{reg}decomposeParDict", f"""

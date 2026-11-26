@@ -17,7 +17,7 @@ Each row is one quantity of interest (QoI) of one case. Columns:
 | `finest_value` | our value on that level |
 | `extrapolated_value` | Richardson value, where the rules of Section 4.2 of the paper allow one |
 | `uncertainty`, `uncertainty_type` | GCI (labelled conditional or provisional where so in the paper), finest-level error against an exact reference, a last change, or a difference from the reference |
-| `reference_value`, `reference_source`, `reference_category` | the reference and its category (A exact, B independent and converged, C, C-weak; Table 1 of the paper) |
+| `reference_value`, `reference_source`, `reference_category` | the reference and its category (A exact, B independently converged, C partly quantified, D unquantified; Table 1 of the paper) |
 | `status` | `final`, or `pending` where the result is being recomputed |
 | `paper_table`, `source` | the appendix table and the table, section or paper-data file the value is taken from |
 
@@ -29,9 +29,12 @@ the method of the tutorial driver (it reproduces the driver's first trough,
 `troughValue` in `mesh_study.csv`, to all digits).
 
 Pending (marked `pending` here and `[pending]` in the paper): the computed ring values
-(IQN-ILS rerun), the partitioned manufactured-solution errors (fluid and solid fixes),
+(IQN-ILS rerun)
 and Turek-Hron FSI2 (rerun on the Gmsh family). The SU2-CalculiX cavity limits are
 quoted as in the paper, pending the merge of the SU2 data.
+
+The partitioned manufactured-solution errors (Aitken, Robin-Neumann) are the final
+results of `../mms_fsi/results/partitioned_final/` (Table `tab:mms_fsi`).
 
 The exact fields of the manufactured solution are not tabulated: they are evaluated
 by `../mms_fsi/derive/generated/mmsFsiExact.H` (Appendix C of the paper).
