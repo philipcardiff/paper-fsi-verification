@@ -16,7 +16,9 @@ Build: solids4foam `a421f063d`, OpenFOAM-v2512, MeluXina jobs 5411716 and
 5411733 (2 Nov 2026).
 
 `statistics.csv` gives the peak, trough and mean over t = 20–70 s, computed as
-in the driver; it is written by `../figure_scripts/mok_figure.py`. The figure
+in the driver; it is written by `../figure_scripts/mok_figure.py` run on this
+directory (command in `../figure_scripts/README.md`), whose `SERIES` table
+selects the files plotted. The figure
 uses legacy0 for 16², because the legacy (reuse 5) 16² run stopped at t = 60.2 s
 (the solid Newton solve diverged). At 32² the two reuse settings differ by at
 most 0.025%.

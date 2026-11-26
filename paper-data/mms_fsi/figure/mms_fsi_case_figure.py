@@ -34,19 +34,23 @@ Prints the peak speed, the strain, J and the interface height of each
 snapshot, as a check against the values quoted in the paper."""
 import argparse
 import subprocess
+import sys
+from pathlib import Path
 
 import numpy as np
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from matplotlib.colors import Normalize
-from matplotlib.ticker import FormatStrFormatter
 
-plt.rcParams.update({"font.size": 8, "mathtext.fontset": "cm",
-                     "font.family": "serif", "pdf.fonttype": 42,
-                     "axes.linewidth": 0.6, "xtick.major.width": 0.6,
-                     "ytick.major.width": 0.6, "xtick.major.size": 2.5,
-                     "ytick.major.size": 2.5})
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "figstyle"))
+import figstyle  # noqa: E402  (paper style: CM fonts, 8 pt at final size)
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib.colors import Normalize  # noqa: E402
+from matplotlib.ticker import FormatStrFormatter  # noqa: E402
+
+figstyle.use()
+plt.rcParams.update({"xtick.major.size": 2.5, "ytick.major.size": 2.5,
+                     "xtick.direction": "out", "ytick.direction": "out",
+                     "xtick.top": False, "ytick.right": False,
+                     "savefig.bbox": "standard"})
+DPI = 400   # resolution of the rasterised field layers
 
 L, H, T = 2.0, 1.0, 0.5
 FD_STEP = 1e-6          # central-difference step for F (relative to L = 2)
@@ -379,7 +383,7 @@ def main():
                  f[1][-1].max() - H, f[1][-1].min() - H))
     print(f"  space-time (0 <= t <= {a.tmax:g}): max eta {eta.max():.4f}, "
           f"min eta {eta.min():.4f}")
-    fig.savefig(a.out)
+    fig.savefig(a.out, dpi=DPI)
     if a.png:
         fig.savefig(a.png, dpi=300)
     print("wrote", a.out)

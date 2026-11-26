@@ -349,8 +349,9 @@ Controlled refinement of the first fluid cell at both walls (all else fixed: $4\
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{figures/verification/ringAddedMass_febio_R3}
-	\caption{Ring added-mass problem, FEBio displacement histories $D=(u_r(0^\circ)-u_r(90^\circ))/2$ at the f1 resolution with the fluid at rest, normalised by the first peak, for the weak, moderate and strong levels, with the exact viscous envelope $\exp(-\alpha_V t)$. The fitted decay rates are $0.998$, $0.984$ and $0.983$ times $\alpha_V$.}
+	% Source: paper-data/febio_ring_added_mass/no_slip_resolved/scripts/ring_paper_figures.py
+	\includegraphics{figures/verification/ringAddedMass_febio_R3}
+	\caption{Ring added-mass problem, FEBio displacement histories $D=(u_r(0^\circ)-u_r(90^\circ))/2$ at the f1 resolution with the fluid at rest, normalised by the first peak, for (a) the weak, (b) the moderate and (c) the strong level, with the exact viscous envelope $\exp(-\alpha_V t)$. The fitted decay rates are $0.998$, $0.984$ and $0.983$ times $\alpha_V$.}
 	\label{fig:ring_febio_decay}
 \end{figure}
 
@@ -361,8 +362,9 @@ For the strong level started from the potential-flow field, the energy lost by t
 These are reconstructions and one-element-gradient dissipation estimates, not measured interface forces; the weak level started from the potential-flow field did not converge in its first step and is not reported.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{figures/verification/ringAddedMass_febio_R4}
-	\caption{Ring added-mass problem, FEBio interface traction on the ring, reconstructed from logged fields. Left: $n=2$ amplitudes of the pressure traction, the viscous shear traction and the thin-Stokes-layer shear estimate (fluid at rest, and the strong level from the potential-flow field). Right: strong level, potential-flow start, the ring's energy change and the work of the reconstructed traction (the viscous part, multiplied by 50, is dissipative). Source: \texttt{paper-data/febio\_ring\_added\_mass/no\_slip\_resolved/}.}
+	% Source: paper-data/febio_ring_added_mass/no_slip_resolved/scripts/ring_paper_figures.py
+	\includegraphics{figures/verification/ringAddedMass_febio_R4}
+	\caption{Ring added-mass problem, FEBio interface traction on the ring, reconstructed from logged fields. (a) $n=2$ amplitudes of the pressure traction, the viscous shear traction and the thin-Stokes-layer shear estimate (fluid at rest, and the strong level from the potential-flow field). (b) Strong level, potential-flow start, the ring's energy change and the work of the reconstructed traction, per unit depth (the viscous part, multiplied by 50, is dissipative).}
 	\label{fig:ring_febio_traction}
 \end{figure}
 

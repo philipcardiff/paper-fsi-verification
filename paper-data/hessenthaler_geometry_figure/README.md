@@ -13,4 +13,7 @@
   `feF1_x0.vtk` slice, since the verification now uses the rF meshes.
 - `phaseI_centreline.csv` is the measured Phase I deformed centreline
   (Hessenthaler et al. 2017, CC0; copied from the tutorial's `validation/reference`).
-- `fig.py` draws the figure (matplotlib); run it in this directory.
+- `fig.py` draws the figure (matplotlib, paper style of `../figstyle`):
+  `python3 fig.py --out <repo>/figures/hessenthaler-geometry.pdf` (it reads the
+  data files from its own directory, or from `--data DIR`). Panel (a) is the
+  section at x = 0; the mesh of panel (b) is the cut at x = 0.3 mm described above.

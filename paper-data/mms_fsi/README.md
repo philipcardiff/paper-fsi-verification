@@ -173,6 +173,7 @@ python3 ../figure/mms_fsi_case_figure.py ./evalExact ./evalExactFlat mms_fsi_cas
 
 - Fluid: |v_F| on a grid (x, s) with y = s h(x, t), where h is interpolated from the exact interface curve. The streamlines are contours of the stream function ψ = ∫₀ʸ v_F,x dy′ (ψ = 0 on the wall), integrated by the trapezoidal rule (difference from a grid four times finer: 2e-4, against a contour spacing of 0.06), plus one closed contour around the recirculation centre.
 - Solid: the Frobenius norm of the Green–Lagrange strain, E = (FᵀF − I)/2 with F_zz = 1, where F = I + (∇₀D_S)ᵀ comes from central differences (step 1e-6) of the exact displacement; the deformed material lines are the exact images of X = const and Y = const.
+- Style: the shared paper style (`../figstyle`); the field layers are rasterised at 400 dpi (`DPI` in the script), the rest is vector.
 - The script prints, per snapshot, max |v_F|, max ‖E‖, the range of J and the interface height; at t = 0.4: 2.15, 0.263, 0.690 ≤ J ≤ 1.035, η ≤ 0.124.
 
 **`source_tables/`:**

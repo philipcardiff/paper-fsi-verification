@@ -9,26 +9,29 @@ The pressure error is the pError field written by the case's error function
 object (p - p_exact at the cell centres, not mean-corrected).
 
 Usage:
-  mms_fsi_figure.py AITKEN_RUN QM_RUN OUT.pdf [TIME] [LABEL]
+  mms_fsi_figure.py AITKEN_RUN QM_RUN OUT.pdf [TIME]
     AITKEN_RUN, QM_RUN: case directories with TIME/fluid/{pError,polyMesh/points}
       and constant/fluid/polyMesh/{faces,owner,boundary}
     TIME: time directory of the error fields (default 0.4)
-    LABEL: mesh label for the panel titles (default "n = 128")
 Prints the range and RMS of each error field."""
 import re
 import sys
 from pathlib import Path
 
 import numpy as np
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from matplotlib.collections import PolyCollection
-from matplotlib.colors import Normalize
-from matplotlib.ticker import FormatStrFormatter
 
-plt.rcParams.update({"font.size": 8, "mathtext.fontset": "cm",
-                     "font.family": "serif", "pdf.fonttype": 42})
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "figstyle"))
+import figstyle  # noqa: E402  (paper style: CM fonts, 8 pt at final size)
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib.collections import PolyCollection  # noqa: E402
+from matplotlib.colors import Normalize  # noqa: E402
+from matplotlib.ticker import FormatStrFormatter  # noqa: E402
+
+figstyle.use()
+plt.rcParams.update({"xtick.major.size": 2.5, "ytick.major.size": 2.5,
+                     "xtick.direction": "out", "ytick.direction": "out",
+                     "xtick.top": False, "ytick.right": False,
+                     "savefig.bbox": "standard"})
 
 L, H, T = 2.0, 1.0, 0.5
 
@@ -123,10 +126,10 @@ def panel_error(ax, polys, err, norm, title):
     ax.set_xlim(-0.02, L + 0.02)
     ax.set_ylim(-0.02, xy[:, 1].max() + 0.03)
     ax.set_aspect("equal")
-    ax.set_xlabel("$x$")
+    ax.set_xlabel("$x$", labelpad=1)
     ax.set_xticks([0, 0.5, 1, 1.5, 2])
     ax.set_yticks([0, 0.5, 1])
-    ax.set_title(title, fontsize=8)
+    figstyle.panel_label(ax, title, y=1.03)
     ax.text(0.03, 0.06, "max $|p - p_\\mathrm{ex}| = " + sci(abs(err).max()) + "$",
             transform=ax.transAxes, fontsize=7, ha="left", va="bottom")
     return pc
@@ -143,7 +146,6 @@ def main():
         sys.exit(__doc__)
     run_a, run_q, out = sys.argv[1:4]
     time = sys.argv[4] if len(sys.argv) > 4 else "0.4"
-    label = sys.argv[5] if len(sys.argv) > 5 else "n = 128"
 
     pa, ea = fluid_cells(run_a, time)
     pq, eq = fluid_cells(run_q, time)
@@ -160,10 +162,8 @@ def main():
     ax2 = fig.add_subplot(gs[1], sharey=ax1)
     cax = fig.add_subplot(gs[2])
 
-    pc = panel_error(ax1, pa, ea, norm,
-                     f"(a) partitioned (Aitken), ${label}$")
-    panel_error(ax2, pq, eq, norm,
-                f"(b) quasi-monolithic, ${label}$")
+    pc = panel_error(ax1, pa, ea, norm, "(a) partitioned (Aitken)")
+    panel_error(ax2, pq, eq, norm, "(b) quasi-monolithic")
     ax1.set_ylabel("$y$", labelpad=1)
     plt.setp(ax2.get_yticklabels(), visible=False)
     ax1.annotate("outlet–wall corner", xy=(1.98, 0.2), xytext=(1.3, 0.3),
