@@ -37,7 +37,7 @@ extrapolation with p = 1. The (2,3) extrapolation agrees with it to 0.004% of th
 Errors of refine 1–4 against it: 0.53, 0.24, 0.16, 0.12% (history); +0.19, +0.09,
 +0.06, +0.05% (trough).
 
-solids4foam F1–F4 against it (max error, % of peak / first-trough difference):
+solids4foam F1–F4 (the paper's fluid levels L1–L4) against it (max error, % of peak / first-trough difference):
 4.813/+0.227, 1.592/+0.107, 0.680/+0.046, 0.334/+0.020; orders 1.6, 2.1, 2.5.
 Against the tutorial reference (refine 1) the same levels give 4.644, 1.423, 0.531,
 0.496%: the 0.5% "floor" is the reference's spatial error.

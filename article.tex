@@ -207,7 +207,7 @@ The cases, drivers and machine-readable references are released.
 An open, executable verification suite for continuum FSI has been assembled, with each reference classified by its quality and the spatial, temporal and iterative errors studied separately for a partitioned finite volume code.
 The main conclusions are:
 \begin{itemize}
-	\item \textbf{Where the reference is exact or independent, the code converges as designed.} In the ring added-mass problem and the Womersley tube most quantities converge at observed orders close to two; the frequency error of the ring at a practical resolution ($-0.13\%$) is the BDF2 phase error, and the finest amplitudes and profile of the Womersley tube lie within $0.12\%$ of the exact solution ($0.2\%$ for the attenuation; wall-displacement phase within $1.2\times10^{-3}\,\mathrm{rad}$); in the collapsible channel the error against oomph-lib extrapolated to zero mesh size falls at orders 1.6--2.5 to $0.33\%$ of the peak; the $0.5\%$ floor seen against oomph-lib at its tutorial resolution is that reference's own first-order spatial error.
+	\item \textbf{Where the reference is exact or independent, the code converges as designed.} In the ring added-mass problem and the Womersley tube most quantities converge at observed orders close to two; the frequency error of the ring at a practical resolution ($-0.13\%$) is the BDF2 phase error, and the finest amplitudes and profile of the Womersley tube lie within $0.12\%$ of the exact solution ($0.2\%$ for the attenuation; wall-displacement phase within $1.2\times10^{-3}\,\mathrm{rad}$); in the collapsible channel the difference from oomph-lib extrapolated to zero mesh size falls at orders 1.6--2.5 to $0.33\%$ of the peak; the $0.5\%$ floor seen against oomph-lib at its tutorial resolution is that reference's own first-order spatial error.
 	\item \textbf{An exact reference at finite deformation qualifies this.} A closed-form manufactured solution for transient ALE FSI with a finite-strain neo-Hookean solid, normal and tangential interface motion and exact traction continuity at constant fluid viscosity, which needs neither an interface source nor a manufactured material field and, to our knowledge, is the first such solution applied to a cell-centred finite volume code, exposed what the linear exact problems could not. The partitioned fluid pressure converges at first order (velocity at $1.2$--$1.4$); fluid-only runs show that the cause is the segregated fluid, not the coupling, through its outlet treatment and the time-derivative correction of its momentum-interpolated face flux, with a first-order layer at the outlet of open cause. The partitioned solid displacement is first order at early times, from a start-up error of the displacement-form solid, and falls to order $0.8$ on the finest pair, matching an $O(h)$ error in the deformed traction area. A quasi-monolithic coupling, close to second order with an orthogonal interface mesh, falls to about first order in the interface traction when the interface tilts, since its boundary pressure omits the non-orthogonal term; with three unreleased corrections it converges at second order in space and time.
 	\item \textbf{The quality of the reference, not the popularity of the problem, sets what can be verified.} Of the ten problems without an exact reference, four have a reference that is both independent and backed by its own convergence evidence (category B; five with the flexible-bottom cavity \hl{[pending merge of the SU2 data]}), and only two of these are published values; the two published sets of FSI3 values differ by $18\%$ in one QoI.
 	\item \textbf{Two levels are not enough.} Further levels changed conclusions drawn from fewer: the FSI3 displacements agree with an independent reference to $0.3\%$ on the coarsest of three levels, but with refinement they move away from it, to $2\%$ in $u_x$ on $3.9\times10^5$ fluid cells, while their changes shrink at observed orders of three and above, so they are not resolved to the level of their difference from the reference; the change in the peak displacement of the 3-D pressure-pulse tube grows on its third level.
@@ -219,7 +219,7 @@ Several directions remain:
 \begin{enumerate}
 	\item \textbf{Independent converged references where none exists}, above all for the 3-D pressure-pulse tube, whose independent Kratos solution has two levels and is not converged in the peak radial displacement, and the Hessenthaler flap, which has none; they need their own mesh and time studies, as the Kratos solution of the Mok lid-driven cavity has.
 	\item \textbf{Further levels where the evidence stops at two or three}: Turek--Hron FSI2, and a fourth fluid level for the Hessenthaler flap.
-	\item \textbf{Completion of the provisional cases}: the beam in cross-flow (a fifth mesh, level 4), the flexible-bottom cavity and the blob in treacle (an independent reference for the redefined case).
+	\item \textbf{Completion of the provisional cases}: the beam in cross-flow (a fifth mesh, L5), the flexible-bottom cavity and the blob in treacle (an independent reference for the redefined case).
 	\item \textbf{Wider coverage}: compressible and non-Newtonian fluids, contact and free surfaces; the companion paper~\citep{CardiffBatistic2026QM} applies the same suite to a quasi-monolithic coupling.
 	\item \textbf{Higher-order discretisation}, for which the exact references of the suite can measure orders above two.
 \end{enumerate}
@@ -255,7 +255,7 @@ The authors wish to acknowledge the Irish Centre for High-End Computing (ICHEC) 
 \textbf{Philip Cardiff:} Conceptualization, Methodology, Software, Investigation, Formal analysis, Writing -- original draft, Writing -- review \& editing, Supervision, Funding acquisition.
 \textbf{Emad Tandis:} Investigation, Validation (independent ANSYS and COMSOL solutions of the flexible-bottom cavity), Writing -- review \& editing \hl{TBD: confirm}.
 \textbf{Sairam Pamulaparthi Venkata:} Investigation, Software (FEBio models), Validation (independent FEBio solutions of the ring added-mass problem), Formal analysis, Writing -- review \& editing.
-\textbf{Seevani Bali:} Investigation, Software (preCICE--CalculiX models), Validation (level 3 of the 3-D pressure-pulse tube mesh study on the corrected meshes, and its third-platform replication on the earlier meshes; preCICE--CalculiX solutions of Turek--Hron FSI1 and FSI3), Writing -- review \& editing \hl{TBD: confirm}.
+\textbf{Seevani Bali:} Investigation, Software (preCICE--CalculiX models), Validation (L3 of the 3-D pressure-pulse tube mesh study on the corrected meshes, and its third-platform replication on the earlier meshes; preCICE--CalculiX solutions of Turek--Hron FSI1 and FSI3), Writing -- review \& editing \hl{TBD: confirm}.
 \textbf{Amirhossein Taran:} Investigation, Software (Kratos models), Validation (independent Kratos solutions of the lid-driven cavity, the 3-D pressure-pulse tube and the beam in cross-flow), Writing -- review \& editing \hl{TBD: confirm}.
 \textbf{Dylan Armfield:} Investigation, Software (preCICE--SU2--CalculiX models), Validation (independent SU2--CalculiX solutions of Turek--Hron FSI1, the ring added-mass problem and the flexible-bottom cavity), Writing -- review \& editing.
 \textbf{Ivan Batisti\'{c}:} Software (high-order solid discretisation), Writing -- review \& editing \hl{TBD: confirm}.
@@ -284,7 +284,7 @@ After using these tools, the authors reviewed and edited the content as needed a
 \section{Supplementary material: the beam in cross-flow and its published inflow}
 \label{app:beam}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\todo{Pending result, before submission: the runs used a build without the interpolation-weight correction of Appendix~\ref{app:lessons} (\texttt{-O2}, so the aliasing defect does not apply); an A/B check of the interface point transfer on level 1 is needed.}
+\todo{Pending result, before submission: the runs used a build without the interpolation-weight correction of Appendix~\ref{app:lessons} (\texttt{-O2}, so the aliasing defect does not apply); an A/B check of the interface point transfer on L2 is needed.}
 
 \citet{Richter2012} (Section~6.2; Section~7.2 of the preprint) defines a steady three-dimensional benchmark: a duct $(0,1.5)\times(0,0.4)\times(-0.4,0.4)\,\mathrm{m}$ with a St Venant--Kirchhoff plate $(0.4,0.5)\times(0,0.2)\times(-0.2,0.2)\,\mathrm{m}$ clamped to its floor ($E_S = 1.4\,\mathrm{MPa}$, $\nu_S = 0.4$), fluid density $1000\,\mathrm{kg/m^3}$ and kinematic viscosity $10^{-3}\,\mathrm{m^2/s}$, and a bi-parabolic inlet profile. The quantities of interest are the streamwise displacement $u_x$ at point A $= (0.45, 0.15, -0.15)\,\mathrm{m}$ and the drag $F_x$ on the plate. The published reference values, $u_x(A) = 5.95\times10^{-5}\,\mathrm{m}$ and $F_x = 1.33\,\mathrm{N}$ with a stated accuracy of $1\%$ ($5.924\times10^{-5}\pm10^{-7}\,\mathrm{m}$ and $1.327\pm0.01\,\mathrm{N}$ in the preprint), are extrapolated from the finest three of five uniformly refined levels, whose displacements converge cleanly ($4.93$, $5.57$, $5.85$, $5.908$ and $5.920\times10^{-5}\,\mathrm{m}$); they are often attributed to \citet{Richter2015} \citep[e.g.][]{Aulisa2018}.
 
@@ -295,43 +295,43 @@ The printed inlet profile has a peak of $0.3\,\mathrm{m/s}$, so its area mean is
 A calculation with an earlier version of the code under test~\citep{Tukovic2018}, on one polyhedral mesh with a $0.2\,\mathrm{m/s}$ peak, gives $u_x(A) = 5.93\times10^{-5}\,\mathrm{m}$ and $F_x = 1.31\,\mathrm{N}$, but its transverse displacement at A is about twelve times ours, consistent with a plate placed $0.05\,\mathrm{m}$ further downstream, so it is not a solution of the same problem.
 
 \paragraph{Sequences.}
-Both inflows were computed on the Richter geometry, on the half domain $z \le 0$ with a symmetry plane, by partitioned transient-to-steady continuation (IQN-ILS with the strict coupling test at $10^{-5}$, three PIMPLE outer correctors, a Newton solid) on four uniformly refined block-structured levels (\texttt{blockMesh}; fluid $8\,112$, $64\,896$, $519\,168$ and $4\,153\,344$ cells; solid $512$ to $262\,144$ cells, 8 to 64 cells through the thickness) at a fixed $\Delta t = 0.00625\,\mathrm{s}$; $F_x$ is integrated over the wetted plate surface of the computed half (Table~\ref{tab:beam_seq}).
-The non-spatial errors are small against the level-2-to-3 changes: coupling tolerances from $10^{-4}$ to $10^{-8}$ change $u_x(A)$ and $F_x$ by at most $2\times10^{-6}$ (relative), starting from rest or from the converged rigid-plate flow by at most $1.6\times10^{-6}$, and halving $\Delta t$, which acts on the steady state through the Rhie--Chow interpolation, by $8\times10^{-5}$ (relative) in $u_x(A)$ on level 3 (printed inflow), about $1/240$ of the level-2-to-3 change ($2.0\%$).
+Both inflows were computed on the Richter geometry, on the half domain $z \le 0$ with a symmetry plane, by partitioned transient-to-steady continuation (IQN-ILS with the strict coupling test at $10^{-5}$, three PIMPLE outer correctors, a Newton solid) on four uniformly refined block-structured levels, L1--L4 (\texttt{blockMesh}; fluid $8\,112$, $64\,896$, $519\,168$ and $4\,153\,344$ cells; solid $512$ to $262\,144$ cells, 8 to 64 cells through the thickness) at a fixed $\Delta t = 0.00625\,\mathrm{s}$; $F_x$ is integrated over the wetted plate surface of the computed half (Table~\ref{tab:beam_seq}).
+The non-spatial errors are small against the L3-to-L4 changes: coupling tolerances from $10^{-4}$ to $10^{-8}$ change $u_x(A)$ and $F_x$ by at most $2\times10^{-6}$ (relative), starting from rest or from the converged rigid-plate flow by at most $1.6\times10^{-6}$, and halving $\Delta t$, which acts on the steady state through the Rhie--Chow interpolation, by $8\times10^{-5}$ (relative) in $u_x(A)$ on L4 (printed inflow), about $1/240$ of the L3-to-L4 change ($2.0\%$).
 
 \begin{table}[htbp]
 	\centering
 	\footnotesize
-	\caption{Beam in cross-flow on the geometry of \citet{Richter2012}: steady $u_x(A)$ and $F_x$ for the corrected inflow (peak $0.2\,\mathrm{m/s}$) and for the printed inflow (peak $0.3\,\mathrm{m/s}$), with observed orders from levels 0--2 and 1--3, against the reference values. Level 3 for the printed inflow is the mean over $t = 4.0$--$4.5\,\mathrm{s}$, after a damped $7.9\,\mathrm{Hz}$ bending oscillation has decayed. Source: \texttt{paper-data/beam\_richter/} (\texttt{r02\_sequence.csv}, \texttt{production\_sequence.csv}).}
+	\caption{Beam in cross-flow on the geometry of \citet{Richter2012}: steady $u_x(A)$ and $F_x$ for the corrected inflow (peak $0.2\,\mathrm{m/s}$) and for the printed inflow (peak $0.3\,\mathrm{m/s}$), with observed orders from L1--L3 and L2--L4, against the reference values. L4 for the printed inflow is the mean over $t = 4.0$--$4.5\,\mathrm{s}$, after a damped $7.9\,\mathrm{Hz}$ bending oscillation has decayed. Source: \texttt{paper-data/beam\_richter/} (\texttt{r02\_sequence.csv}, \texttt{production\_sequence.csv}).}
 	\label{tab:beam_seq}
 	\begin{tabular}{lrrrr}
 		\toprule
 		& \multicolumn{2}{c}{peak $0.2\,\mathrm{m/s}$ (corrected)} & \multicolumn{2}{c}{peak $0.3\,\mathrm{m/s}$ (as printed)} \\
 		Level & $u_x(A)$ ($10^{-5}\,\mathrm{m}$) & $F_x$ (N) & $u_x(A)$ ($10^{-5}\,\mathrm{m}$) & $F_x$ (N) \\
 		\midrule
-		0 & 4.617 & 1.1988 & 8.139 & 2.1574 \\
-		1 & 5.479 & 1.2844 & 9.626 & 2.3057 \\
-		2 & 5.831 & 1.3166 & 10.245 & 2.3636 \\
-		3 & 5.944 & 1.3272 & 10.448 & 2.3831 \\
+		L1 & 4.617 & 1.1988 & 8.139 & 2.1574 \\
+		L2 & 5.479 & 1.2844 & 9.626 & 2.3057 \\
+		L3 & 5.831 & 1.3166 & 10.245 & 2.3636 \\
+		L4 & 5.944 & 1.3272 & 10.448 & 2.3831 \\
 		\midrule
-		Order, levels 0--2 / 1--3 & 1.29 / 1.64 & 1.41 / 1.60 & 1.26 / 1.61 & 1.36 / 1.58 \\
+		Order, L1--L3 / L2--L4 & 1.29 / 1.64 & 1.41 / 1.60 & 1.26 / 1.61 & 1.36 / 1.58 \\
 		\citet{Richter2012} & 5.95 & 1.33 & 5.95 & 1.33 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-With the corrected inflow, $u_x(A)$ and $F_x$ converge monotonically with observed orders rising from 1.3--1.4 (levels 0--2) to 1.6 (levels 1--3), as they do with the printed inflow; the asymptotic range is suggested but not demonstrated, so no error bound is given.
-The comparison was made after the sequence was characterised: level 3 lies within $0.1\%$ ($u_x$) and $0.2\%$ ($F_x$) of the reference values, and conditional Richardson extrapolations from levels 1--3 lie $0.5$--$0.8\%$ above them, within their stated $1\%$; $F_y$ is within $0.3\%$ of the same-lineage value of \citet{Tukovic2018}.
+With the corrected inflow, $u_x(A)$ and $F_x$ converge monotonically with observed orders rising from 1.3--1.4 (L1--L3) to 1.6 (L2--L4), as they do with the printed inflow; the asymptotic range is suggested but not demonstrated, so no error bound is given.
+The comparison was made after the sequence was characterised: L4 lies within $0.1\%$ ($u_x$) and $0.2\%$ ($F_x$) of the reference values, and conditional Richardson extrapolations from L2--L4 lie $0.5$--$0.8\%$ above them, within their stated $1\%$; $F_y$ is within $0.3\%$ of the same-lineage value of \citet{Tukovic2018}.
 
 \paragraph{An independent solution.}
-A co-author computed both inflows with Kratos Multiphysics~10.3~\citep{Dadvand2010}, which shares no code with solids4foam (P1/P1 stabilised fluid on tetrahedra obtained by splitting the hexahedra of levels 0, 1 and 2, the finest with $3.1\times10^{6}$ tetrahedra, a total Lagrangian St Venant--Kirchhoff plate of trilinear hexahedra, Dirichlet--Neumann coupling with MVQN; \texttt{paper-data/kratos\_beam\_richter/}).
-With the corrected inflow its $u_x(A)$ falls by $1.1\%$ from level 0 to level 1 and by $0.10\%$ from level 1 to level 2, to $5.970\times10^{-5}\,\mathrm{m}$, which is $0.44\%$ above our level 3 and $0.34\%$ above the reference value; its conditional Richardson value, $5.970\times10^{-5}\,\mathrm{m}$ (apparent order $3.5$), is $0.47\%$ below ours ($5.998\times10^{-5}\,\mathrm{m}$).
-Ours rises by $19\%$ from level 0 to level 1, because the force on the plate falls with refinement in Kratos and rises in ours, so the two codes approach the displacement from opposite sides.
-With the printed inflow the level-2 displacement is $1.759$ times larger (ours: $1.758$), so an independent code also reaches the reference values only with the $0.2\,\mathrm{m/s}$ peak.
-Kratos gives two estimates of $F_x$, from the interface reactions and from the traction integral; their difference falls from $4.5\%$ on level 1 to $2.6\%$ on level 2, and they still bracket both our level 3 and the reference value.
+A co-author computed both inflows with Kratos Multiphysics~10.3~\citep{Dadvand2010}, which shares no code with solids4foam (P1/P1 stabilised fluid on tetrahedra obtained by splitting the hexahedra of L1, L2 and L3, the finest with $3.1\times10^{6}$ tetrahedra, a total Lagrangian St Venant--Kirchhoff plate of trilinear hexahedra, Dirichlet--Neumann coupling with MVQN; \texttt{paper-data/kratos\_beam\_richter/}).
+With the corrected inflow its $u_x(A)$ falls by $1.1\%$ from L1 to L2 and by $0.10\%$ from L2 to L3, to $5.970\times10^{-5}\,\mathrm{m}$, which is $0.44\%$ above our L4 and $0.34\%$ above the reference value; its conditional Richardson value, $5.970\times10^{-5}\,\mathrm{m}$ (apparent order $3.5$), is $0.47\%$ below ours ($5.998\times10^{-5}\,\mathrm{m}$).
+Ours rises by $19\%$ from L1 to L2, because the force on the plate falls with refinement in Kratos and rises in ours, so the two codes approach the displacement from opposite sides.
+With the printed inflow the L3 displacement is $1.759$ times larger (ours: $1.758$), so an independent code also reaches the reference values only with the $0.2\,\mathrm{m/s}$ peak.
+Kratos gives two estimates of $F_x$, from the interface reactions and from the traction integral; their difference falls from $4.5\%$ on L2 to $2.6\%$ on L3, and they still bracket both our L4 and the reference value.
 The reaction estimate falls monotonically (apparent order $1.8$) to a conditional Richardson value of $1.3324\,\mathrm{N}$, which agrees with ours ($1.3325\,\mathrm{N}$) to $0.01\%$, and to $0.01\%$ also at the printed inflow ($2.3931$ against $2.3928\,\mathrm{N}$).
 The independent force thus confirms our extrapolated force closely, while the extrapolated displacements of the two codes differ by $0.5\%$; with the apparent orders of $3.5$ and $1.8$ and a non-monotone traction estimate, the Kratos sequence is not shown to be asymptotic, and the reference category is unchanged \hl{[author decision: category with three Kratos levels]}.
-The case is kept provisional until a level with consistent observed orders confirms the asymptotic range; a fifth mesh (level 4, about $3.3\times10^{7}$ fluid cells) is estimated at $340$--$930$ node-hours.
-Levels 0 and 1 cost $158$ node-hours on MeluXina (128 cores per node) for both inflows, of which $53$ for the corrected inflow; level 2 ran on a shared workstation (wall times in \texttt{paper-data/kratos\_beam\_richter/README.md}).
+The case is kept provisional until a level with consistent observed orders confirms the asymptotic range; a fifth mesh (L5, about $3.3\times10^{7}$ fluid cells) is estimated at $340$--$930$ node-hours.
+The Kratos runs on L1 and L2 cost $158$ node-hours on MeluXina (128 cores per node) for both inflows, of which $53$ for the corrected inflow; L3 ran on a shared workstation (wall times in \texttt{paper-data/kratos\_beam\_richter/README.md}).
 
 
 
@@ -443,13 +443,14 @@ These are reconstructions and one-element-gradient dissipation estimates, not me
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{appendixLessons.tex}
+\input{appendixReferenceValues.tex}
 \input{appendixProvenance.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contents of the Supplementary Material}
 \label{app:supplementary}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The Supplementary Material consists of separate documents, each a cross-code check of one case by a second implementation; none is needed to follow the main text, and all were produced by the same group, so they are not independent references (Section~\ref{sec:ref_hierarchy}).
+The Supplementary Material consists of separate documents, each a cross-code check of one case by a second implementation; none is needed to follow the main text, and all were produced by the authors of this paper, so they are not independent references (Section~\ref{sec:ref_hierarchy}).
 The first is a monolithic ALE finite element implementation (FEniCSx) of the collapsible channel on three spatial levels and four time steps, compared at equal time step with the oomph-lib and solids4foam solutions; it also replays the fluid load of one coupled run on the continuum wall and on a beam, which quantifies the model-form difference of Section~\ref{sec:collapsible}.
 The second is a monolithic finite element solution (FEniCSx) of the St Venant--Kirchhoff, plane-strain flexible-bottom cavity with the exact interface traction on four refined meshes (Section~\ref{sec:cavity}).
 The third and fourth are finite element implementations (FEniCSx) of the blob in treacle: one of the published small-strain definition, with an audit of its interface force transfer, and one of the finite-strain neo-Hookean case of Section~\ref{sec:blob}, with a cross-code check against solids4foam.
