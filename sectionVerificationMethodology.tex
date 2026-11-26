@@ -27,7 +27,7 @@ All results were obtained with the partitioned procedures of Section~\ref{sec:nu
 \subsection{Reference-solution hierarchy}\label{sec:ref_hierarchy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Each benchmark is assigned a reference category (Table~\ref{tab:ref_hierarchy}).
+Each benchmark is assigned one of four reference categories, each identified by a letter and a name (Table~\ref{tab:ref_hierarchy}): category A, exact; category B, independently converged; category C, partly quantified; and category D, unquantified.
 The category describes the reference, not the benchmark problem and not the quality of the present calculations.
 
 \begin{table}[htbp]
@@ -40,18 +40,18 @@ The category describes the reference, not the benchmark problem and not the qual
 		\toprule
 		Category & Definition & Cases \\
 		\midrule
-		A & Analytical or semi-analytical solution of the stated continuum problem, with any numerical error of its own (e.g.\ collocation) controlled to near round-off. & ring added-mass problem, Womersley tube, manufactured FSI solution \\
-		B & Independently computed numerical solution, by a different code and with its own convergence evidence, either of the same problem or of a problem with a small, explicitly identified model-form difference whose effect on the QoIs is quantified and small compared with the numerical errors of interest. & Turek--Hron FSI1 (Featflow, six levels; a solution with an independent solid code, preCICE--CalculiX; and a fully independent SU2--CalculiX solution); Turek--Hron FSI3 (\citet{Failer2020}, six levels); collapsible channel (oomph-lib, beam wall model); Mok lid-driven cavity (Kratos, group-B definition, outlet condition) \\
-		C & Published benchmark value whose own discretisation error is only partly quantified. & Turek--Hron FSI2 (Featflow level 4); beam in cross-flow (\citet{Richter2012}, corrected inflow) \\
-		C-weak & As C, but digitised from figures, single-mesh, mutually inconsistent, preprint-only, or from the same code lineage as the code under test. & 3-D pressure-pulse tube, flexible-bottom cavity, blob in treacle, Hessenthaler flap (no independent numerical solution; self-convergence and same-lineage quasi-monolithic solutions) \\
+		A & \emph{Exact.} Analytical or semi-analytical solution of the stated continuum problem, with any numerical error of its own (e.g.\ collocation) controlled to near round-off. & ring added-mass problem, Womersley tube, manufactured FSI solution \\
+		B & \emph{Independently converged.} Independently computed numerical solution, by a different code and with its own convergence evidence, either of the same problem or of a problem with a small, explicitly identified model-form difference whose effect on the QoIs is quantified and small compared with the numerical errors of interest. & Turek--Hron FSI1 (Featflow, six levels; a solution with an independent solid code, preCICE--CalculiX; and a fully independent SU2--CalculiX solution); Turek--Hron FSI3 (\citet{Failer2020}, six levels); collapsible channel (oomph-lib, beam wall model); Mok lid-driven cavity (Kratos, group-B definition, outlet condition) \\
+		C & \emph{Partly quantified.} Published benchmark value whose own discretisation error is only partly quantified. & Turek--Hron FSI2 (Featflow level 4); beam in cross-flow (\citet{Richter2012}, corrected inflow) \\
+		D & \emph{Unquantified.} No independent reference with quantified error: values digitised from figures, single-mesh, mutually inconsistent, preprint-only, or from the same code lineage as the code under test; the evidence is self-convergence and same-lineage comparison. & 3-D pressure-pulse tube, flexible-bottom cavity, blob in treacle, Hessenthaler flap (no independent numerical solution; self-convergence and same-lineage quasi-monolithic solutions) \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 Agreement with a category-A reference measures the total error directly, to within the stated limits of the reference itself (for example a linearised, inviscid or small-amplitude limit), which are quantified with each case.
 Agreement with a category-B reference measures it up to the stated reference uncertainty plus any quantified model-form contribution, and is interpreted only where the difference exceeds their sum.
-Agreement with a category-C or C-weak reference is reported, but is not used as evidence of convergence; for these cases the primary evidence is self-convergence, and the comparison is treated as a statement about the published values as much as about the present results.
-References computed with earlier versions of the same code family~\citep{Tukovic2018} are classed as C-weak whatever their resolution, because they share discretisation choices with the code under test and cannot expose common-mode errors.
+Agreement with a category-C or D reference is reported, but is not used as evidence of convergence; for these cases the primary evidence is self-convergence, and the comparison is treated as a statement about the published values as much as about the present results.
+References computed with earlier versions of the same code family~\citep{Tukovic2018} are classed as D whatever their resolution, because they share discretisation choices with the code under test and cannot expose common-mode errors.
 
 Two further distinctions are maintained.
 First, \emph{self-convergence}, i.e.\ convergence of a sequence of solutions of one code towards its own limit, demonstrates convergence of the numerical sequence and may establish the asymptotic rate, but does not establish that the limiting solution is the correct solution of the intended continuum problem; it is not external verification.

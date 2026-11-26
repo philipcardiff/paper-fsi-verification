@@ -20,13 +20,15 @@ fluid-structure interaction (FSI). Machine-readable twin:
   against an exact solution, where one exists). Agreement with a published or
   independent code is reported separately and never counted as convergence.
 - **Reference categories:**
-  - **A**: analytical or semi-analytical (no discretisation error of its own,
+  - **A** (exact): analytical or semi-analytical (no discretisation error of its own,
     or one controlled to round-off).
-  - **B**: an independently converged numerical solution of *the same*
+  - **B** (independently converged): an independently converged numerical solution of *the same*
     problem, with its own convergence evidence.
-  - **C**: a classical/published benchmark whose reference values carry
-    unquantified or only partly quantified error. Weak, ambiguous or
-    same-code-lineage references are flagged as **C-weak**.
+  - **C** (partly quantified): a classical/published benchmark whose
+    reference values carry only partly quantified error.
+  - **D** (unquantified; formerly "C-weak"): no independent reference with
+    quantified error: digitised, single-mesh, inconsistent, preprint-only or
+    same-code-lineage references.
 
 ### Pull requests examined
 
@@ -63,12 +65,12 @@ evidence is on `development`.
 | HronTurek FSI1 | 2-D | steady | large (StVK) | steady FSI, small loads | **C → B-grade** (Featflow 6 levels) | 2 levels | n/a (pseudo-transient) | steady IQN vs Robin | ≈1.5–1.7 (vs Featflow 7+0) | drag 0.24%, u_y 4.6% on 2x | **Main, 4.2 or 4.3** (short) |
 | HronTurek FSI3 | 2-D | periodic (self-excited) | large (StVK) | low mass ratio, vortex-induced oscillation | **C** (Featflow L4) | 2 levels (Δt scaled) | none separate | IQN-ILS vs Robin (transient) | 2-level vs Featflow: 1.1–3.8 *(derived here)* | ≤3.1% except lift amp 13.3% | **Main, 4.3** (needs 4x) |
 | HronTurek FSI2 | 2-D | periodic (self-excited) | large (StVK) | large-amplitude flapping, mesh motion | **C** (Featflow L4) | 2 levels (Δt scaled) | none separate | tolerance 1e-5/1e-6/1e-7 | 2-level: errors fall 4–10× except lift amp | ≤3.6% except lift amp 7.8% | **Main, 4.3** (with FSI3) |
-| 3dTube | **3-D** | transient pulse | small (Hookean) | 3-D pressure-wave propagation, added mass | **C-weak** (digitised figures) | 2 levels | 4 levels | Robin vs IQN-ILS | not defined (2 mesh levels); Δt changes 1.74→0.83→0.016% | u_r,max 1.8% from Tuković 2018 | **Main, 4.3** (needs 3rd level) |
-| mokLidDrivenCavity | 2-D | periodic (forced) | large (TL), membrane | enclosed-ish cavity, tension-dominated membrane | **C-weak** (two inconsistent groups) | 4 levels | 3 levels | IQN-ILS vs Aitken (iterations only) | peak ≈1.2; trough <0.5 | trough, mean in group-B envelope; peak 3.3% above | **Main, 4.3** ("revisited") |
+| 3dTube | **3-D** | transient pulse | small (Hookean) | 3-D pressure-wave propagation, added mass | **D** (digitised figures) | 2 levels | 4 levels | Robin vs IQN-ILS | not defined (2 mesh levels); Δt changes 1.74→0.83→0.016% | u_r,max 1.8% from Tuković 2018 | **Main, 4.3** (needs 3rd level) |
+| mokLidDrivenCavity | 2-D | periodic (forced) | large (TL), membrane | enclosed-ish cavity, tension-dominated membrane | **D** (two inconsistent groups) | 4 levels | 3 levels | IQN-ILS vs Aitken (iterations only) | peak ≈1.2; trough <0.5 | trough, mean in group-B envelope; peak 3.3% above | **Main, 4.3** ("revisited") |
 | beamInCrossFlow (original) | **3-D** (half) | steady | StVK (small strains) | 3-D external flow, fluid-force resolution | **C** (Richter 2015) | 4 levels | none | Robin vs IQN-ILS (≤0.4%) | not asymptotic | u_x(A) 0.07%, F_x −1.4% vs Richter | **Supplementary** |
-| beamInCrossFlow (modified) | **3-D** (half) | steady | **large** (StVK) | 3-D large deformation + mesh motion | **C-weak** (Tuković 2018 Fig. 28, same code lineage) | 5 levels | none | Robin vs IQN-ILS (≤0.4%) | not asymptotic (finest change ≈4.6%) | u_x −2.3%, u_y −0.7%, 2u_z +2.3% | **Supplementary** (main only if converged + independent ref.) |
-| cavityFlexibleBottom | 2-D | steady (pseudo-transient) | large (TL, StVK) | internal flow over flexible cavity floor | **C-weak** (Tuković 2018, digitised) | 3 levels | pseudo-Δt (paper data, monolithic) | none recorded | u_y net 1.96 | F_y ≤0.2%; u_y converges to ≈5% offset | **Exclude until discrepancy resolved** |
-| blobInTreacle | 2-D | transient → steady | large (TL, StVK) | viscous, strongly damped; 2nd-order time accuracy | **C-weak** (preprint figures, coarse) | 4 levels | 4 levels | none | Δt 2.39–2.54; mesh 2.40 | t = 1 s shape 1.6%; steady u_x −7.4% | **Supplementary** |
+| beamInCrossFlow (modified) | **3-D** (half) | steady | **large** (StVK) | 3-D large deformation + mesh motion | **D** (Tuković 2018 Fig. 28, same code lineage) | 5 levels | none | Robin vs IQN-ILS (≤0.4%) | not asymptotic (finest change ≈4.6%) | u_x −2.3%, u_y −0.7%, 2u_z +2.3% | **Supplementary** (main only if converged + independent ref.) |
+| cavityFlexibleBottom | 2-D | steady (pseudo-transient) | large (TL, StVK) | internal flow over flexible cavity floor | **D** (Tuković 2018, digitised) | 3 levels | pseudo-Δt (paper data, monolithic) | none recorded | u_y net 1.96 | F_y ≤0.2%; u_y converges to ≈5% offset | **Exclude until discrepancy resolved** |
+| blobInTreacle | 2-D | transient → steady | large (TL, StVK) | viscous, strongly damped; 2nd-order time accuracy | **D** (preprint figures, coarse) | 4 levels | 4 levels | none | Δt 2.39–2.54; mesh 2.40 | t = 1 s shape 1.6%; steady u_x −7.4% | **Supplementary** |
 
 Immersed-boundary FSI2, membraneRoof, flexibleDamBreak, fillingElasticContainer,
 perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
@@ -217,7 +219,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
 - **Fluid:** `pimpleFluid`, ρ = 1000, ν = 3e-6.
 - **Solid:** Hookean small-strain linear elastic (literature mostly StVK; peak hoop strain ≈3%). Small-deformation formulation.
 - **Feature tested:** 3-D pressure-wave propagation in a compliant vessel with strong added mass (ρ_s/ρ_f = 1.2); the "hemodynamic" partitioned-coupling benchmark of Fernández & Moubachir / Gerbeau & Vidrascu.
-- **Reference (cat. C-weak):**
+- **Reference (cat. D):**
   - No tabulated published values.
   - Tuković et al. (2018) Fig. 25 history (vector-extracted; FV, backward, same code lineage).
   - Lozovskiy et al. (2019) and Eken (2016) histories (raster-digitised ±3e-6 m; independent monolithic FE but implicit Euler Δt = 1e-4, which damps the peak by ≈23%).
@@ -246,7 +248,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
 - **Fluid:** `pimpleFluid`, ρ = 1, ν = 0.01.
 - **Solid:** membrane h = 0.002 m, E = 250 Pa; high-order TL (default) or standard solid. Large displacement (≈0.29 m on a 1 m cavity), tension-dominated.
 - **Feature tested:** classic partitioned-coupling benchmark (Wall 1999; Mok 2001); tension-dominated membrane; near-enclosed flow.
-- **Reference (cat. C-weak, ambiguous):**
+- **Reference (cat. D, ambiguous):**
   - Published curves fall into **two inconsistent groups**. Group A (Mok, Wall, Gerbeau-Vidrascu) has mesh-dependent, unstated openings and is internally inconsistent (peaks 0.177–0.215 m).
   - Group B (Valdés 2007, Kratos example, Tiba et al. 2026) is fully specified. **Tiba et al. 2026 is an arXiv preprint (arXiv:2609.16876)** giving scalars only.
   - No published source reports a mesh or time-step study.
@@ -279,7 +281,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
 - **Feature tested:** 3-D external flow around a thick plate; resolution of fluid forces; (modified) large solid displacement plus 3-D mesh motion.
 - **Reference:**
   - Original (cat. C): Richter (2015) u_x(A) = 5.95e-5 m, F_x = 1.33 N (GASCOIGNE 3D monolithic FE, **independent**). Which Richter refinement level and whether these are extrapolated values still needs checking against the paper. Tuković et al. (2018) OpenFOAM values u_x = 5.93e-5, u_y = 2.40e-5, F_x = 1.31, F_y = 0.1055 are diagnostics (same lineage).
-  - Modified (cat. **C-weak**): Tuković et al. (2018) Fig. 28 only, u = (0.01463, 0.005, −0.000447) m. Same code lineage, single unstructured mesh (273,539 fluid / 6,661 solid cells), **not independent**. Gillebaart et al. (2016) also study a 3-D elastic beam in a channel; whether they tabulate values for this form is unchecked.
+  - Modified (cat. **D**): Tuković et al. (2018) Fig. 28 only, u = (0.01463, 0.005, −0.000447) m. Same code lineage, single unstructured mesh (273,539 fluid / 6,661 solid cells), **not independent**. Gillebaart et al. (2016) also study a 3-D elastic beam in a channel; whether they tabulate values for this form is unchecked.
 - **QoIs:** u_x, u_y, u_z at point A; total interface force F_x, F_y.
 - **Mesh study:**
   - Original: 1x/2x/4x/8x uniform (≈1x to 512x cells; 8x ≈7.6M cells), Δt scaled.
@@ -305,7 +307,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
 - **Fluid:** `pimpleFluid`, Re = 100.
 - **Solid:** `nonLinearGeometryTotalLagrangianTotalDisplacement`, StVK, E = 500 Pa; large deformation (u_y ≈ −0.24 m).
 - **Feature tested:** internal flow over a flexible cavity floor; steady FSI.
-- **Reference (cat. C-weak):** Tuković et al. (2018) mesh-study curves, digitised (u_y −0.2333 → −0.2506 m over Δx 0.1 → 0.0125; F_y per 0.05 m depth). **Same code lineage; no independent code.**
+- **Reference (cat. D):** Tuković et al. (2018) mesh-study curves, digitised (u_y −0.2333 → −0.2506 m over Δx 0.1 → 0.0125; F_y per 0.05 m depth). **Same code lineage; no independent code.**
 - **QoIs:** steady u_y at (4, −1, 0.5); steady interface F_y.
 - **Mesh study (partitioned, Aitken, v2512):** Δx 0.1/0.05/0.025. u_y −0.20246, −0.22883, −0.23563 (errors 13.2, 6.88, 5.59%); net order 1.96 **towards a value ≈5% from the published curve**. F_y within 0.2% on all levels. Level 4 diverges at the tutorial Δt.
 - **Pseudo-time-step study (monolithic, paper repo data):** Δt 0.5–40 s on 3 meshes; u_y and F_y insensitive to Δt (e.g. m3: −0.29192 to −0.29193).
@@ -327,7 +329,7 @@ perpendicularFlap, oneWayCavity and cerebralAneurysm were reviewed and
 - **Fluid:** `pimpleFluid` with `consistent yes` (SIMPLEC), ρ = 1, ν = 1 (highly viscous).
 - **Solid:** St Venant-Kirchhoff (preprint describes linear), large deformation (u_x ≈ 0.12 m on r = 0.1 m half-cylinder).
 - **Feature tested:** temporal order of accuracy of the coupled scheme (the purpose of the Liu et al. 2014 case); viscous, strongly damped.
-- **Reference (cat. C-weak):**
+- **Reference (cat. D):**
   - Liu et al. (2014, JCP) report only self-convergence norms, no solution.
   - The preprint (arXiv:1401.0082) figures were vector-extracted. At t = 1 s: P5/P4/P5 elements, first order, Δt = 0.025, ≈4% time error of its own. Steady state: coarse mesh (1,239 fluid / 370 solid triangles). Top-point steady displacement (0.1297, −0.0117) m.
 - **QoIs:** top-point u_x, u_y; interface shape at t = 1 s and steady.

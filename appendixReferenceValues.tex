@@ -158,7 +158,7 @@ The FSI2 values are \hl{[pending]}: the case is being recomputed on the Gmsh fam
 
 \paragraph{Three-dimensional pressure-pulse tube.}
 The QoIs are taken at point A (Fig.~\ref{fig:3dtube_geom}): the first maximum of the radial wall displacement $u_{r,\max}$, the first minimum of the axial wall displacement $u_{z,\min}$, the arrival time $t_\mathrm{arr}$, the first time at which $u_r(A)$ reaches half its first peak, and the pressure-wave speed $c_p$, the least-squares slope of the arrival of half the inlet pressure at probes on the axis, $z = 1$--$4\,\mathrm{cm}$ (Table~\ref{tab:refvals_3dtube}).
-The reference is C-weak and the sequence is not shown to converge in $u_{r,\max}$ and $c_p$, so no extrapolated value is given; the last change is a scale of the remaining sensitivity, not a bound.
+The reference is category D and the sequence is not shown to converge in $u_{r,\max}$ and $c_p$, so no extrapolated value is given; the last change is a scale of the remaining sensitivity, not a bound.
 
 \begin{table}[htbp]
 	\centering
@@ -210,12 +210,12 @@ For the flexible-bottom cavity the QoIs are the steady vertical displacement $u_
 		\toprule
 		Case & Quantity & Finest level & Extrapolated & Uncertainty & Category \\
 		\midrule
-		Flexible-bottom cavity & $u_y$ (m) & $-0.2400$ (L4) & $-0.2406$ & GCI $0.31\%$ & C-weak \\
+		Flexible-bottom cavity & $u_y$ (m) & $-0.2400$ (L4) & $-0.2406$ & GCI $0.31\%$ & D \\
 		 & $F_y$ (N/m) & $-5.2561$ (L4) & $-5.2579$ & GCI $0.045\%$ & \\
 		Beam in cross-flow & $u_x(A)$ ($10^{-5}\,\mathrm{m}$) & 5.944 (L4) & 5.998 & conditional & C \\
 		 & $F_x$ (N) & 1.3272 (L4) & 1.3325 & conditional & \\
-		Hessenthaler flap & $u_y$ (mm) & 16.726 (L3) & -- & -- & C-weak \\
-		Blob in treacle & $u_x$, steady (m) & 0.139948 (L4) & 0.14024 & -- & C-weak \\
+		Hessenthaler flap & $u_y$ (mm) & 16.726 (L3) & -- & -- & D \\
+		Blob in treacle & $u_x$, steady (m) & 0.139948 (L4) & 0.14024 & -- & D \\
 		 & $u_x$, $t = 1\,\mathrm{s}$ (m) & 0.0596316 (L2) & -- & -- & \\
 		\bottomrule
 	\end{tabular}
