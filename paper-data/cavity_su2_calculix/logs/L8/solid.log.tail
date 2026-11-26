@@ -1,0 +1,60 @@
+
+  number of:
+
+   nodes:        51906
+   elements:        10240
+   one-dimensional elements:            0
+   two-dimensional elements:            0
+   integration points per element:            8
+   degrees of freedom per node:            3
+   layers per element:            1
+
+   distributed facial loads:            0
+   distributed volumetric loads:            0
+   concentrated loads:         1926
+   single point constraints:        21582
+   multiple point constraints:            1
+   terms in all multiple point constraints:            1
+   tie constraints:            0
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:            6
+   terms in all sets:        53708
+
+   materials:            1
+   constants per material and temperature:            2
+   temperature points per material:            1
+   plastic data points per material:            0
+
+   orientations:            0
+   amplitudes:            4
+   data points in all amplitudes:            7
+   print requests:            1
+   transformations:            0
+   property cards:            0
+
+ *INFO reading *STEP: nonlinear geometric
+       effects are turned on
+
+ *WARNING reading *STATIC:
+          the minimum increment    0.0000000000000000     
+          is smaller then 1.e-6 times the 
+          step time;
+          the minimum increment is changed
+          to    9.9999999999999995E-007
+          which is the minimum of the initial
+          increment time and 1.e-6 times the step time
+
+
+ STEP            1
+
+ Static analysis was selected
+
+ Newton-Raphson iterative procedure is active
+
+ Nonlinear geometric effects are taken into account
+
+
+ Job finished
+

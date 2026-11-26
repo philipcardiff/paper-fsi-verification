@@ -1,0 +1,55 @@
+
+=== logs/L1  (level 1, dt 100.0; solid to t = 4000, fluid to t = 4000)
+qty            final    max rel change, last 10   within 1e-6 from t
+ux    9.09670700e-05                   0.00e+00                900.0
+uy   -2.40785158e-01                   0.00e+00                600.0
+Fx   -8.82719174e-03                   0.00e+00                700.0
+Fy   -5.36567464e+00                   0.00e+00                600.0
+CalculiX NA (last print, step time 1): u_y = -2.40785200e-01, -2.40785200e-01  (watch-point -2.40785158e-01)
+windows 40, coupling its mean 1.70, max 15, at cap (50) 0; last 10 windows mean 1.00
+SU2 inner its per solve: mean 20.7, max 50, solves 68
+coupled wall 20 s
+
+=== logs/L2  (level 2, dt 100.0; solid to t = 4000, fluid to t = 4000)
+qty            final    max rel change, last 10   within 1e-6 from t
+ux    9.38508684e-05                   0.00e+00                900.0
+uy   -2.39777756e-01                   0.00e+00                600.0
+Fx   -1.37588670e-02                   0.00e+00                700.0
+Fy   -5.27171241e+00                   0.00e+00                600.0
+CalculiX NA (last print, step time 1): u_y = -2.39777800e-01, -2.39777800e-01  (watch-point -2.39777756e-01)
+windows 40, coupling its mean 1.65, max 15, at cap (50) 0; last 10 windows mean 1.00
+SU2 inner its per solve: mean 25.2, max 64, solves 66
+coupled wall 70 s
+
+=== logs/L4  (level 4, dt 100.0; solid to t = 4000, fluid to t = 4000)
+qty            final    max rel change, last 10   within 1e-6 from t
+ux    9.63779856e-05                   2.08e-09                900.0
+uy   -2.40124296e-01                   0.00e+00                600.0
+Fx   -1.53723093e-02                   6.51e-10                800.0
+Fy   -5.25943118e+00                   1.14e-09                600.0
+CalculiX NA (last print, step time 1): u_y = -2.40124300e-01, -2.40124300e-01  (watch-point -2.40124296e-01)
+windows 40, coupling its mean 1.65, max 15, at cap (50) 0; last 10 windows mean 1.00
+SU2 inner its per solve: mean 34.2, max 86, solves 66
+coupled wall 251 s
+
+=== logs/L8  (level 8, dt 100.0; solid to t = 4000, fluid to t = 4000)
+qty            final    max rel change, last 10   within 1e-6 from t
+ux    9.69377329e-05                   1.40e-07               1700.0
+uy   -2.40361749e-01                   7.49e-08                900.0
+Fx   -1.60262435e-02                   1.84e-07               1200.0
+Fy   -5.25797940e+00                   7.80e-08                900.0
+CalculiX NA (last print, step time 1): u_y = -2.40361700e-01, -2.40361700e-01  (watch-point -2.40361749e-01)
+windows 40, coupling its mean 1.70, max 15, at cap (50) 0; last 10 windows mean 1.00
+SU2 inner its per solve: mean 54.8, max 151, solves 68
+coupled wall 1163 s
+
+=== logs/L16  (level 16, dt 100.0; solid to t = 4000, fluid to t = 4000)
+qty            final    max rel change, last 10   within 1e-6 from t
+ux    9.69986997e-05                   9.59e-06               3900.0
+uy   -2.40469430e-01                   8.77e-07               2900.0
+Fx   -1.63252980e-02                   1.25e-06               3200.0
+Fy   -5.25780711e+00                   1.20e-06               3200.0
+CalculiX NA (last print, step time 1): u_y = -2.40469400e-01, -2.40469400e-01  (watch-point -2.40469430e-01)
+windows 40, coupling its mean 1.70, max 15, at cap (50) 0; last 10 windows mean 1.00
+SU2 inner its per solve: mean 124.9, max 357, solves 68
+coupled wall 3583 s

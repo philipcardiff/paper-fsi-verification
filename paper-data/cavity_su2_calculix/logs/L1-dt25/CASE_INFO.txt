@@ -1,0 +1,1 @@
+fluid level 1 (cavity_L1.su2), solid level 1: 40x4 C3D8I (160 elements), 41 interface points, depth 1.0 m; dt 25.0 s, coupled t_end 1000.0 s, inner iter 1000, inner minval -10.0, steady iter 20000, write every 10 windows

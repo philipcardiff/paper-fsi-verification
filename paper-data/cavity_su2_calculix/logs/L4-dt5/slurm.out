@@ -1,0 +1,7 @@
+Job 867 (cavity-su2-calculix)  host lugh  CPUs 1  tasks 5  mem 12288 MB  GPU none  start 2026-11-16T11:11:23+00:00
+case /scratch/users/dylan/FSI_benchmarks/runs/cavity-su2-calculix/cases/L4  stage all  steady ranks 5  coupled: SU2 ranks 4 + CalculiX 1
+fluid level 4 (cavity_L4.su2), solid level 4: 160x16 C3D8I (2560 elements), 161 interface points, depth 1.0 m; dt 5.0 s, coupled t_end 250.0 s, inner iter 1000, inner minval -10.0, steady iter 20000, write every 5 windows
+stage 1 exit 0, wall 31 s, 359 history lines
+windows 50  mean coupling its 2.66  max 15  at-cap 0
+stage 2 exit 0 (solid 0, fluid 0), wall 462 s
+Exit 0  end 2026-11-16T11:19:36+00:00  wall 493 s

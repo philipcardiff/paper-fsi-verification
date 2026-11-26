@@ -1,0 +1,2 @@
+fluid level 16 (cavity_L16.su2), solid level 16: 640x64 C3D8I (40960 elements), 641 interface points, depth 1.0 m; dt 100.0 s, coupled t_end 4000.0 s, inner iter 1000, inner minval -10.0, steady iter 20000, write every 10 windows
+stage 1 (steady rigid) not re-run: restart_steady.dat + history_steady.csv copied from checks/rigid-fluid/L16 (job 860; identical mesh, inlet profile and cfg except ITER 40000 vs 20000; converged at 2370 its)

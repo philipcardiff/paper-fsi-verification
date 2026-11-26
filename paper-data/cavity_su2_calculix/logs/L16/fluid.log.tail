@@ -1,0 +1,60 @@
+---[precice]  Mapping "Displacement" for t=3700 from "Solid-Mesh" to "Fluid-Mesh"
+---[precice]  it 1 (min: 1, max: 50), time-window 38, t 3700 (max: 4000), Dt 100, max-dt 100
++-------------------------------------------------------------------------------------------------------+
+|   Time_Iter|    Cur_Time|  Inner_Iter|      rms[P]|      rms[U]|      rms[V]|          CD|          CL|
++-------------------------------------------------------------------------------------------------------+
+|          39|  3.8000e+03|           0|  -11.516312|  -10.917456|  -11.877974|   -0.016325|   -5.257806|
+|          39|  3.8000e+03|           1|  -11.524167|  -10.914946|  -11.893251|   -0.016325|   -5.257806|
+---[precice]  Mapping "Force" for t=3800 from "Fluid-Mesh" to "Solid-Mesh"
+---[precice]  Time window completed
+---[precice]  Mapping "Displacement" for t=3800 from "Solid-Mesh" to "Fluid-Mesh"
+---[precice]  it 1 (min: 1, max: 50), time-window 39, t 3800 (max: 4000), Dt 100, max-dt 100
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_00039.dat             |
++-----------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------+
+|   Time_Iter|    Cur_Time|  Inner_Iter|      rms[P]|      rms[U]|      rms[V]|          CD|          CL|
++-------------------------------------------------------------------------------------------------------+
+|          40|  3.9000e+03|           0|  -11.537658|  -10.916924|  -11.906442|   -0.016325|   -5.257806|
+|          40|  3.9000e+03|           1|  -11.558195|  -10.924056|  -11.919195|   -0.016325|   -5.257807|
+---[precice]  Mapping "Force" for t=3900 from "Fluid-Mesh" to "Solid-Mesh"
+---[precice]  Time window completed
+---[precice]  Mapping "Displacement" for t=3900 from "Solid-Mesh" to "Fluid-Mesh"
+---[precice]  it 1 (min: 1, max: 50), time-window 40, t 3900 (max: 4000), Dt 100, max-dt 100
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_00040.dat             |
+|Paraview                           |flow_00040.vtu                     |
+|CSV file                           |surface_flow_00040.csv             |
++-----------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------+
+|   Time_Iter|    Cur_Time|  Inner_Iter|      rms[P]|      rms[U]|      rms[V]|          CD|          CL|
++-------------------------------------------------------------------------------------------------------+
+|          41|  4.0000e+03|           0|  -11.585093|  -10.935688|  -11.930017|   -0.016325|   -5.257807|
+|          41|  4.0000e+03|           1|  -11.619005|  -10.951422|  -11.941184|   -0.016325|   -5.257807|
+---[precice]  Mapping "Force" for t=4000 from "Fluid-Mesh" to "Solid-Mesh"
+---[precice]  Time window completed
+---[precice]  Mapping "Displacement" for t=4000 from "Solid-Mesh" to "Fluid-Mesh"
+---[precice]  Reached end at: final time-window: 40, final time: 4000
+
+------------------------- Solver Postprocessing -------------------------
+Deleted CNumerics container.
+Deleted CIntegration container.
+Deleted CSolver container.
+Deleted CIteration container.
+Deleted CInterface container.
+Deleted CGeometry container.
+Deleted CFreeFormDefBox class.
+Deleted CSurfaceMovement class.
+Deleted CVolumetricMovement class.
+Deleted CConfig container.
+Deleted nInst container.
+Deleted COutput class.
+-------------------------------------------------------------------------
+
+------------------------- Exit Success (SU2_CFD) ------------------------
+
+---[precice]  Close communication channels
