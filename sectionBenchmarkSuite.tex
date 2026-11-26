@@ -284,19 +284,29 @@ The fluid occupies $0<x<L$, $0<y<h(x,t)$, and the solid, in its reference config
 The fluid ($\rho_F = 1$, $\mu_F = 0.01$) has an inlet at $x = 0$, an outlet at $x = L$ and a no-slip wall at $y = 0$.
 The solid is the compressible neo-Hookean law of the code in plane strain ($E_S = 10$, $\nu_S = 0.3$, $\rho_S = 1$), clamped on its top and on its ends (in the flat variant the ends carry the exact displacement), with its lower face $Y = H$ as the interface; the density ratio is one, so added mass is strong.
 The motion has period one and starts from rest, with zero fields and an undeformed mesh.
-In the \emph{full} variant the interface rises and falls by up to $0.15H$ as a pulsing, travelling wave, which tilts it by up to $13^\circ$, and slides tangentially with a stretch of up to $10\%$; the solid reaches Green--Lagrange strains of $0.26$, rotations of $0.23\,\mathrm{rad}$ and $0.69 \le J \le 1.09$.
+In the \emph{full} variant the interface rises and falls by up to $0.13H$ as a pulsing, travelling wave, which tilts it by up to $14^\circ$, and slides tangentially with a stretch of up to $10\%$; the solid reaches Green--Lagrange strains of $0.26$, rotations of $0.23\,\mathrm{rad}$ and $0.69 \le J \le 1.09$.
 The fluid carries a pulsatile through-flow with a travelling vortex train, with a peak speed of about $2.1$ and a Reynolds number of about 200 based on the channel height.
+Figure~\ref{fig:mms_fsi_case} shows the exact solution of the full variant at four times of the simulated interval, $0 < t \le 0.4$, and the interface motion over one period.
 In the \emph{flat} variant the interface stays flat and moves only vertically, so the ALE mesh stays orthogonal; the pair of variants separates the effect of boundary non-orthogonality from the rest of the discretisation.
 The manufactured sources are of the size of the physical terms (fluid $|\bb{b}_F| \approx 10$ against $|\partial\bb{v}_F/\partial t| \approx 9$ and $|\bb{\nabla}p_F| \approx 8$), and the errors are measured at $t = 0.2$ and $0.4$.
 
 \begin{figure}[htbp]
 	\centering
-	% Source: paper-data/mms_fsi/figure/mms_fsi_figure.py with the exact
-	% evaluators case/evalExact and case/evalExactFlat, and the runs
+	% Source: paper-data/mms_fsi/figure/mms_fsi_case_figure.py with the exact
+	% evaluators case/evalExact and case/evalExactFlat (closed-form solution;
+	% no run data; see paper-data/mms_fsi/README.md).
+	\includegraphics[width=\textwidth]{figures/mms_fsi_case}
+	\caption{Manufactured FSI solution: the exact solution in the current configuration, with the deformation drawn to scale. (a--d) Full variant at $t = 0.1$, $0.2$, $0.3$ and $0.4$; the runs end at $t = 0.4$. Fluid: speed $|\bb{v}_F|$, with instantaneous streamlines (contours of the stream function at equal increments, plus one closed contour around the recirculation) and arrows of the flow direction. Solid: Frobenius norm of the Green--Lagrange strain $\bb{E}$, with the deformed images of the material lines $X = \mathrm{const}$ and $Y = \mathrm{const}$ (spacings $0.25$ and $0.125$); the solid is clamped on its top and on both ends. Black dashed line: undeformed interface, $y = H$. (e) Interface displacement $\eta = h(x,t) - H$ of the full variant over one period; the white line marks the end of the runs and the ticks the times of (a--d). (f) Interface displacement of the full (solid lines) and flat (dashed lines) variants at $t = 0.2$ and $0.4$, with the vertical scale enlarged. Nondimensional units.}
+	\label{fig:mms_fsi_case}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	% Source: paper-data/mms_fsi/figure/mms_fsi_figure.py with the runs
 	% mms-pfv/base/aitken-n128 and mms-fsi/case/runs/qm-full/n128 at time 0.4
 	% (see paper-data/mms_fsi/README.md); fields were written only at t = 0.4.
-	\includegraphics[width=\textwidth]{figures/mms_fsi_interface_and_pressure_error}
-	\caption{Manufactured FSI solution. (a) Fluid and solid domains in the reference configuration ($t = 0$), and the exact interface $y = 1 + \eta(x,t)$ at $t = 0.2$ and $0.4$ for the full variant (solid lines: tilting, travelling interface) and the flat variant (dashed lines: vertical motion only); on the right, the interface with the vertical scale enlarged. (b, c) Fluid pressure error $p - p_\mathrm{ex}$ at the cell centres at $t = 0.4$, full variant, $n = 128$ ($128\times64$ fluid cells, $\Delta t = 0.0025$), on the deformed mesh and with one colour scale: (b) partitioned Dirichlet--Neumann coupling with Aitken relaxation; (c) quasi-monolithic coupling. Nondimensional units.}
+	\includegraphics[width=\textwidth]{figures/mms_fsi_pressure_error}
+	\caption{Manufactured FSI solution: fluid pressure error $p - p_\mathrm{ex}$ at the cell centres at $t = 0.4$, full variant, $n = 128$ ($128\times64$ fluid cells, $\Delta t = 0.0025$), on the deformed mesh and with one colour scale. (a) Partitioned Dirichlet--Neumann coupling with Aitken relaxation; (b) quasi-monolithic coupling. The case is shown in Fig.~\ref{fig:mms_fsi_case}. Nondimensional units.}
 	\label{fig:mms_fsi}
 \end{figure}
 
@@ -397,7 +407,7 @@ IQN-ILS did not complete this case (full variant, $\Delta t = 0.32/n$, tolerance
 With the filtering of the secant columns used in the tutorials, the filter discards so many columns that the update stalls, and the iteration stagnates at a relative residual of about $5\times10^{-4}$ ($6.7\times10^{-4}$ on $n = 16$, $4.7\times10^{-4}$ on $n = 32$) in the first time step.
 Without filtering, it completes on $n = 16$, with errors equal to those of Aitken to four digits and about half the iterations ($12$--$27$ per step, against $26$); on $n = 32$, however, the least-squares update eventually proposes an interface displacement that inverts the cells of the solid next to the interface ($J < 0$) in the fifth step, also with a relaxation factor of $0.01$, and a light filtering only postpones this to the thirteenth step.
 The convergence test has no influence: requiring every residual measure to meet the tolerance gives the same stagnation and the same inversion.
-The case combines a density ratio of one with an interface that moves normal to itself by $0.15H$; a step-length guard on the quasi-Newton update, or a fallback to relaxation when $J$ would become non-positive, would probably make IQN-ILS usable here, but neither has been tested.
+The case combines a density ratio of one with an interface that moves normal to itself by up to $0.13H$; a step-length guard on the quasi-Newton update, or a fallback to relaxation when $J$ would become non-positive, would probably make IQN-ILS usable here, but neither has been tested.
 
 \paragraph{Quasi-monolithic coupling and boundary non-orthogonality.}
 On the flat variant the quasi-monolithic coupling converges at close to second order: the solid displacement at $2.12$--$2.30$, the fluid velocity at $1.68$--$1.94$, the interface displacement at $1.75$--$2.17$, and the interface traction at $1.85$ and $1.78$, falling to $1.20$ on the finest pair (Table~\ref{tab:mms_fsi}).
