@@ -18,9 +18,9 @@ Inputs (CSV, SI units, one row per time step / sample):
       Eken2016_fig5.6_pointA.csv (digitised; '#' comment headers).
 
     python3 tube_histories_figure.py \
-        --level "Level 1=data/robin_backward_mesh1.csv" \
-        --level "Level 2=data/robin_backward_mesh2.csv" \
-        --level "Level 3=../histories/robin_backward_mesh3.csv" \
+        --level "L1=data/robin_backward_mesh1.csv" \
+        --level "L2=data/robin_backward_mesh2.csv" \
+        --level "L3=../histories/robin_backward_mesh3.csv" \
         --reference-dir data/reference --out ../../../figures/3dtube_pointA_histories.pdf
 """
 from __future__ import annotations
