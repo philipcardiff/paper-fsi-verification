@@ -1,0 +1,8 @@
+level0 solid: faces 256, face area min 3.1250e-04 max 6.2500e-04; triangle area min 7.8125e-05; 4A^2 min 2.4414e-08; below threshold 0
+level0 fluid: faces 256, face area min 3.1250e-04 max 6.2500e-04; triangle area min 7.8125e-05; 4A^2 min 2.4414e-08; below threshold 0
+level1 solid: faces 1024, face area min 7.8125e-05 max 1.5625e-04; triangle area min 1.9531e-05; 4A^2 min 1.5259e-09; below threshold 0
+level1 fluid: faces 1024, face area min 7.8125e-05 max 1.5625e-04; triangle area min 1.9531e-05; 4A^2 min 1.5259e-09; below threshold 0
+level2 solid: faces 4096, face area min 1.9531e-05 max 3.9063e-05; triangle area min 4.8828e-06; 4A^2 min 9.5367e-11; below threshold 0
+level2 fluid: faces 4096, face area min 1.9531e-05 max 3.9063e-05; triangle area min 4.8828e-06; 4A^2 min 9.5367e-11; below threshold 0
+level3 solid: faces 16384, face area min 4.8828e-06 max 9.7656e-06; triangle area min 1.2207e-06; 4A^2 min 5.9605e-12; below threshold 0
+level3 fluid: faces 16384, face area min 4.8828e-06 max 9.7656e-06; triangle area min 1.2207e-06; 4A^2 min 5.9605e-12; below threshold 0
