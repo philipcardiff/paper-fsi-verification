@@ -26,6 +26,7 @@ Inputs (CSV, SI units, one row per time step / sample):
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -37,6 +38,8 @@ from matplotlib import font_manager  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_STYLE = HERE.parents[1] / "figstyle" / "paper.mplstyle"
+sys.path.insert(0, str(HERE.parents[1] / "figstyle"))
+import figstyle  # noqa: E402  (paper widths and fonts)
 
 LEVEL_STYLE = [dict(color="#0072B2", ls=(0, (5, 1.5)), lw=0.9),
                dict(color="#D55E00", ls=(0, (5, 1.2, 1, 1.2)), lw=0.9),
@@ -54,6 +57,7 @@ REFS = [  # file, label, style, radial column, axial column
 
 
 def use_style(path: Path) -> None:
+    figstyle.use()            # registers CMU Serif from the local TeX installation
     plt.style.use(str(path))
     names = {f.name for f in font_manager.fontManager.ttflist}
     if not names & {"Computer Modern Roman", "CMU Serif"}:
@@ -77,7 +81,7 @@ def main() -> int:
     a = ap.parse_args()
     use_style(a.style)
 
-    fig, axes = plt.subplots(1, 2, figsize=(5.16, 2.35))
+    fig, axes = plt.subplots(1, 2, figsize=(figstyle.TEXTWIDTH, 2.5))
     fig.subplots_adjust(left=0.085, right=0.99, bottom=0.17, top=0.79, wspace=0.28)
     ax_r, ax_z = axes
     inset = ax_r.inset_axes([0.62, 0.52, 0.36, 0.44])

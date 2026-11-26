@@ -4,7 +4,7 @@ Where each figure of the paper comes from. Captions carry no file paths; this
 file and the README of each data directory do. All matplotlib figures use the
 shared style (`../figstyle/paper.mplstyle`, loaded by `../figstyle/figstyle.py`,
 which also registers the CMU Serif fonts of the local TeX installation), are
-drawn at their printed width (372 pt) and are included in the `.tex` at their
+drawn at their printed width (the 427 pt text width, `figstyle.TEXTWIDTH`) and are included in the `.tex` at their
 natural size, so the 8 pt text is not rescaled.
 
 Python 3 with numpy and matplotlib (fontTools comes with matplotlib). Paths

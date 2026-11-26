@@ -155,7 +155,7 @@ def main():
     vmax = max(abs(ea).max(), abs(eq).max())
     norm = Normalize(vmin=-vmax, vmax=vmax)
 
-    fig = plt.figure(figsize=(372 / 72, 1.75))
+    fig = plt.figure(figsize=(figstyle.TEXTWIDTH, 2.0))
     gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.0, 0.035], left=0.075,
                           right=0.875, bottom=0.2, top=0.88, wspace=0.08)
     ax1 = fig.add_subplot(gs[0])

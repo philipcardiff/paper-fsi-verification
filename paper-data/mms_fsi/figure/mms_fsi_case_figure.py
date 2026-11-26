@@ -262,8 +262,8 @@ def main():
     ap.add_argument("--dpsi", type=float, default=0.06,
                     help="stream-function spacing of the streamlines (default 0.06)")
     ap.add_argument("--png", help="also write a PNG preview (300 dpi)")
-    ap.add_argument("--width", type=float, default=372 / 72,
-                    help="figure width in inches (default: the paper's text width, 372 pt)")
+    ap.add_argument("--width", type=float, default=figstyle.TEXTWIDTH,
+                    help="figure width in inches (default: the paper's text width, 427 pt)")
     a = ap.parse_args()
     cols = ["#0072B2", "#D55E00", "#009E73", "#CC79A7"]   # Okabe-Ito
     if len(a.compare) > len(cols):

@@ -62,7 +62,7 @@ for l, c in runs.items():
     err[l] = 100 * max(abs(u - interp(r, t)) for t, u in c if t <= r[-1][0]) / scale
     print(f"F{l}: {CELLS[l]} cells, max error {err[l]:.3f}% of the reference peak")
 
-fig = plt.figure(figsize=(figstyle.TEXTWIDTH, 3.7))
+fig = plt.figure(figsize=(figstyle.TEXTWIDTH, 3.9))
 gs = fig.add_gridspec(2, 3, height_ratios=[1.1, 1], hspace=0.45, wspace=0.55,
                       left=0.105, right=0.985, bottom=0.105, top=0.95)
 ax = fig.add_subplot(gs[0, :])

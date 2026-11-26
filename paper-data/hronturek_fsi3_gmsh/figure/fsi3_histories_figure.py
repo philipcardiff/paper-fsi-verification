@@ -21,6 +21,7 @@ t = 6 s (the end of its QoI window) is at t' = 0.
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -32,6 +33,8 @@ from matplotlib import font_manager  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_STYLE = HERE.parents[1] / "figstyle" / "paper.mplstyle"
+sys.path.insert(0, str(HERE.parents[1] / "figstyle"))
+import figstyle  # noqa: E402  (paper widths and fonts)
 
 # Failer & Richter (2020) level 6 and Featflow level 4: (mean, amplitude);
 # None = mean not given (centred on the L3 mean). Units mm and N/m.
@@ -53,6 +56,7 @@ COL = {"ux": 1, "uy": 2, "drag": 3, "lift": 4}
 
 
 def use_style(path: Path) -> None:
+    figstyle.use()            # registers CMU Serif from the local TeX installation
     plt.style.use(str(path))
     names = {f.name for f in font_manager.fontManager.ttflist}
     if not names & {"Computer Modern Roman", "CMU Serif"}:
@@ -123,7 +127,7 @@ def main() -> int:
     for lev in LEVELS:
         print(f"{lev}: shift t0 = {h[lev]['t0']:.4f} s, window {h[lev]['bounds'][0]:.4f}-0 s")
 
-    fig = plt.figure(figsize=(5.16, 5.0))
+    fig = plt.figure(figsize=(figstyle.TEXTWIDTH, 5.0))
     gs = fig.add_gridspec(3, 6, height_ratios=[1, 1, 1.05], hspace=0.42, wspace=1.6,
                           left=0.09, right=0.99, top=0.95, bottom=0.08)
     main_axes = {"uy": fig.add_subplot(gs[0, :3]), "ux": fig.add_subplot(gs[0, 3:]),

@@ -20,8 +20,8 @@ import matplotlib.pyplot as plt
 
 HERE = Path(__file__).resolve().parent
 STYLE = HERE / "paper.mplstyle"
-TEXTWIDTH = 5.16          # in, full text width (372 pt)
-HALFWIDTH = 2.5           # in
+TEXTWIDTH = 15 / 2.54     # in, full text width (15 cm = 427 TeX pt, article.tex geometry)
+HALFWIDTH = 2.9           # in, half width (209 pt, two panels side by side with a gap)
 OKABE_ITO = ["#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#000000"]
 CACHE = Path(os.environ.get("PAPER_FIGSTYLE_CACHE", Path.home() / ".cache" / "paper-figstyle"))
 CMU = {"cmunrm": "regular", "cmunti": "italic", "cmunbx": "bold", "cmunbi": "bold italic"}

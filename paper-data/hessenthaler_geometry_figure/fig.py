@@ -68,7 +68,7 @@ cols = {"wall": "k", "upperInlet": INLET, "lowerInlet": INLET,
         "outlet": OUTLET, "interface": "k"}
 
 # equal axes widths: height ratios from the aspect ratios of the two views
-fig, (a, b) = plt.subplots(2, 1, figsize=(figstyle.TEXTWIDTH, 4.85),
+fig, (a, b) = plt.subplots(2, 1, figsize=(figstyle.TEXTWIDTH, 5.5),
                            gridspec_kw={"height_ratios": [108 / 400, 79 / 131],
                                         "hspace": 0.2},
                            subplot_kw={"anchor": "W"})

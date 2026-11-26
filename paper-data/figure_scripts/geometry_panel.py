@@ -133,7 +133,7 @@ def channel(ax):
     ax.set_xlim(-3.2, Lu + L + Ld + 3.2); ax.set_ylim(-1.5, a * sy + 1.5)
 
 
-fig = plt.figure(figsize=(figstyle.TEXTWIDTH, 4.9))
+fig = plt.figure(figsize=(figstyle.TEXTWIDTH, 5.6))
 gs = fig.add_gridspec(3, 2, height_ratios=[1.45, 0.72, 0.72], hspace=0.08, wspace=0.05,
                       left=0.01, right=0.99, top=0.97, bottom=0.01)
 for f, spec, lab in ((ring, gs[0, 0], "(a)"), (mok, gs[0, 1], "(b)"), (tube, gs[1, :], "(c)"),
