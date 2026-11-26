@@ -25,7 +25,7 @@ Spatial operators are the standard second-order finite volume operators: midpoin
 Convection uses central (\texttt{linear}) interpolation for the ring added-mass problem, the Womersley tube, the manufactured solution and the collapsible channel; linear-upwind interpolation with an unlimited least-squares gradient for FSI1, the Turek--Hron FSI3 sequence, the 3-D pressure-pulse tube, the flexible-bottom cavity and the blob in treacle; and, for the Hessenthaler flap, an unlimited blend of the two (\texttt{LUST}, Section~\ref{sec:hessenthaler}).
 A gradient-limited linear-upwind scheme is used only for FSI2, the uniform FSI3 family of the coupling studies (Section~\ref{sec:fsi23}), the Mok lid-driven cavity results (its coupling-test study uses the unlimited form) and the beam in cross-flow.
 In the flexible-bottom cavity the face flux of the continuity equation is also interpolated with skew correction (Section~\ref{sec:cavity}).
-The time derivative of the transient problems is discretised with the second-order backward difference formula (BDF2, \texttt{backward}); implicit Euler is used only in the deliberate time-scheme comparison of Section~\ref{sec:3dtube}, and the steady problems are advanced in pseudo-time to the steady state.
+The time derivative of the transient problems is discretised with the second-order backward difference formula (BDF2, \texttt{backward}); first-order backward Euler (BDF1) is used only in the deliberate time-scheme comparison of Section~\ref{sec:3dtube}, and the steady problems are advanced in pseudo-time to the steady state.
 The schemes of each case are those of its set-up at the commit listed in Appendix~\ref{app:provenance}.
 On the moving mesh the convective flux is the relative flux $\bb{\Gamma}_f\cdot(\bb{v}_f - \bb{v}^\Gamma_f)$, where $\bb{\Gamma}_f$ is the face area vector and the mesh flux $\bb{\Gamma}_f\cdot\bb{v}^\Gamma_f$ is the volume swept by face $f$ per unit time, evaluated from the face swept volumes with the coefficients of the time scheme (BDF2 here).
 With BDF2 the swept volumes of the last two steps are combined with the BDF2 weights, so that the discrete space-conservation law (Equation~\eqref{eqn:gcl}) holds for the backward volume derivative.
@@ -93,7 +93,8 @@ Two normalised measures are formed,
 	\label{eq:coupling_residuals}
 \end{equation}
 where the maximum in $r_1$ is over the coupling iterations $k$ of the current step and $\|\bb{d}^\Gamma\|_{\max}$ is the largest norm of the \emph{total} interface displacement seen so far.
-With the default (legacy) test a step is accepted when $\min(r_1, r_2)$ is below the coupling tolerance; a strict option requires $\max(r_1, r_2)$ to be below it.
+Two acceptance tests are used, and they are named here by what they require.
+The \emph{either-measure test}, the default of solids4foam, accepts a step when either measure is below the coupling tolerance, i.e.\ when $\min(r_1, r_2)$ is; the \emph{all-measure test} accepts it only when every measure is below the tolerance, i.e.\ when $\max(r_1, r_2)$ is.
 The two tests differ greatly in slowly varying phases with a large total interface displacement, where $r_2$ can be small after a single relaxed iteration whatever the reduction of the residual within the step (Section~\ref{sec:iterative_errors}).
 Robin--Neumann iterations additionally require the change of interface pressure and the interface leakage flux to fall below their own tolerances.
 By default, a step that does not meet the test within the maximum number of iterations stops the run.

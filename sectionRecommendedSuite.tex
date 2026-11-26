@@ -2,12 +2,12 @@
 \section{Recommended verification suite}\label{sec:recommended_suite}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\todo{Author decision: WORKING PROPOSAL. Final membership is not frozen; provisional cases are not assigned a final place until their evidence is complete (paper-data/manuscript\_todos.md).}
+\todo{Author decision: WORKING PROPOSAL. Final membership is not frozen (paper-data/manuscript\_todos.md).}
 
 No single benchmark verifies a continuum FSI code, and in the present suite the most widely used benchmarks are not the most discriminating.
 We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membership determined by complementary challenges, reference quality, cost, and suitability for routine versus high-end use.
 
-\todo{Author decision: the tier of cavityFlexibleBottom once the SU2--CalculiX data are merged.}
+\todo{Author decision: the tier of cavityFlexibleBottom (category B; inexpensive, steady, two independent references): core or extended suite.}
 \begin{table}[htbp]
 	\centering
 	\footnotesize
@@ -28,13 +28,13 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 		\multicolumn{4}{l}{\emph{Extended / high-cost suite}} \\
 		Turek--Hron FSI2, FSI3 & C (FSI2), B (FSI3) & self-excited oscillation; lift amplitude; tolerance sensitivity; sensitivity of the in-phase fluid load to mesh motion and wall conditions & FSI3 three levels (scaled), displacements not asymptotic; FSI2 two levels \\
 		3dTube & D & 3-D wave propagation with added mass; time-discretisation sensitivity; cross-platform and toolchain checks & three levels; $u_{r,\max}$ not yet converging \\
-		beamInCrossFlow$^\ast$ & C & 3-D steady external flow; displacement and force convergence & four levels, corrected inflow; orders rising to 1.6 (Appendix~\ref{app:beam}) \\
-		Hessenthaler$^\ast$ & D & realistic 3-D geometry, large deformation; steady-state iterative error; validation data kept separate & three fluid levels, not shown to be asymptotic (mesh sensitivity only) \\
+		beamInCrossFlow & C & 3-D steady external flow; displacement and force convergence & four levels, corrected inflow; orders rising to 1.6 (Appendix~\ref{app:beam}) \\
+		Hessenthaler & D & realistic 3-D geometry, large deformation; steady-state iterative error; validation data kept separate & three fluid levels, not shown to be asymptotic (mesh sensitivity only) \\
 		mokLidDrivenCavity & B & tension-dominated membrane; problem-definition sensitivity; coupling robustness & four levels, combined refinement; orders below nominal; within $\approx1\%$ of Kratos; $128^2$ needs relaxed outer correctors \\
-		cavityFlexibleBottom$^\ast$ & D & steady internal flow, large deformation & provisional \\
-		blobInTreacle$^\ast$ & D & temporal and spatial order in viscous large-deformation flow; interface force balance & four levels and four time steps at near-nominal orders; same-group second implementation; provisional \\
+		cavityFlexibleBottom & B & steady internal flow, large deformation, skewed deformed cells; displacement distinguishes plate laws & four levels, orders 1.9--2.0; within $0.02\%$ of two independent solutions \\
+		blobInTreacle & D & temporal and spatial order in viscous large-deformation flow; interface force balance & four levels and four time steps at near-nominal orders; independent second implementation converging at first order \\
 		\bottomrule
-		\multicolumn{4}{l}{$^\ast$ Provisional; tier not frozen. $^\dagger$ Section~\ref{sec:mms_fsi}; case files in \texttt{paper-data/mms\_fsi/}; \hl{[case to be added to the suite]}.}
+		\multicolumn{4}{l}{$^\dagger$ Section~\ref{sec:mms_fsi}; case files in \texttt{paper-data/mms\_fsi/}; \hl{[case to be added to the suite]}.}
 	\end{tabular}
 \end{table}
 
@@ -52,7 +52,7 @@ Each core result should state its reference category, the number of levels and t
 % mokLidDrivenCavity placed in the extended suite (Philip, 2 Nov 2026): cheap
 % and a different solid regime, but sub-nominal orders and no clean further
 % refinement. Category B since 10 Nov 2026 (independent Kratos solution, pfv#77).
-\todo{Author decision, pending results: whether mokLidDrivenCavity (category B, Kratos) moves to the core suite depends on resolving the strict-coupling-test stalls on $96^2$ and $128^2$ from $t \approx 14\,\mathrm{s}$, so that the two codes can be compared on converged sequences.}
+\todo{Author decision, pending results: whether mokLidDrivenCavity (category B, Kratos) moves to the core suite depends on resolving the stalls of the all-measure coupling test on $96^2$ and $128^2$ from $t \approx 14\,\mathrm{s}$, so that the two codes can be compared on converged sequences.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Extended and high-cost suite}\label{sec:extended_suite}
@@ -63,7 +63,7 @@ Turek--Hron FSI2/FSI3 belong here despite being two-dimensional, because their s
 The Mok lid-driven cavity is inexpensive but belongs here too: its published references are mutually inconsistent, and although an independent Kratos solution agrees to about $1\%$, neither sequence is in the asymptotic range for the peak; its value is as a test of sensitivity to the problem definition and of coupling robustness (Section~\ref{sec:mok}).
 Published values should be quoted with their source (e.g.\ Featflow table or summary value) and reference category, and agreement with them should not be presented as verification without self-convergence evidence.
 
-\todo{Author decision, pending results: final extended-suite membership depends on, for beamInCrossFlow, a fifth mesh (L5; the author has confirmed the corrected inflow); for the Hessenthaler flap, whether a mesh-sensitivity statement suffices; for cavityFlexibleBottom, the merge of the independent SU2--CalculiX data and the COMSOL parabolic-inflow sequence (contributors); for 3dTube, a fourth level or an independent converged solution for $u_{r,\max}$ (the Kratos solution has two levels). A case without at least three mesh levels should not be listed as ``verified'' in any final suite table.}
+\todo{Author decision, pending results: final extended-suite membership depends on, for beamInCrossFlow, a fifth mesh (L5; the author has confirmed the corrected inflow); for the Hessenthaler flap, whether a mesh-sensitivity statement suffices; for cavityFlexibleBottom, the COMSOL parabolic-inflow sequence (contributor); for 3dTube, a fourth level or an independent converged solution for $u_{r,\max}$ (the Kratos solution has two levels). A case without at least three mesh levels should not be listed as ``verified'' in any final suite table.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Executable verification infrastructure}\label{sec:infrastructure}
@@ -98,10 +98,9 @@ Table~\ref{tab:driver_properties} states which of these properties the present d
 		Turek--Hron FSI1--FSI3 & \checkmark & \checkmark & -- & -- & -- & -- \\
 		3-D pressure-pulse tube & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
 		Mok lid-driven cavity & \checkmark & \checkmark & \checkmark & -- & \checkmark & -- \\
-		Flexible-bottom cavity$^\ast$ & \checkmark & \checkmark & -- & -- & -- & -- \\
-		Blob in treacle$^\ast$ & \checkmark & \checkmark & -- & -- & -- & -- \\
-		Beam in cross-flow$^\ast$ & \checkmark & \checkmark & -- & -- & -- & -- \\
+		Flexible-bottom cavity & \checkmark & \checkmark & -- & -- & -- & -- \\
+		Blob in treacle & \checkmark & \checkmark & -- & -- & -- & -- \\
+		Beam in cross-flow & \checkmark & \checkmark & -- & -- & -- & -- \\
 		\bottomrule
-		\multicolumn{7}{l}{$^\ast$ Provisional cases.}
 	\end{tabular}
 \end{table}
