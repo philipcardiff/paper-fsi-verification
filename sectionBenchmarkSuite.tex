@@ -566,7 +566,7 @@ As a check, the driver reproduces the tabulated statistics from the published Fe
 
 \paragraph{Evidence.}
 FSI1 has four block-structured levels (1x--8x, Table~\ref{tab:fsi1}), integrated in pseudo-time, and FSI2 two (1x and 2x), with $\Delta t$ halved with the mesh.
-FSI3 is computed on an unstructured, quadrilateral-dominant fluid family generated with Gmsh~\citep{geuzaine2009gmsh}, with three levels (96\,712, 194\,183 and 387\,219 fluid cells; Table~\ref{tab:hronturek_gmsh}). Structured layers surround the cylinder, the flag and the channel walls, and elsewhere the cell size grows linearly with the distance from the cylinder and flag, up to a cap; the size field is scaled by $1/\sqrt{2}$ and the layer counts by $\sqrt{2}$ from one level to the next, except the first cell of the blocks at the two flag-tip corners, which stays at about $0.3\,\mathrm{mm}$ on every level, so the family is not geometrically similar there. The effective refinement ratio, from the cell counts, is $r = (387\,219/96\,712)^{1/4} = 1.415$ ($1.417$ and $1.412$ for the two steps). The solid is refined with the fluid ($430\times24$, $608\times34$ and $860\times48$ cells, matching the fluid faces along the flag), and the time step is reduced by the same ratio ($\Delta t = 2\times10^{-4}$, $1.414\times10^{-4}$ and $10^{-4}\,\mathrm{s}$, constant from $t = 0$), so the study is scaled. Convection is linear-upwind with an unlimited least-squares gradient; the fluid mesh follows a pseudo-elastic equation for its total displacement from the initial mesh (Section~\ref{sec:fluid_mesh_motion}); the flag carries the acceleration-consistent wall pressure $\mathbf{n}\cdot\nabla p = -\rho_F\,\mathbf{n}\cdot\mathbf{a}$ (Section~\ref{sec:hessenthaler}); the fluid solvers converge to absolute tolerances of $10^{-9}$ (PIMPLE 3/3/1); and the coupling is IQN-ILS with the strict test at a tolerance of $10^{-6}$, at most 50 iterations, reusing the secant information of the last five steps. The flag is held rigid to $t = 2\,\mathrm{s}$, and the QoIs are taken over the last five full periods before $t = 6\,\mathrm{s}$.
+FSI3 is computed on an unstructured, quadrilateral-dominant fluid family generated with Gmsh~\citep{geuzaine2009gmsh}, with three levels (96\,712, 194\,183 and 387\,219 fluid cells; Table~\ref{tab:hronturek_gmsh}). Structured layers surround the cylinder, the flag and the channel walls, and elsewhere the cell size grows linearly with the distance from the cylinder and flag, up to a cap; the size field is scaled by $1/\sqrt{2}$ and the layer counts by $\sqrt{2}$ from one level to the next, except the first cell of the blocks at the two flag-tip corners, which stays at about $0.3\,\mathrm{mm}$ on every level, so the family is not geometrically similar there. The effective refinement ratio, from the cell counts, is $r = (387\,219/96\,712)^{1/4} = 1.415$ ($1.417$ and $1.412$ for the two steps). The solid is refined with the fluid ($430\times24$, $608\times34$ and $860\times48$ cells, matching the fluid faces along the flag), and the time step is reduced by the same ratio ($\Delta t = 2\times10^{-4}$, $1.414\times10^{-4}$ and $10^{-4}\,\mathrm{s}$, constant from $t = 0$), so the study is scaled. Convection is linear-upwind with an unlimited least-squares gradient; the fluid mesh follows a pseudo-elastic equation for its total displacement from the initial mesh (Section~\ref{sec:fluid_mesh_motion}); the flag carries the acceleration-consistent wall pressure $\mathbf{n}\cdot\nabla p = -\rho_F\,\mathbf{n}\cdot\mathbf{a}$ (Section~\ref{sec:hessenthaler}); the fluid solvers converge to absolute tolerances of $10^{-9}$ (PIMPLE 3/3/1); and the coupling is IQN-ILS with the strict test at a tolerance of $10^{-6}$, at most 50 iterations, reusing the secant information of the last five steps. The flag is held rigid to $t = 2\,\mathrm{s}$, and the QoIs are taken over the last five full periods before $t = 6\,\mathrm{s}$. Figure~\ref{fig:fsi3_histories} shows the tip displacement and force histories of the three levels over this window against the reference extrema.
 A uniform block-structured family (1x, 2x, 4x: 5\,336, 21\,344 and 85\,376 fluid and 630, 2\,520 and 10\,080 solid cells; $\Delta t = 0.001$, $0.0005$ and $0.00025\,\mathrm{s}$; IQN-ILS, coupling tolerance $10^{-5}$) is used for the FSI3 coupling studies below; its displacement sequence with a velocity-based mesh motion and a zero-gradient wall pressure is discussed in Appendix~\ref{app:lessons}.
 
 \begin{table}[htbp]
@@ -590,6 +590,13 @@ A uniform block-structured family (1x, 2x, 4x: 5\,336, 21\,344 and 85\,376 fluid
 		\multicolumn{10}{l}{\footnotesize $^r$~\citet{Failer2020}, level 6, $\Delta t = 0.001\,\mathrm{s}$ (category B); $^F$~Featflow level 4, not given there.}
 	\end{tabular}
 \end{table}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{figures/fsi3_gmsh_histories}
+	\caption{Turek--Hron FSI3 on the Gmsh family, levels L1--L3: (a) tip displacement $u_y$, (b) $u_x$, (c) lift and (d) drag per unit depth on cylinder and flag over the five-period QoI window of L3, and enlargements of (e) a $u_y$ maximum, (f) a $u_x$ minimum and (g) a lift maximum (grey bands in a--c). The levels are aligned in phase: each is shifted in time so that its last upward $u_y$ crossing of the mean before $t = 6\,\mathrm{s}$, the end of its window ($t_0 = 5.840$, $5.833$ and $5.832\,\mathrm{s}$), is at $t - t_0 = 0$. Horizontal lines: (max+min)/2 $\pm$ amplitude of~\citet{Failer2020} (level 6) and of the Featflow level-4 table; for $u_y$ and the lift only the reference amplitudes are used, and the lines are centred on the L3 value of (max+min)/2, so the peaks in (e) and (g) also contain the level-to-level differences of (max+min)/2 (lift: $2.7$, $0.2$ and $1.3\,\mathrm{N/m}$ on L1--L3). Panels (e)--(g) show the extrema of single periods; Table~\ref{tab:hronturek_gmsh} averages five.}
+	\label{fig:fsi3_histories}
+\end{figure}
 
 \begin{table}[htbp]
 	\centering
@@ -677,7 +684,7 @@ The last two are independent codes, both with implicit Euler time integration at
 The reference is category C-weak.
 
 \paragraph{Evidence.}
-Three geometrically similar block-structured mesh levels (\texttt{blockMesh}; 16\,000, 128\,000 and 1\,024\,000 fluid cells; ratio 2) are computed with $\Delta t$ halved with the mesh ($2.5\times10^{-5}$, $1.25\times10^{-5}$ and $6.25\times10^{-6}\,\mathrm{s}$); all coupling criteria were met at every step (mean 4.8, 3.9 and 3.2 coupling iterations per step).
+Three geometrically similar block-structured mesh levels (\texttt{blockMesh}; 16\,000, 128\,000 and 1\,024\,000 fluid cells; ratio 2) are computed with $\Delta t$ halved with the mesh ($2.5\times10^{-5}$, $1.25\times10^{-5}$ and $6.25\times10^{-6}\,\mathrm{s}$); all coupling criteria were met at every step (mean 4.8, 3.9 and 3.2 coupling iterations per step). Figure~\ref{fig:3dtube_histories} shows their point-A histories with the published curves.
 
 \begin{table}[htbp]
 	\centering
@@ -696,6 +703,13 @@ Three geometrically similar block-structured mesh levels (\texttt{blockMesh}; 16
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{figures/3dtube_pointA_histories}
+	\caption{Three-dimensional pressure-pulse tube: (a) radial and (b) axial wall displacement at point A on levels 1--3 of Table~\ref{tab:3dtube} (Robin--Neumann, BDF2, $\Delta t$ halved with the mesh), with the published curves of~\citet{Tukovic2018} (BDF2, $\Delta t = 2.5\times10^{-5}\,\mathrm{s}$; radial only, to $10\,\mathrm{ms}$; extracted from vector graphics) and of~\citet{Lozovskiy2019} and~\citet{Eken2016} (implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$; digitised from raster figures to about $\pm3\times10^{-6}\,\mathrm{m}$, smoothed and resampled to $0.1\,\mathrm{ms}$, so the markers are not solver samples; the Eken and Sahin curve is Fig.~5.6 of the companion PhD thesis of A.~Eken, 2016). The inset enlarges the radial peak.}
+	\label{fig:3dtube_histories}
+\end{figure}
 
 \begin{itemize}
 	\item \emph{Space.} The axial trough $u_{z,\min}$ and the arrival time $t_\mathrm{arr}$ converge monotonically, at observed orders of about 0.87 and 0.74, far below the nominal two; no Richardson estimate is made. The peak radial displacement $u_{r,\max}$ decreases monotonically, but its changes grow ($0.21\%$, then $0.59\%$), so no order can be given; the last change ($0.59\%$) is a scale of the remaining sensitivity, not a bound on the level-3 error, and spatial convergence of $u_{r,\max}$ is not established. The wave speed $c_p$ behaves in the same way ($0.27\%$, then $0.56\%$).

@@ -62,3 +62,29 @@ All 3 200 time steps met the robin convergence criteria. The driver's checks pas
 - `logs/log.Allverify`, `logs/log.Allverify.reuse`, `logs/log.environment`: the driver logs (original and post-processing rerun) and the environment.
 - `scripts/env-tube-l3.sh`, `scripts/run-tube-l3.sh`: environment and launcher.
 - `scripts/tube-l3-driver-time-snap.patch`: the driver patch described above.
+
+## Point-A history figure (`figure/`, Fig. `fig:3dtube_histories`)
+
+`figures/3dtube_pointA_histories.pdf`: radial and axial wall displacement at point A for levels
+1–3 on the corrected meshes (Robin–Neumann, BDF2), with the published curves. It replaces the
+gnuplot draft `mesh_robin_backward.png` for the paper.
+
+| File | Content |
+|---|---|
+| `figure/tube_histories_figure.py` | Draws the figure in the shared style (`../figstyle`). Inputs by argument. |
+| `figure/data/robin_backward_mesh{1,2}.csv` | Levels 1 and 2: the driver's point-A histories (`postProcessing/histories/` of the corrected L1/L2 study in `~/claude-runs/tube3d/post671/3dTube/verification`), every time step. Checked identical to `solidPointDisplacement_verificationWallZ250.dat` (columns Dy, Dz) of the cases in `work/robin_backward_mesh{1,2}`. |
+| `histories/robin_backward_mesh3.csv` | Level 3 (this run), used as is. |
+| `figure/data/reference/` | The digitised published curves and the reference JSON of the solids4foam `3dTube/verification/reference` directory (same copy as above): Tuković et al. (2018) Fig. 25(a), Δt = 2.5e-5 s, radial only, to 10 ms, from the vector graphics; Lozovskiy et al. (2019) Fig. 3 (finer mesh) and Eken (2016, PhD thesis, Fig. 5.6, mesh M2; companion of Eken & Sahin 2016), implicit Euler, Δt = 1e-4 s, raster-digitised to about ±3e-6 m. Provenance in each file's header. |
+
+```bash
+cd paper-data/3dtube_level3_corrected_ecore/figure
+python3 tube_histories_figure.py \
+  --level "Level 1=data/robin_backward_mesh1.csv" \
+  --level "Level 2=data/robin_backward_mesh2.csv" \
+  --level "Level 3=../histories/robin_backward_mesh3.csv" \
+  --reference-dir data/reference --out ../../../figures/3dtube_pointA_histories.pdf
+```
+
+The script prints u_r,max and u_z,min (t < 6.5 ms) per level: 0.15958, 0.15924, 0.15831 mm and
+−0.08817, −0.08657, −0.08569 mm, as in Table `tab:3dtube` (level 3 u_z,min there is −0.08570,
+from the driver's interpolated extremum).
