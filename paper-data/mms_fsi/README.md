@@ -147,7 +147,7 @@ The files below support Section "Manufactured solution for transient ALE FSI wit
 
 | File | Content | Origin |
 |---|---|---|
-| `summary_errors_t0.2_t0.4.csv` | L2 (and U, p L∞) errors at t = 0.2 and 0.4 for every series and level; the numbers of Table `tab:mms_fsi` | `make_csv.py` |
+| `summary_errors_t0.2_t0.4.csv` | L2 (and U, p L∞) errors at t = 0.2 and 0.4 for every series and level; the partitioned series are those before the fixes (superseded by `results/partitioned_final/`) | `make_csv.py` |
 | `coupling_iterations.csv` | coupling iterations per step (mean, max) for the partitioned runs | `make_csv.py`, from `postProcessing/fsiResiduals.dat` |
 | `errors_csv/<series>_n<n>.csv` | the full error history (every time step) of each run | `make_csv.py`, from `postProcessing/mmsFsiErrors/errors.dat` |
 | `order_tables/{aitken,robin}_full_n16-n128.md` | four-level order tables of the partitioned runs, t = 0.2 and 0.4 | `case/orders.py <n16> <n32> <n64> <n128> --times 0.2 0.4` |
@@ -156,6 +156,7 @@ The files below support Section "Manufactured solution for transient ALE FSI wit
 | `derive/generated*.derive.log` | output of the derivation: the 11 symbolic and 40-digit checks (full, flat, ρ_F = 2 and ρ_S = 3, μ_F × 10) | `derive/run_checks.sh` |
 | `derive/generated*.check.log` | output of the independent checks of the generated C++ | `derive/check_generated.C` |
 | `results/` | the final order tables of 24 Nov 2026 (QM main build and corrections under review, partitioned-fluid diagnostics `p750_*`); see the build notes above | `case/orders.py`, `case/timeOrders.py` |
+| `results/partitioned_final/` | the final partitioned results of 26 Nov 2026 (outlet flux from the boundary velocity, two outer correctors, no face-flux time-derivative correction, exact old-time solid displacements, surface-gradient traction area): the source of Table `tab:mms_fsi`, superseding the partitioned series above; see its README | `case/orders.py` |
 | `make_csv.py` | the script that wrote the CSV files (absolute paths of the run directories inside) | |
 | `figure/mms_fsi_case_figure.py` | Fig. `fig:mms_fsi_case` (`figures/mms_fsi_case.pdf`): the exact solution of the full variant at t = 0.1, 0.2, 0.3, 0.4 (fluid speed and streamlines, solid strain and deformed material lines, current configuration, to scale), the interface displacement η(x, t) over one period, and the full and flat interfaces at t = 0.2 and 0.4. See "Figure of the case" below | the exact evaluators only; no run data |
 | `figure/mms_fsi_figure.py` | Fig. `fig:mms_fsi` (`figures/mms_fsi_pressure_error.pdf`): the pressure error p − p_exact at t = 0.4 on n128 for Aitken and QM. Run with Python 3 (numpy, matplotlib): `mms_fsi_figure.py mms-pfv/base/aitken-n128 mms-fsi/case/runs/qm-full/n128 OUT.pdf`. The runs wrote fields only at t = 0.4 | reads the `pError` field of the error function object and the deformed fluid mesh |

@@ -186,7 +186,7 @@ Every prescribed boundary value and gradient is the exact one (Table~\ref{tab:mm
 		Boundary & Velocity / displacement & Pressure \\
 		\midrule
 		Inlet, $x = 0$ & exact $\bb{v}_F$ & QM: exact $\partial p_F/\partial n$; partitioned: flux-consistent gradient \\
-		Outlet, $x = L$ & exact $\partial\bb{v}_F/\partial n$ & exact $p_F$ (sets the level) \\
+		Outlet, $x = L$ & exact $\partial\bb{v}_F/\partial n$ & exact $p_F$ (sets the level); partitioned: face flux from the boundary velocity \\
 		Wall, $y = 0$ & $\bb{v}_F = \bb{0}$ & QM: momentum balance; partitioned: flux-consistent gradient \\
 		Interface & from the coupling & from the coupling \\
 		Solid top & $\bb{D}_S = \bb{0}$ & --- \\

@@ -36,7 +36,7 @@ The observations are specific to this suite and to one code family, and are not 
 		Mok lid-driven cavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
 		Flexible-bottom cavity$^\ast$ & $u_y$ 1.93, 1.98; $F_y$ 2.03, 1.86 (four levels, scaled) & pseudo-time step ($\Delta t \to 0.0625\,\mathrm{s}$): $0.18$, $0.03$, $0.001\%$ on L1--L3 & SD \\
 		Beam in cross-flow$^\ast$ & $u_x(A)$ 1.64, $F_x$ 1.60 (L2--L4, corrected inflow; Appendix~\ref{app:beam}) & $\Delta t$ (Rhie--Chow) $\approx1/240$ of the L3-to-L4 change & SD \\
-		Manufactured FSI & partitioned: $p_F$ 0.9--1.2, $\bb{v}_F$ 1.2--1.4; solid 1.7--2.4 to $n = 64$, 0.7--0.8 to 128; QM: 1.2--2.5 (2.0 with three unreleased corrections) & partitioned fluid alone: pressure error grows as $\Delta t$ falls; QM 2.0 with corrections & vs exact; scaled; fixed-mesh time study (QM) \\
+		Manufactured FSI & partitioned (Aitken): $\bb{v}_F$ 1.7--2.0, $p_F$ 1.8--2.1, solid and interface 1.9--2.3, traction 1.7--2.1; Robin--Neumann $p_F$ 1.6--1.8; QM: 1.2--2.5 (2.0 with three unreleased corrections) & partitioned fluid alone: pressure offset independent of $\Delta t$ with two outer correctors; QM 2.0 with corrections & vs exact; scaled; fixed-mesh time study (QM) \\
 		Blob in treacle$^\ast$ & 2.00 & 2.13, 2.21 (interface 2.12, 2.00) & SD; Richardson \\
 		\bottomrule
 		\multicolumn{4}{l}{$^\ast$ Provisional cases.}
@@ -51,7 +51,7 @@ Independently of reference quality, the collapsible channel also shows near-seco
 In the Womersley tube second order in time requires a flux-consistent treatment of the artificial tube ends; with the usual mixed velocity condition the temporal orders fall towards one, from an $O(\Delta t)$ end-flux inconsistency rather than from the coupling, which the exact reference and fluid-only runs identify (Section~\ref{sec:womersley}).
 With the flux-consistent ends the finest solutions lie within $0.12\%$ of the continuum solution ($0.2\%$ for the attenuation, at the linear-theory level).
 In the ring added-mass problem the exact reference allows the remaining $-0.13\%$ frequency error at a practical resolution to be attributed to the BDF2 phase error.
-The manufactured solution shows that a nominally second-order code need not reach second order in every quantity: the partitioned fluid pressure converges at first order, and the solid displacement loses its order on the finest pair (Section~\ref{sec:mms_fsi}).
+The manufactured solution shows that a nominally second-order code need not reach second order in every quantity: the partitioned fluid pressure first converged at first order and the solid displacement lost its order on the finest pair, from four errors in the field solvers and their set-up; with these removed the partitioned couplings converge at close to second order, except in the Robin--Neumann pressure (Section~\ref{sec:mms_fsi}).
 
 \emph{Two levels do not establish convergence, and super-nominal orders are a warning.}
 In Turek--Hron FSI3 the displacements agree with the independent reference to $0.3\%$ on the coarsest of three levels, but this is a crossing: with refinement they move away from it, to $0.85\%$ ($u_y$ amplitude) and $2\%$ ($u_x$), while their changes shrink at observed orders of three and above (Section~\ref{sec:fsi23}).
@@ -172,7 +172,7 @@ In the ring added-mass problem, IQN-ILS produces a mesh-dependent amplitude loss
 \subsection{Defects exposed by verification}\label{sec:defects}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Seven defects or hazards in the code under test were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}). Appendix~\ref{app:lessons} gives the general lessons they carry for FSI solver developers, with the set-up and definition issues found in the same studies.
+Eight defects or hazards in the code under test were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}). Appendix~\ref{app:lessons} gives the general lessons they carry for FSI solver developers, with the set-up and definition issues found in the same studies.
 
 \begin{table}[htbp]
 	\centering
@@ -187,7 +187,8 @@ Seven defects or hazards in the code under test were found by the studies of Sec
 		Womersley tube & $O(\Delta t)$ inconsistency of the end flux under a mixed velocity condition & temporal order falling towards one against an exact reference \\
 		3-D pressure-pulse tube & wall viscous force miscompiled at \texttt{-O3} (temporary-storage aliasing under \texttt{\_\_restrict\_\_}) & deterministic $1.5$--$3\%$ difference in one QoI between two platforms \\
 		3-D pressure-pulse tube & degenerate barycentric weights below a fixed absolute area threshold; interpolation operator changed with mesh level & remaining cross-platform divergence; broken symmetry and rank dependence \\
-		Manufactured FSI & segregated fluid: the time-derivative correction of the momentum-interpolated face flux makes the pressure error grow as $\Delta t$ falls; first-order pressure layer at the outlet (cause open) & first-order pressure against an exact solution; fluid-only runs and outlet, flux-correction and time-step variants \\
+		Manufactured FSI & segregated fluid: outlet face flux built from the cell velocity instead of the boundary velocity under a prescribed velocity gradient and pressure ($O(h^2/\Delta t)$ pressure error); lagged convection with a single outer corrector; the time-derivative correction of the momentum-interpolated face flux makes the error grow as $\Delta t$ falls & first-order pressure against an exact solution; fluid-only runs with outlet-flux, outer-corrector, flux-correction and time-step variants \\
+		Manufactured FSI & Robin--Neumann interface pressure condition omits the viscous and body-force normal terms of the momentum balance & pressure order $1.6$--$1.8$ against an exact solution; predicted and measured error in the interface row of cells \\
 		Manufactured FSI & total Lagrangian solid: first-order-in-time start-up of the displacement form under a non-zero initial acceleration; $O(h)$ deformed traction area from the cell-centre gradient & first-order solid displacement against an exact solution; solid-only runs driven by the exact traction \\
 		Manufactured FSI & IQN-ILS stagnates with the tutorial filtering and inverts the solid without it & failure to complete; filtering and convergence-test variants \\
 		Hessenthaler flap & legacy coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\
