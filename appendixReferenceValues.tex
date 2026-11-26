@@ -21,7 +21,7 @@ For the manufactured solution the exact fields are given in closed form in Appen
 \begin{table}[htbp]
 	\centering
 	\small
-	\caption{Ring added-mass problem: exact angular frequencies and wet/dry frequency ratios (parameters of Table~\ref{tab:ring_params}), and our values on L3 at 100 steps per period (high-order solid, IQN-ILS).}
+	\caption{Ring added-mass problem: exact angular frequencies and wet/dry frequency ratios (parameters of Table~\ref{tab:ring_params}), and our values on L3 at 100 steps per period (high-order solid, IQN-ILS, full interface pressure condition~\eqref{eq:interface_pressure}). Source: \texttt{paper-data/ring\_added\_mass\_mwp/}.}
 	\label{tab:refvals_ring}
 	\begin{tabular}{lrrrr}
 		\toprule
@@ -29,10 +29,10 @@ For the manufactured solution the exact fields are given in closed form in Appen
 		\cmidrule(lr){2-3}\cmidrule(lr){4-5}
 		Added mass & $\omega$ (rad/s) & $\omega_\mathrm{wet}/\omega_\mathrm{dry}$ & $\omega$ (rad/s) & Error in ratio \\
 		\midrule
-		dry & 2.555042 & -- & \hl{[pending]} & -- \\
-		weak ($m^* = 0.101$) & 2.435615 & 0.953258 & \hl{[pending]} & \hl{[pending]} \\
-		moderate ($m^* = 1.008$) & 1.804513 & 0.706256 & \hl{[pending]} & \hl{[pending]} \\
-		strong ($m^* = 10.08$) & 0.768654 & 0.300838 & \hl{[pending]} & \hl{[pending]} \\
+		dry & 2.555042 & -- & 2.55173 & -- \\
+		weak ($m^* = 0.101$) & 2.435615 & 0.953258 & 2.43245 & $-0.0004\%$ \\
+		moderate ($m^* = 1.008$) & 1.804513 & 0.706256 & 1.80214 & $-0.002\%$ \\
+		strong ($m^* = 10.08$) & 0.768654 & 0.300838 & 0.76763 & $-0.004\%$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -63,17 +63,17 @@ For the manufactured solution the exact fields are given in closed form in Appen
 \begin{table}[htbp]
 	\centering
 	\small
-	\caption{Manufactured solution, full variant: L2 error norms at $t = 0.4$ on $n = 128$ ($\Delta t = 0.0025$), with the error definition of Appendix~\ref{app:mms}. The partitioned values are those of Table~\ref{tab:mms_fsi} and the quasi-monolithic values those of Table~\ref{tab:mms_fsi_corr}.}
+	\caption{Manufactured solution, full variant: L2 error norms at $t = 0.4$ on $n = 128$ ($\Delta t = 0.0025$), with the error definition of Appendix~\ref{app:mms}. The partitioned values are those of Table~\ref{tab:mms_fsi} (Robin--Neumann with the full interface pressure condition~\eqref{eq:interface_pressure}) and the quasi-monolithic values those of Table~\ref{tab:mms_fsi_corr}.}
 	\label{tab:refvals_mms}
 	\begin{tabular}{lrrr}
 		\toprule
 		Quantity & Aitken & Robin--Neumann & Quasi-monolithic \\
 		\midrule
-		$\bb{v}_F$ & $7.24\times10^{-4}$ & $1.09\times10^{-3}$ & $6.71\times10^{-4}$ \\
-		$p_F$ & $1.12\times10^{-3}$ & $2.45\times10^{-3}$ & $8.40\times10^{-4}$ \\
-		$\bb{D}_S$ & $3.83\times10^{-5}$ & $3.91\times10^{-5}$ & $3.69\times10^{-5}$ \\
-		$\bb{D}_S^\Gamma$ & $8.09\times10^{-5}$ & $7.09\times10^{-5}$ & $7.33\times10^{-5}$ \\
-		$\bb{t}^\Gamma$ & $1.34\times10^{-3}$ & $1.53\times10^{-3}$ & $1.21\times10^{-3}$ \\
+		$\bb{v}_F$ & $7.24\times10^{-4}$ & $7.61\times10^{-4}$ & $6.71\times10^{-4}$ \\
+		$p_F$ & $1.12\times10^{-3}$ & $1.29\times10^{-3}$ & $8.40\times10^{-4}$ \\
+		$\bb{D}_S$ & $3.83\times10^{-5}$ & $3.94\times10^{-5}$ & $3.69\times10^{-5}$ \\
+		$\bb{D}_S^\Gamma$ & $8.09\times10^{-5}$ & $8.53\times10^{-5}$ & $7.33\times10^{-5}$ \\
+		$\bb{t}^\Gamma$ & $1.34\times10^{-3}$ & $1.37\times10^{-3}$ & $1.21\times10^{-3}$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -204,7 +204,7 @@ For the flexible-bottom cavity the QoIs are the steady vertical displacement $u_
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\caption{Flexible-bottom cavity, beam in cross-flow, Hessenthaler flap and blob in treacle: finest-level values, extrapolated values with their uncertainty where the rules of Section~\ref{sec:convergence_method} allow them, and the reference category. Cavity: partitioned, extrapolated with $p = 2$ from the three finest levels, with GCI; beam: corrected inflow, conditional Richardson values from L2--L4; Hessenthaler: acceleration interface pressure condition, no extrapolation (three-level mesh sensitivity); blob: steady value extrapolated at the observed order $2.00$, and $t = 1\,\mathrm{s}$ on L2 at $\Delta t = 0.03125\,\mathrm{s}$.}
+	\caption{Flexible-bottom cavity, beam in cross-flow, Hessenthaler flap and blob in treacle: finest-level values, extrapolated values with their uncertainty where the rules of Section~\ref{sec:convergence_method} allow them, and the reference category. Cavity: partitioned, extrapolated with $p = 2$ from the three finest levels, with GCI; beam: corrected inflow, conditional Richardson values from L2--L4; Hessenthaler: acceleration-only interface pressure condition (no viscous term), no extrapolation (three-level mesh sensitivity); blob: steady value extrapolated at the observed order $2.00$, and $t = 1\,\mathrm{s}$ on L2 at $\Delta t = 0.03125\,\mathrm{s}$.}
 	\label{tab:refvals_other}
 	\begin{tabular}{llrrrl}
 		\toprule

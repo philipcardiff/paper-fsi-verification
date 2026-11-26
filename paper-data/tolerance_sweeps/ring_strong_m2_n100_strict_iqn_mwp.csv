@@ -1,0 +1,6 @@
+run,coupling,tol,omega,omega_dry,ratio_error_pct,loss_per_period,mean_iterations,max_iterations
+tol_iqn_strong_m2_n100_tol1e-4,iqn,1e-4,0.8159745550,2.7125759973,-0.008839,0.0006299,4.695,7
+tol_iqn_strong_m2_n100_tol1e-5,iqn,1e-5,0.8159744069,2.7125759973,-0.008858,0.0006301,5.027,8
+tol_iqn_strong_m2_n100_tol1e-6,iqn,1e-6,0.8159744188,2.7125759973,-0.008856,0.0006301,5.272,9
+tol_iqn_strong_m2_n100_tol1e-7,iqn,1e-7,0.8159744220,2.7125759973,-0.008856,0.0006303,6.008,18
+tol_iqn_strong_m2_n100_tol1e-8,iqn,1e-8,0.8159744202,2.7125759973,-0.008856,0.0006304,7.143,27

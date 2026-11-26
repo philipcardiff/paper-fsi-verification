@@ -48,7 +48,8 @@ before the fixes and are kept for the record.
 
 | File | Content |
 |---|---|
-| `aitken_full_*`, `robin_full_*` | full variant, n = 16, 32, 64, 128 (Table `tab:mms_fsi`) |
+| `aitken_full_*`, `robin_full_visc_*` | full variant, n = 16, 32, 64, 128 (Table `tab:mms_fsi`) |
+| `robin_full_*` | full variant, Robin–Neumann with the acceleration-only Robin condition (superseded by `robin_full_visc_*`; quoted in the text for comparison) |
 | `aitken_flat_*`, `robin_flat_*` | flat variant, n = 16, 32, 64 |
 | `aitken_full_noSSG_*` | A/B without the surface-gradient traction area, n = 64, 128 |
 | `before_aitken_full_*` | the earlier case settings on this build, n = 16, 32, 64 |
@@ -57,11 +58,28 @@ before the fixes and are kept for the record.
 | `coupling_iterations.csv` | coupling iterations per step (mean, max), from `postProcessing/fsiResiduals.dat`, as in `../../make_csv.py` |
 | `makeCase.patch` | the changes to the case generator |
 
+## Robin–Neumann with the viscous and source terms (`robin_full_visc_*`)
+
+- **Build:** the tree above (development e38f3b06f, which contains #756 and
+  #776) merged with the interface-pressure branch `fix/movingWallPressure-721`
+  (merge beb712f4e: `elasticWallPressure` with the viscous term of the
+  wall-normal momentum equation and the fvOptions momentum source,
+  `viscousTerm yes`). OpenFOAM v2512, macOS (arm64), Apple Clang, `Opt`.
+- **Case options:** as above (`robin`, `--pimpleExtra "fluxConsistentPatches (outlet);"
+  --nOuter 2 --ddtCorr no --solidSurfGrad --exactOldTime`), Δt = 0.32/n, t = 0.4.
+- **Runs:** `/Users/philipc/claude-runs/mms-robin-viscous/runs/cp-robin-visc-src/n{16,32,64}`
+  and `cp-robin-visc-src128/n128` (not copied). Files written by
+  `mms_robin_visc.py` (in this directory) from `postProcessing/mmsFsiErrors/errors.dat`
+  (same columns as `robin_full_errors.csv`) and of `fsiResiduals.dat`.
+- **Effect:** p L2 orders 1.81, 1.96, 1.76 (were 1.61, 1.77, 1.66); n128 p L2
+  error 1.29e-3 (was 2.45e-3); p L∞ on n64 2.1e-2 (was 6.1e-2). The viscous term
+  alone, without the source, made the errors worse.
+- **Flat variant:** not rerun; `robin_flat_*` use the acceleration-only condition.
+
 ## Remaining limitations
 
-- Robin–Neumann pressure: L2 orders 1.61, 1.77, 1.66; the interface pressure
-  condition imposes only the acceleration term of the normal momentum balance.
-  Predicted interface-row error (h/2)·4.3 = 0.067 (n64), 0.034 (n128); measured
-  0.061, 0.031. Fix in progress.
+- Robin–Neumann, acceleration-only condition (`robin_full_*`): pressure L2
+  orders 1.61, 1.77, 1.66. Predicted interface-row error (h/2)·4.3 = 0.067 (n64),
+  0.034 (n128); measured 0.061, 0.031. Removed by the full condition above.
 - Aitken interface-face pressure (`intP_L2`): orders 1.69, 1.60, 1.28 at t = 0.4;
   cause not identified.

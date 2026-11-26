@@ -54,9 +54,12 @@ def refs(l):
 
 # ---------------------------------------------------------------- R1
 s4f = {}
-for x in csv.DictReader(open(PKG / "reference/ringAddedMass_monolithic_mesh_ff150e4.csv")):
+# solids4foam IQN-ILS with the acceleration-and-viscous interface pressure condition
+# (rerun of the tutorial study, paper-data/ring_added_mass_mwp/); the earlier
+# zero-gradient values are in reference/ringAddedMass_monolithic_mesh_ff150e4.csv
+for x in csv.DictReader(open(REPO_DATA / "ring_added_mass_mwp/ringAddedMass_results.csv")):
     n = x["name"]
-    if n.startswith("wet_") and "iqnils" in n:
+    if n.startswith("wet_") and "iqnils" in n and "standard" in n:
         s4f.setdefault(n.split("_")[1], {})[int(x["factor"])] = 100 * float(x["ratio_error"])
 for l in LV:
     assert sorted(s4f[l]) == [1, 2, 4], l

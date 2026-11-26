@@ -17,7 +17,8 @@ Results computed without these corrections are affected only where an interface 
 		\toprule
 		Case or study & solids4foam & OpenFOAM & Compiler & Platform & \#546 \\
 		\midrule
-		ringAddedMass & \texttt{0a3719424}$^a$ & v2412 & GCC 11.4 \texttt{-O3} & Linux & before \\
+		ringAddedMass, zero-gradient interface (earlier values quoted in the text) & \texttt{0a3719424}$^a$ & v2412 & GCC 11.4 \texttt{-O3} & Linux & before \\
+		ringAddedMass (Table~\ref{tab:ring}; IQN-ILS tolerance sweep) & \texttt{7a2f0a63e} with the interface-pressure branch$^\|$ & v2512 & GCC \texttt{-O3} & Linux (UCD Sonic) & after \\
 		womersleyTube & \texttt{a507bfd41} (PR \#533); rerun \texttt{b200718f4}$^\dagger$ & v2512 & GCC 11.4 \texttt{-O3} & Linux & before; rerun after \\
 		collapsibleChannel & \texttt{c59dbf84a}$^a$; mesh-study figure \texttt{a421f063d}$^\dagger$ & v2412; v2512 & GCC 11.4 \texttt{-O3}; Clang \texttt{-O3}; GCC 13.3 \texttt{-O2}$^\ddagger$ & Linux; macOS (static study); MeluXina & before; after \\
 		Turek--Hron FSI1 (four levels) & \texttt{a421f063d} & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & after \\
@@ -35,12 +36,12 @@ Results computed without these corrections are affected only where an interface 
 		blobInTreacle & \texttt{206437983} with PR \#694 (merged as \texttt{1b5ab0963}) & v2512 & GCC \texttt{-O3} & Linux & after \\
 		Hessenthaler & \texttt{206437983} with PR \#676 (\texttt{64896b0a5}) & v2512 & GCC 11.5 \texttt{-O3} & Linux (UCD Sonic) & after \\
 		beamInCrossFlow (Appendix~\ref{app:beam}) & \texttt{aee0c8e35} & v2412 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & before \\
-		Tolerance sweeps & \texttt{a421f063d} & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & after \\
-		FEBio ring (solids4foam side) & as ringAddedMass; definition \texttt{1576edcc} & v2412 & GCC 11.4 \texttt{-O3} & Linux & before \\
+		Tolerance sweeps (except the ring IQN-ILS column) & \texttt{a421f063d} & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & after \\
+		FEBio ring (solids4foam side) & as ringAddedMass (Table~\ref{tab:ring}); definition \texttt{1576edcc} & v2512 & GCC \texttt{-O3} & Linux (UCD Sonic) & after \\
 		Manufactured FSI solution, quasi-monolithic & \texttt{4071b431e} ($n \leq 64$); \texttt{677865f55} ($n = 128$) & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
-		Manufactured FSI solution, partitioned (Table~\ref{tab:mms_fsi}) & \texttt{7a2f0a63e} with PRs \#756 and \#776 (unmerged) & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
+		Manufactured FSI solution, partitioned (Table~\ref{tab:mms_fsi}) & \texttt{7a2f0a63e} with PRs \#756 and \#776 (unmerged); Robin--Neumann: \texttt{e38f3b06f} with the interface-pressure branch$^\|$ & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
 		\bottomrule
-		\multicolumn{6}{p{0.95\linewidth}}{$^\dagger$ Rerun that reproduces the tabulated errors to the digits given. $^a$ Commit that first recorded the values, an upper bound on the commit of the run; all precede PR \#492, and every one of these runs sets the IQN-ILS predictor explicitly or uses Robin--Neumann coupling with a relaxation factor of~1, so the change of the predictor default in PR \#492 does not affect them. $^\S$ Cross-platform replicates on an earlier mesh variant (Appendix~\ref{app:lessons}). $^\ddagger$ \texttt{-O2 -fno-tree-vectorize -march=znver2} (v2412 also \texttt{-fno-math-errno}). Clang is Apple Clang (Xcode 27.0). PETSc: 3.24.1 (Linux), 3.22.0 (MeluXina), 3.22.2 (macOS).}
+		\multicolumn{6}{p{0.95\linewidth}}{$^\dagger$ Rerun that reproduces the tabulated errors to the digits given. $^a$ Commit that first recorded the values, an upper bound on the commit of the run; all precede PR \#492, and every one of these runs sets the IQN-ILS predictor explicitly or uses Robin--Neumann coupling with a relaxation factor of~1, so the change of the predictor default in PR \#492 does not affect them. $^\S$ Cross-platform replicates on an earlier mesh variant (Appendix~\ref{app:lessons}). $^\|$ \texttt{fix/movingWallPressure-721} (solids4foam PR~\#777): full interface pressure condition~\eqref{eq:interface_pressure}. $^\ddagger$ \texttt{-O2 -fno-tree-vectorize -march=znver2} (v2412 also \texttt{-fno-math-errno}). Clang is Apple Clang (Xcode 27.0). PETSc: 3.24.1 (Linux), 3.22.0 (MeluXina), 3.22.2 (macOS).}
 	\end{tabular}
 \end{table}
 % Provenance compiled 2026-11-02 from paper-data evidence files and the case
