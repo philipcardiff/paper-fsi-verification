@@ -109,7 +109,7 @@ def draw(fig, ax, cax, d, letter="b"):
     ax.set_xlim(-0.1, LENGTH + 0.1)
     ax.set_ylim(-1.5, 1.3)
     common.bare(ax)
-    common.scalebar(ax, 0.0, -1.42, 2.0, "2 m", above=False)
+    common.scalebar(ax, 0.0, -1.38, 2.0, "2 m", side="right")
     common.title(ax, letter, rf"{TITLE}, $\omega t = {d['phase']:g}^\circ$, "
                  rf"wall displacement $\times{EXAGGERATION:g}$")
     common.colorbar(fig, pc, cax, r"$u_x$ (mm/s)")

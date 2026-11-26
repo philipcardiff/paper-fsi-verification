@@ -40,8 +40,8 @@ def draw(fig, ax, cax, d, letter="f"):
     ax.annotate("", (0.7, 1.0), (0.3, 1.0), zorder=12,
                 arrowprops=dict(arrowstyle="-|>,head_length=0.3,head_width=0.15",
                                 lw=0.8, color="black", shrinkA=0, shrinkB=0))
-    ax.text(0.5, 1.003, "lid", ha="center", va="bottom", fontsize=7, zorder=12)
-    ax.text(0.5, 0.255, "membrane", ha="center", va="top", fontsize=7, zorder=12)
+    ax.text(0.5, 1.003, "lid", ha="center", va="bottom", fontsize=8, zorder=12)
+    ax.text(0.5, 0.255, "membrane", ha="center", va="top", fontsize=8, zorder=12)
     common.title(ax, letter, f"{TITLE}, $t = {d['t']:g}$ s")
 
 

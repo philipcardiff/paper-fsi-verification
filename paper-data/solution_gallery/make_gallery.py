@@ -19,9 +19,14 @@ Usage:
 See README.md for the data behind each argument."""
 import argparse
 
+import os
+import sys
+
 import matplotlib.pyplot as plt
 
 import common
+sys.path.insert(0, os.path.join(common.HERE, "..", "figstyle"))
+from figstyle import TEXTWIDTH  # noqa: E402
 import panel_blob
 import panel_cavity
 import panel_collapsible
@@ -51,8 +56,9 @@ def main():
     ap.add_argument("--blob", required=True)
     ap.add_argument("--hessenthaler")
     ap.add_argument("--png")
-    ap.add_argument("--width", type=float, default=372 / 72,
-                    help="figure width in inches (default: text width, 372 pt)")
+    ap.add_argument("--width", type=float, default=TEXTWIDTH,
+                    help="figure width in inches (default: the text width, "
+                         "15 cm = 427 pt, from figstyle.TEXTWIDTH)")
     a = ap.parse_args()
 
     print("loading ...")
@@ -108,6 +114,8 @@ def main():
                                 CB_W / W, ch / H])
             mod.draw(fig, ax, cax, data, next(letters))
             print(f"  ({key}) {pw:.2f} x {ph:.2f} in")
+    # full canvas (no tight bbox), so the PDF is exactly the text width
+    plt.rcParams["savefig.bbox"] = "standard"
     fig.savefig(a.out, dpi=400)
     print(f"wrote {a.out} ({W:.2f} x {H:.2f} in)")
     if a.png:

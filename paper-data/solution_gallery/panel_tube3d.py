@@ -65,7 +65,7 @@ def draw(fig, ax, cax, d, letter="e"):
     ax.set_xlim(*XLIM)
     ax.set_ylim(*YLIM)
     common.bare(ax)
-    common.scalebar(ax, 0.0, -8.6, 10.0, "10 mm", above=False)
+    common.scalebar(ax, 0.0, -8.9, 10.0, "10 mm", side="right")
     common.title(ax, letter, f"3-D tube, $t = {1e3 * d['t']:.0f}$ ms, "
                  rf"wall displ. $\times{EXAGGERATION:g}$")
     common.colorbar(fig, pc, cax, r"$p$ (kPa)")

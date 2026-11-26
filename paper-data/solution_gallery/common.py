@@ -23,7 +23,10 @@ STREAM = dict(color="white", linewidth=0.45, arrowsize=0.5, density=0.9,
 
 
 def use_style():
-    plt.style.use(STYLE)
+    import sys
+    sys.path.insert(0, os.path.join(HERE, "..", "figstyle"))
+    import figstyle
+    figstyle.use()      # paper.mplstyle, with CMU Serif from TeX if available
     # The style asks for Computer Modern; where CMU is not installed, use
     # matplotlib's own cmr10 (with mathtext minus signs) before DejaVu Serif
     serif = list(plt.rcParams["font.serif"])
@@ -48,28 +51,29 @@ def scalebar(ax, x0, y0, length, label, color="black", above=True,
              side=None):
     """Horizontal scale bar of `length` (data units) starting at (x0, y0)."""
     ax.plot([x0, x0 + length], [y0, y0], color=color, lw=1.0,
-            solid_capstyle="butt", zorder=12)
+            solid_capstyle="butt", zorder=12, clip_on=False)
     for x in (x0, x0 + length):
         tick = 0.012 * np.diff(ax.get_ylim())[0]
-        ax.plot([x, x], [y0 - tick, y0 + tick], color=color, lw=0.6, zorder=12)
+        ax.plot([x, x], [y0 - tick, y0 + tick], color=color, lw=0.6, zorder=12,
+                clip_on=False)
     if side == "right":
         ax.annotate(label, (x0 + length, y0), xytext=(3, 0),
                     textcoords="offset points", ha="left", va="center",
-                    fontsize=7, color=color, zorder=12)
+                    fontsize=8, color=color, zorder=12, annotation_clip=False)
     elif side == "left":
         ax.annotate(label, (x0, y0), xytext=(-3, 0),
                     textcoords="offset points", ha="right", va="center",
-                    fontsize=7, color=color, zorder=12)
+                    fontsize=8, color=color, zorder=12, annotation_clip=False)
     else:
         ax.annotate(label, (x0 + 0.5 * length, y0),
                     xytext=(0, 2 if above else -2), textcoords="offset points",
-                    ha="center", va="bottom" if above else "top", fontsize=7,
-                    color=color, zorder=12)
+                    ha="center", va="bottom" if above else "top", fontsize=8,
+                    color=color, zorder=12, annotation_clip=False)
 
 
 def note(ax, text, x=0.99, y=0.03, ha="right", va="bottom", color="black"):
     """Small in-panel note (e.g. a display magnification), axes coords."""
-    ax.text(x, y, text, transform=ax.transAxes, ha=ha, va=va, fontsize=7,
+    ax.text(x, y, text, transform=ax.transAxes, ha=ha, va=va, fontsize=8,
             color=color, zorder=13)
 
 
@@ -83,9 +87,9 @@ def colorbar(fig, mappable, cax, label, ticks=None, fmt=None, extend="neither"):
     h_in = cax.get_position().height * fig.get_figheight()
     if h_in < 0.45:
         # a short bar (thin panel): the label goes above it, left-aligned
-        cb.ax.set_title(label, loc="left", fontsize=7, pad=6)
+        cb.ax.set_title(label, loc="left", fontsize=8, pad=6)
     else:
-        cb.set_label(label, fontsize=7, labelpad=2)
+        cb.set_label(label, fontsize=8, labelpad=2)
     cb.ax.tick_params(labelsize=7, length=2, width=0.5, pad=1.5)
     cb.outline.set_linewidth(0.5)
     return cb

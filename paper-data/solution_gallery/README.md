@@ -6,7 +6,8 @@ field of the companion quasi-monolithic paper is reused).
 
 ## Scripts
 
-- `make_gallery.py`: assembler (layout, true aspect ratio, colour bars).
+- `make_gallery.py`: assembler (layout, true aspect ratio, colour bars); drawn at
+  the text width `figstyle.TEXTWIDTH` (15 cm = 427 pt) and included at natural size.
 - `panel_*.py`: one script per panel; each also runs on its own and writes a
   one-panel preview (`python3 panel_X.py <data> out.png`).
 - `foamio.py`: reads a reconstructed solids4foam multi-region case with
@@ -14,8 +15,8 @@ field of the companion quasi-monolithic paper is reused).
   extracts a patch, returns a triangulation with point fields.
 - `fsi2d.py`: planar fluid + deformed-solid snapshot (speed/vorticity,
   streamlines, solid displaced by `pointD`, undeformed outline dashed).
-- `common.py`: style (`../figstyle/paper.mplstyle`, with matplotlib's `cmr10`
-  as the Computer Modern fallback), colour bars, scale bars, streamlines.
+- `common.py`: style (`figstyle.use()`, with matplotlib's `cmr10` as the
+  Computer Modern fallback), colour bars, scale bars, streamlines.
 
 Requirements: Python 3 with numpy, matplotlib (3.10) and vtk (9.x).
 

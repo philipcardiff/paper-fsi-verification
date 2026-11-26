@@ -34,7 +34,7 @@ def draw(fig, ax, cax, d, letter="d", vmax=120.0):
             zorder=6)
     ax.plot(0.2 + 0.05 * np.cos(th), 0.2 + 0.05 * np.sin(th), color="0.1",
             lw=0.6, zorder=7)
-    common.scalebar(ax, 2.0, -0.025, 0.4, "0.4 m", above=False)
+    common.scalebar(ax, 2.1, 0.47, 0.4, "0.4 m", side="left")  # in the title row
     common.title(ax, letter, f"{TITLE}, $t = {d['t']:.2f}$ s")
 
 

@@ -33,7 +33,7 @@ def draw(fig, ax, cax, d, letter="c"):
     fsi2d.draw(fig, ax, cax, d, sp, common.Normalize(0, vmax), "viridis",
                r"$|\mathbf{u}|$ (m/s)", XLIM, YLIM, stream_density=(2.2, 0.35),
                stream_n=400, cb_ticks=[0, 1, 2])
-    common.scalebar(ax, 17.0, -0.1, 2.0, "2 m", above=False)
+    common.scalebar(ax, 17.0, 1.25, 2.0, "2 m", side="left")  # in the title row
     common.title(ax, letter, f"{TITLE}, $t = {d['t']:.3f}$ s (first trough)")
 
 
