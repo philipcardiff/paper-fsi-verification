@@ -1,8 +1,8 @@
 source,dx_m,uy_A_m,Fy_N_per_m,our_uy_A_m,our_Fy_N_per_m,uy_diff_pct,Fy_diff_pct
-"solids4foam partitioned (strict, #36)",0.1,-0.204573,-5.1528,-0.2407852,-5.365675,-15.0392,-3.967342
-"solids4foam partitioned (strict, #36)",0.05,-0.231482,-5.2399,-0.2397778,-5.271712,-3.459769,-0.603455
-"solids4foam partitioned (strict, #36)",0.025,-0.238403,-5.2565,-0.2401243,-5.259431,-0.7168354,-0.05573196
-"solids4foam partitioned (strict, #36)",0.0125,-0.240111,-5.2598,-0.2403617,-5.257979,-0.1043215,0.03462541
+solids4foam partitioned (skew-corrected),0.1,-0.204831,-5.160695,-0.2407852,-5.365675,-14.93205,-3.820203
+solids4foam partitioned (skew-corrected),0.05,-0.231268,-5.233332,-0.2397778,-5.271712,-3.549018,-0.7280445
+solids4foam partitioned (skew-corrected),0.025,-0.238225,-5.251155,-0.2401243,-5.259431,-0.7909637,-0.1573589
+solids4foam partitioned (skew-corrected),0.0125,-0.239986,-5.256073,-0.2403617,-5.257979,-0.1563265,-0.03625733
 solids4foam quasi-monolithic #618,0.1,-0.203601,-5.122626,-0.2407852,-5.365675,-15.44288,-4.529694
 solids4foam quasi-monolithic #618,0.05,-0.231044,-5.226559,-0.2397778,-5.271712,-3.642438,-0.8565227
 solids4foam quasi-monolithic #618,0.025,-0.2382,-5.250356,-0.2401243,-5.259431,-0.801375,-0.1725507

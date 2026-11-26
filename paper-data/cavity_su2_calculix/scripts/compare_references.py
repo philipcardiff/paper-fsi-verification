@@ -5,9 +5,10 @@ Our values were fixed and posted blind on #36 (issuecomment-6928621052) before a
 
 Sources (all relative to this package):
   cavity_su2_steady.csv                                   this solution, levels 1-16 (dx = 0.1 / L m)
-  comparison/s4f_partitioned_issue36.csv                  solids4foam partitioned St Venant-Kirchhoff, strict coupling
-                                                          test, dt halved per level, as posted by Philip Cardiff on #36
-                                                          (issuecomment-7015729752)
+  comparison/s4f_partitioned_skew.csv                     solids4foam partitioned St Venant-Kirchhoff, strict coupling
+                                                          test, dt halved per level, rerun with a skew-corrected
+                                                          continuity flux (../cavity_partitioned_skew/levels.csv,
+                                                          variant skew_corrected); replaces the sequence posted on #36
   ../cavity_monolithic_618/quasi_monolithic_618.csv       solids4foam quasi-monolithic, #618 build (and #597 columns)
   ../fenicsx_cavityflexiblebottom/data/coupled_levels.csv FEniCSx monolithic (same research group)
   ../cavity_plate_material_law/reference_levels.csv       Tukovic et al. 2018, ANSYS, COMSOL (paper's reference levels)
@@ -44,8 +45,8 @@ def main():
     seqs = {}   # name -> {dx: (uy, Fy)}
     ours = {0.1 / int(r["level"]): (float(r["uy"]), float(r["Fy"])) for r in rows(ROOT / "cavity_su2_steady.csv")}
     seqs["SU2 + CalculiX (this work)"] = ours
-    seqs["solids4foam partitioned (strict, #36)"] = {float(r["dx_m"]): (float(r["uy_A_m"]), float(r["Fy_N_per_m"]))
-                                                     for r in rows(ROOT / "comparison/s4f_partitioned_issue36.csv")}
+    seqs["solids4foam partitioned (skew-corrected)"] = {float(r["dx_m"]): (float(r["uy_A_m"]), float(r["Fy_N_per_m"]))
+                                                        for r in rows(ROOT / "comparison/s4f_partitioned_skew.csv")}
     m = rows(PD / "cavity_monolithic_618/quasi_monolithic_618.csv")
     seqs["solids4foam quasi-monolithic #618"] = {float(r["delta_x_m"]): (float(r["uy_top_m"]), float(r["fy_N_per_m"])) for r in m}
     seqs["solids4foam quasi-monolithic #597"] = {float(r["delta_x_m"]): (float(r["uy_top_597_m"]), float(r["fy_597_N_per_m"])) for r in m}

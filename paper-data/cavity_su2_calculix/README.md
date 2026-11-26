@@ -135,10 +135,10 @@ Core-hours count all allocated cores; CalculiX is serial and mostly waits for SU
 ## Comparison with the other solutions
 
 Made after the blind values above were posted (`scripts/compare_references.py`; `comparison/reference_limits.csv`, `comparison/reference_comparison.csv`). Sources:
-- **solids4foam partitioned:** St Venant–Kirchhoff, strict coupling test, Δt halved per level, as posted on #36 (`comparison/s4f_partitioned_issue36.csv`);
+- **solids4foam partitioned:** St Venant–Kirchhoff, strict coupling test, Δt halved per level, rerun with a skew-corrected continuity flux (`flux(HbyA) skewCorrected linear`; `../cavity_partitioned_skew/`, copied to `comparison/s4f_partitioned_skew.csv`). It replaces the sequence posted on #36;
 - **solids4foam quasi-monolithic:** the #618 and #597 builds (`../cavity_monolithic_618/`);
 - **FEniCSx monolithic:** `../fenicsx_cavityflexiblebottom/data/coupled_levels.csv`. Its README describes it as a second implementation by the same group, not an independent one;
-- **Tuković et al. 2018, ANSYS, COMSOL:** the paper's reference levels (`../cavity_plate_material_law/reference_levels.csv`).
+- **Tuković et al. 2018, ANSYS, COMSOL:** the paper's reference levels (`../cavity_plate_material_law/reference_levels.csv`). The COMSOL levels there are superseded (see below); the script still reports them, but they are not compared here.
 
 Each limit is the Richardson value of the sequence's three finest levels (ours: L4–L8–L16). Differences are reference / ours − 1:
 
@@ -148,15 +148,15 @@ Each limit is the Richardson value of the sequence's three finest levels (ours: 
 | solids4foam quasi-monolithic #618 | −0.240580 | 2.00 | +0.009 % | −5.257741 | 2.08 | −0.001 % |
 | solids4foam quasi-monolithic #597 | −0.240581 | 2.00 | +0.009 % | −5.257746 | 2.11 | −0.001 % |
 | FEniCSx monolithic | −0.240544 | 1.28 | −0.006 % | −5.257801 | 2.18 | +0.000 % |
-| solids4foam partitioned (#36) | −0.240671 | 2.02 | +0.046 % | −5.260619 | 2.33 | +0.054 % |
+| solids4foam partitioned (skew-corrected) | −0.240583 | 1.98 | +0.010 % | −5.257947 | 1.86 | +0.003 % |
 | Tuković et al. 2018 | −0.251033 | 1.84 | +4.35 % | −5.256744 | 1.92 | −0.020 % |
 | ANSYS | −0.253638 | 0.89 | +5.44 % | −5.271895 | 1.30 | +0.27 % |
-| COMSOL | not monotone | | | not monotone | | |
 
-- **Monolithic solutions:** this partitioned solution agrees with both solids4foam quasi-monolithic builds and with FEniCSx to within 0.01 % in u_y and 0.001 % in F_y. That is within our u_y GCI (0.046 %) and close to our F_y GCI (0.001 %).
-- **solids4foam partitioned:** the difference is 0.05 % in both quantities. In u_y this is within either sequence's uncertainty. In F_y it is larger than our GCI (0.001 %) and than the sequence's own GCI on its finest level (about 0.02 %, with a safety factor of 1.25), while the other three limits agree with each other to 0.001 %.
+- **Monolithic solutions:** this partitioned solution agrees with both solids4foam quasi-monolithic builds and with FEniCSx in u_y within GCI (ours 0.046 %; our limit moves by 0.03 % between p = 1 and p = 2, so the 0.01 % differences are not resolved), and in F_y to 0.001 %, close to our F_y GCI (0.001 %).
+- **solids4foam partitioned:** with the skew-corrected continuity flux the differences are 0.010 % (u_y, within GCI) and 0.003 % (F_y, within the sequence's own GCI of 0.045 %). The sequence first posted on #36, with plain linear interpolation of the flux, differed by 0.05 % in both quantities; in F_y that was larger than both GCIs, and it led to the fix.
 - **Approach to the limit:** at the same Δx the solids4foam sequences converge from below at second order. Their u_y(A) at Δx = 0.1 m is 15 % smaller than ours, and 0.10–0.16 % smaller at Δx = 0.0125 m. Our u_y is already within 0.1 % of its limit at L1, but it is not monotone (see the mesh study). FEniCSx's u_y is within 0.75 % of ours at every level. A likely reason is that both solid discretisations represent bending well on coarse meshes: C3D8I incompatible modes here, quadratic (P2) elements in FEniCSx.
-- **COMSOL:** its finest values (Δx = 0.0125 m) are 1.1 % (u_y) and 0.7 % (F_y) above ours in magnitude, and its sequence is not monotone. Five solutions (two solids4foam quasi-monolithic builds, FEniCSx, this package and the solids4foam partitioned sequence) agree to within about 0.05 %, which places the COMSOL difference with COMSOL.
+- **Independence:** of the solutions that agree, only this one (SU2 + CalculiX) is independent of the solids4foam group. FEniCSx is a second implementation by the same group, and the solids4foam partitioned and quasi-monolithic solutions are the code under test.
+- **COMSOL:** the earlier COMSOL sequence in the repository used a uniform inflow. A rerun with the corrected parabolic inflow agrees with our u_y to about 0.2 %; its F_y differs by about 1.1 %, which is under investigation.
 - **Tuković et al. 2018 and ANSYS:** they differ by 4–5 % in u_y and agree with ours in F_y to 0.02 % (Tuković) and 0.27 % (ANSYS). This repository already discusses those differences and they are not examined further here.
 
 ## Notes
@@ -174,7 +174,7 @@ Each limit is the Richardson value of the sequence's three finest levels (ours: 
 - `histories/L*.csv`: u_x(A), u_y(A), F_x, F_y per window for the Δt = 100 s runs; `histories/dt-check/*.csv`: the same for the time-step check runs.
 - `dt-check/`: `dt_check.csv` and `evaluate.txt` (all runs), `dt_table.md` (the two tables above).
 - `checks/rigid_plate_steady.csv`, `.txt`: the rigid-plate steady sequence.
-- `comparison/`: `reference_limits.csv` and `reference_comparison.csv` (`scripts/compare_references.py`), and `s4f_partitioned_issue36.csv`, the solids4foam partitioned sequence as posted on #36.
+- `comparison/`: `reference_limits.csv` and `reference_comparison.csv` (`scripts/compare_references.py`), and `s4f_partitioned_skew.csv`, the skew-corrected solids4foam partitioned sequence (from `../cavity_partitioned_skew/levels.csv`).
 - `case/`: the template: SU2 `steady_rigid.cfg` and `coupled.cfg`, CalculiX `plate.inp` and `config.yml`, `precice-config.base.xml`, and the tutorial fluid blockMeshDict. The `@…@` placeholders, meshes and inlet profile are filled in by `scripts/setup_case.py`.
 - `scripts/`:
   - `setup_case.py`: generates a case for a level (fluid mesh with `make_fluid_mesh.py`, inlet profile with `make_inlet_profile.py`, solid mesh with `solid_mesh.py`). It regenerates the L1 and L2 cases used here byte for byte (meshes, configuration files, inlet profile, solid mesh).
