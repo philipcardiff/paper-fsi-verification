@@ -10,7 +10,7 @@
 % Implementation detail (solver options, invocation, iteration-count listings)
 % is in the solids4foam verification READMEs and is deliberately not repeated.
 
-The benchmarks are grouped by reference quality (Table~\ref{tab:ref_hierarchy}; Sections~\ref{sec:exact_refs}--\ref{sec:classical}), followed by provisional cases whose evidence is incomplete (Section~\ref{sec:provisional}); Table~\ref{tab:suite_overview} summarises the evidence, and Figure~\ref{fig:geometry_panel} shows the geometries of the cases that have no figure in their own section.
+The benchmarks are grouped by reference quality (Table~\ref{tab:ref_hierarchy}; Sections~\ref{sec:exact_refs}--\ref{sec:classical}), followed by provisional cases whose evidence is incomplete (Section~\ref{sec:provisional}); Table~\ref{tab:suite_overview} summarises the evidence, Figure~\ref{fig:solution_gallery} shows representative solutions of the cases (the manufactured solution is shown in Fig.~\ref{fig:mms_fsi_case}), and Figure~\ref{fig:geometry_panel} shows the geometries of the cases that have no figure in their own section.
 For each mature case we state what the problem tests, how trustworthy the reference is, which spatial, temporal and iterative evidence matters, and the numerical lesson.
 All calculations use the cell-centred finite volume procedures of Section~\ref{sec:numerical_methods} with partitioned coupling and BDF2 time integration unless stated; costs are collected in Table~\ref{tab:cost}.
 Unless stated otherwise, the fluid and solid meshes are block-structured meshes generated with the OpenFOAM utility \texttt{blockMesh}, and the levels of a mesh study are obtained by multiplying the block divisions of the coarsest level by the refinement factor, with the block topology and gradings unchanged.
@@ -44,6 +44,24 @@ Unless stated otherwise, the fluid and solid meshes are block-structured meshes 
 		\multicolumn{8}{l}{$^\S$ Section~\ref{sec:mms_fsi}; case not yet in the released suite. $^\P$ On a uniform block-structured family (Section~\ref{sec:fsi23}).}
 	\end{tabular}
 \end{table}
+
+\begin{figure}[p]
+	\centering
+	% Source: paper-data/solution_gallery/ (make_gallery.py and one script per
+	% panel; data sources and reruns in its README).
+	\includegraphics[width=\textwidth]{figures/solution_gallery}
+	\caption{Representative solutions, from exact solutions or from this study's partitioned runs. Deformable solids grey, rigid obstacles white, reference (undeformed) geometry dashed; white curves are streamlines with arrows; colour scales are panel-specific; true aspect ratio and true-scale displacements unless stated.
+	(a)~Ring added-mass problem, $m^* = 10.08$: exact $n = 2$ mode at maximum displacement (drawn as $0.1\,\mathrm{m}$), potential-flow pressure; black curves: stream-function contours of the mode's flow, whose velocity is zero at this instant; dotted: modelled quadrant.
+	(b)~Mok cavity, $64^2$, IQN-ILS: speed at a peak of the membrane-midpoint deflection, $t = 24.5\,\mathrm{s}$; openings in orange.
+	(c)~Womersley tube, exact solution: axial velocity, with $u_x(r)$ profiles drawn to an arbitrary velocity scale.
+	(d)~Collapsible channel, fluid level F2, Robin--Neumann (RN): speed at the first minimum of the wall-midpoint displacement ($3 \le x \le 19\,\mathrm{m}$ shown).
+	(e)~Turek--Hron FSI3, Gmsh level~2, IQN-ILS: vorticity, clipped at $\pm120\,\mathrm{s^{-1}}$, near the maximum upward tip deflection.
+	(f)~3-D tube, level~1, RN: pressure on the symmetry plane, quarter model mirrored about the axis.
+	(g)~Flexible-bottom cavity, level~2, Aitken: steady speed ($x \le 8\,\mathrm{m}$ shown).
+	(h)~Hessenthaler flap, rF1, IQN-ILS: magnitude of the in-plane velocity on the $y$--$z$ plane $0.3\,\mathrm{mm}$ from the mid-plane, with curves following the projected velocity.
+	(i)~Blob in treacle, third mesh level, IQN-ILS: steady speed.}
+	\label{fig:solution_gallery}
+\end{figure}
 
 \begin{figure}[htbp]
 	\centering
