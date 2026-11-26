@@ -61,22 +61,28 @@ def mok(ax):
     ax.plot([0, 1], [1, 1], color=figstyle.OKABE_ITO[0], lw=2.2)
     x = np.linspace(0, 1, 100)
     ax.fill_between(x, -0.02, 0.0, color=SOLID, lw=0)
-    ax.plot(x, -0.25 * np.sin(np.pi * x) ** 2 - 0.01, ":", color=SOLID, lw=0.8)
+    # Schematic deformed membrane: it rises into the cavity, by about 0.27 m
+    # at the midpoint (tutorial README; solution gallery panel (b)).
+    ax.plot(x, 4 * 0.27 * x * (1 - x), ":", color=SOLID, lw=0.8)
     ax.plot(0.5, 0, "ko", ms=3); ax.text(0.54, 0.04, "A", fontsize=SMALL)
+    # Linear inflow profile v_x = vbar (8y - 7) over the left opening.
+    yo = np.linspace(0.875, 1.0, 2)
+    ax.plot(-0.01 - 0.14 * (8 * yo - 7), yo, color=EDGE, lw=0.5)
     for y in (0.9, 0.94, 0.98):
-        ax.add_patch(FancyArrowPatch((-0.13, y), (-0.01, y), arrowstyle="->",
-                                     mutation_scale=5, lw=0.6))
+        ax.add_patch(FancyArrowPatch((-0.01 - 0.14 * (8 * y - 7), y), (-0.01, y),
+                                     arrowstyle="->", mutation_scale=5, lw=0.6,
+                                     shrinkA=0, shrinkB=0))
     ax.add_patch(FancyArrowPatch((1.01, 0.94), (1.13, 0.94), arrowstyle="->",
                                  mutation_scale=5, lw=0.6))
     ax.text(0.5, 1.05, r"lid $v_x=1-\cos(2\pi t/5)$", ha="center", va="bottom", fontsize=SMALL)
     ax.text(-0.04, 0.8, "inflow", ha="right", va="top", fontsize=SMALL)
     ax.text(1.04, 0.8, "$p=0$", ha="left", va="top", fontsize=SMALL)
     ax.text(0.5, 0.55, "fluid", ha="center")
-    ax.text(0.5, -0.33, "membrane, $h=0.002$ m,\n$E_S=250$ Pa (clamped)",
+    ax.text(0.5, -0.08, "membrane, $h=0.002$ m,\n$E_S=250$ Pa (clamped)",
             ha="center", va="top", fontsize=SMALL, linespacing=1.0)
     dim(ax, (1.2, 0.875), (1.2, 1.0), "")
-    ax.text(1.25, 0.9375, "0.125", fontsize=SMALL, va="center")
-    dim(ax, (0, -0.72), (1, -0.72), "1 m", off=(0, -0.08), fontsize=SMALL)
+    ax.text(1.25, 0.9375, "0.125 m", fontsize=SMALL, va="center")
+    dim(ax, (0, -0.5), (1, -0.5), "1 m", off=(0, -0.08), fontsize=SMALL)
     ax.set_xlim(-0.5, 1.55); ax.set_ylim(-0.86, 1.2)
 
 
