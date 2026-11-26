@@ -157,7 +157,23 @@ The files below support Section "Manufactured solution for transient ALE FSI wit
 | `derive/generated*.check.log` | output of the independent checks of the generated C++ | `derive/check_generated.C` |
 | `results/` | the final order tables of 24 Nov 2026 (QM main build and corrections under review, partitioned-fluid diagnostics `p750_*`); see the build notes above | `case/orders.py`, `case/timeOrders.py` |
 | `make_csv.py` | the script that wrote the CSV files (absolute paths of the run directories inside) | |
-| `figure/mms_fsi_figure.py` | Fig. `fig:mms_fsi` (`figures/mms_fsi_interface_and_pressure_error.pdf`): domains and exact interface (both variants), and the pressure error p − p_exact at t = 0.4 on n128 for Aitken and QM. Run with Python 3 (numpy, matplotlib): `mms_fsi_figure.py case/evalExact case/evalExactFlat mms-pfv/base/aitken-n128 mms-fsi/case/runs/qm-full/n128 OUT.pdf`. The runs wrote fields only at t = 0.4 | reads the `pError` field of the error function object and the deformed fluid mesh |
+| `figure/mms_fsi_case_figure.py` | Fig. `fig:mms_fsi_case` (`figures/mms_fsi_case.pdf`): the exact solution of the full variant at t = 0.1, 0.2, 0.3, 0.4 (fluid speed and streamlines, solid strain and deformed material lines, current configuration, to scale), the interface displacement η(x, t) over one period, and the full and flat interfaces at t = 0.2 and 0.4. See "Figure of the case" below | the exact evaluators only; no run data |
+| `figure/mms_fsi_figure.py` | Fig. `fig:mms_fsi` (`figures/mms_fsi_pressure_error.pdf`): the pressure error p − p_exact at t = 0.4 on n128 for Aitken and QM. Run with Python 3 (numpy, matplotlib): `mms_fsi_figure.py mms-pfv/base/aitken-n128 mms-fsi/case/runs/qm-full/n128 OUT.pdf`. The runs wrote fields only at t = 0.4 | reads the `pError` field of the error function object and the deformed fluid mesh |
+
+**Figure of the case** (`figure/mms_fsi_case_figure.py`). Python 3 with numpy and matplotlib; the fields come from the exact evaluators of `case/src/evalExact.C`:
+
+```bash
+cd case
+clang++ -O2 -std=c++17 -I ../derive/generated      src/evalExact.C -o evalExact
+clang++ -O2 -std=c++17 -I ../derive/generated_flat src/evalExact.C -o evalExactFlat
+python3 ../figure/mms_fsi_case_figure.py ./evalExact ./evalExactFlat mms_fsi_case.pdf \
+        [--times 0.1 0.2 0.3 0.4] [--compare 0.2 0.4] [--tmax 1] [--trun 0.4] \
+        [--dpsi 0.06] [--width 5.17] [--png preview.png]
+```
+
+- Fluid: |v_F| on a grid (x, s) with y = s h(x, t), where h is interpolated from the exact interface curve. The streamlines are contours of the stream function ψ = ∫₀ʸ v_F,x dy′ (ψ = 0 on the wall), integrated by the trapezoidal rule (difference from a grid four times finer: 2e-4, against a contour spacing of 0.06), plus one closed contour around the recirculation centre.
+- Solid: the Frobenius norm of the Green–Lagrange strain, E = (FᵀF − I)/2 with F_zz = 1, where F = I + (∇₀D_S)ᵀ comes from central differences (step 1e-6) of the exact displacement; the deformed material lines are the exact images of X = const and Y = const.
+- The script prints, per snapshot, max |v_F|, max ‖E‖, the range of J and the interface height; at t = 0.4: 2.15, 0.263, 0.690 ≤ J ≤ 1.035, η ≤ 0.124.
 
 **`source_tables/`:**
 
