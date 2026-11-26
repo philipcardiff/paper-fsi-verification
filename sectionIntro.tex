@@ -4,7 +4,7 @@
 Benchmark problems are central to the development of fluid--solid interaction (FSI) codes: they are used to demonstrate accuracy, to compare coupling algorithms and to support claims that a new method is correct.
 Many such problems exist, from the flag-behind-a-cylinder family of \citet{Turek2006} to pressure-pulse tubes, lid-driven cavities with flexible membranes and three-dimensional flows past elastic plates~\citep{Richter2012, Failer2020}.
 Far fewer of them come with a benchmark \emph{solution} whose own numerical error has been established: published values are often single-mesh results, are read from figures, are reported without time-step studies, or differ between sources by more than the discretisation errors that they are used to judge.
-Agreement with such a value is then weak evidence, and disagreement is ambiguous: it may mean that the code under test is wrong, that the reference is wrong, or that the code's own solution is not yet resolved.
+Agreement with such a value is then weak evidence, and disagreement is ambiguous: it may mean that the code being verified is wrong, that the reference is wrong, or that the code's own solution is not yet resolved.
 This paper addresses that gap for continuum FSI with an open, executable verification suite in which the quality of every reference and the spatial, temporal and iterative errors of every result are stated explicitly.
 
 FSI formulations differ in how the fluid and solid are described: the fluid may be Eulerian or follow an arbitrary Lagrangian--Eulerian (ALE) mesh, and the solid may be Lagrangian, Eulerian, or reduced to a beam, plate or shell.
@@ -21,7 +21,7 @@ Across this literature, the error of the reference itself is rarely quantified, 
 General verification practice --- observed orders from systematic refinement, separation of error sources, and the distinction between verification and validation~\citep{Roache1998, Oberkampf2010} --- is well established for single-field problems but is applied unevenly to coupled FSI.
 
 The present work applies that practice to a suite of continuum FSI benchmarks, all solved with one partitioned, cell-centred finite volume framework: a PIMPLE-type ALE fluid, small-strain and total Lagrangian finite volume solids with standard and high-order discretisations~\citep{Cardiff2026, Batistic2026}, and Dirichlet--Neumann (Aitken~\citep{kuttler2008fixed}, IQN-ILS~\citep{Degroote2009}) or Robin--Neumann~\citep{Tukovic2018b} coupling.
-The aim is not to promote a solver but to establish, case by case, what the available references can and cannot verify, and how much of the remaining difference is attributable to the code under test.
+The aim is not to promote a solver but to establish, case by case, what the available references can and cannot verify, and how much of the remaining difference is attributable to the code being verified.
 Verification here means convergence of the discrete solution to the solution of the stated mathematical problem; agreement with experimental data is validation, is kept separate, and is never used as evidence of convergence.
 
 The specific contributions are:

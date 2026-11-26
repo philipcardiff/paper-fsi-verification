@@ -6,7 +6,7 @@
 % convergence-test evidence (Section iterative_errors), which comes from a
 % preliminary calculation on a different fluid mesh and has no Section-5 counterpart.
 
-\todo{Author decision: how the manufactured solution (in Tables~\ref{tab:orders} and~\ref{tab:defects}) enters the rest of the synthesis. Pending contributor: merge of the SU2--CalculiX cavity data.}
+\todo{Author decision: how the manufactured solution (in Tables~\ref{tab:orders} and~\ref{tab:defects}) enters the rest of the synthesis.}
 
 This section draws together the findings of Section~\ref{sec:benchmark_suite} by theme.
 In this suite the strength of a verification statement is usually limited by the quality of the reference, the number of refinement levels that could be afforded, or the iterative error, or by sub-nominal convergence whose cause is only partly identified.
@@ -32,14 +32,13 @@ The observations are specific to this suite and to one code family, and are not 
 		Collapsible channel & 1.6, 2.1, 2.5 & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Turek--Hron FSI1 & $u_x$ 1.0--1.1; $u_y$, lift 1.6--1.9; drag 1.5 & pseudo-time step $\leq0.012\%$ & SD (four levels); vs ref.\ (B); second solid code ($0.02\%$); independent codes ($u_y$, lift $\leq0.3\%$) \\
 		Turek--Hron FSI3 & displacements $3.1$ ($u_y$ amplitude), $6$--$7$ ($u_x$), not asymptotic; frequency 3.0; drag mean 1.5; lift amplitude 1.2; drag amplitude not monotone (scaled, three levels, $r = 1.415$) & no separate study (scaled) & SD; vs ref.\ (B) \\
-		3-D pressure-pulse tube & $u_{z,\min}$ 0.87, $t_\mathrm{arr}$ 0.74; $u_{r,\max}$ not defined (changes grow) & 0.1--0.2\% change at the fine-level $\Delta t$ & SD \\
+		3-D pressure-pulse tube & $u_{z,\min}$ 0.87, $t_\mathrm{arr}$ 0.74; $u_{r,\max}$ not defined (changes grow) & 0.1--0.2\% change at the fine-level $\Delta t$ \hl{[pending: time-step study on the corrected meshes]} & SD \\
 		Mok lid-driven cavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
-		Flexible-bottom cavity$^\ast$ & $u_y$ 1.93, 1.98; $F_y$ 2.03, 1.86 (four levels, scaled) & pseudo-time step ($\Delta t \to 0.0625\,\mathrm{s}$): $0.18$, $0.03$, $0.001\%$ on L1--L3 & SD \\
-		Beam in cross-flow$^\ast$ & $u_x(A)$ 1.64, $F_x$ 1.60 (L2--L4, corrected inflow; Appendix~\ref{app:beam}) & $\Delta t$ (Rhie--Chow) $\approx1/240$ of the L3-to-L4 change & SD \\
+		Flexible-bottom cavity & $u_y$ 1.93, 1.98; $F_y$ 2.03, 1.86 (four levels, scaled) & pseudo-time step ($\Delta t \to 0.0625\,\mathrm{s}$): $0.18$, $0.03$, $0.001\%$ on L1--L3 & SD \\
+		Beam in cross-flow & $u_x(A)$ 1.64, $F_x$ 1.60 (L2--L4, corrected inflow; Appendix~\ref{app:beam}) & $\Delta t$ (Rhie--Chow) $\approx1/240$ of the L3-to-L4 change & SD \\
 		Manufactured FSI & partitioned (Aitken): $\bb{v}_F$ 1.7--2.0, $p_F$ 1.8--2.1, solid and interface 1.9--2.3, traction 1.7--2.1; Robin--Neumann $p_F$ 1.6--1.8; QM: 1.2--2.5 (2.0 with three unreleased corrections) & partitioned fluid alone: pressure offset independent of $\Delta t$ with two outer correctors; QM 2.0 with corrections & vs exact; scaled; fixed-mesh time study (QM) \\
-		Blob in treacle$^\ast$ & 2.00 & 2.13, 2.21 (interface 2.12, 2.00) & SD; Richardson \\
+		Blob in treacle & 2.00 & 2.13, 2.21 (interface 2.12, 2.00) & SD; Richardson \\
 		\bottomrule
-		\multicolumn{4}{l}{$^\ast$ Provisional cases.}
 	\end{tabular}
 \end{table}
 
@@ -68,7 +67,7 @@ Against the sequence of~\citet{Failer2020}, resolved to $\approx0.3\%$, the $0.8
 A reference comparison cannot replace a convergence study of one's own, and that study needs more than two levels.
 
 \emph{Combined space--time refinement conceals the balance of errors.}
-Where space and time have been separated, the balance differs strongly: in the 3-D pressure-pulse tube the temporal error at the fine-level $\Delta t$ ($0.1$--$0.2\%$) is several times smaller than the level-2-to-3 change ($0.3$--$1.0\%$), in the Mok lid-driven cavity it is an order of magnitude below the spatial error, in the ring added-mass problem it dominates the frequency, and in the Womersley tube it is a tenth or less of the finest-mesh error for the profile, wall phase and attenuation, comparable for the wall amplitude and flow phase, and larger for the wave speed, whose finest-mesh error is only $1.4\times10^{-5}$.
+Where space and time have been separated, the balance differs strongly: in the 3-D pressure-pulse tube the temporal error at the fine-level $\Delta t$ ($0.1$--$0.2\%$) is several times smaller than the level-2-to-3 change ($0.3$--$1.0\%$) \hl{[pending: time-step study on the corrected meshes]}, in the Mok lid-driven cavity it is an order of magnitude below the spatial error, in the ring added-mass problem it dominates the frequency, and in the Womersley tube it is a tenth or less of the finest-mesh error for the profile, wall phase and attenuation, comparable for the wall amplitude and flow phase, and larger for the wave speed, whose finest-mesh error is only $1.4\times10^{-5}$.
 Scaled studies cannot show which dominates unless supplemented, as for the 3-D pressure-pulse tube, by time-step checks on the finer levels; the scaled FSI3 sequence of Section~\ref{sec:fsi23} has none.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,7 +92,7 @@ In every case with more than one QoI, the QoIs converge at substantially differe
 		Turek--Hron FSI2 (2x) & drag mean $0.5\%$; $u_y$ amplitude $1.3\%$ & lift amplitude $7.8\%$, not converging \\
 		3-D pressure-pulse tube & $u_{z,\min}$, $t_\mathrm{arr}$: monotone, orders 0.87, 0.74 & $u_{r,\max}$, $c_p$: changes grow ($u_{r,\max}$ $0.21\%$, $0.59\%$) \\
 		Mok lid-driven cavity & peak (order $\approx1.2$) & trough (order $<0.5$) \\
-		Flexible-bottom cavity$^\ast$ & $F_y$: GCI $0.045\%$; within $0.004\%$ of the three other St Venant--Kirchhoff limits except COMSOL ($\approx2\%$, uniform inflow); $0.02\%$ from the published values, $0.3\%$ from ANSYS & $u_y$: GCI $0.31\%$, within $0.016\%$ of the same three limits; published and ANSYS $u_y$ $4.3\%$ and $5.4\%$ larger in magnitude, from other constitutive laws \\
+		Flexible-bottom cavity & $F_y$: GCI $0.045\%$; within $0.004\%$ of the three other St Venant--Kirchhoff limits except COMSOL ($\approx2\%$, uniform inflow); $0.02\%$ from the published values, $0.3\%$ from ANSYS & $u_y$: GCI $0.31\%$, within $0.016\%$ of the same three limits; published and ANSYS $u_y$ $4.3\%$ and $5.4\%$ larger in magnitude, the ANSYS value from a logarithmic-strain plate \\
 				\bottomrule
 	\end{tabular}
 \end{table}
@@ -115,17 +114,17 @@ The iterative error is the least systematically quantified component of the erro
 \emph{Direct tolerance evidence.}
 Turek--Hron FSI2 contains a coupling-tolerance sweep, and it shows that a tolerance of $10^{-5}$ inflates the lift amplitude by $13\%$ (1x) and $30\%$ (2x): the effect grows with refinement, so a tolerance chosen on a coarse mesh can contaminate a fine-mesh result.
 FSI3 (uniform family) shows the same mechanism in time: at a fixed tolerance of $10^{-5}$ the step-to-step force noise grows as $\Delta t$ falls, inflating extrema-based force amplitudes while leaving the displacements unaffected (Section~\ref{sec:fsi23}).
-Two strict-test sweeps (Table~\ref{tab:tol_sweeps}) bound the iterative error directly at fixed discretisation.
+Two tolerance sweeps with the all-measure test (Table~\ref{tab:tol_sweeps}) bound the iterative error directly at fixed discretisation.
 In the ring added-mass problem (strong level, mesh 2, 100 steps per period) reducing the tolerance from $10^{-4}$ to $10^{-8}$ changes the wet/dry ratio by at most $1\times10^{-5}\%$ of the exact ratio with IQN-ILS, and by at most $3\times10^{-5}\%$ below $10^{-5}$ with Robin--Neumann ($1\times10^{-3}\%$ at $10^{-4}$), against a change of $0.015\%$ between meshes 2 and 4; the IQN-ILS amplitude loss ($1.15\%$ per period) and the $0.04\%$ frequency difference between the two couplings do not change with the tolerance, so neither is an iterative error.
 In the collapsible channel (fluid level L3, $\Delta t = 1/160\,\mathrm{s}$) Robin--Neumann changes the maximum difference from the reference by $0.002\%$ of the peak between $10^{-4}$, the baseline tolerance, and $10^{-5}$, against $0.03\%$ between fluid levels L3 and L4; a tolerance of $10^{-6}$ could not be reached (the first step stalled at the iteration limit).
-With the strict test, IQN-ILS did not complete this calculation of the collapsible channel at any tolerance from $10^{-3}$ to $10^{-6}$: it stalled at the iteration limit early in the run for $10^{-5}$ and $10^{-6}$, and the coupling diverged after the external-pressure ramp for $10^{-3}$ and $10^{-4}$.
-The IQN-ILS results for the collapsible channel in Section~\ref{sec:collapsible}, computed with the legacy test, therefore rest on iterations that were accepted unconverged (Section~\ref{sec:convergence_method}), which is consistent with the IQN-ILS/Robin--Neumann gap that does not decrease with refinement there.
+With the all-measure test, IQN-ILS did not complete this calculation of the collapsible channel at any tolerance from $10^{-3}$ to $10^{-6}$: it stalled at the iteration limit early in the run for $10^{-5}$ and $10^{-6}$, and the coupling diverged after the external-pressure ramp for $10^{-3}$ and $10^{-4}$.
+The IQN-ILS results for the collapsible channel in Section~\ref{sec:collapsible}, computed with the either-measure test, therefore rest on iterations that were accepted unconverged (Section~\ref{sec:convergence_method}), which is consistent with the IQN-ILS/Robin--Neumann gap that does not decrease with refinement there.
 Elsewhere, the iterative error is bounded only indirectly.
 
 \begin{table}[htbp]
 	\centering
 	\small
-	\caption{Coupling-tolerance sweeps with the strict test (RN: Robin--Neumann) at fixed discretisation. Ring added-mass problem: strong level, L2, 100 steps per period, standard solid; wet/dry frequency-ratio error against the exact value. Collapsible channel: fluid level L3, solid $160\times8$ (high order), $\Delta t = 1/160\,\mathrm{s}$; maximum wall-midpoint error against the oomph-lib reference (percent of the peak) and first trough. Robin--Neumann pressure and flux tolerances scale with the displacement tolerance. Source: \texttt{paper-data/tolerance\_sweeps/}.}
+	\caption{Coupling-tolerance sweeps with the all-measure test (RN: Robin--Neumann) at fixed discretisation. Ring added-mass problem: strong level, L2, 100 steps per period, standard solid; wet/dry frequency-ratio error against the exact value. Collapsible channel: fluid level L3, solid $160\times8$ (high order), $\Delta t = 1/160\,\mathrm{s}$; maximum wall-midpoint error against the oomph-lib reference (percent of the peak) and first trough. Robin--Neumann pressure and flux tolerances scale with the displacement tolerance. Source: \texttt{paper-data/tolerance\_sweeps/}.}
 	\label{tab:tol_sweeps}
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{llrrr}
@@ -148,12 +147,12 @@ Elsewhere, the iterative error is bounded only indirectly.
 
 \emph{A converged-looking QoI can carry an accumulated coupling error.}
 This is the evidence for the recommendation of Section~\ref{sec:convergence_method}.
-In a preliminary calculation of the Hessenthaler flap on a different fluid mesh from those of Section~\ref{sec:hessenthaler} (IQN-ILS, tolerance $10^{-4}$, $\Delta t = 0.002\,\mathrm{s}$, 40\,000 steps to $t = 80\,\mathrm{s}$), the legacy test $\min(r_1, r_2)$ of Eq.~\eqref{eq:coupling_residuals} accepted steps after about three iterations once the flow had become quasi-steady, since $r_2$, normalised by the total tip deflection of $\approx17\,\mathrm{mm}$, was small (median $3.5\times10^{-5}$) whatever the reduction within the step.
+In a preliminary calculation of the Hessenthaler flap on a different fluid mesh from those of Section~\ref{sec:hessenthaler} (IQN-ILS, tolerance $10^{-4}$, $\Delta t = 0.002\,\mathrm{s}$, 40\,000 steps to $t = 80\,\mathrm{s}$), the either-measure test, $\min(r_1, r_2)$ of Eq.~\eqref{eq:coupling_residuals} accepted steps after about three iterations once the flow had become quasi-steady, since $r_2$, normalised by the total tip deflection of $\approx17\,\mathrm{mm}$, was small (median $3.5\times10^{-5}$) whatever the reduction within the step.
 After $t = 1\,\mathrm{s}$ every step was accepted with $r_1 > 10^{-4}$ (median $\approx6.8\times10^{-2}$; $87$--$91\%$ of steps with $r_1 > 10^{-2}$), the fluid interface lagged the solid by $\approx0.03\,\mathrm{mm}$, and the flap tip crept upwards at $+0.003$--$0.005\,\mathrm{mm/s}$ ($16.84$, $16.90$ and $16.98\,\mathrm{mm}$ at $t = 30$, $60$ and $80\,\mathrm{s}$), by more than the spatial differences under study, although neither the fluid nor the solid alone drifted.
-Restarted from the $80\,\mathrm{s}$ state with the strict test $\max(r_1, r_2)$ (10--11 iterations per step), the tip settled within $\approx0.3\,\mathrm{s}$ to $17.0195\,\mathrm{mm}$, flat to $\pm0.0002\,\mathrm{mm}$ over $7.5\,\mathrm{s}$; strict restarts from different legacy-test states did not return to one value ($17.02$ and $16.90\,\mathrm{mm}$), so the accumulated error leaves history in the solution, and a clean result requires the strict test from $t = 0$ (\texttt{paper-data/hessenthaler\_phaseI\_verification.md}).
+Restarted from the $80\,\mathrm{s}$ state with the all-measure test, $\max(r_1, r_2)$, (10--11 iterations per step), the tip settled within $\approx0.3\,\mathrm{s}$ to $17.0195\,\mathrm{mm}$, flat to $\pm0.0002\,\mathrm{mm}$ over $7.5\,\mathrm{s}$; restarts with the all-measure test from different states of the either-measure run did not return to one value ($17.02$ and $16.90\,\mathrm{mm}$), so the accumulated error leaves history in the solution, and a clean result requires the all-measure test from $t = 0$ (\texttt{paper-data/hessenthaler\_phaseI\_verification.md}).
 A steadiness check on the QoI, for example a change below $0.04\%$ over the last second, would have accepted the drifting solution.
 The lesson is general to partitioned codes: a convergence measure normalised by a large total quantity can be met without converging the step, and the error it admits is invisible to checks on the solution itself; the residual reduction at acceptance should be reported.
-Accepted unconverged steps do not always matter: in the Mok lid-driven cavity the legacy test accepted about $98\%$ of the steps with $r_1$ above the tolerance, yet the strict test changes the periodic statistics by at most $0.024\%$, two orders of magnitude below the spatial changes (Section~\ref{sec:mok}). Without the strict-test repeat, however, neither outcome could have been known in advance.
+Accepted unconverged steps do not always matter: in the Mok lid-driven cavity the either-measure test accepted about $98\%$ of the steps with $r_1$ above the tolerance, yet the all-measure test changes the periodic statistics by at most $0.024\%$, two orders of magnitude below the spatial changes (Section~\ref{sec:mok}). Without the repeat with the all-measure test, however, neither outcome could have been known in advance.
 
 \emph{Iterative floors can limit refinement studies.}
 In the collapsible channel the IQN-ILS/Robin--Neumann difference does not decrease with refinement and, at the finest fluid mesh, is comparable with the remaining discretisation error and the reference uncertainty; in the blob in treacle the time study cannot be continued below $\Delta t = 0.03125\,\mathrm{s}$ because the changes reach the tolerance level.
@@ -172,7 +171,7 @@ In the ring added-mass problem, IQN-ILS produces a mesh-dependent amplitude loss
 \subsection{Defects exposed by verification}\label{sec:defects}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Eight defects or hazards in the code under test were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}). Appendix~\ref{app:lessons} gives the general lessons they carry for FSI solver developers, with the set-up and definition issues found in the same studies.
+Eight defects or hazards in solids4foam were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}). Appendix~\ref{app:lessons} gives the general lessons they carry for FSI solver developers, with the set-up and definition issues found in the same studies.
 
 \begin{table}[htbp]
 	\centering
@@ -191,7 +190,7 @@ Eight defects or hazards in the code under test were found by the studies of Sec
 		Manufactured FSI & Robin--Neumann interface pressure condition omits the viscous and body-force normal terms of the momentum balance & pressure order $1.6$--$1.8$ against an exact solution; predicted and measured error in the interface row of cells \\
 		Manufactured FSI & total Lagrangian solid: first-order-in-time start-up of the displacement form under a non-zero initial acceleration; $O(h)$ deformed traction area from the cell-centre gradient & first-order solid displacement against an exact solution; solid-only runs driven by the exact traction \\
 		Manufactured FSI & IQN-ILS stagnates with the tutorial filtering and inverts the solid without it & failure to complete; filtering and convergence-test variants \\
-		Hessenthaler flap & legacy coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\
+		Hessenthaler flap & either-measure coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -206,9 +205,9 @@ Cross-platform replication, decomposition invariance and symmetry checks are ine
 \subsection{Reliability of published benchmark values}\label{sec:published_reliability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Of the ten problems without an exact reference, four have a category-B reference, independent of the code under test and with its own convergence evidence at the resolution used: Turek--Hron FSI1 (Featflow; SU2--CalculiX), FSI3~\citep{Failer2020}, the collapsible channel (oomph-lib) and the Mok lid-driven cavity (Kratos); the flexible-bottom cavity (SU2--CalculiX) would be a fifth \hl{[pending merge of the SU2 data]}.
-Only two of these, the Featflow FSI1 table and the sequence of~\citet{Failer2020}, are published values; the other two references were computed for this study.
-Of the remaining cases, the independent references of FSI2 and of the 3-D pressure-pulse tube are not converged at the resolution used, that of the beam in cross-flow converges over five levels but is published only to three digits, with a stated accuracy of $1\%$, and for an inflow that had to be corrected (category C), and the Hessenthaler flap and the blob in treacle have second solutions only from the same group or code lineage (Table~\ref{tab:published}).
+Of the ten problems without an exact reference, five have a category-B reference, independent of solids4foam and with its own convergence evidence at the resolution used: Turek--Hron FSI1 (Featflow; SU2--CalculiX), FSI3~\citep{Failer2020}, the collapsible channel (oomph-lib), the Mok lid-driven cavity (Kratos) and the flexible-bottom cavity (SU2--CalculiX and FEniCSx).
+Only two of these, the Featflow FSI1 table and the sequence of~\citet{Failer2020}, are published values; the other three references were computed for this study.
+Of the remaining cases, the independent references of FSI2 and of the 3-D pressure-pulse tube are not converged at the resolution used, that of the beam in cross-flow converges over five levels but is published only to three digits, with a stated accuracy of $1\%$, and for an inflow that had to be corrected (category C), and the Hessenthaler flap and the blob in treacle have second solutions only from the same code lineage or not converged (Table~\ref{tab:published}).
 This is a statement about the specific values used, not about the quality of the FSI benchmark literature in general.
 
 \begin{table}[htbp]
@@ -222,11 +221,11 @@ This is a statement about the specific values used, not about the quality of the
 		Case & Issue & Consequence \\
 		\midrule
 		Turek--Hron FSI2/3 & Summary values of~\citet{Turek2006} differ from Featflow tables (FSI3 drag amplitude $-18\%$; rounded frequencies); Featflow level 3$\to$4 changes 1.6--4.5\% (FSI3 displacements and force amplitudes), 0.9--2.5\% (FSI2) & Choice of source changes conclusions; FSI3 reference uncertain by 3--5\% in $u_x$ and force amplitudes; displacements and drag amplitude non-monotone over levels 2--4; per-period reference lift amplitude varies by $2.7\%$ over its time history \\
-		3-D pressure-pulse tube & Independent references use implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$, without time-step studies; peaks 20--25\% below BDF2 values; figure-digitised & Implicit Euler in the present code reproduces 92--115\% of the gap; an independent Kratos solution with implicit Euler lies between the published peaks \\
+		3-D pressure-pulse tube & Independent references use BDF1, $\Delta t = 10^{-4}\,\mathrm{s}$, without time-step studies; peaks 20--25\% below BDF2 values; figure-digitised & BDF1 in solids4foam reproduces 92--115\% of the gap; an independent Kratos solution with implicit Euler lies between the published peaks \\
 		Mok lid-driven cavity & Two inconsistent problem definitions; mesh-dependent openings; no convincing convergence studies; the Kratos tutorial example moves the group-B openings & No published value can be treated as correct; an independent Kratos solution with fixed openings agrees with solids4foam to $\approx1\%$ and lies above all published group-B peaks and troughs \\
 		Collapsible channel & Published problem (pre-stressed, massless wall) unsuitable for continuum/partitioned comparison & Modified problem and regenerated reference used \\
 		Beam in cross-flow & Quoted values ($5.95\times10^{-5}\,\mathrm{m}$, $1.33\,\mathrm{N}$) are rounded extrapolations of \citet{Richter2012}, often cited to a later paper; printed inflow peak ($0.3\,\mathrm{m/s}$) is an error, inconsistent with the stated mean and $Re$, and the author confirms the reference values used $0.2\,\mathrm{m/s}$; a same-lineage calculation appears to use a different plate position & The printed inflow gives $1.8$ times the reference values; with the corrected $0.2\,\mathrm{m/s}$ peak L4 is within $0.1$--$0.2\%$, and an independent three-level Kratos solution within $0.5\%$ in $u_x(A)$ and, extrapolated, $0.01\%$ in $F_x$ (Appendix~\ref{app:beam}) \\
-		Flexible-bottom cavity & Same-lineage, from the figure; published forces per $0.05\,\mathrm{m}$ depth; the published and ANSYS displacements are consistent with neo-Hookean and logarithmic-strain plates, not St Venant--Kirchhoff & Forces agree to $0.02$--$0.3\%$; an independent St Venant--Kirchhoff solution (SU2--CalculiX) agrees to $0.010\%$ ($u_y$) and $0.003\%$ ($F_y$) \hl{[pending merge of the SU2 data]}; COMSOL with a uniform inflow is $\approx2\%$ above the other solutions \hl{[pending: COMSOL sequence with the parabolic inflow]} \\
+		Flexible-bottom cavity & Same-lineage, from the figure; published forces per $0.05\,\mathrm{m}$ depth; the published and ANSYS displacements are $4.3\%$ and $5.4\%$ larger than the St Venant--Kirchhoff limit, the ANSYS one consistent with a logarithmic-strain plate & Forces agree to $0.02$--$0.3\%$; independent St Venant--Kirchhoff solutions (SU2--CalculiX, FEniCSx) agree to $0.016\%$ ($u_y$) and $0.003\%$ ($F_y$); COMSOL with a uniform inflow is $\approx2\%$ above the other solutions \hl{[pending: COMSOL sequence with the parabolic inflow]} \\
 		Blob in treacle & Preprint figures only, with a small-strain solid; first-order time, coarse steady mesh & Redefined with a finite-strain solid, so the published values are not used; a small-strain solid integrating over the undeformed surface received $12\%$ less $x$-force than the fluid exerted \\
 		\bottomrule
 	\end{tabular}
@@ -234,7 +233,7 @@ This is a statement about the specific values used, not about the quality of the
 
 The table illustrates the central distinction of Section~\ref{sec:verification_methodology}: a widely used benchmark problem does not automatically provide a trustworthy benchmark solution.
 The same problem can carry several published ``reference values'', and an $18\%$ difference in a quoted force amplitude exceeds the change of every FSI3 quantity between our two finest levels (at most $1.1\%$).
-Disagreements between codes can originate in the discretisation of the reference rather than of the code under test (3-D pressure-pulse tube), so a discrepancy with a published curve should not be resolved by tuning the code; and same-lineage references, though useful for regression and for diagnosing set-up differences, cannot expose common-mode errors.
+Disagreements between codes can originate in the discretisation of the reference rather than of the code being verified (3-D pressure-pulse tube), so a discrepancy with a published curve should not be resolved by tuning the code; and same-lineage references, though useful for regression and for diagnosing set-up differences, cannot expose common-mode errors.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cost and dimensionality}\label{sec:cost}
@@ -256,17 +255,17 @@ Disagreements between codes can originate in the discretisation of the reference
 		Turek--Hron FSI1 & to $t = 30\,\mathrm{s}$ at $\Delta t = 0.00625\,\mathrm{s}$: 1x 1\,754\,s serial; 2x 1.2\,h on 4 ranks; 4x 5.5\,h on 16 ranks; 8x $\approx25$\,h on 64 ranks (MeluXina) \\
 		Turek--Hron FSI3 & Gmsh family, $t = 0$--$6.2\,\mathrm{s}$, one node per run: L1 9.7\,h on 24 ranks and L2 25.4\,h on 32 ranks (UCD Sonic); L3 $\approx190$\,h on 128 ranks (MeluXina; $\approx16\,\mathrm{s}$ per step late in the coupled phase); uniform family: 1x 1.4\,h serial; 2x 5.5\,h on 8 ranks; 4x 40.8\,h on 32 ranks (no speed-up beyond 32 ranks) \\
 		Turek--Hron FSI2 & 1x 1.1--1.2\,h serial; 2x 4.0--4.1\,h on 7--8 ranks \\
-		3-D pressure-pulse tube & L3 on a desktop workstation, 32 ranks: 25\,060\,s; mesh variant (Section~\ref{sec:3dtube}): L1 504\,s on 4 ranks, L2 3\,641\,s on 8 ranks, L3 22\,502\,s (6.25\,h) on 32 ranks ($\approx200$ core-hours); on the workstation 123\,s, 1\,123\,s and 25\,166\,s (7.0\,h) \\
+		3-D pressure-pulse tube & L3 on a desktop workstation, 32 ranks: 25\,060\,s; earlier mesh variant (Appendix~\ref{app:lessons}): L1 504\,s on 4 ranks, L2 3\,641\,s on 8 ranks, L3 22\,502\,s (6.25\,h) on 32 ranks ($\approx200$ core-hours); on the workstation 123\,s, 1\,123\,s and 25\,166\,s (7.0\,h) \\
 		Mok lid-driven cavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
-		Flexible-bottom cavity$^\ast$ & four levels, serial, Mac Studio: 22\,s, 128\,s, 1\,019\,s and 12\,383\,s at $\Delta t = 0.5$, $0.25$, $0.125$ and $0.0625\,\mathrm{s}$ (L4 with a limit of 40 coupling iterations per step and fluid solver tolerances of $10^{-8}$); $13\,552\,\mathrm{s}$ ($3.8$\,h) in total$^\S$ \\
-		Beam in cross-flow$^\ast$ & L4 ($4.2\times10^{6}$ fluid cells) $\approx45$ node-hours on 128-core nodes; both inflows to L4 with checks $158$ node-hours ($2.0\times10^{4}$ core-hours) \\
-		Blob in treacle$^\ast$ & full study $\approx40$\,min \\
-		Hessenthaler flap$^\ast$ & strict test from $t = 0$ to $45\,\mathrm{s}$, single nodes: L1 ($1.2\times10^{5}$ fluid cells) 14\,h and L2 ($3.1\times10^{5}$) 8--19\,h on 24 ranks ($2$--$4.5\times10^{2}$ core-hours); L3 ($8.3\times10^{5}$) on 48 ranks 37\,h with the zero-gradient and 54\,h with the acceleration interface pressure ($1.8$ and $2.6\times10^{3}$ core-hours), including the steps at the iteration limit \\
+		Flexible-bottom cavity & four levels, serial, Mac Studio: 22\,s, 128\,s, 1\,019\,s and 12\,383\,s at $\Delta t = 0.5$, $0.25$, $0.125$ and $0.0625\,\mathrm{s}$ (L4 with a limit of 40 coupling iterations per step and fluid solver tolerances of $10^{-8}$); $13\,552\,\mathrm{s}$ ($3.8$\,h) in total$^\S$ \\
+		Beam in cross-flow & L4 ($4.2\times10^{6}$ fluid cells) $\approx45$ node-hours on 128-core nodes; both inflows to L4 with checks $158$ node-hours ($2.0\times10^{4}$ core-hours) \\
+		Blob in treacle & full study $\approx40$\,min \\
+		Hessenthaler flap & all-measure test from $t = 0$ to $45\,\mathrm{s}$, single nodes: L1 ($1.2\times10^{5}$ fluid cells) 14\,h and L2 ($3.1\times10^{5}$) 8--19\,h on 24 ranks ($2$--$4.5\times10^{2}$ core-hours); L3 ($8.3\times10^{5}$) on 48 ranks 37\,h with the zero-gradient and 54\,h with the acceleration interface pressure ($1.8$ and $2.6\times10^{3}$ core-hours), including the steps at the iteration limit \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-Cost rises by roughly four orders of magnitude from the exact-reference problems to the finest three-dimensional calculations (Table~\ref{tab:cost}), and the completeness of the evidence falls in the opposite direction: the inexpensive two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have three levels with sub-nominal or undefined orders (3-D pressure-pulse tube) or a published definition that had to be corrected (beam in cross-flow); for the Hessenthaler flap a strict-test run on the third fluid level costs $\approx1.8\times10^{3}$ core-hours, and the fluid convergence of its principal QoI is not established. Even in two dimensions a third level can cost an order of magnitude more than the second (Turek--Hron FSI3, uniform family: 40.8\,h on 32 ranks at 4x, without further strong scaling), and the third FSI3 level of Section~\ref{sec:fsi23}, with $3.9\times10^{5}$ fluid cells, took about eight days on a 128-core node.
+Cost rises by roughly four orders of magnitude from the exact-reference problems to the finest three-dimensional calculations (Table~\ref{tab:cost}), and the completeness of the evidence falls in the opposite direction: the inexpensive two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have three levels with sub-nominal or undefined orders (3-D pressure-pulse tube) or a published definition that had to be corrected (beam in cross-flow); for the Hessenthaler flap a run with the all-measure test on the third fluid level costs $\approx1.8\times10^{3}$ core-hours, and the fluid convergence of its principal QoI is not established. Even in two dimensions a third level can cost an order of magnitude more than the second (Turek--Hron FSI3, uniform family: 40.8\,h on 32 ranks at 4x, without further strong scaling), and the third FSI3 level of Section~\ref{sec:fsi23}, with $3.9\times10^{5}$ fluid cells, took about eight days on a 128-core node.
 This illustrates one practical reason why rigorous convergence evidence becomes scarcer as geometric and computational complexity increase, and it motivates a tiered suite (Section~\ref{sec:recommended_suite}).
 Which error source dominates is case dependent: in the thin-walled two-dimensional collapsible channel the solid discretisation can dominate ($17.4\%$ versus $0.44\%$ for linear versus cubic solid), whereas in Turek--Hron FSI1, once the solid is of high order, the remaining error is that of the fluid and of the interface load (Section~\ref{sec:fsi1}).
 \emph{An independent code.}

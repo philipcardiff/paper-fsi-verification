@@ -31,16 +31,16 @@ Results computed without these corrections are affected only where an interface 
 		3dTube L3, earlier meshes$^\S$ & \texttt{c45b30b7e}; replicates \texttt{b200718f4} & v2412; v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$; GCC 11.4 and 13.3 \texttt{-O3} & MeluXina; Linux (cluster node, desktop) & fixes before merge; after \\
 		3dTube, corrected meshes (Table~\ref{tab:3dtube}) & \texttt{206437983} with the meshes of \texttt{9b52c2303} & v2512 & Clang \texttt{-O3}, 8 ranks (L1--L2); GCC 13.3 \texttt{-O3} (L3) & macOS; Linux (desktop) & after \\
 		mokLidDrivenCavity & \texttt{6e69ddb6c}$^a$; coupling-test study \texttt{a421f063d}$^\dagger$ & v2412; v2512 & Clang \texttt{-O3}; GCC 13.3 \texttt{-O2}$^\ddagger$ & macOS; MeluXina & before; after \\
-		cavityFlexibleBottom$^\ast$ & \texttt{206437983} & v2512 & Clang \texttt{-O3} & macOS & after \\
-		blobInTreacle$^\ast$ & \texttt{206437983} with PR \#694 (merged as \texttt{1b5ab0963}) & v2512 & GCC \texttt{-O3} & Linux & after \\
-		Hessenthaler$^\ast$ & \texttt{206437983} with PR \#676 (\texttt{64896b0a5}) & v2512 & GCC 11.5 \texttt{-O3} & Linux (UCD Sonic) & after \\
-		beamInCrossFlow$^\ast$ (Appendix~\ref{app:beam}) & \texttt{aee0c8e35} & v2412 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & before \\
+		cavityFlexibleBottom & \texttt{206437983} & v2512 & Clang \texttt{-O3} & macOS & after \\
+		blobInTreacle & \texttt{206437983} with PR \#694 (merged as \texttt{1b5ab0963}) & v2512 & GCC \texttt{-O3} & Linux & after \\
+		Hessenthaler & \texttt{206437983} with PR \#676 (\texttt{64896b0a5}) & v2512 & GCC 11.5 \texttt{-O3} & Linux (UCD Sonic) & after \\
+		beamInCrossFlow (Appendix~\ref{app:beam}) & \texttt{aee0c8e35} & v2412 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & before \\
 		Tolerance sweeps & \texttt{a421f063d} & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & after \\
 		FEBio ring (solids4foam side) & as ringAddedMass; definition \texttt{1576edcc} & v2412 & GCC 11.4 \texttt{-O3} & Linux & before \\
 		Manufactured FSI solution, quasi-monolithic & \texttt{4071b431e} ($n \leq 64$); \texttt{677865f55} ($n = 128$) & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
 		Manufactured FSI solution, partitioned (Table~\ref{tab:mms_fsi}) & \texttt{7a2f0a63e} with PRs \#756 and \#776 (unmerged) & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
 		\bottomrule
-		\multicolumn{6}{p{0.95\linewidth}}{$^\ast$ Provisional cases. $^\dagger$ Rerun that reproduces the tabulated errors to the digits given. $^a$ Commit that first recorded the values, an upper bound on the commit of the run; all precede PR \#492, and every one of these runs sets the IQN-ILS predictor explicitly or uses Robin--Neumann coupling with a relaxation factor of~1, so the change of the predictor default in PR \#492 does not affect them. $^\S$ Time-step study and cross-platform replicates (Section~\ref{sec:3dtube}). $^\ddagger$ \texttt{-O2 -fno-tree-vectorize -march=znver2} (v2412 also \texttt{-fno-math-errno}). Clang is Apple Clang (Xcode 27.0). PETSc: 3.24.1 (Linux), 3.22.0 (MeluXina), 3.22.2 (macOS).}
+		\multicolumn{6}{p{0.95\linewidth}}{$^\dagger$ Rerun that reproduces the tabulated errors to the digits given. $^a$ Commit that first recorded the values, an upper bound on the commit of the run; all precede PR \#492, and every one of these runs sets the IQN-ILS predictor explicitly or uses Robin--Neumann coupling with a relaxation factor of~1, so the change of the predictor default in PR \#492 does not affect them. $^\S$ Cross-platform replicates on an earlier mesh variant (Appendix~\ref{app:lessons}). $^\ddagger$ \texttt{-O2 -fno-tree-vectorize -march=znver2} (v2412 also \texttt{-fno-math-errno}). Clang is Apple Clang (Xcode 27.0). PETSc: 3.24.1 (Linux), 3.22.0 (MeluXina), 3.22.2 (macOS).}
 	\end{tabular}
 \end{table}
 % Provenance compiled 2026-11-02 from paper-data evidence files and the case

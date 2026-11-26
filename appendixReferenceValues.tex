@@ -107,16 +107,16 @@ The reference (category B) is oomph-lib extrapolated to zero mesh size at the sa
 
 \paragraph{Turek--Hron benchmarks.}
 The QoIs are the displacements $u_x$ and $u_y$ of the flag-tip point A of the benchmark definition~\citep{Turek2006} and the drag and lift per unit depth on the cylinder and flag together.
-FSI1 is steady (Table~\ref{tab:refvals_fsi1}). The tabulated values are those of a four-level study with the standard solid and the strict coupling test, integrated in pseudo-time with IQN-ILS ($2.6$--$3.0$ coupling iterations per step), which has more levels than the high-order-solid study of Section~\ref{sec:fsi1}.
+FSI1 is steady (Table~\ref{tab:refvals_fsi1}). The tabulated values are those of a four-level study with the standard solid and the all-measure coupling test, integrated in pseudo-time with IQN-ILS ($2.6$--$3.0$ coupling iterations per step), which has more levels than the high-order-solid study of Section~\ref{sec:fsi1}.
 All four QoIs converge monotonically; $u_x$ converges at first order from below and crosses the Featflow value between 4x and 8x, whereas the Featflow $u_x$ converges from above, so $u_x$ is the least converged QoI of both sequences.
-Doubling the pseudo-time step at 4x changes every QoI by at most $0.012\%$, every run is steady to a relative spread of at most $2.2\times10^{-4}$ over its last $6\,\mathrm{s}$, and in a two-level study with the legacy test IQN-ILS and Robin--Neumann agree to $0.01\%$.
+Doubling the pseudo-time step at 4x changes every QoI by at most $0.012\%$, every run is steady to a relative spread of at most $2.2\times10^{-4}$ over its last $6\,\mathrm{s}$, and in a two-level study with the either-measure test IQN-ILS and Robin--Neumann agree to $0.01\%$.
 For FSI3 (Table~\ref{tab:refvals_fsi3}) the mean is (max+min)/2 and the amplitude (max$-$min)/2, averaged over the last five full periods before $t = 6\,\mathrm{s}$ with the flag held rigid to $t = 2\,\mathrm{s}$; the frequency is that of $u_y$.
 The FSI2 values are \hl{[pending]}: the case is being recomputed on the Gmsh family.
 
 \begin{table}[htbp]
 	\centering
 	\footnotesize
-	\caption{Turek--Hron FSI1 with the standard solid: steady QoIs on four levels ($\Delta t = 0.00625\,\mathrm{s}$, $t = 30\,\mathrm{s}$; strict coupling test), observed orders from 1x--2x--4x and 2x--4x--8x, the Richardson value from 2x--4x--8x with the observed order and the GCI of 8x (both conditional indicators), and the finest Featflow level (reference, category B). Source: \texttt{paper-data/fsi1\_four\_level/}.}
+	\caption{Turek--Hron FSI1 with the standard solid: steady QoIs on four levels ($\Delta t = 0.00625\,\mathrm{s}$, $t = 30\,\mathrm{s}$; all-measure coupling test), observed orders from 1x--2x--4x and 2x--4x--8x, the Richardson value from 2x--4x--8x with the observed order and the GCI of 8x (both conditional indicators), and the finest Featflow level (reference, category B). Source: \texttt{paper-data/fsi1\_four\_level/}.}
 	\label{tab:fsi1}\label{tab:refvals_fsi1}
 	\begin{tabular}{lrrrr}
 		\toprule
@@ -197,20 +197,20 @@ The reference (category B) is the independent Kratos solution; the two codes can
 	\end{tabular}
 \end{table}
 
-\paragraph{Provisional cases.}
-For the flexible-bottom cavity the QoIs are the steady vertical displacement $u_y$ of point A on the top (wetted) surface of the plate and the vertical interface force $F_y$ per unit depth; for the beam in cross-flow, with the corrected inflow, the steady streamwise displacement $u_x(A)$, $A = (0.45, 0.15, -0.15)\,\mathrm{m}$, and the drag $F_x$ on the plate; for the Hessenthaler flap the vertical tip deflection averaged over $t = 40$--$45\,\mathrm{s}$; for the blob in treacle the horizontal displacement $u_x$ of the top point, steady and at $t = 1\,\mathrm{s}$ (Table~\ref{tab:refvals_provisional}).
+\paragraph{Flexible-bottom cavity, beam in cross-flow, Hessenthaler flap and blob in treacle.}
+For the flexible-bottom cavity the QoIs are the steady vertical displacement $u_y$ of point A on the top (wetted) surface of the plate and the vertical interface force $F_y$ per unit depth; for the beam in cross-flow, with the corrected inflow, the steady streamwise displacement $u_x(A)$, $A = (0.45, 0.15, -0.15)\,\mathrm{m}$, and the drag $F_x$ on the plate; for the Hessenthaler flap the vertical tip deflection averaged over $t = 40$--$45\,\mathrm{s}$; for the blob in treacle the horizontal displacement $u_x$ of the top point, steady and at $t = 1\,\mathrm{s}$ (Table~\ref{tab:refvals_other}).
 
 \begin{table}[htbp]
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\caption{Provisional cases: finest-level values, extrapolated values with their uncertainty where the rules of Section~\ref{sec:convergence_method} allow them, and the reference category. Cavity: partitioned, extrapolated with $p = 2$ from the three finest levels, with GCI; beam: corrected inflow, conditional Richardson values from L2--L4; Hessenthaler: acceleration interface pressure condition, no extrapolation (three-level mesh sensitivity); blob: steady value extrapolated at the observed order $2.00$, and $t = 1\,\mathrm{s}$ on L2 at $\Delta t = 0.03125\,\mathrm{s}$.}
-	\label{tab:refvals_provisional}
+	\caption{Flexible-bottom cavity, beam in cross-flow, Hessenthaler flap and blob in treacle: finest-level values, extrapolated values with their uncertainty where the rules of Section~\ref{sec:convergence_method} allow them, and the reference category. Cavity: partitioned, extrapolated with $p = 2$ from the three finest levels, with GCI; beam: corrected inflow, conditional Richardson values from L2--L4; Hessenthaler: acceleration interface pressure condition, no extrapolation (three-level mesh sensitivity); blob: steady value extrapolated at the observed order $2.00$, and $t = 1\,\mathrm{s}$ on L2 at $\Delta t = 0.03125\,\mathrm{s}$.}
+	\label{tab:refvals_other}
 	\begin{tabular}{llrrrl}
 		\toprule
 		Case & Quantity & Finest level & Extrapolated & Uncertainty & Category \\
 		\midrule
-		Flexible-bottom cavity & $u_y$ (m) & $-0.2400$ (L4) & $-0.2406$ & GCI $0.31\%$ & D \\
+		Flexible-bottom cavity & $u_y$ (m) & $-0.2400$ (L4) & $-0.2406$ & GCI $0.31\%$ & B \\
 		 & $F_y$ (N/m) & $-5.2561$ (L4) & $-5.2579$ & GCI $0.045\%$ & \\
 		Beam in cross-flow & $u_x(A)$ ($10^{-5}\,\mathrm{m}$) & 5.944 (L4) & 5.998 & conditional & C \\
 		 & $F_x$ (N) & 1.3272 (L4) & 1.3325 & conditional & \\
@@ -221,6 +221,6 @@ For the flexible-bottom cavity the QoIs are the steady vertical displacement $u_
 	\end{tabular}
 \end{table}
 
-The independent SU2--CalculiX limits of the cavity, $u_y = -0.240559\,\mathrm{m}$ and $F_y = -5.257784\,\mathrm{N/m}$ (Table~\ref{tab:cavity_refs}), agree with ours to $0.010\%$ and $0.003\%$ \hl{[pending merge of the SU2 data]}.
+The reference limits of the cavity are those of the independent SU2--CalculiX solution, $u_y = -0.240559\,\mathrm{m}$ and $F_y = -5.257784\,\mathrm{N/m}$, and of the independent FEniCSx solution, $u_y = -0.240544\,\mathrm{m}$ and $F_y = -5.257801\,\mathrm{N/m}$ (Table~\ref{tab:cavity_refs}); ours agree with them to $0.016\%$ and $0.003\%$.
 The published reference values of the beam in cross-flow are $u_x(A) = 5.95\times10^{-5}\,\mathrm{m}$ and $F_x = 1.33\,\mathrm{N}$~\citep{Richter2012}, computed with the corrected inflow.
 The measured tip deflection of the Hessenthaler flap is $16.41\,\mathrm{mm}$; with the zero-gradient interface pressure condition L3 gives $16.724\,\mathrm{mm}$.
