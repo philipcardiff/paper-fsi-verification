@@ -139,7 +139,7 @@ A linearised viscous solution shifts the wet frequencies by at most $-0.073\%$, 
 A quadrant is modelled, with symmetry planes on the axes.
 The solid is the small-strain formulation, with the high-order variant unless stated.
 The fluid and solid meshes are refined by factors 1, 2 and 4 (L1--L3) at 100 steps per period, and 25--100 steps per period are used on L2.
-IQN-ILS and Robin--Neumann coupling are compared.
+IQN-ILS and Robin--Neumann coupling are compared; both use the full interface pressure condition~\eqref{eq:interface_pressure} (Section~\ref{sec:coupling_algorithms}), with its mean removed in this enclosed fluid domain.
 
 \paragraph{Results.}
 Table~\ref{tab:ring} gives the frequency and ratio errors.
@@ -148,7 +148,7 @@ Table~\ref{tab:ring} gives the frequency and ratio errors.
 	\centering
 	\small
 	\setlength{\tabcolsep}{5pt}
-	\caption{Ring added-mass problem: frequency error against the exact continuum solution and error of the wet/dry frequency ratio (high-order solid, IQN-ILS). Mesh: level (L1--L3: refinement factors 1, 2 and 4); steps: time steps per period. Source: solids4foam \texttt{ringAddedMass/verification/README.md}.}
+	\caption{Ring added-mass problem: frequency error against the exact continuum solution and error of the wet/dry frequency ratio (high-order solid, IQN-ILS, full interface pressure condition~\eqref{eq:interface_pressure}). Mesh: level (L1--L3: refinement factors 1, 2 and 4); steps: time steps per period. Source: \texttt{paper-data/ring\_added\_mass\_mwp/} (the study of solids4foam \texttt{ringAddedMass/verification/}).}
 	\label{tab:ring}
 	\begin{tabular}{lrrrrr}
 		\toprule
@@ -157,21 +157,21 @@ Table~\ref{tab:ring} gives the frequency and ratio errors.
 		dry & L1 & 100 & 2.55254 & $-0.098\%$ & -- \\
 		dry & L3 & 100 & 2.55173 & $-0.129\%$ & -- \\
 		dry & L2 & 25 & 2.50576 & $-1.929\%$ & -- \\
-		strong ($m^*=10.08$) & L1 & 100 & 0.76843 & $-0.029\%$ & $+0.068\%$ \\
-		strong & L2 & 100 & 0.76796 & $-0.090\%$ & $+0.021\%$ \\
-		strong & L3 & 100 & 0.76770 & $-0.124\%$ & $+0.006\%$ \\
-		strong & L2 & 25 & 0.75477 & $-1.806\%$ & $+0.125\%$ \\
-		strong & L2 & 50 & 0.76552 & $-0.408\%$ & $+0.087\%$ \\
+		strong ($m^*=10.08$) & L1 & 100 & 0.76743 & $-0.159\%$ & $-0.061\%$ \\
+		strong & L2 & 100 & 0.76768 & $-0.126\%$ & $-0.016\%$ \\
+		strong & L3 & 100 & 0.76763 & $-0.134\%$ & $-0.004\%$ \\
+		strong & L2 & 25 & 0.75371 & $-1.944\%$ & $-0.016\%$ \\
+		strong & L2 & 50 & 0.76472 & $-0.512\%$ & $-0.017\%$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \begin{itemize}
-	\item \emph{Time.} The temporal orders of the frequency are 1.90, 1.92, 2.02 and 2.14 for the dry ring and the weak, moderate and strong levels, consistent with BDF2, and Richardson extrapolation in time brings every frequency within $+0.018\%$ of the exact value. The residual error of $\approx-0.13\%$ at 100 steps per period is therefore the phase error of the time scheme.
-	\item \emph{Space.} With the high-order solid the frequency changes by at most $0.06\%$ between meshes, too little to define an order (the slight growth of $|\text{error}|$ reflects removal of a small offsetting spatial error). The wet/dry ratio, in which the common time error cancels, converges at orders 1.77, 1.73 and 1.68 to within $+0.006\%$.
-	\item \emph{Solid discretisation.} The standard second-order solid is $20.7\%$ too stiff in bending on the coarsest mesh and $1.6\%$ on the finest (order 1.66), the high-order solid within $0.13\%$ on every mesh; yet the wet/dry ratios of the two solids agree to $0.003\%$ on the finest mesh.
-	\item \emph{Viscous layers.} The Stokes layer, $\delta=\sqrt{2\nu_F/\omega}=2.9\times10^{-4}$ to $5.1\times10^{-4}\,\mathrm{m}$, is not resolved by the fluid mesh at any refinement factor ($\delta/h=0.009$ to $0.036$). On the meshes used, the computed ratios approach the exact inviscid ratio (within $0.006\%$ on the finest mesh), not the finite-viscosity ratio, which lies up to $0.08\%$ below it.
-	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.03\%$ in frequency; Robin--Neumann needs 2.5 times as many iterations at the strong level (12.3 against 4.9 per step). IQN-ILS solutions lose amplitude (up to $2.1\%$ per period on the coarsest mesh at the strong level, halving with each refinement), whereas Robin--Neumann solutions are almost undamped ($\leq0.05\%$ per period); the loss is unchanged when the coupling tolerance of the all-measure test is reduced from $10^{-4}$ to $10^{-8}$, so it is not an iterative error (Section~\ref{sec:iterative_errors}). \hl{[pending: mechanism]} The frequency is unaffected at the reported precision.
+	\item \emph{Time.} The temporal orders of the frequency are 1.90, 1.90, 1.90 and 1.89 for the dry ring and the weak, moderate and strong levels, consistent with BDF2, and Richardson extrapolation in time brings every frequency within $+0.018\%$ of the exact value. The residual error of $\approx-0.13\%$ at 100 steps per period is therefore the phase error of the time scheme.
+	\item \emph{Space.} With the high-order solid the frequency changes by at most $0.03\%$ between meshes, too little to define an order. The wet/dry ratio, in which the common time error cancels, converges at orders 1.90, 1.84 and 1.90 (weak, moderate, strong) to within $-0.004\%$.
+	\item \emph{Solid discretisation.} The standard second-order solid is $20.7\%$ too stiff in bending on the coarsest mesh and $1.6\%$ on the finest (order 1.66), the high-order solid within $0.13\%$ on every mesh; yet the wet/dry ratios of the two solids agree to $0.002\%$ on the finest mesh, and with the standard solid the ratio converges at orders 2.36--2.56.
+	\item \emph{Viscous layers.} The Stokes layer, $\delta=\sqrt{2\nu_F/\omega}=2.9\times10^{-4}$ to $5.1\times10^{-4}\,\mathrm{m}$, is not resolved by the fluid mesh at any refinement factor ($\delta/h=0.009$ to $0.036$). On the meshes used, the computed ratios approach the exact inviscid ratio (within $0.004\%$ on the finest mesh), not the finite-viscosity ratio, which lies up to $0.08\%$ below it.
+	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $4\times10^{-4}\%$ in frequency and to $0.001\%$ per period in amplitude loss (L2, 100 steps per period); Robin--Neumann needs 3.7 times as many iterations at the strong level (10.2 against 2.75 per step). Both lose amplitude at the rate of the BDF2 dissipation of the time scheme ($0.04\%$ per period at 100 steps per period, also the loss of the dry ring) to within $0.05\%$ per period at every level and mesh (IQN-ILS, strong level: $-0.001\%$, $0.056\%$ and $0.087\%$ per period on L1--L3). With a zero normal pressure gradient on the interface, IQN-ILS lost up to $2.1\%$ per period on the coarsest mesh at the strong level, halving with each refinement, independently of the coupling tolerance, the time step, the amplitude and the viscosity; this was the $O(h)$ error of the omitted wall-acceleration term, and it also shifted the frequency on L1 by $+0.13\%$ (Appendix~\ref{app:lessons}).
 \end{itemize}
 The exact frequencies and ratios, with our finest-level values, are collected in Table~\ref{tab:refvals_ring} (Appendix~\ref{app:reference_values}).
 
@@ -180,13 +180,14 @@ Two calculations with codes that share no component with solids4foam reproduce t
 The finite element code FEBio~v4.13~\citep{Maas2012,Ateshian2018,Shim2019}, with a monolithic Newton solver and a weakly compressible viscous fluid, solves the viscous problem with no-slip on the ring and on the rigid wall, on a fluid mesh graded to resolve the Stokes layer.
 Its wet/dry ratios agree with the exact finite-viscosity ratio to better than $0.010\%$ at all three levels, and its fitted amplitude decay rate is $0.97$--$1.00$ times the exact viscous rate; in the moderate level, changing the fluid bulk modulus by an order of magnitude, the regulariser stiffness tenfold or the amplitude by half each changed the ratio by less than $0.01\%$.
 A partitioned calculation with the inviscid incompressible fluid of SU2~7.5.1~\citep{Economon2016,Economon2020}, a CalculiX~\citep{Dhondt2004} ring and IQN-ILS coupling through preCICE gives finest-mesh ratio errors of $+0.010\%$, $+0.042\%$ and $+0.052\%$ against the inviscid ratio, converging at observed orders of 1.91--1.92 to Richardson values within $0.02\%$ of the exact ratio.
-These comparisons give confidence in the solids4foam solution: three different discretisations, a partitioned finite volume, a monolithic finite element and a partitioned finite volume--finite element one, reproduce the exact ratio to $0.1\%$ or better, and on the finest meshes the SU2--CalculiX ratios differ from those of solids4foam by at most $0.05\%$, the size of the SU2--CalculiX discretisation error there.
+These comparisons give confidence in the solids4foam solution: three different discretisations, a partitioned finite volume, a monolithic finite element and a partitioned finite volume--finite element one, reproduce the exact ratio to $0.1\%$ or better, and on the finest meshes the SU2--CalculiX ratios differ from those of solids4foam by at most $0.06\%$, about the size of the SU2--CalculiX discretisation error there.
 They also give insight that the solids4foam runs cannot.
 FEBio resolves the Stokes layer, and so verifies the viscous frequency shift and the viscous decay, which the solids4foam meshes do not resolve.
 It also shows a difference between the two discretisations: with nodal no-slip, a uniform fluid mesh of 12 radial cells gives a ratio error of $-6.2\%$, so the finite element calculation needs the layer resolved, whereas the cell-centred finite volume calculation with an unresolved layer approaches the inviscid response on the meshes used.
 
 \paragraph{Lessons.}
 The wet/dry ratio verifies the added-mass coupling independently of the accuracy of the solid, and the exact reference attributes the remaining error to a single source.
+The amplitude, which is not a QoI of the original problem, exposed an $O(h)$ error of a zero-gradient interface pressure, which changed the frequency and the ratio by only about $0.13\%$ on the coarsest mesh but caused an amplitude loss of $2.1\%$ per period; in an enclosed fluid the condition that removes it must also be made consistent with zero net flux (Appendix~\ref{app:lessons}).
 Large-amplitude effects are, by design, not tested.
 The solids4foam fluid meshes do not resolve the viscous layers. This does not affect the verification of the frequency and of the ratio, which is against the inviscid reference, which the computed ratios approach on the meshes used; its consequence is that the viscous frequency shift and the viscous decay rate are verified only by the FEBio calculation.
 
@@ -338,7 +339,7 @@ The fluid uses Gauss linear gradients, two outer correctors with four pressure c
 The solid is the total Lagrangian formulation with the standard variant (stabilisation factor $0.1$), with the deformed area of its traction boundary evaluated from a surface gradient over the boundary face; its old-time displacements at $t = -\Delta t$, $-2\Delta t$ and $-3\Delta t$ are set to the exact solution, continued smoothly to $t < 0$, so that the start-up from rest is second order.
 Appendix~\ref{app:lessons} gives the reasons for these settings.
 The fluid mesh moves by a displacement Laplacian with quadratic inverse-distance diffusivity, which moves the cells next to the tilting interface almost vertically, so in the full variant they become non-orthogonal to the interface by up to $13^\circ$.
-Two couplings are compared: Dirichlet--Neumann with Aitken relaxation, with the moving-wall velocity and a flux-consistent pressure gradient on the interface, and Robin--Neumann.
+Two couplings are compared: Dirichlet--Neumann with Aitken relaxation, with the moving-wall velocity and a flux-consistent pressure gradient on the interface, and Robin--Neumann, whose Robin condition includes the viscous and body-force terms of the normal momentum balance~\eqref{eq:interface_pressure}.
 The coupling tolerance is $10^{-6}$ with the either-measure test and at most 200 iterations per step; the two couplings give solid displacements that agree to about $2\%$ on every level, so the iterative error does not determine the orders.
 IQN-ILS did not complete the case, because its least-squares update inverted the solid cells next to the interface (Appendix~\ref{app:lessons}).
 The boundary data are exact (Table~\ref{tab:mms_bc}), and the body forces are applied explicitly, the fluid force at the current cell centres at the new time level and the solid force at the reference cell centres.
@@ -351,7 +352,7 @@ The quasi-monolithic coupling of the companion paper~\citep{CardiffBatistic2026Q
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\caption{Manufactured FSI solution, full variant, partitioned couplings with the case settings of the numerical model above: L2 errors at $t = 0.4$ and observed orders between successive levels, with $\Delta t \propto h$ ($\Delta t = 0.32/n$). $\bb{v}_F$, $p_F$: fluid velocity and pressure; $\bb{D}_S$: solid displacement; $\bb{D}_S^\Gamma$: interface displacement; $\bb{t}^\Gamma$: traction applied to the solid. Peak exact values: $|\bb{v}_F| \approx 2.1$, $|p_F| \approx 3.0$, $|\bb{D}_S| \approx 0.12$, $|\bb{t}^\Gamma| \approx 3.0$. Source: \texttt{paper-data/mms\_fsi/results/partitioned\_final/}.}
+	\caption{Manufactured FSI solution, full variant, partitioned couplings with the case settings of the numerical model above: L2 errors at $t = 0.4$ and observed orders between successive levels, with $\Delta t \propto h$ ($\Delta t = 0.32/n$). $\bb{v}_F$, $p_F$: fluid velocity and pressure; $\bb{D}_S$: solid displacement; $\bb{D}_S^\Gamma$: interface displacement; $\bb{t}^\Gamma$: traction applied to the solid. Peak exact values: $|\bb{v}_F| \approx 2.1$, $|p_F| \approx 3.0$, $|\bb{D}_S| \approx 0.12$, $|\bb{t}^\Gamma| \approx 3.0$. Robin--Neumann with the full interface pressure condition~\eqref{eq:interface_pressure}. Source: \texttt{paper-data/mms\_fsi/results/partitioned\_final/} (Robin--Neumann: \texttt{robin\_full\_visc\_*}).}
 	\label{tab:mms_fsi}
 	\begin{tabular}{llrrrrl}
 		\toprule
@@ -365,23 +366,24 @@ The quasi-monolithic coupling of the companion paper~\citep{CardiffBatistic2026Q
 		 & $\bb{D}_S^\Gamma$ & $5.05\times10^{-3}$ & $1.35\times10^{-3}$ & $3.28\times10^{-4}$ & $8.09\times10^{-5}$ & 1.90, 2.04, 2.02 \\
 		 & $\bb{t}^\Gamma$ & $7.15\times10^{-2}$ & $2.15\times10^{-2}$ & $4.88\times10^{-3}$ & $1.34\times10^{-3}$ & 1.73, 2.14, 1.87 \\
 		\midrule
-		Robin--Neumann & $\bb{v}_F$ & $3.92\times10^{-2}$ & $1.51\times10^{-2}$ & $4.57\times10^{-3}$ & $1.09\times10^{-3}$ & 1.37, 1.73, 2.07 \\
-		 & $p_F$ & $8.08\times10^{-2}$ & $2.65\times10^{-2}$ & $7.76\times10^{-3}$ & $2.45\times10^{-3}$ & 1.61, 1.77, 1.66 \\
-		 & $\bb{D}_S$ & $3.78\times10^{-3}$ & $7.71\times10^{-4}$ & $1.68\times10^{-4}$ & $3.91\times10^{-5}$ & 2.29, 2.19, 2.11 \\
-		 & $\bb{D}_S^\Gamma$ & $5.15\times10^{-3}$ & $1.35\times10^{-3}$ & $3.03\times10^{-4}$ & $7.09\times10^{-5}$ & 1.93, 2.15, 2.10 \\
-		 & $\bb{t}^\Gamma$ & $9.82\times10^{-2}$ & $2.84\times10^{-2}$ & $5.77\times10^{-3}$ & $1.53\times10^{-3}$ & 1.79, 2.30, 1.91 \\
+		Robin--Neumann & $\bb{v}_F$ & $3.42\times10^{-2}$ & $1.07\times10^{-2}$ & $3.00\times10^{-3}$ & $7.61\times10^{-4}$ & 1.68, 1.83, 1.98 \\
+		 & $p_F$ & $5.93\times10^{-2}$ & $1.70\times10^{-2}$ & $4.37\times10^{-3}$ & $1.29\times10^{-3}$ & 1.81, 1.96, 1.76 \\
+		 & $\bb{D}_S$ & $3.76\times10^{-3}$ & $7.81\times10^{-4}$ & $1.71\times10^{-4}$ & $3.94\times10^{-5}$ & 2.27, 2.19, 2.12 \\
+		 & $\bb{D}_S^\Gamma$ & $5.16\times10^{-3}$ & $1.40\times10^{-3}$ & $3.46\times10^{-4}$ & $8.53\times10^{-5}$ & 1.88, 2.02, 2.02 \\
+		 & $\bb{t}^\Gamma$ & $8.82\times10^{-2}$ & $2.49\times10^{-2}$ & $5.22\times10^{-3}$ & $1.37\times10^{-3}$ & 1.83, 2.25, 1.92 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 With both partitioned couplings the solid and interface displacements converge at orders $1.9$--$2.3$ on every pair of levels and the interface traction at $1.7$--$2.3$ (Table~\ref{tab:mms_fsi}).
 With Aitken relaxation the fluid velocity converges at $1.71$, $1.83$ and $1.96$ and the pressure at $1.82$, $2.05$ and $1.89$, and at $t = 0.2$ the L2 orders of all five quantities lie between $1.56$ and $2.18$; the finest-level errors exceed those of the quasi-monolithic coupling (Table~\ref{tab:mms_fsi_corr}) by $4$--$33\%$.
-With Robin--Neumann coupling the fluid velocity reaches order $2.07$ on the finest pair, but the pressure stays at $1.6$--$1.8$.
-Its interface pressure condition imposes only the acceleration term of the normal momentum balance and omits the viscous and body-force normal terms, $\nu\nabla^2\bb{v}_F\cdot\bb{n} + \bb{b}_F\cdot\bb{n}$, which leaves an $O(h)$ pressure error in the row of fluid cells next to the interface: half a cell width times the omitted terms (about $4.3$ near $x = 1$) predicts $0.067$ and $0.034$ there on $n = 64$ and $128$, against $0.061$ and $0.031$ measured, so the L2 order tends to $1.5$ and the maximum-norm order is about one \hl{[pending: viscous term in the Robin pressure condition]}.
+With Robin--Neumann coupling the fluid velocity converges at $1.68$, $1.83$ and $1.98$ and the pressure at $1.81$, $1.96$ and $1.76$, and at $t = 0.2$ the L2 orders of all five quantities lie between $1.58$ and $2.24$.
+The maximum norm of the pressure converges irregularly ($1.32$, $1.35$ and $0.66$ at $t = 0.4$).
+With the acceleration-only Robin condition, which omits the viscous and body-force terms, the pressure converged at only $1.61$, $1.77$ and $1.66$, its finest-level error was twice as large ($2.45\times10^{-3}$), and its maximum norm converged at about first order ($6.1\times10^{-2}$ on $n = 64$, against $2.1\times10^{-2}$ with the full condition); the full condition also lowers the finest-level velocity error by $30\%$ (from $1.09\times10^{-3}$) and changes the solid and interface errors by up to $20\%$ in either direction, and their orders by at most $0.15$ (Appendix~\ref{app:lessons}).
 With Aitken relaxation the fluid pressure on the interface faces, which is not in the table, converges at only $1.69$, $1.60$ and $1.28$ at $t = 0.4$; in fluid-alone runs the largest pressure error lies in the interface cells near the outlet end ($x \approx 1.85$--$1.9$), and its cause has not been identified.
 The maximum norms of the fluid fields also converge more slowly than the L2 norms (Aitken pressure $1.77$, $1.44$ and $1.25$).
-On the flat variant, computed on $n = 16$ to $64$, the solid and interface displacements converge at orders $1.9$--$2.4$ with both couplings and the fluid velocity and pressure at $1.6$--$1.75$ on the finer pair; the interface traction ($1.4$--$2.2$) is affected by the non-orthogonal interface cells at the inlet and outlet ends of that mesh (Appendix~\ref{app:mms}).
+On the flat variant, computed on $n = 16$ to $64$ (Robin--Neumann with the acceleration-only condition), the solid and interface displacements converge at orders $1.9$--$2.4$ with both couplings and the fluid velocity and pressure at $1.6$--$1.75$ on the finer pair; the interface traction ($1.4$--$2.2$) is affected by the non-orthogonal interface cells at the inlet and outlet ends of that mesh (Appendix~\ref{app:mms}).
 These orders were reached only after fluid-only and solid-only runs against the exact fields had located four first-order errors in the field solvers and their set-up, not in the coupling, and the settings above had removed them (Appendix~\ref{app:lessons}): before, the fluid pressure converged at orders $0.9$--$1.2$ and the solid displacement at first order at $t = 0.2$.
-Aitken needs $22$, $36$, $56$ and $59$ coupling iterations per step on the four levels of the full variant, and Robin--Neumann $14$, $31$, $52$ and $21$.
+Aitken needs $22$, $36$, $56$ and $59$ coupling iterations per step on the four levels of the full variant, and Robin--Neumann $14$, $31$, $51$ and $21$.
 
 The quasi-monolithic coupling, with a near-wall reconstruction of the fluid that is shared by the momentum residual and the traction, a surface-gradient evaluation of the deformed traction area of the solid, and a momentum-interpolation coefficient that does not depend on $\Delta t$, converges at second order in space in every quantity of the full variant, and at second order in time in the solid displacement and the interface traction (Table~\ref{tab:mms_fsi_corr}).
 On the smallest steps the temporal orders of the fluid pressure and velocity fall to $1.6$ and $0.9$; the velocity differences there are $2$--$4\times10^{-4}$, a few per cent of the spatial error on this mesh.
@@ -460,7 +462,7 @@ It is small relative to the history differences of interest ($0.33\%$ on the fin
 \paragraph{Numerical model.}
 The fluid and solid meshes are generated with \texttt{blockMesh}.
 The fluid levels L1--L4 have 3\,200, 12\,800, 28\,800 and 51\,200 cells (refinement ratios 2, 1.5 and 1.33); the wall has $160\times8$ cells with the high-order solid unless stated.
-The baseline coupling is Robin--Neumann at $\Delta t = 0.00625\,\mathrm{s}$, with IQN-ILS in a comparison.
+The baseline coupling is Robin--Neumann at $\Delta t = 0.00625\,\mathrm{s}$, with IQN-ILS in a comparison; the Robin condition is the acceleration-only form and the IQN-ILS interface has a zero normal pressure gradient (Section~\ref{sec:coupling_algorithms}). On the mesh of the distributed case, adding the viscous term changes the wall-midpoint history by $0.8\%$ of the peak with Robin--Neumann, and by $0.1\%$ with IQN-ILS and the acceleration condition.
 
 \paragraph{Results.}
 The QoI is the wall-midpoint vertical displacement history, with the first trough as scalar summary.
@@ -572,7 +574,7 @@ The level-4 values are therefore uncertain by $\approx3$--$5\%$ in $u_x$ and the
 \paragraph{Numerical model.}
 FSI1 and FSI2 use a uniform block-structured family (1x, 2x, 4x: 5\,336, 21\,344 and 85\,376 fluid and 630, 2\,520 and 10\,080 solid cells; ratio 2 in the plane).
 FSI1 is computed with the high-order (cubic) solid (Section~\ref{sec:solid_solver}) on 1x, 2x and 4x, integrated in pseudo-time to $t = 30\,\mathrm{s}$ ($\Delta t = 0.025$, $0.025$ and $0.0125\,\mathrm{s}$) with IQN-ILS and the either-measure coupling test, and FSI2 on 1x and 2x, with $\Delta t$ halved with the mesh \hl{[pending: FSI2 on the Gmsh family]}.
-FSI3 is computed on an unstructured, quadrilateral-dominant fluid family generated with Gmsh~\citep{geuzaine2009gmsh}, with three levels (96\,712, 194\,183 and 387\,219 fluid cells; Table~\ref{tab:hronturek_gmsh}). It replaces the block-structured family, whose neighbour cell-size ratios of $2$--$2.8$ through the wake persist under refinement and spoil the observed orders (Appendix~\ref{app:lessons}). Structured layers surround the cylinder, the flag and the channel walls, and elsewhere the cell size grows linearly with the distance from the cylinder and flag, up to a cap; the size field is scaled by $1/\sqrt{2}$ and the layer counts by $\sqrt{2}$ from one level to the next, except the first cell of the blocks at the two flag-tip corners, which stays at about $0.3\,\mathrm{mm}$ on every level, so the family is not geometrically similar there. The effective refinement ratio, from the cell counts, is $r = (387\,219/96\,712)^{1/4} = 1.415$. The solid is refined with the fluid ($430\times24$, $608\times34$ and $860\times48$ cells, matching the fluid faces along the flag), and the time step is reduced by the same ratio ($\Delta t = 2\times10^{-4}$, $1.414\times10^{-4}$ and $10^{-4}\,\mathrm{s}$, constant from $t = 0$), so the study is scaled. Convection is linear-upwind with an unlimited least-squares gradient; the fluid mesh follows a pseudo-elastic equation for its total displacement from the initial mesh (Section~\ref{sec:fluid_mesh_motion}); the flag carries the acceleration-consistent wall pressure $\mathbf{n}\cdot\nabla p = -\rho_F\,\mathbf{n}\cdot\mathbf{a}$ (Section~\ref{sec:hessenthaler}); each time step of the fluid takes three outer (PIMPLE) correctors, each with three pressure correctors and one non-orthogonal corrector, with the linear solvers converged to absolute tolerances of $10^{-9}$; and the coupling is IQN-ILS with the all-measure test at a tolerance of $10^{-6}$, at most 50 iterations, reusing the secant information of the last five steps. The flag is held rigid to $t = 2\,\mathrm{s}$, and the QoIs are taken over the last five full periods before $t = 6\,\mathrm{s}$.
+FSI3 is computed on an unstructured, quadrilateral-dominant fluid family generated with Gmsh~\citep{geuzaine2009gmsh}, with three levels (96\,712, 194\,183 and 387\,219 fluid cells; Table~\ref{tab:hronturek_gmsh}). It replaces the block-structured family, whose neighbour cell-size ratios of $2$--$2.8$ through the wake persist under refinement and spoil the observed orders (Appendix~\ref{app:lessons}). Structured layers surround the cylinder, the flag and the channel walls, and elsewhere the cell size grows linearly with the distance from the cylinder and flag, up to a cap; the size field is scaled by $1/\sqrt{2}$ and the layer counts by $\sqrt{2}$ from one level to the next, except the first cell of the blocks at the two flag-tip corners, which stays at about $0.3\,\mathrm{mm}$ on every level, so the family is not geometrically similar there. The effective refinement ratio, from the cell counts, is $r = (387\,219/96\,712)^{1/4} = 1.415$. The solid is refined with the fluid ($430\times24$, $608\times34$ and $860\times48$ cells, matching the fluid faces along the flag), and the time step is reduced by the same ratio ($\Delta t = 2\times10^{-4}$, $1.414\times10^{-4}$ and $10^{-4}\,\mathrm{s}$, constant from $t = 0$), so the study is scaled. Convection is linear-upwind with an unlimited least-squares gradient; the fluid mesh follows a pseudo-elastic equation for its total displacement from the initial mesh (Section~\ref{sec:fluid_mesh_motion}); the flag carries the acceleration-only interface pressure condition $\mathbf{n}\cdot\nabla p = -\rho_F\,\mathbf{n}\cdot\mathbf{a}$, without the viscous term of Equation~\eqref{eq:interface_pressure}, which changes the L1 QoIs by at most $0.22\%$ (Section~\ref{sec:coupling_algorithms}); each time step of the fluid takes three outer (PIMPLE) correctors, each with three pressure correctors and one non-orthogonal corrector, with the linear solvers converged to absolute tolerances of $10^{-9}$; and the coupling is IQN-ILS with the all-measure test at a tolerance of $10^{-6}$, at most 50 iterations, reusing the secant information of the last five steps. The flag is held rigid to $t = 2\,\mathrm{s}$, and the QoIs are taken over the last five full periods before $t = 6\,\mathrm{s}$.
 
 \paragraph{Results.}
 
@@ -872,6 +874,7 @@ The values are published only to three digits, and their sequence is not tabulat
 
 \paragraph{Numerical model.}
 The half domain $z \le 0$ is computed with a symmetry plane, on four uniformly refined levels, L1--L4 (fluid $8\,112$ to $4\,153\,344$ cells; 8 to 64 solid cells through the thickness), by partitioned transient-to-steady continuation at a fixed $\Delta t = 0.00625\,\mathrm{s}$ with IQN-ILS and the all-measure coupling test at a tolerance of $10^{-5}$.
+The interface pressure has a zero normal gradient, which at the steady state omits only the viscous term of Equation~\eqref{eq:interface_pressure}; on the mesh of the distributed case, including it changes the tip displacement by $+1.7\%$, and on that mesh refined twice by $+0.35\%$ (Section~\ref{sec:coupling_algorithms}).
 The conformal interface is transferred by direct face mapping.
 
 \paragraph{Results.}
@@ -926,7 +929,7 @@ All three model the wall as a three-dimensional St Venant--Kirchhoff continuum, 
 The references are digitised, two are unconverged in time and one is from the same code lineage; hence, this reference is categorised as D (unquantified).
 
 \paragraph{Numerical model.}
-A quarter of the tube is computed with symmetry planes, with Robin--Neumann coupling and BDF2 in fluid and solid.
+A quarter of the tube is computed with symmetry planes, with Robin--Neumann coupling and BDF2 in fluid and solid; the Robin condition is the acceleration-only form, and adding the viscous term changes the displacement history by $0.017\%$ of its peak (Section~\ref{sec:coupling_algorithms}).
 Three geometrically similar block-structured levels, L1--L3 (16\,000, 128\,000 and 1\,024\,000 fluid cells and 6\,400, 51\,200 and 409\,600 solid cells; ratio 2), are computed with $\Delta t$ halved with the mesh ($2.5\times10^{-5}$, $1.25\times10^{-5}$ and $6.25\times10^{-6}\,\mathrm{s}$).
 The fluid mesh is an O-grid with a square core, and the solid mesh has 4 cells through the wall thickness on L1.
 
@@ -1019,7 +1022,7 @@ The solid uses the total Lagrangian displacement formulation on $12 \times 8 \ti
 The fluid takes up to 20 PIMPLE outer correctors per coupling iteration at $\Delta t = 0.002\,\mathrm{s}$, with unlimited least-squares gradients and convection by an unlimited blend of $75\%$ linear and $25\%$ linear-upwind interpolation; unlimited linear-upwind interpolation becomes unstable at the flap-tip corners, and first-order upwind lowers the tip deflection by $17\%$ (Appendix~\ref{app:lessons}).
 The fluid mesh moves with a velocity Laplacian, and interface data are transferred with AMI weights.
 The coupling is IQN-ILS with the all-measure test at $10^{-4}$ and at most 60 iterations per step; every run starts from rest and is continued to $t = 45\,\mathrm{s}$.
-The primary solutions prescribe the wall pressure gradient from the normal momentum equation, $\mathbf{n}\cdot\nabla p = -\rho_F\,\mathbf{n}\cdot\mathbf{a}$, with $\mathbf{a}$ the wall acceleration; a zero normal gradient is used as a sensitivity check.
+The primary solutions prescribe the acceleration-only form of the interface pressure condition (Section~\ref{sec:coupling_algorithms}), $\mathbf{n}\cdot\nabla p = -\rho_F\,\mathbf{n}\cdot\mathbf{a}$, with $\mathbf{a}$ the wall acceleration, without the viscous term of Equation~\eqref{eq:interface_pressure}, whose effect on this case was not computed; a zero normal gradient is used as a sensitivity check.
 The fluid meshes L1--L3 are non-nested octree meshes generated with cfMesh~\citep{Juretic2015cfMesh} from the published surface, with the flap edges captured as feature edges and refinement around the flap and over the path of its tip (Table~\ref{tab:hessenthaler_meshes}, Fig.~\ref{fig:hessenthaler_geom}b); each level scales all target sizes by $\sqrt{2}$, giving effective linear refinement ratios of $1.37$ and $1.39$.
 
 \begin{table}[htbp]

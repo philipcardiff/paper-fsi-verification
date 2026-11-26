@@ -27,7 +27,7 @@ The observations are specific to this suite and to one code family, and are not 
 		\toprule
 		Case & Space & Time & Basis \\
 		\midrule
-		Ring added-mass problem & freq.\ converged on coarsest mesh; ratio 1.68--1.77; standard solid 1.66 & 1.90--2.14 & vs exact; Richardson \\
+		Ring added-mass problem & freq.\ converged on coarsest mesh; ratio 1.84--1.90; standard solid 1.66 & 1.89--1.90 & vs exact; Richardson \\
 		Womersley tube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level & 1.86--2.14 (1.29--1.84 with a standard mixed end condition) & SD; errors vs exact \\
 		Collapsible channel & 1.6, 2.1, 2.5 & 1.8, 2.0 & vs ref.\ (B); SD (time) \\
 		Turek--Hron FSI1 & $u_x$ 1.0--1.1; $u_y$, lift 1.6--1.9; drag 1.5 & pseudo-time step $\leq0.012\%$ & SD (four levels); vs ref.\ (B); second solid code ($0.02\%$); independent codes ($u_y$, lift $\leq0.3\%$) \\
@@ -36,7 +36,7 @@ The observations are specific to this suite and to one code family, and are not 
 		Mok lid-driven cavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & SD \\
 		Flexible-bottom cavity & $u_y$ 1.93, 1.98; $F_y$ 2.03, 1.86 (four levels, scaled) & pseudo-time step ($\Delta t \to 0.0625\,\mathrm{s}$): $0.18$, $0.03$, $0.001\%$ on L1--L3 & SD \\
 		Beam in cross-flow & $u_x(A)$ 1.64, $F_x$ 1.60 (L2--L4, corrected inflow; Appendix~\ref{app:beam}) & $\Delta t$ (Rhie--Chow) $\approx1/240$ of the L3-to-L4 change & SD \\
-		Manufactured FSI & partitioned (Aitken): $\bb{v}_F$ 1.7--2.0, $p_F$ 1.8--2.1, solid and interface 1.9--2.3, traction 1.7--2.1; Robin--Neumann $p_F$ 1.6--1.8; QM: 1.2--2.5 (2.0 with three unreleased corrections) & partitioned fluid alone: pressure offset independent of $\Delta t$ with two outer correctors; QM 2.0 with corrections & vs exact; scaled; fixed-mesh time study (QM) \\
+		Manufactured FSI & partitioned (Aitken): $\bb{v}_F$ 1.7--2.0, $p_F$ 1.8--2.1, solid and interface 1.9--2.3, traction 1.7--2.1; Robin--Neumann $p_F$ 1.8--2.0 (1.6--1.8 with an acceleration-only interface condition); QM: 1.2--2.5 (2.0 with three unreleased corrections) & partitioned fluid alone: pressure offset independent of $\Delta t$ with two outer correctors; QM 2.0 with corrections & vs exact; scaled; fixed-mesh time study (QM) \\
 		Blob in treacle & 2.00 & 2.13, 2.21 (interface 2.12, 2.00) & SD; Richardson \\
 		\bottomrule
 	\end{tabular}
@@ -115,7 +115,7 @@ The iterative error is the least systematically quantified component of the erro
 Turek--Hron FSI2 contains a coupling-tolerance sweep, and it shows that a tolerance of $10^{-5}$ inflates the lift amplitude by $13\%$ (1x) and $30\%$ (2x): the effect grows with refinement, so a tolerance chosen on a coarse mesh can contaminate a fine-mesh result.
 FSI3 (uniform family) shows the same mechanism in time: at a fixed tolerance of $10^{-5}$ the step-to-step force noise grows as $\Delta t$ falls, inflating extrema-based force amplitudes while leaving the displacements unaffected (Section~\ref{sec:fsi23}).
 Two tolerance sweeps with the all-measure test (Table~\ref{tab:tol_sweeps}) bound the iterative error directly at fixed discretisation.
-In the ring added-mass problem (strong level, mesh 2, 100 steps per period) reducing the tolerance from $10^{-4}$ to $10^{-8}$ changes the wet/dry ratio by at most $1\times10^{-5}\%$ of the exact ratio with IQN-ILS, and by at most $3\times10^{-5}\%$ below $10^{-5}$ with Robin--Neumann ($1\times10^{-3}\%$ at $10^{-4}$), against a change of $0.015\%$ between meshes 2 and 4; the IQN-ILS amplitude loss ($1.15\%$ per period) and the $0.04\%$ frequency difference between the two couplings do not change with the tolerance, so neither is an iterative error.
+In the ring added-mass problem (strong level, mesh 2, 100 steps per period) reducing the tolerance from $10^{-4}$ to $10^{-8}$ changes the wet/dry ratio by at most $2\times10^{-5}\%$ of the exact ratio with IQN-ILS, and by at most $3\times10^{-5}\%$ below $10^{-5}$ with Robin--Neumann ($1\times10^{-3}\%$ at $10^{-4}$), against a change of $0.007\%$ between meshes 2 and 4; the two couplings differ by $4\times10^{-4}\%$ in the ratio and lose the same amplitude ($0.063\%$ per period), at every tolerance. With the earlier zero-gradient interface pressure the IQN-ILS loss was $1.15\%$ per period, also independent of the tolerance (Section~\ref{sec:ring}).
 In the collapsible channel (fluid level L3, $\Delta t = 1/160\,\mathrm{s}$) Robin--Neumann changes the maximum difference from the reference by $0.002\%$ of the peak between $10^{-4}$, the baseline tolerance, and $10^{-5}$, against $0.03\%$ between fluid levels L3 and L4; a tolerance of $10^{-6}$ could not be reached (the first step stalled at the iteration limit).
 With the all-measure test, IQN-ILS did not complete this calculation of the collapsible channel at any tolerance from $10^{-3}$ to $10^{-6}$: it stalled at the iteration limit early in the run for $10^{-5}$ and $10^{-6}$, and the coupling diverged after the external-pressure ramp for $10^{-3}$ and $10^{-4}$.
 The IQN-ILS results for the collapsible channel in Section~\ref{sec:collapsible}, computed with the either-measure test, therefore rest on iterations that were accepted unconverged (Section~\ref{sec:convergence_method}), which is consistent with the IQN-ILS/Robin--Neumann gap that does not decrease with refinement there.
@@ -124,18 +124,18 @@ Elsewhere, the iterative error is bounded only indirectly.
 \begin{table}[htbp]
 	\centering
 	\small
-	\caption{Coupling-tolerance sweeps with the all-measure test (RN: Robin--Neumann) at fixed discretisation. Ring added-mass problem: strong level, L2, 100 steps per period, standard solid; wet/dry frequency-ratio error against the exact value. Collapsible channel: fluid level L3, solid $160\times8$ (high order), $\Delta t = 1/160\,\mathrm{s}$; maximum wall-midpoint error against the oomph-lib reference (percent of the peak) and first trough. Robin--Neumann pressure and flux tolerances scale with the displacement tolerance. Source: \texttt{paper-data/tolerance\_sweeps/}.}
+	\caption{Coupling-tolerance sweeps with the all-measure test (RN: Robin--Neumann) at fixed discretisation. Ring added-mass problem: strong level, L2, 100 steps per period, standard solid; wet/dry frequency-ratio error against the exact value; IQN-ILS with the full interface pressure condition~\eqref{eq:interface_pressure}, Robin--Neumann with the acceleration-only Robin condition (Section~\ref{sec:coupling_algorithms}). Collapsible channel: fluid level L3, solid $160\times8$ (high order), $\Delta t = 1/160\,\mathrm{s}$; maximum wall-midpoint error against the oomph-lib reference (percent of the peak) and first trough. Robin--Neumann pressure and flux tolerances scale with the displacement tolerance. Source: \texttt{paper-data/tolerance\_sweeps/}.}
 	\label{tab:tol_sweeps}
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{llrrr}
 		\toprule
 		Quantity & Tol. & IQN-ILS & RN & Iter./step (IQN-ILS / RN) \\
 		\midrule
-		ring: ratio error (\%) & $10^{-4}$ & $+0.03316$ & $-0.00949$ & 4.7 / 2.3 \\
-		 & $10^{-5}$ & $+0.03315$ & $-0.00853$ & 5.0 / 3.8 \\
-		 & $10^{-6}$ & $+0.03315$ & $-0.00851$ & 5.2 / 11.7 \\
-		 & $10^{-7}$ & $+0.03315$ & $-0.00851$ & 5.9 / 17.3 \\
-		 & $10^{-8}$ & $+0.03315$ & $-0.00851$ & 7.0 / 23.5 \\
+		ring: ratio error (\%) & $10^{-4}$ & $-0.00884$ & $-0.00949$ & 4.7 / 2.3 \\
+		 & $10^{-5}$ & $-0.00886$ & $-0.00853$ & 5.0 / 3.8 \\
+		 & $10^{-6}$ & $-0.00886$ & $-0.00851$ & 5.3 / 11.7 \\
+		 & $10^{-7}$ & $-0.00886$ & $-0.00851$ & 6.0 / 17.3 \\
+		 & $10^{-8}$ & $-0.00886$ & $-0.00851$ & 7.1 / 23.5 \\
 		\midrule
 		collapsible: max error (\%) & $10^{-3}$ & failed & $0.574$ & -- / 16.3 \\
 		 & $10^{-4}$ & failed & $0.522$ & -- / 27.9 \\
@@ -159,19 +159,19 @@ In the collapsible channel the IQN-ILS/Robin--Neumann difference does not decrea
 In both, the iterative error rather than the discretisation bounds what can be verified.
 
 \emph{Internal agreement is not external verification.}
-IQN-ILS and Robin--Neumann agree to $0.03\%$ (ring added-mass frequency), $2.1\times10^{-4}$ (Womersley tube), $0.01\%$ (FSI1), and $0.07\%$ (3-D pressure-pulse tube QoIs).
+IQN-ILS and Robin--Neumann agree to $4\times10^{-4}\%$ (ring added-mass frequency), $2.1\times10^{-4}$ (Womersley tube), $0.01\%$ (FSI1), and $0.07\%$ (3-D pressure-pulse tube QoIs).
 This is a consistency check of the implementations against each other, not a bound on the iterative error of either (both can share an incomplete field solve, and their discrete interface conditions differ); it says nothing about the shared discretisation error, nor about whether the common limit is the continuum solution.
 FSI3 (uniform family) shows that the two need not agree to the coupling tolerance when the Robin--Neumann scheme modifies the discrete interface condition.
 
-\emph{Coupling algorithms can affect solution quality as well as cost.}
-In the ring added-mass problem, IQN-ILS produces a mesh-dependent amplitude loss that Robin--Neumann does not (mechanism unknown); and the cheaper algorithm is case dependent (IQN-ILS in the ring added-mass problem, FSI3 and, narrowly, the Womersley tube; Robin--Neumann in the 3-D pressure-pulse tube).
+\emph{A difference in solution quality between couplings need not come from the coupling algorithm, and the cost is case dependent.}
+In the ring added-mass problem, IQN-ILS with a zero-gradient interface pressure produced a mesh-dependent amplitude loss that Robin--Neumann did not; the cause was the interface pressure condition, not the coupling algorithm, and with the full condition the two couplings agree (Section~\ref{sec:ring}). A difference between coupling algorithms can therefore come from the interface conditions that go with them. The cheaper algorithm is case dependent (IQN-ILS in the ring added-mass problem, FSI3 and, narrowly, the Womersley tube; Robin--Neumann in the 3-D pressure-pulse tube).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Defects exposed by verification}\label{sec:defects}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Eight defects or hazards in solids4foam were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}). Appendix~\ref{app:lessons} gives the general lessons they carry for FSI solver developers, with the set-up and definition issues found in the same studies.
+Nine defects or hazards in solids4foam were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value (Table~\ref{tab:defects}). Appendix~\ref{app:lessons} gives the general lessons they carry for FSI solver developers, with the set-up and definition issues found in the same studies.
 
 \begin{table}[htbp]
 	\centering
@@ -183,11 +183,12 @@ Eight defects or hazards in solids4foam were found by the studies of Section~\re
 		\toprule
 		Case & Defect & How it was found \\
 		\midrule
+		Ring added-mass problem & zero normal pressure gradient on the moving interface omits the wall acceleration ($O(h)$ wall pressure); the acceleration condition failed in the enclosed fluid, whose prescribed wall gradients were not consistent with zero net flux & amplitude loss of IQN-ILS up to $2.1\%$ per period, first order in the mesh and independent of the coupling tolerance, against an exact reference and Robin--Neumann \\
 		Womersley tube & $O(\Delta t)$ inconsistency of the end flux under a mixed velocity condition & temporal order falling towards one against an exact reference \\
 		3-D pressure-pulse tube & wall viscous force miscompiled at \texttt{-O3} (temporary-storage aliasing under \texttt{\_\_restrict\_\_}) & deterministic $1.5$--$3\%$ difference in one QoI between two platforms \\
 		3-D pressure-pulse tube & degenerate barycentric weights below a fixed absolute area threshold; interpolation operator changed with mesh level & remaining cross-platform divergence; broken symmetry and rank dependence \\
 		Manufactured FSI & segregated fluid: outlet face flux built from the cell velocity instead of the boundary velocity under a prescribed velocity gradient and pressure ($O(h^2/\Delta t)$ pressure error); lagged convection with a single outer corrector; the time-derivative correction of the momentum-interpolated face flux makes the error grow as $\Delta t$ falls & first-order pressure against an exact solution; fluid-only runs with outlet-flux, outer-corrector, flux-correction and time-step variants \\
-		Manufactured FSI & Robin--Neumann interface pressure condition omits the viscous and body-force normal terms of the momentum balance & pressure order $1.6$--$1.8$ against an exact solution; predicted and measured error in the interface row of cells \\
+		Manufactured FSI & Robin--Neumann interface pressure condition omitted the viscous and body-force normal terms of the momentum balance & pressure order $1.6$--$1.8$ against an exact solution; predicted and measured error in the interface row of cells \\
 		Manufactured FSI & total Lagrangian solid: first-order-in-time start-up of the displacement form under a non-zero initial acceleration; $O(h)$ deformed traction area from the cell-centre gradient & first-order solid displacement against an exact solution; solid-only runs driven by the exact traction \\
 		Manufactured FSI & IQN-ILS stagnates with the tutorial filtering and inverts the solid without it & failure to complete; filtering and convergence-test variants \\
 		Hessenthaler flap & either-measure coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\

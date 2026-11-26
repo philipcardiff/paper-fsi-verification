@@ -10,6 +10,14 @@ solids4foam `a421f063d`, OpenFOAM-v2512, MeluXina (jobs 5410800 ring, 5410835 co
   dry ring at the same discretisation (`ts-ram-dry-m2-n100`). Driver: `ring_tol.py`
   (wraps the campaign driver `ma_run.py`; the Robin–Neumann pressure and flux
   tolerances are 10x and 5000x the displacement tolerance, the tutorial ratios).
+- `ring_strong_m2_n100_strict_iqn_mwp.csv`: the IQN-ILS rows of Table `tab:tol_sweeps`,
+  rerun with the full interface pressure condition (`movingWallPressure` with
+  the viscous term and its mean removed, instead of `zeroGradient`); solids4foam
+  7a2f0a63e with branch `fix/movingWallPressure-721`, OpenFOAM v2512, UCD Sonic.
+  Dry ring at the same discretisation: ω = 2.7125759973 (Sonic run). Written by
+  `ring_tol_mwp.py` from the run directories. The IQN-ILS rows of
+  `ring_strong_m2_n100_strict.csv` (zero-gradient interface) are superseded; its
+  Robin-Neumann rows (acceleration-only Robin condition) are still those of the table.
 - `collapsible_F3_dt160_strict.txt`: collapsibleChannel, fluid level 3, solid
   160x8 high order, dt = 1/160 s; Robin–Neumann and IQN-ILS at 1e-3 to 1e-6
   (driver summary lines). Driver: `coll_tol.py` (wraps the tutorial's

@@ -28,13 +28,19 @@ as the vertex of the parabola through the three stored values nearest each extre
 the method of the tutorial driver (it reproduces the driver's first trough,
 `troughValue` in `mesh_study.csv`, to all digits).
 
-Pending (marked `pending` here and `[pending]` in the paper): the computed ring values
-(IQN-ILS rerun)
-and Turek-Hron FSI2 (rerun on the Gmsh family). The SU2-CalculiX cavity limits are
+The computed ring values are those of the IQN-ILS rerun with the full interface
+pressure condition (acceleration, viscous and body-force terms, mean removed in the
+enclosed fluid), `../ring_added_mass_mwp/ringAddedMass_results.csv` (L3 = mesh
+factor 4, 100 steps per period, high-order solid).
+
+Pending (marked `pending` here and `[pending]` in the paper): Turek-Hron FSI2
+(rerun on the Gmsh family). The SU2-CalculiX cavity limits are
 quoted as in the paper, pending the merge of the SU2 data.
 
 The partitioned manufactured-solution errors (Aitken, Robin-Neumann) are the final
-results of `../mms_fsi/results/partitioned_final/` (Table `tab:mms_fsi`).
+results of `../mms_fsi/results/partitioned_final/` (Table `tab:mms_fsi`); the
+Robin-Neumann values are those with the full interface pressure condition
+(`robin_full_visc_*`).
 
 The exact fields of the manufactured solution are not tabulated: they are evaluated
 by `../mms_fsi/derive/generated/mmsFsiExact.H` (Appendix C of the paper).
