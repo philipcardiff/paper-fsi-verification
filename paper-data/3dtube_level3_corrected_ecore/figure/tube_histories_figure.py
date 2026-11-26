@@ -8,7 +8,7 @@ Draws, at the full text width of the paper,
 for the present levels 1-3 (corrected meshes, Robin-Neumann, BDF2, dt halved
 with the mesh) against the published point-A curves: Tukovic et al. (2018),
 BDF2, radial only, to 10 ms; Lozovskiy et al. (2019) and Eken (2016),
-implicit Euler, dt = 1e-4 s. Panel (a) has an inset around the radial peak.
+first-order backward Euler (BDF1), dt = 1e-4 s. Panel (a) has an inset around the radial peak.
 
 Inputs (CSV, SI units, one row per time step / sample):
   --level LABEL=<csv> (repeat): columns time_s, radial_displacement_m,
@@ -47,10 +47,10 @@ LEVEL_STYLE = [dict(color="#0072B2", ls=(0, (5, 1.5)), lw=0.9),
 REFS = [  # file, label, style, radial column, axial column
     ("Tukovic2018_fig25a_pointA.csv", r"Tukovi$\mathrm{\acute{c}}$ et al. (2018), BDF2",
      dict(color="#009E73", ls=(0, (1, 1)), lw=1.3), 1, None),
-    ("Lozovskiy2019_fig3_pointA.csv", "Lozovskiy et al. (2019), Euler",
+    ("Lozovskiy2019_fig3_pointA.csv", "Lozovskiy et al. (2019), BDF1",
      dict(color="#CC79A7", ls="-", lw=0.8, marker="s", markersize=2.6, mfc="white",
           markevery=(0, 15)), 1, 2),
-    ("Eken2016_fig5.6_pointA.csv", r"Eken and Sahin (2016), Euler",
+    ("Eken2016_fig5.6_pointA.csv", r"Eken and Sahin (2016), BDF1",
      dict(color="#E69F00", ls="-", lw=0.8, marker="^", markersize=2.8, mfc="white",
           markevery=(7, 15)), 1, 2),
 ]

@@ -95,6 +95,7 @@ Not run.
 **"Implicit Euler" → BDF1.**
 - First use (Section 3.1): "first-order backward Euler (BDF1)".
 - Thereafter BDF1: the tube Reference, figure caption, literature-discrepancy item, Kratos paragraph, Table 22 and the Discussion. BDF2 is unchanged.
+- The legend of Fig. 10 now reads "BDF1" as well. It was regenerated with `paper-data/3dtube_level3_corrected_ecore/figure/tube_histories_figure.py` and `paper-data/figstyle`, with the data unchanged.
 
 **"wall model, pressure switch-off".**
 The Reference paragraph now states:
