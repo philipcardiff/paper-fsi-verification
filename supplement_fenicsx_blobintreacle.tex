@@ -46,10 +46,10 @@
 \todo{DRAFT (issue \#50, review of PR \#69). Author list, CRediT and the AI-use paragraph are placeholders for the authors to agree. All numbers come from the run records and CSV files in \texttt{paper-data/fenicsx\_blobintreacle/}; job identifiers, hashes, commits and the review lineage are in its README. \textbf{Historical solids4foam values use the legacy wall BC; a rerun with the corrected wall condition of solids4foam PR \#671 (merged into \texttt{development} as commit 206437983; identical to the head da1044a4f that was run) is reported next to them (Section~\ref{sec:fx_crosscode}).}}
 
 \section{Scope and disclosure}\label{sec:fx_scope}
-The only reference for blobInTreacle in the suite is C-weak: figure-extracted interface shapes from a preprint~\citep{Liu2013} of~\citet{Liu2014}, coarse mesh, first-order time integration.
+The only reference for blobInTreacle in the suite is category D (unquantified): figure-extracted interface shapes from a preprint~\citep{Liu2013} of~\citet{Liu2014}, coarse mesh, first-order time integration.
 Issue \#50 asked for an independent solution with mesh and time-step convergence.
 This supplement gives a second implementation (monolithic finite elements, FEniCSx) on the same quadrilateral mesh topology as the solids4foam tutorial, and what it shows about the steady state, the time integration and the interface force transfer.
-It adds a cross-code steady check and a quantified model-form sensitivity; it does not replace the C-weak reference or settle temporal accuracy.
+It adds a cross-code steady check and a quantified model-form sensitivity; it does not replace the category-D reference or settle temporal accuracy.
 \textbf{Disclosure.} Only the numerics are independent (monolithic Taylor--Hood finite elements with Newton, against partitioned cell-centred finite volumes).
 The work is by the same group, with AI agents of one model family implementing, verifying and reviewing it internally (twice); problem definition, mesh topology, the extraction of the solids4foam series and the convergence routine are shared, and M2 was implemented from the solids4foam source, so a shared misreading would be invisible.
 No external or human review has taken place, and the FEBio run requested in \#50 is not delivered.

@@ -36,12 +36,12 @@ Appendix~\ref{app:reference_values} collects the recommended reference values of
 		Turek--Hron FSI1 & 2-D & steady & large & B & 4 & 2 & IQN-ILS/RN \\
 		Turek--Hron FSI3 & 2-D & self-excited & large & B & 3 & scaled & IQN-ILS/RN$^\P$; tolerance pair$^\P$ \\
 		Turek--Hron FSI2 & 2-D & self-excited & large & C & 2 & scaled & tolerance sweep \\
-		3dTube & 3-D & transient pulse & small & C-weak & 3 & 4 & IQN-ILS/RN \\
+		3dTube & 3-D & transient pulse & small & D & 3 & 4 & IQN-ILS/RN \\
 		mokLidDrivenCavity & 2-D & periodic (forced) & large & B & 4 & 3 & IQN-ILS/Aitken$^\dagger$ \\
-		cavityFlexibleBottom$^\ast$ & 2-D & steady & large & C-weak & 4 & scaled & -- \\
+		cavityFlexibleBottom$^\ast$ & 2-D & steady & large & D & 4 & scaled & -- \\
 		beamInCrossFlow$^\ast$ & 3-D & steady & small & C & 4 & -- & tolerance sweep \\
-		Hessenthaler$^\ast$ & 3-D & steady (Phase I) & large & C-weak & 3 (fluid) & -- & IQN-ILS/QM$^\ddagger$ \\
-		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & C-weak & 4 & 4 & none \\
+		Hessenthaler$^\ast$ & 3-D & steady (Phase I) & large & D & 3 (fluid) & -- & IQN-ILS/QM$^\ddagger$ \\
+		blobInTreacle$^\ast$ & 2-D & trans.\,$\to$\,steady & large & D & 4 & 4 & none \\
 		\bottomrule
 		\multicolumn{8}{l}{$^\ast$ Provisional (Section~\ref{sec:provisional}); beamInCrossFlow: corrected inflow (Appendix~\ref{app:beam}). $^\dagger$ Iteration counts only; no quantitative difference recorded.} \\
 		\multicolumn{8}{l}{$^\ddagger$ Quasi-monolithic (QM) solutions of the companion paper~\citep{CardiffBatistic2026QM} on the same meshes (same lineage).} \\
@@ -82,7 +82,7 @@ Appendix~\ref{app:reference_values} collects the recommended reference values of
 \subsection{Exact and semi-analytical reference problems}\label{sec:exact_refs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The first two problems are linear, small-amplitude problems whose exact solution is obtained from the continuum equations by a one-dimensional Chebyshev collocation calculation that converges to near round-off (category A), so that the total error of the coupled calculation is measured directly.
+The first two problems are linear, small-amplitude problems whose exact solution is obtained from the continuum equations by a one-dimensional Chebyshev collocation calculation that converges to near round-off (category A, exact), so that the total error of the coupled calculation is measured directly.
 The collocation scripts are stored with the cases and are independent of the FSI code under test, although written by the same authors.
 The third is a manufactured solution at finite deformation, exact in closed form (Section~\ref{sec:mms_fsi}).
 
@@ -442,7 +442,7 @@ The wall is given the density of the fluid, $\rho_S = \rho_F$, without which the
 The published values are therefore purposely not reproduced; the reference below is computed for the modified problem.
 
 \paragraph{Reference.}
-The reference (category B) is computed with oomph-lib~\citep{Heil2006}, an independent monolithic Newton finite element code whose driver source is stored with the case.
+The reference (category B, independently converged) is computed with oomph-lib~\citep{Heil2006}, an independent monolithic Newton finite element code whose driver source is stored with the case.
 The reference stored with the case is computed at oomph-lib's tutorial resolution ($100\times16$ fluid and 40 beam elements) and Richardson-extrapolated in time (correction $0.06\%$ of the peak displacement; two fluid element types differ by $<0.001\%$). A spatial study with the oomph-lib meshes refined two, three and four times at $\Delta t = 0.00625\,\mathrm{s}$ shows that oomph-lib converges at first order in space on this problem (observed orders 1.24 and 1.07 in the wall-midpoint history), so the tutorial-resolution error is $0.53\%$ of the peak, about twice the $0.28\%$ difference between its first two levels. The fluid-mesh study below is therefore compared with oomph-lib extrapolated to zero mesh size from its three- and four-fold refined meshes; extrapolations from the two- and three-fold and from the three- and four-fold meshes agree to $0.004\%$.
 oomph-lib represents the wall as a geometrically nonlinear Kirchhoff--Love \emph{beam}, whereas the solids4foam finite volume solver used here resolves it as a two-dimensional continuum.
 This model-form difference is explicitly identified and of order $h/L$. It is $0.05\%$ of the peak for the static deflection.
@@ -516,8 +516,8 @@ For FSI2 and FSI3 the QoIs follow the benchmark definitions~\citep{Turek2006}: i
 
 \paragraph{Reference.}
 For FSI1 the Featflow results are tabulated on six levels (finest $\approx10^6$ elements), with a spread across levels of $0.73\%$ ($u_x$), $0.19\%$ ($u_y$), $0.15\%$ (drag) and $0.26\%$ (lift); the finest values ($u_x = 2.2705\times10^{-5}\,\mathrm{m}$, $u_y = 8.2088\times10^{-4}\,\mathrm{m}$, drag $14.2943\,\mathrm{N/m}$, lift $0.76375\,\mathrm{N/m}$) are the reference (category B: independent and converged).
-For FSI2 the reference is the Featflow level-4 table (category C: published, with partly quantified error).
-For FSI3 it is the independent six-level sequence of~\citet{Failer2020} (monolithic $Q_2$ finite elements, up to $1.28$ million unknowns, $\Delta t$ down to $0.001\,\mathrm{s}$; category B). Its level-5$\to$6 and time-step changes are at most $0.3\%$ for the displacements, the drag mean and the lift amplitude, which we take as its uncertainty, although its displacements change at apparent orders above the formal value. Its means and amplitudes are defined as above but averaged over $t = 9$--$10\,\mathrm{s}$ rather than over the last five periods before $t = 6\,\mathrm{s}$. It agrees with the Featflow level-4 table (15\,872 elements, $\Delta t = 0.00025\,\mathrm{s}$) to $0.6\%$, except for the lift amplitude, which it puts $1.7\%$ higher.
+For FSI2 the reference is the Featflow level-4 table (category C, partly quantified).
+For FSI3 it is the independent six-level sequence of~\citet{Failer2020} (monolithic $Q_2$ finite elements, up to $1.28$ million unknowns, $\Delta t$ down to $0.001\,\mathrm{s}$; category B, independently converged). Its level-5$\to$6 and time-step changes are at most $0.3\%$ for the displacements, the drag mean and the lift amplitude, which we take as its uncertainty, although its displacements change at apparent orders above the formal value. Its means and amplitudes are defined as above but averaged over $t = 9$--$10\,\mathrm{s}$ rather than over the last five periods before $t = 6\,\mathrm{s}$. It agrees with the Featflow level-4 table (15\,872 elements, $\Delta t = 0.00025\,\mathrm{s}$) to $0.6\%$, except for the lift amplitude, which it puts $1.7\%$ higher.
 
 Two sets of Featflow values are published for FSI2 and FSI3.
 The frequently quoted summary values are the ``ref.''\ rows of the original proceedings chapter~\citep{Turek2006}, which are its level 4 (15\,872 elements) at the smaller of its two time steps, $\Delta t = 0.0005\,\mathrm{s}$ for FSI3 and $0.001\,\mathrm{s}$ for FSI2.
@@ -688,7 +688,7 @@ The solid here is Hookean (small strain), whereas most published calculations us
 \paragraph{Reference.}
 No tabulated values exist; the references are point-A histories read from figures: \citet{Tukovic2018} (partitioned finite volume, BDF2, $\Delta t = 2.5\times10^{-5}\,\mathrm{s}$, a single mesh, vector-extracted; same code lineage), \citet{Lozovskiy2019} (monolithic finite element) and \citet{Eken2016} (monolithic, with a side-centred finite volume fluid and a finite element solid).
 The last two are independent codes, both with implicit Euler time integration at $\Delta t = 10^{-4}\,\mathrm{s}$ and neither with a time-step study; they are raster-digitised to $\approx\pm3\times10^{-6}\,\mathrm{m}$.
-The reference is category C-weak.
+The reference is category D (unquantified).
 
 \paragraph{Results.}
 The point-A QoIs on L3 are collected in Table~\ref{tab:refvals_3dtube} (Appendix~\ref{app:reference_values}).
@@ -739,7 +739,7 @@ With two levels, a different fluid stabilisation and mesh, and the first step of
 \paragraph{Lessons.}
 The case is more useful as a defect detector and as an explanation of a literature discrepancy than as a convergence demonstration.
 A cross-platform difference that looked like a platform effect was a compiler-dependent error, and an interpolation defect switched on between the first and second levels; neither would have been visible on a single platform or on one mesh level.
-The axial displacement and arrival time converge at sub-nominal observed orders, the peak radial displacement is not yet in a converging regime, and the reference remains C-weak; much of the published code-to-code discrepancy in the peak is reproduced by the difference in time integration, in the present code and in an independent one, whose own two-level solution is not yet converged in the peak either.
+The axial displacement and arrival time converge at sub-nominal observed orders, the peak radial displacement is not yet in a converging regime, and the reference remains category D; much of the published code-to-code discrepancy in the peak is reproduced by the difference in time integration, in the present code and in an independent one, whose own two-level solution is not yet converged in the peak either.
 
 %%-------------------------------------------------------------------
 \subsubsection{Mok lid-driven cavity}\label{sec:mok}
@@ -762,7 +762,7 @@ Kratos shares no code with solids4foam: P1/P1 fluid with variational multiscale 
 Its own error sources were studied separately: the time error (order 2.0--2.3) and the coupling tolerance, the solid resolution through the thickness and the solver tolerances (each below $10^{-5}\,\mathrm{m}$) are negligible, and the fluid mesh dominates.
 On a fluid-mesh sequence $16^2$--$128^2$ at $\Delta t = 0.0125\,\mathrm{s}$ the trough converges at order 1.9 and the mean at 1.35, but the peak, monotone only from $32^2$, at order 0.4; the peak is therefore quoted as the $128^2$ value with a band down to the extrapolated values, $0.280$--$0.2835\,\mathrm{m}$, and the trough and mean as their extrapolations from the combined sequence ($0.2051$ and $0.2430\,\mathrm{m}$, GCI $0.45\%$ and $0.61\%$).
 The one model-form difference is the outlet: solids4foam imposes zero-gradient velocity with $p = 0$, Kratos the natural condition with $p = 0$; imposing $u_y = 0$ at the Kratos outlet changes the peak, trough and mean by $0.5\%$, $1.7\%$ and $1.0\%$, so the two codes can be compared to about $1\%$.
-The reference is category B, with that resolution.
+The reference is category B (independently converged), with that resolution.
 
 \begin{figure}[htbp]
 	\centering
@@ -914,7 +914,7 @@ The reference values are collected in Table~\ref{tab:refvals_provisional} (Appen
 The benchmark of Hessenthaler et al.~\citep{Hessenthaler2017a,Hessenthaler2017b} is a geometrically complex, three-dimensional, large-deformation problem (a silicone flap in a flow phantom) with phase-contrast magnetic resonance imaging (MRI) measurements; it has also been simulated with an immersed-boundary method~\citep{Kolahdouz2023}.
 It is used here twice, and the two uses are kept apart: as a solution-verification case, in which one fixed mathematical model of the Phase-I steady state is solved on refined meshes without reference to the measurements, and, separately, as a validation case.
 No independent numerical solution exists, so the verification evidence is self-convergence; with three fluid meshes that are not shown to be in the asymptotic range, it is a mesh-sensitivity statement.
-Quasi-monolithic solutions on the same meshes, from the companion paper~\citep{CardiffBatistic2026QM}, are a same-lineage cross-check, so the reference is C-weak, as for the blob in treacle (Section~\ref{sec:blob}).
+Quasi-monolithic solutions on the same meshes, from the companion paper~\citep{CardiffBatistic2026QM}, are a same-lineage cross-check, so the reference is category D (unquantified), as for the blob in treacle (Section~\ref{sec:blob}).
 
 \paragraph{Problem.}
 A silicone flap of $11 \times 2 \times 65\,\mathrm{mm}$ is clamped to the wall where two inlet pipes (diameter $21.9\,\mathrm{mm}$, centres at $y = \pm27.15\,\mathrm{mm}$) join an outlet pipe of diameter $76.2\,\mathrm{mm}$ (Fig.~\ref{fig:hessenthaler_geom}); the flow domain is the published surface~\citep{Hessenthaler2017a}, with the outlet pipe extended by $250\,\mathrm{mm}$.
@@ -991,7 +991,7 @@ The zero-gradient sequence changes by $+0.356$ and then $+0.063\,\mathrm{mm}$.
 For the refinement ratios of $1.37$ and $1.39$, second-order convergence would reduce the change by a factor of about $1.8$, not $5.7$; the implied apparent order, about $5.6$, has no basis in the discretisation, and the second change is of the size of the uncertainty of the L2 window mean.
 With the acceleration condition the changes, $+0.301$ and $+0.173\,\mathrm{mm}$, fall by a factor of $1.74$, which for these ratios corresponds to an apparent order of about $1.9$; but the L1 and L2 window means are uncertain by up to $0.1\,\mathrm{mm}$, a third of the second change, and the two conditions disagree on how the sequence converges.
 The sequences are therefore not shown to be in the asymptotic range, and no observed order, Richardson extrapolation or GCI is given.
-The verification statement is a three-level mesh sensitivity (category C-weak; self-convergence not established): with the acceleration condition the tip changes by $1.8\%$ from L1 to L2 and by $1.0\%$ from L2 to L3, against $0.4\%$ with the zero gradient.
+The verification statement is a three-level mesh sensitivity (category D; self-convergence not established): with the acceleration condition the tip changes by $1.8\%$ from L1 to L2 and by $1.0\%$ from L2 to L3, against $0.4\%$ with the zero gradient.
 
 The quasi-monolithic solutions on the same meshes give $15.97$, $16.62$ and $16.64\,\mathrm{mm}$~\citep{CardiffBatistic2026QM}.
 They share the fluid discretisation, the meshes and the code lineage, and differ in the coupling, the solid formulation and the mesh motion, so they are a consistency check of the partitioned solutions, not an independent reference.
@@ -1054,7 +1054,7 @@ An elastic half-cylinder in a highly viscous channel flow (Fig.~\ref{fig:blob_ge
 We use it with a finite-strain solid: a total Lagrangian neo-Hookean solid with the Lam\'e constants of~\citet{Liu2014} ($\lambda = 500\,\mathrm{Pa}$, $\mu = 50\,\mathrm{Pa}$), with the fluid, the block-structured meshes (\texttt{blockMesh}), the inflow and the time steps of the solids4foam tutorial.
 A small-strain solid, as in the published definition, integrates the fluid traction over its undeformed surface and here receives about $12\%$ less $x$-force than the fluid exerts; with the finite-strain solid the interface forces balance to about $10^{-6}$. A St Venant--Kirchhoff solid is not used, because it softens in compression and collapses at $t \approx 1.8\,\mathrm{s}$.
 \paragraph{Reference.}
-The case is redefined, so the published values do not apply. The reference is C-weak: self-convergence, and a second implementation by the authors of this paper (monolithic finite elements, FEniCSx; Supplementary Material, which also audits the small-strain definition).
+The case is redefined, so the published values do not apply. The reference is category D (unquantified): self-convergence, and a second implementation by the authors of this paper (monolithic finite elements, FEniCSx; Supplementary Material, which also audits the small-strain definition).
 
 \paragraph{Results.}
 The reference values are collected in Table~\ref{tab:refvals_provisional} (Appendix~\ref{app:reference_values}).
