@@ -15,6 +15,9 @@ For each mature case we state what the problem tests, how trustworthy the refere
 The numerical model of a case states only its differences from the procedures of Section~\ref{sec:numerical_methods}, which give the schemes common to all cases.
 All calculations use the cell-centred finite volume procedures of Section~\ref{sec:numerical_methods} with partitioned coupling and BDF2 time integration unless stated; costs are collected in Table~\ref{tab:cost}.
 Unless stated otherwise, the fluid and solid meshes are block-structured meshes generated with the OpenFOAM utility \texttt{blockMesh}, and the levels of a mesh study are obtained by multiplying the block divisions of the coarsest level by the refinement factor, with the block topology and gradings unchanged.
+The levels of a mesh study are named L1, L2, \dots\ from the coarsest in every case, with two exceptions: uniform square meshes (the manufactured solution and the Mok cavity) are named by their number of cells per side, $n$, to which their time step is tied, and the uniform block-structured Turek--Hron family keeps the names of its refinement factors, 1x to 8x, to distinguish it from the Gmsh family L1--L3 used for FSI3.
+Levels of other codes are given in their authors' numbering, except where those codes use the meshes of this paper.
+Appendix~\ref{app:reference_values} collects the recommended reference values of every case, so that another code can be compared with them directly.
 
 \begin{table}[htbp]
 	\centering
@@ -134,30 +137,31 @@ A linearised viscous solution shifts the wet frequencies by at most $-0.073\%$, 
 \paragraph{Numerical model.}
 A quadrant is modelled, with symmetry planes on the axes.
 The solid is the small-strain formulation, with the high-order variant unless stated.
-The fluid and solid meshes are refined by factors 1, 2 and 4 at 100 steps per period, and 25--100 steps per period are used on the middle mesh.
+The fluid and solid meshes are refined by factors 1, 2 and 4 (L1--L3) at 100 steps per period, and 25--100 steps per period are used on L2.
 IQN-ILS and Robin--Neumann coupling are compared.
 
 \paragraph{Results.}
+The exact frequencies and ratios, with our finest-level values, are collected in Table~\ref{tab:refvals_ring} (Appendix~\ref{app:reference_values}).
 Table~\ref{tab:ring} gives the frequency and ratio errors.
 
 \begin{table}[htbp]
 	\centering
 	\small
 	\setlength{\tabcolsep}{5pt}
-	\caption{Ring added-mass problem: frequency error against the exact continuum solution and error of the wet/dry frequency ratio (high-order solid, IQN-ILS). Mesh: refinement factor; steps: time steps per period. Source: solids4foam \texttt{ringAddedMass/verification/README.md}.}
+	\caption{Ring added-mass problem: frequency error against the exact continuum solution and error of the wet/dry frequency ratio (high-order solid, IQN-ILS). Mesh: level (L1--L3: refinement factors 1, 2 and 4); steps: time steps per period. Source: solids4foam \texttt{ringAddedMass/verification/README.md}.}
 	\label{tab:ring}
 	\begin{tabular}{lrrrrr}
 		\toprule
-		Level & Mesh & Steps & $\omega$ (rad/s) & Error in $\omega$ & Error in ratio \\
+		Added mass & Mesh & Steps & $\omega$ (rad/s) & Error in $\omega$ & Error in ratio \\
 		\midrule
-		dry & 1 & 100 & 2.55254 & $-0.098\%$ & -- \\
-		dry & 4 & 100 & 2.55173 & $-0.129\%$ & -- \\
-		dry & 2 & 25 & 2.50576 & $-1.929\%$ & -- \\
-		strong ($m^*=10.08$) & 1 & 100 & 0.76843 & $-0.029\%$ & $+0.068\%$ \\
-		strong & 2 & 100 & 0.76796 & $-0.090\%$ & $+0.021\%$ \\
-		strong & 4 & 100 & 0.76770 & $-0.124\%$ & $+0.006\%$ \\
-		strong & 2 & 25 & 0.75477 & $-1.806\%$ & $+0.125\%$ \\
-		strong & 2 & 50 & 0.76552 & $-0.408\%$ & $+0.087\%$ \\
+		dry & L1 & 100 & 2.55254 & $-0.098\%$ & -- \\
+		dry & L3 & 100 & 2.55173 & $-0.129\%$ & -- \\
+		dry & L2 & 25 & 2.50576 & $-1.929\%$ & -- \\
+		strong ($m^*=10.08$) & L1 & 100 & 0.76843 & $-0.029\%$ & $+0.068\%$ \\
+		strong & L2 & 100 & 0.76796 & $-0.090\%$ & $+0.021\%$ \\
+		strong & L3 & 100 & 0.76770 & $-0.124\%$ & $+0.006\%$ \\
+		strong & L2 & 25 & 0.75477 & $-1.806\%$ & $+0.125\%$ \\
+		strong & L2 & 50 & 0.76552 & $-0.408\%$ & $+0.087\%$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -215,7 +219,7 @@ The complex wave number is $k = 0.143978 - 0.020727\mathrm{i}\,\mathrm{m^{-1}}$,
 The solution reduces to Womersley's thin-wall equation (Filonova et al., Eq.~41) as $h/R\to0$.
 
 \paragraph{Numerical model.}
-The axisymmetric fluid and solid meshes are one-cell wedges, refined by factors 1, 2 and 4 at 200 steps per period; 50--400 steps per period are used on the middle mesh.
+The axisymmetric fluid and solid meshes are one-cell wedges, refined by factors 1, 2 and 4 (L1--L3) at 200 steps per period; 50--400 steps per period are used on L2.
 The solid is the small-strain formulation with the standard variant, and the coupling is Robin--Neumann, with IQN-ILS in a comparison.
 The tube ends carry the exact pressure and the exact normal velocity gradient, and the pressure-equation flux on them is built from the boundary velocity (flux-consistent ends; see \emph{Time} below).
 Each quantity is compared through its first Fourier coefficient at the forcing frequency $\omega$: for a history $f(t_j)$ sampled at the $N$ time steps of periods 5 and 6, $a = (2/N)\sum_j f(t_j)\exp(-\mathrm{i}\omega t_j)$, so that $f \approx \mathrm{Re}[a\exp(\mathrm{i}\omega t)]$, with amplitude $|a|$ and phase $\arg a$.
@@ -223,13 +227,14 @@ The coefficients change by less than $10^{-4}$ from one period to the next.
 The quantities are the axial velocity profile and the flow rate at the section $x = L/2$, and the radial displacement of the inner wall there; the wave speed and the attenuation $\mathrm{Im}(k)$ are obtained from a least-squares fit of $\log\hat{p}(x)$ along the tube at $r = R/2$, where $\hat{p}$ is the Fourier coefficient of the pressure.
 
 \paragraph{Results.}
+The exact wave number and our finest-level errors are collected in Table~\ref{tab:refvals_womersley} (Appendix~\ref{app:reference_values}).
 Table~\ref{tab:womersley} gives the observed orders and the finest-mesh errors.
 
 \begin{table}[htbp]
 	\centering
 	\small
 	\setlength{\tabcolsep}{4pt}
-	\caption{Womersley tube: observed orders from successive differences (three levels) and finest-mesh errors against the exact solution (mesh factor 4, 200 steps per period). Time orders on mesh factor 2 from 50/100/200 and 100/200/400 steps per period. The profile mesh order is from its errors on the two finest meshes. Phases in radians. Flux-consistent tube ends.}
+	\caption{Womersley tube: observed orders from successive differences (three levels) and finest-mesh errors against the exact solution (L3, 200 steps per period). Time orders on L2 from 50/100/200 and 100/200/400 steps per period. The profile mesh order is from its errors on the two finest meshes. Phases in radians. Flux-consistent tube ends.}
 	\label{tab:womersley}
 	\begin{tabular}{lrrr}
 		\toprule
@@ -340,6 +345,7 @@ The errors are volume-weighted root-mean-square (L2) norms of the pointwise erro
 The quasi-monolithic coupling of the companion paper~\citep{CardiffBatistic2026QM}, run on the same meshes with the same mesh motion and time steps, is a same-lineage cross-check, not an independent reference.
 
 \paragraph{Results.}
+The finest-level error norms are collected in Table~\ref{tab:refvals_mms} (Appendix~\ref{app:reference_values}).
 \begin{table}[htbp]
 	\centering
 	\footnotesize
@@ -419,17 +425,32 @@ The case is two-dimensional with a compressible solid; a three-dimensional varia
 A thin, very light elastic wall in a channel combines strong added mass, bending-dominated large deformation and fluid-mesh motion, where partitioned methods are least robust~\citep{Jensen2003, Heil2004, Heil2008}.
 
 \paragraph{Problem.}
-An elastic section of the upper wall ($h/L = 0.005$; St Venant--Kirchhoff continuum) collapses under a ramped external pressure to $\approx21\%$ of the channel width and then performs a damped oscillation ($Re = 50$, based on the channel width and the mean inflow velocity, and $Re\,St = 50$; analysed to $t = 1.5\,\mathrm{s}$).
-The problem \emph{modifies} that of Jensen and Heil (no pre-stress, $h/a = 1/20$, clamped ends, pressure ramp, regularising density $\rho_S = \rho_F$, which shifts the response by $0.28\%$ of the peak) so that it is well posed for a continuum solid and partitioned coupling; the published values are therefore not reproduced.
+An elastic section of the upper wall ($h/L = 0.005$; St Venant--Kirchhoff continuum) collapses under a ramped external pressure by $\approx21\%$ of the channel height and then performs a damped oscillation (analysed to $t = 1.5\,\mathrm{s}$).
+The Reynolds number is $Re = 50$, based on the channel height and the mean inflow velocity; time is scaled on the advection time, so the Strouhal number is one and the Womersley parameter $Re\,St$, the product that multiplies the time derivative in the non-dimensional momentum equation, is also $50$.
+In the problem of \citet{Jensen2003}, as implemented in the oomph-lib tutorial~\citep{Heil2006}, the wall is a massless Kirchhoff--Love beam of thickness $h/a = 1/100$ with an axial pre-stress of $10^3$ times its effective modulus, and the external pressure is applied impulsively.
+Four changes make the problem well posed for a continuum solid and for partitioned coupling.
+The pre-stress is removed, as a continuum cannot carry the corresponding pre-strain, so the wall deforms in combined bending and stretching rather than as a tensioned membrane.
+The wall is thickened to $h/a = 1/20$, the value of \citet{Heil2008}, with the external pressure scaled accordingly.
+The wall is clamped at both ends, as a continuum fixed on its end faces is, and the external pressure is ramped over $0.25\,\mathrm{s}$, which removes the impulsive start that limits the temporal convergence of second-order schemes.
+The wall is given the density of the fluid, $\rho_S = \rho_F$, without which the partitioned coupling fails at small time steps and on fine fluid meshes; this regularising density shifts the response by $0.28\%$ of the peak.
+The published values are therefore purposely not reproduced; the reference below is computed for the modified problem.
 
 \paragraph{Reference.}
 The reference (category B) is computed with oomph-lib~\citep{Heil2006}, an independent monolithic Newton finite element code whose driver source is stored with the case.
 The reference stored with the case is computed at oomph-lib's tutorial resolution ($100\times16$ fluid and 40 beam elements) and Richardson-extrapolated in time (correction $0.06\%$ of the peak displacement; two fluid element types differ by $<0.001\%$). A spatial study with the oomph-lib meshes refined two, three and four times at $\Delta t = 0.00625\,\mathrm{s}$ shows that oomph-lib converges at first order in space on this problem (observed orders 1.24 and 1.07 in the wall-midpoint history), so the tutorial-resolution error is $0.53\%$ of the peak, about twice the $0.28\%$ difference between its first two levels. The fluid-mesh study below is therefore compared with oomph-lib extrapolated to zero mesh size from its three- and four-fold refined meshes; extrapolations from the two- and three-fold and from the three- and four-fold meshes agree to $0.004\%$.
-oomph-lib represents the wall as a geometrically nonlinear Kirchhoff--Love \emph{beam}, whereas the code under test resolves it as a two-dimensional continuum.
-This model-form difference is explicitly identified and of order $h/L$. It is $0.05\%$ of the peak for the static deflection. For the first trough, replaying the fluid load of one coupled run open-loop on the continuum wall and on the beam gives at least about $0.06\%$, with the beam still converging at about first order under refinement (Supplementary Material, FEniCSx cross-code check of the collapsible channel). It is small relative to the history errors of interest ($0.33\%$ on the finest fluid level below), which is why the reference is treated as category B, but it exceeds the finest-level first-trough difference ($0.02\%$), so a difference below the reference uncertainty plus this contribution, about $0.06\%$ in the first trough, cannot be attributed to either code.
+oomph-lib represents the wall as a geometrically nonlinear Kirchhoff--Love \emph{beam}, whereas the solids4foam finite volume solver used here resolves it as a two-dimensional continuum.
+This model-form difference is explicitly identified and of order $h/L$. It is $0.05\%$ of the peak for the static deflection.
+For the first trough it is estimated by an open-loop replay: the fluid load recorded at every step of one coupled run is applied as a prescribed load, without feedback from the wall motion to the fluid, to the continuum wall alone and to the beam alone.
+The two first troughs then differ by about $0.06\%$ of the reference peak displacement ($0.057\%$ at the wall midpoint with 320 beam elements), and the beam trough still deepens at about first order under refinement, so the difference is a lower estimate, not a bound (Supplementary Material).
+It is small relative to the history differences of interest ($0.33\%$ on L4 below), which is why the reference is treated as category B, but it exceeds the L4 first-trough difference ($0.02\%$), so a difference below the reference uncertainty plus this contribution, about $0.06\%$ in the first trough, cannot be attributed to either code.
+
+\paragraph{Numerical model.}
+The fluid and solid meshes are generated with \texttt{blockMesh}.
+The fluid levels L1--L4 have 3\,200, 12\,800, 28\,800 and 51\,200 cells (refinement ratios 2, 1.5 and 1.33); the wall has $160\times8$ cells with the high-order solid unless stated.
+The baseline coupling is Robin--Neumann at $\Delta t = 0.00625\,\mathrm{s}$, with IQN-ILS in a comparison.
 
 \paragraph{Results.}
-The QoI is the wall-midpoint vertical displacement history, with the first trough as scalar summary; the fluid and solid meshes are generated with \texttt{blockMesh}.
+The QoI is the wall-midpoint vertical displacement history, with the first trough as scalar summary; its troughs and peaks on L4 and in the extrapolated oomph-lib solution are collected in Table~\ref{tab:refvals_collapsible} (Appendix~\ref{app:reference_values}).
 
 \begin{figure}[htbp]
 	\centering
@@ -439,32 +460,37 @@ The QoI is the wall-midpoint vertical displacement history, with the first troug
 	% reference) with oomph_extrapolated_dt160.csv as REF_CSV, UNCERTAINTY 0.05,
 	% LABEL "model form" (see that directory's README).
 	\includegraphics{figures/verification/collapsibleChannel_mesh_study}
-	\caption{Collapsible channel, fluid-mesh study (solid mesh $160\times8$, high-order solid, $\Delta t = 0.00625\,\mathrm{s}$, Robin--Neumann coupling): (a) wall-midpoint vertical displacement on fluid levels F1--F4 and the oomph-lib solution at the same time step; (b, c) the first trough and the second peak, shaded in (a); (d) maximum error against oomph-lib, as a percentage of the reference peak, with the static model-form difference ($0.05\%$) shaded. The oomph-lib solution is extrapolated to zero mesh size from its three- and four-fold refined meshes. The levels have 3\,200, 12\,800, 28\,800 and 51\,200 fluid cells (refinement ratios 2, 1.5 and 1.33).}
+	\caption{Collapsible channel, fluid-mesh study (solid mesh $160\times8$, high-order solid, $\Delta t = 0.00625\,\mathrm{s}$, Robin--Neumann coupling): (a) wall-midpoint vertical displacement on fluid levels L1--L4 and the oomph-lib solution at the same time step; (b, c) the first trough and the second peak, shaded in (a); (d) maximum difference from oomph-lib, as a percentage of the reference peak, with the static model-form difference ($0.05\%$) shaded. The oomph-lib solution is extrapolated to zero mesh size from its three- and four-fold refined meshes. The levels have 3\,200, 12\,800, 28\,800 and 51\,200 fluid cells (refinement ratios 2, 1.5 and 1.33).}
 	\label{fig:collapsible_mesh}
 \end{figure}
 
 \begin{itemize}
 	\item \emph{Solid.} In a static wall test the cubic high-order solid is within $0.25\%$ of oomph-lib on all solid meshes and converges to the $0.05\%$ model-form difference; the linear-reconstruction solid has errors from $-16.7\%$ to $-0.22\%$. In the coupled problem on the baseline mesh the solid contributes $0.44\%$ (cubic) against $17.4\%$ (linear).
-	\item \emph{Fluid mesh.} Four levels (3\,200 to 51\,200 cells, fixed $\Delta t = 0.00625\,\mathrm{s}$, compared with oomph-lib at the same $\Delta t$, extrapolated to zero mesh size): the error falls from $4.81\%$ to $1.59\%$, $0.68\%$ and $0.33\%$ of the peak, at orders 1.6, 2.1 and 2.5 (Fig.~\ref{fig:collapsible_mesh}); the finest first trough, $-0.21610\,\mathrm{m}$, is within $0.02\%$ of the peak of oomph-lib's, $-0.21615\,\mathrm{m}$. Against oomph-lib at its tutorial resolution the same errors stall at $0.53\%$ and $0.50\%$: that apparent floor is the reference's own spatial error ($0.53\%$), not a property of the code under test.
-	\item \emph{Time.} On the coarsest fluid mesh, successive differences of $4.56\%$, $1.33\%$ and $0.34\%$ give orders 1.8 and 2.0 (oomph-lib itself: 1.8 and 1.9).
-	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.08$--$0.23\%$ of the peak, but this gap does \emph{not} decrease with mesh refinement; with the strict coupling test IQN-ILS does not converge on fluid level 3, whereas the Robin--Neumann results change by only $0.002\%$ of the peak between tolerances of $10^{-4}$ and $10^{-5}$ (Section~\ref{sec:iterative_errors}). In a wall-density sweep ($\rho_S/\rho_F = 0$--3) IQN-ILS fails to complete for part of the range, whereas Robin--Neumann completes for all $\rho_S/\rho_F \geq 1$.
+	\item \emph{Fluid mesh.} On L1--L4 (fixed $\Delta t = 0.00625\,\mathrm{s}$, compared with oomph-lib at the same $\Delta t$, extrapolated to zero mesh size) the maximum difference falls from $4.81\%$ to $1.59\%$, $0.68\%$ and $0.33\%$ of the peak, at orders 1.6, 2.1 and 2.5 (Fig.~\ref{fig:collapsible_mesh}); the L4 first trough, $-0.21610\,\mathrm{m}$, is within $0.02\%$ of the peak of oomph-lib's, $-0.21615\,\mathrm{m}$. Against oomph-lib at its tutorial resolution the same differences stall at $0.53\%$ and $0.50\%$: that apparent floor is the reference's own spatial error ($0.53\%$), not a property of the solids4foam solution.
+	\item \emph{Time.} On L1, successive differences of $4.56\%$, $1.33\%$ and $0.34\%$ give orders 1.8 and 2.0 (oomph-lib itself: 1.8 and 1.9).
+	\item \emph{Coupling.} IQN-ILS and Robin--Neumann agree to $0.08$--$0.23\%$ of the peak, but this gap does \emph{not} decrease with mesh refinement; with the strict coupling test IQN-ILS does not converge on L3, whereas the Robin--Neumann results change by only $0.002\%$ of the peak between tolerances of $10^{-4}$ and $10^{-5}$ (Section~\ref{sec:iterative_errors}). In a wall-density sweep ($\rho_S/\rho_F = 0$--3) IQN-ILS fails to complete for part of the range, whereas Robin--Neumann completes for all $\rho_S/\rho_F \geq 1$.
 \end{itemize}
 
 \paragraph{Independent numerical comparisons.}
-A monolithic finite element implementation by the same group (FEniCSx; Supplementary Material) gives, on its finest mesh, a first trough within $0.02\%$ of the peak of the extrapolated oomph-lib value and within $0.001\%$ of the finest solids4foam level, and the same $0.5\%$ floor against the tutorial-resolution reference.
+A separate monolithic ALE finite element implementation (FEniCSx; quadratic velocity and displacement, linear pressure, on triangles), written and run by the authors of this paper and sharing no code with solids4foam or oomph-lib, solves the same modified problem with a continuum wall on three meshes and four time steps (Supplementary Material).
+On its finest mesh its first trough lies within $0.02\%$ of the peak of the extrapolated oomph-lib value and within $0.001\%$ of L4, and its wall-midpoint history within $0.075\%$ of the peak of the extrapolated oomph-lib history.
+Against oomph-lib at its tutorial resolution it shows the same $0.5\%$ floor, consistent with that floor being the reference's own spatial error, and at equal time steps its changes of the first trough between successive steps agree with oomph-lib's to $0.003$--$0.014\%$ of the peak.
+It thus confirms, with a second continuum discretisation, that the remaining differences from oomph-lib are of the size of the model-form difference and the reference uncertainty; its open-loop replay gives the model-form estimate quoted under Reference.
 
 \paragraph{Lessons.}
 This is the strongest independent-code comparison in the suite.
-For a thin bending-dominated wall the solid discretisation can dominate the FSI error, and once the discretisation error falls to $\approx0.5\%$ the reference uncertainty, model-form difference and coupling tolerance are of comparable size, so closer agreement requires tightening all three.
-Limitations: the temporal error on the finer fluid meshes is not measured, and the high-order solid is serial only; a 4-rank run with the linear-reconstruction solid gave an incorrect displacement \hl{[pending: re-check of the parallel run]}.
+For a thin bending-dominated wall the solid discretisation can dominate the FSI error.
+Once the fluid discretisation error falls to a few tenths of a per cent of the peak, it is of the same size as the spatial error of a reference computed at a published tutorial resolution ($0.53\%$), the difference between the two couplings ($0.08$--$0.23\%$) and the model-form difference ($\approx0.06\%$ in the first trough), so closer agreement requires all of them to be reduced.
+The temporal error on the finer fluid meshes is not measured.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Classical FSI benchmarks revisited}\label{sec:classical}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-These benchmarks are widely used, but their published values carry incompletely quantified error, are inconsistent between sources, or both.
-The present calculations are first assessed by self-convergence, and the comparison with the literature is then used to examine the published values themselves.
+The Turek--Hron problems are the most widely used FSI benchmarks, and the multi-level Featflow results published with them are among the most carefully documented FSI references available.
+The question examined here is how far such a published multi-level result, whose own discretisation error is only partly quantified, can bound the error of another code.
+The present calculations are first assessed by self-convergence; the comparison with the literature then also examines the published values and the differences between their sources.
 
 %%-------------------------------------------------------------------
 \subsubsection{Turek--Hron family (FSI1, FSI2, FSI3)}\label{sec:fsi1}\label{sec:fsi23}
@@ -479,48 +505,110 @@ The present calculations are first assessed by self-convergence, and the compari
 
 \paragraph{What it tests.}
 An elastic flag attached to a rigid cylinder in a channel~\citep{Turek2006} (Fig.~\ref{fig:hronturek_geom}).
-FSI1 ($Re = 20$, based on the cylinder diameter and the mean inflow velocity, as for FSI2 and FSI3) is steady, with small but geometrically nonlinear deformation; FSI3 ($Re = 200$, $\rho_S = \rho_F$) is a self-excited, high-frequency oscillation at low mass ratio ($u_y \approx \pm35\,\mathrm{mm}$); FSI2 ($Re = 100$, heavier and softer flag) is a large-amplitude flapping ($u_y \approx \pm80\,\mathrm{mm}$) that strongly distorts the fluid mesh.
+FSI1 ($Re = 20$, based on the cylinder diameter and the mean inflow velocity, as for FSI2 and FSI3) is steady, with small but geometrically nonlinear deformation; FSI2 ($Re = 100$, heavier and more flexible flag) is a large-amplitude flapping ($u_y \approx \pm80\,\mathrm{mm}$) that strongly distorts the fluid mesh; FSI3 ($Re = 200$, $\rho_S = \rho_F$) is a self-excited, high-frequency oscillation at low mass ratio ($u_y \approx \pm35\,\mathrm{mm}$).
+For FSI2 and FSI3 the QoIs follow the benchmark definitions~\citep{Turek2006}: in each period of $u_y$ the mean of a quantity is (max+min)/2 and its amplitude (max$-$min)/2, both are averaged over the analysis window, and the frequency is that of $u_y$.
 
 \paragraph{Reference.}
-For FSI1 the Featflow results are tabulated on six levels (finest $\approx10^6$ elements), with a spread across levels of $0.73\%$ ($u_x$), $0.19\%$ ($u_y$), $0.15\%$ (drag) and $0.26\%$ (lift); the finest values ($u_x = 2.2705\times10^{-5}\,\mathrm{m}$, $u_y = 8.2088\times10^{-4}\,\mathrm{m}$, drag $14.2943\,\mathrm{N/m}$, lift $0.76375\,\mathrm{N/m}$) are category B.
-For FSI2 the reference is the Featflow level-4 table (category C). For FSI3 it is the independent six-level sequence of~\citet{Failer2020} (monolithic $Q_2$ finite elements, up to $1.28$ million unknowns, $\Delta t$ down to $0.001\,\mathrm{s}$; category B). Its level-5$\to$6 and time-step changes are at most $0.3\%$ for the displacements, the drag mean and the lift amplitude, which we take as its uncertainty, although its displacements change at apparent orders above the formal value. Its statistics are taken over $t = 9$--$10\,\mathrm{s}$ rather than five periods before $t = 6\,\mathrm{s}$; the definitions are the same. It agrees with the Featflow level-4 table (15\,872 elements, $\Delta t = 0.00025\,\mathrm{s}$), which is kept for comparison, to $0.6\%$ except for the lift amplitude, which it puts $1.7\%$ higher.
-The Featflow tables are among the most carefully documented FSI references available, and the Turek--Hron problems owe much of their influence to the multi-level results published with them; the points below concern how far those results can bound the error of another code, not their value as a benchmark.
+For FSI1 the Featflow results are tabulated on six levels (finest $\approx10^6$ elements), with a spread across levels of $0.73\%$ ($u_x$), $0.19\%$ ($u_y$), $0.15\%$ (drag) and $0.26\%$ (lift); the finest values ($u_x = 2.2705\times10^{-5}\,\mathrm{m}$, $u_y = 8.2088\times10^{-4}\,\mathrm{m}$, drag $14.2943\,\mathrm{N/m}$, lift $0.76375\,\mathrm{N/m}$) are the reference (category B: independent and converged).
+For FSI2 the reference is the Featflow level-4 table (category C: published, with partly quantified error).
+For FSI3 it is the independent six-level sequence of~\citet{Failer2020} (monolithic $Q_2$ finite elements, up to $1.28$ million unknowns, $\Delta t$ down to $0.001\,\mathrm{s}$; category B). Its level-5$\to$6 and time-step changes are at most $0.3\%$ for the displacements, the drag mean and the lift amplitude, which we take as its uncertainty, although its displacements change at apparent orders above the formal value. Its means and amplitudes are defined as above but averaged over $t = 9$--$10\,\mathrm{s}$ rather than over the last five periods before $t = 6\,\mathrm{s}$. It agrees with the Featflow level-4 table (15\,872 elements, $\Delta t = 0.00025\,\mathrm{s}$) to $0.6\%$, except for the lift amplitude, which it puts $1.7\%$ higher.
+
+Two sets of Featflow values are published for FSI2 and FSI3.
+The frequently quoted summary values are the ``ref.''\ rows of the original proceedings chapter~\citep{Turek2006}, which are its level 4 (15\,872 elements) at the smaller of its two time steps, $\Delta t = 0.0005\,\mathrm{s}$ for FSI3 and $0.001\,\mathrm{s}$ for FSI2.
+The detailed tables~\citep{FeatflowFSI,Turek2010} are later computations, tabulated per mesh level and time step down to $\Delta t = 0.00025\,\mathrm{s}$ (FSI3) and $0.0005\,\mathrm{s}$ (FSI2) and published with their time histories; the Featflow pages keep the chapter's values only as superseded ``old values'', and none of their rows reproduces them.
+We use the detailed tables, which carry convergence information and can be re-evaluated from the histories.
+They are also the more trustworthy set: their time steps are smaller, the chapter's own level-4 FSI3 drag amplitude changes by $13\%$ when its time step is halved ($20.00$ to $22.66\,\mathrm{N/m}$), and the independent sequence of~\citet{Failer2020} agrees with the table ($27.91$ against $27.74\,\mathrm{N/m}$), not with the summary value.
+The two sets differ by up to $18\%$ (Table~\ref{tab:hronturek_ref}), so a code compared against the summary values would carry an $18\%$ difference in the FSI3 drag amplitude that belongs to the reference, and a comparison must state which set it uses.
+Applied to the published Featflow time histories, our post-processing reproduces Featflow's own tabulated statistics to within $0.6\%$ for FSI3 ($0.8\%$ for the drag amplitude, $0.3\%$ for the frequencies) and $0.3\%$ for FSI2, which validates our implementation of the definitions above.
+% Source: Turek2006, Tables 14 and 15 (the "ref." row is level 4 at the
+% smaller time step); Featflow page (FeatflowFSI), where the 2006 values sit
+% in HTML comments marked "old values". Audit 2026-11-02: none of the 18
+% FSI2/FSI3 rows of the Featflow page reproduces the summary values.
+
 Between Featflow levels 3 and 4 the FSI2 values change by $0.9$--$2.5\%$, and the FSI3 values by $3.8\%$ ($u_x$ mean), $4.0\%$ ($u_x$ amplitude), $4.5\%$ (drag amplitude), $2.6\%$ (lift amplitude) and $1.6\%$ ($u_y$ amplitude); only the drag mean ($0.3\%$) and the frequency change by $\lesssim0.3\%$.
-For the FSI3 displacements and drag amplitude the Featflow levels 2, 3 and 4 are not monotone ($u_y$ amplitude $35.73$, $34.43$, $34.99\,\mathrm{mm}$; $u_x$ mean $-3.02$, $-2.77$, $-2.88\,\mathrm{mm}$; drag amplitude $28.80$, $26.50$, $27.74\,\mathrm{N/m}$), and the lift amplitude rises by $\approx4\,\mathrm{N/m}$ per level without settling, so these quantities are not shown to be in the asymptotic range and no extrapolated value or error bound can be formed from them.
-The published reference time history is not strictly periodic either: over its $7.9$ periods the per-period lift amplitude drifts from $157.7$ to $153.5\,\mathrm{N/m}$ ($2.7\%$), so the tabulated amplitudes also depend on the averaging window by about that amount.
+For the FSI3 displacements and drag amplitude the Featflow levels 2, 3 and 4 are not monotone ($u_y$ amplitude $35.73$, $34.43$, $34.99\,\mathrm{mm}$; $u_x$ mean $-3.02$, $-2.77$, $-2.88\,\mathrm{mm}$; drag amplitude $28.80$, $26.50$, $27.74\,\mathrm{N/m}$), and the lift amplitude rises by $2.7\%$ per level without slowing, so these quantities are not shown to be in the asymptotic range and no extrapolated value or error bound can be formed from them.
+The published level-4 history is not strictly periodic either: its per-period lift amplitude falls from $157.7$ to $153.1\,\mathrm{N/m}$ over the first two of its seven full periods and then stays within $153.1$--$153.8\,\mathrm{N/m}$, so the tabulated amplitude depends on the averaging window by up to $2.7\%$. The variation is not monotone, and its cause is not known; it may be a transient that decays within about two periods.
+% Per-period values from ref_fsi3.point (Featflow, fsi3/0p00025, t = 5-6.44 s),
+% periods between upward u_y mean crossings: 157.74, 154.84, 153.09, 153.82,
+% 153.77, 153.72, 153.53 N/m.
 The level-4 values are therefore uncertain by $\approx3$--$5\%$ in $u_x$ and the force amplitudes and $\approx2\%$ in the $u_y$ amplitude, a scale of their sensitivity rather than an error bound, whereas the frequency and the drag mean are well determined.
-The detailed Featflow tables~\citep{FeatflowFSI,Turek2010}, used here, differ from the frequently quoted summary values of~\citet{Turek2006} (Table~\ref{tab:hronturek_ref}), most strongly in the FSI3 drag amplitude ($-18\%$), and the summary frequencies are rounded; the summary values are those of the original proceedings chapter~\citep{Turek2006}, and the Featflow pages, which tabulate later computations per mesh level and time step (to level 4 at $\Delta t = 0.00025\,\mathrm{s}$ for FSI3 and $0.0005\,\mathrm{s}$ for FSI2), reproduce none of them at any level or step. A comparison with the summary values would misattribute this $18\%$ to the code under test.
-As a check, the driver reproduces the tabulated statistics from the published Featflow time histories to within $0.6\%$ (FSI3; $0.8\%$ for drag amplitude, $0.3\%$ for the frequencies) and $0.3\%$ (FSI2).
-% Audit 2026-11-02: the Featflow column of Table hronturek_ref (FSI3 level 4,
-% dt 0.00025; FSI2 level 4, dt 0.0005) and the FSI1 six-level values and
-% spreads were checked against the Featflow page (FeatflowFSI); none of the
-% 18 FSI2/FSI3 rows there reproduces the summary values.
-\todo{Waits on Philip (needs the Springer chapter; no open copy was found): confirm from~\citet{Turek2006} the mesh level and time step of the summary values (the Featflow pages do not give them), and identify which later papers quote which set.}
 
 \begin{table}[htbp]
 	\centering
 	\small
 	\setlength{\tabcolsep}{5pt}
-	\caption{Turek--Hron FSI3 and FSI2: frequently quoted summary values of~\citet{Turek2006} against the Featflow level-4 tables used here (amplitudes; frequencies in brackets). Units: mm for displacements, N/m for forces. Source: solids4foam \texttt{HronTurek/verification/README.md} and reference JSON.}
+	\caption{Turek--Hron FSI2 and FSI3: the two published Featflow sets differ by up to $18\%$, so a comparison must state which it uses. Summary values of~\citet{Turek2006} (its level 4 at $\Delta t = 0.0005\,\mathrm{s}$ for FSI3 and $0.001\,\mathrm{s}$ for FSI2) against the detailed Featflow level-4 tables used here ($\Delta t = 0.00025$ and $0.0005\,\mathrm{s}$). Amplitudes, with frequencies in brackets; mm for displacements, N/m for forces.}
 	\label{tab:hronturek_ref}
 	\begin{tabular}{llll}
 		\toprule
 		Case & Quantity & Summary~\citep{Turek2006} & Featflow table \\
 		\midrule
-		FSI3 & $u_y$ amplitude & 34.38 [5.3\,Hz] & 34.99 [5.46\,Hz] \\
-		FSI3 & drag amplitude & 22.66 & 27.74 \\
-		FSI3 & lift amplitude & 149.78 & 153.91 \\
 		FSI2 & $u_y$ amplitude & 80.6 [2.0\,Hz] & 81.6 [1.93\,Hz] \\
 		FSI2 & drag amplitude & 73.75 & 77.65 \\
 		FSI2 & lift amplitude & 234.2 & 237.8 \\
+		FSI3 & $u_y$ amplitude & 34.38 [5.3\,Hz] & 34.99 [5.46\,Hz] \\
+		FSI3 & drag amplitude & 22.66 & 27.74 \\
+		FSI3 & lift amplitude & 149.78 & 153.91 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \paragraph{Numerical model.}
-FSI1 has four block-structured levels (1x--8x, Table~\ref{tab:fsi1}), integrated in pseudo-time, and FSI2 two (1x and 2x), with $\Delta t$ halved with the mesh.
-FSI3 is computed on an unstructured, quadrilateral-dominant fluid family generated with Gmsh~\citep{geuzaine2009gmsh}, with three levels (96\,712, 194\,183 and 387\,219 fluid cells; Table~\ref{tab:hronturek_gmsh}). Structured layers surround the cylinder, the flag and the channel walls, and elsewhere the cell size grows linearly with the distance from the cylinder and flag, up to a cap; the size field is scaled by $1/\sqrt{2}$ and the layer counts by $\sqrt{2}$ from one level to the next, except the first cell of the blocks at the two flag-tip corners, which stays at about $0.3\,\mathrm{mm}$ on every level, so the family is not geometrically similar there. The effective refinement ratio, from the cell counts, is $r = (387\,219/96\,712)^{1/4} = 1.415$ ($1.417$ and $1.412$ for the two steps). The solid is refined with the fluid ($430\times24$, $608\times34$ and $860\times48$ cells, matching the fluid faces along the flag), and the time step is reduced by the same ratio ($\Delta t = 2\times10^{-4}$, $1.414\times10^{-4}$ and $10^{-4}\,\mathrm{s}$, constant from $t = 0$), so the study is scaled. Convection is linear-upwind with an unlimited least-squares gradient; the fluid mesh follows a pseudo-elastic equation for its total displacement from the initial mesh (Section~\ref{sec:fluid_mesh_motion}); the flag carries the acceleration-consistent wall pressure $\mathbf{n}\cdot\nabla p = -\rho_F\,\mathbf{n}\cdot\mathbf{a}$ (Section~\ref{sec:hessenthaler}); the fluid solvers converge to absolute tolerances of $10^{-9}$ (PIMPLE 3/3/1); and the coupling is IQN-ILS with the strict test at a tolerance of $10^{-6}$, at most 50 iterations, reusing the secant information of the last five steps. The flag is held rigid to $t = 2\,\mathrm{s}$, and the QoIs are taken over the last five full periods before $t = 6\,\mathrm{s}$. Figure~\ref{fig:fsi3_histories} shows the tip displacement and force histories of the three levels over this window against the reference extrema.
-A uniform block-structured family (1x, 2x, 4x: 5\,336, 21\,344 and 85\,376 fluid and 630, 2\,520 and 10\,080 solid cells; $\Delta t = 0.001$, $0.0005$ and $0.00025\,\mathrm{s}$; IQN-ILS, coupling tolerance $10^{-5}$) is used for the FSI3 coupling studies below; its displacement sequence with a velocity-based mesh motion and a zero-gradient wall pressure is discussed in Appendix~\ref{app:lessons}.
+FSI1 and FSI2 use a uniform block-structured family (1x, 2x, 4x: 5\,336, 21\,344 and 85\,376 fluid and 630, 2\,520 and 10\,080 solid cells; ratio 2 in the plane).
+FSI1 is computed with the high-order (cubic) solid (Section~\ref{sec:solid_solver}) on 1x, 2x and 4x, integrated in pseudo-time to $t = 30\,\mathrm{s}$ ($\Delta t = 0.025$, $0.025$ and $0.0125\,\mathrm{s}$) with IQN-ILS and the legacy coupling test, and FSI2 on 1x and 2x, with $\Delta t$ halved with the mesh \hl{[pending: FSI2 on the Gmsh family]}.
+FSI3 is computed on an unstructured, quadrilateral-dominant fluid family generated with Gmsh~\citep{geuzaine2009gmsh}, with three levels (96\,712, 194\,183 and 387\,219 fluid cells; Table~\ref{tab:hronturek_gmsh}). It replaces the block-structured family, whose neighbour cell-size ratios of $2$--$2.8$ through the wake persist under refinement and spoil the observed orders (Appendix~\ref{app:lessons}). Structured layers surround the cylinder, the flag and the channel walls, and elsewhere the cell size grows linearly with the distance from the cylinder and flag, up to a cap; the size field is scaled by $1/\sqrt{2}$ and the layer counts by $\sqrt{2}$ from one level to the next, except the first cell of the blocks at the two flag-tip corners, which stays at about $0.3\,\mathrm{mm}$ on every level, so the family is not geometrically similar there. The effective refinement ratio, from the cell counts, is $r = (387\,219/96\,712)^{1/4} = 1.415$. The solid is refined with the fluid ($430\times24$, $608\times34$ and $860\times48$ cells, matching the fluid faces along the flag), and the time step is reduced by the same ratio ($\Delta t = 2\times10^{-4}$, $1.414\times10^{-4}$ and $10^{-4}\,\mathrm{s}$, constant from $t = 0$), so the study is scaled. Convection is linear-upwind with an unlimited least-squares gradient; the fluid mesh follows a pseudo-elastic equation for its total displacement from the initial mesh (Section~\ref{sec:fluid_mesh_motion}); the flag carries the acceleration-consistent wall pressure $\mathbf{n}\cdot\nabla p = -\rho_F\,\mathbf{n}\cdot\mathbf{a}$ (Section~\ref{sec:hessenthaler}); each time step of the fluid takes three outer (PIMPLE) correctors, each with three pressure correctors and one non-orthogonal corrector, with the linear solvers converged to absolute tolerances of $10^{-9}$; and the coupling is IQN-ILS with the strict test at a tolerance of $10^{-6}$, at most 50 iterations, reusing the secant information of the last five steps. The flag is held rigid to $t = 2\,\mathrm{s}$, and the QoIs are taken over the last five full periods before $t = 6\,\mathrm{s}$.
+
+\paragraph{Results.}
+The reference values of FSI1 and FSI3 are collected in Tables~\ref{tab:refvals_fsi1} and~\ref{tab:refvals_fsi3} (Appendix~\ref{app:reference_values}).
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\caption{Turek--Hron FSI1 with the high-order (cubic) solid: steady QoIs on three levels, observed orders from 1x--2x--4x, the Featflow finest level and the 4x difference from it. Source: \texttt{paper-data/fsi1\_high\_order/}.}
+	\label{tab:fsi1_ho}
+	\begin{tabular}{lrrrr}
+		\toprule
+		Level (cells, fluid + solid) & $u_x$ ($10^{-5}\,\mathrm{m}$) & $u_y$ ($10^{-4}\,\mathrm{m}$) & drag (N/m) & lift (N/m) \\
+		\midrule
+		1x (5\,966) & 2.1815 & 8.0662 & 14.1804 & 0.76026 \\
+		2x (23\,864) & 2.2403 & 8.1404 & 14.2607 & 0.76246 \\
+		4x (95\,456) & 2.2643 & 8.1695 & 14.2884 & 0.76299 \\
+		\midrule
+		Observed order & 1.29 & 1.35 & 1.53 & 2.07 \\
+		Featflow, finest level & 2.2705 & 8.2088 & 14.2943 & 0.76375 \\
+		4x difference from Featflow & $-0.27\%$ & $-0.48\%$ & $-0.04\%$ & $-0.10\%$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\emph{FSI1} (Table~\ref{tab:fsi1_ho}).
+All four QoIs approach the Featflow values monotonically from below, at observed orders of $1.3$--$1.5$ ($u_x$, $u_y$, drag) and $2.1$ (lift), and on 4x they differ from them by at most $0.48\%$. The 4x lift varies by about $\pm0.2\%$ over the closing $20\,\mathrm{s}$, so its order is indicative only.
+With the standard second-order solid the bending stiffness of the solid dominates the error on coarse meshes: on 1x the $u_y$ difference is $-14.2\%$ against $-1.7\%$ with the cubic solid, and the cubic solid on 4x is closer to Featflow in $u_y$ than the standard solid on 8x; once the solid is of high order the remaining error is that of the fluid and of the piecewise-constant interface load.
+A four-level strict-test study with the standard solid (Table~\ref{tab:fsi1}, Appendix~\ref{app:reference_values}) converges monotonically, and its Richardson values lie within $0.06$--$0.32\%$ of Featflow in $u_y$, drag and lift and $0.52\%$ in $u_x$.
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\setlength{\tabcolsep}{5pt}
+	\caption{Turek--Hron FSI2: differences from the Featflow level-4 table on the 1x and 2x meshes (IQN-ILS) \hl{[pending: FSI2 on the Gmsh family]}.}
+	\label{tab:hronturek_fsi2}
+	\begin{tabular}{lrr}
+		\toprule
+		Quantity & 1x & 2x \\
+		\midrule
+		$u_x$ mean & $21.6\%$ & $3.1\%$ \\
+		$u_x$ amplitude & $16.4\%$ & $1.9\%$ \\
+		$u_y$ amplitude & $12.4\%$ & $1.3\%$ \\
+		$u_y$ frequency & $6.9\%$ & $1.8\%$ \\
+		drag mean & $4.6\%$ & $0.5\%$ \\
+		drag amplitude & $13.1\%$ & $2.0\%$ \\
+		lift amplitude & $7.9\%$ & $7.8\%$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\emph{FSI2} (Table~\ref{tab:hronturek_fsi2}) \hl{[pending: FSI2 on the Gmsh family]}.
+On the two levels available the differences from Featflow fall from $4.6$--$21.6\%$ (1x) to $0.5$--$3.1\%$ (2x), except the lift amplitude ($7.9\%$ and $7.8\%$), of which about $2.4\%$ of the reference amplitude is attributed to coupling-iteration noise; with two levels no observed order or asymptotic statement can be made. With a coupling tolerance of $10^{-5}$ the lift amplitude is inflated by $13\%$ (1x) and $30\%$ (2x) relative to $10^{-6}$ and $10^{-7}$, which agree, so a tolerance adequate for the displacements is not adequate for the lift, and the inadequacy grows with refinement. Fluid-mesh non-orthogonality reaches $58^\circ$ by $t = 10.5\,\mathrm{s}$, where the analysis window is truncated; IQN-ILS fails at $t \approx 11.4\,\mathrm{s}$ on 2x.
 
 \begin{table}[htbp]
 	\centering
@@ -540,12 +628,9 @@ A uniform block-structured family (1x, 2x, 4x: 5\,336, 21\,344 and 85\,376 fluid
 		drag amplitude & 28.43 & 28.28 & 28.33 & $-0.50\%$ & $+0.18\%$ & -- & -- & 27.91 & $+1.5\%$ \\
 		lift amplitude & 163.7 & 160.9 & 159.1 & $-1.70\%$ & $-1.13\%$ & 1.2 & $2.6\%$ & 156.6 & $+1.6\%$ \\
 		\bottomrule
-		\multicolumn{10}{l}{\footnotesize $^r$~\citet{Failer2020}, level 6, $\Delta t = 0.001\,\mathrm{s}$ (category B); $^F$~Featflow level 4, not given there.}
+		\multicolumn{10}{l}{\footnotesize $^r$~\citet{Failer2020}, level 6, $\Delta t = 0.001\,\mathrm{s}$; $^F$~Featflow level 4, not given there.}
 	\end{tabular}
 \end{table}
-
-\paragraph{Results.}
-Tables~\ref{tab:hronturek_gmsh}--\ref{tab:fsi1} and Fig.~\ref{fig:fsi3_histories} give the results.
 
 \begin{figure}[htbp]
 	\centering
@@ -554,73 +639,30 @@ Tables~\ref{tab:hronturek_gmsh}--\ref{tab:fsi1} and Fig.~\ref{fig:fsi3_histories
 	\label{fig:fsi3_histories}
 \end{figure}
 
-\begin{table}[htbp]
-	\centering
-	\small
-	\setlength{\tabcolsep}{5pt}
-	\caption{Turek--Hron FSI2: relative errors against the Featflow level-4 table on the 1x and 2x meshes (IQN-ILS). The 1x errors were computed from the tabulated values in the evidence inventory.}
-	\label{tab:hronturek_fsi2}
-	\begin{tabular}{lrr}
-		\toprule
-		Quantity & 1x & 2x \\
-		\midrule
-		$u_x$ mean & $21.6\%$ & $3.1\%$ \\
-		$u_x$ amplitude & $16.4\%$ & $1.9\%$ \\
-		$u_y$ amplitude & $12.4\%$ & $1.3\%$ \\
-		$u_y$ frequency & $6.9\%$ & $1.8\%$ \\
-		drag mean & $4.6\%$ & $0.5\%$ \\
-		drag amplitude & $13.1\%$ & $2.0\%$ \\
-		lift amplitude & $7.9\%$ & $7.8\%$ \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+\emph{FSI3 convergence} (Table~\ref{tab:hronturek_gmsh}, Fig.~\ref{fig:fsi3_histories}).
+Every QoI except the drag amplitude changes monotonically, with a smaller change on the second refinement. The displacements grow in magnitude, the $u_y$ amplitude by $0.74\%$ and then $0.25\%$ and the $u_x$ mean by $1.77\%$ and then $0.20\%$, at observed orders of $3.1$ ($u_y$ amplitude) and $6$--$7$ ($u_x$), far above the formal two; the frequency converges at order $3.0$, the drag mean at $1.5$ and the lift amplitude, which falls by $1.70\%$ and then $1.13\%$, at $1.2$. The drag amplitude is not monotone ($-0.50\%$, then $+0.18\%$). No observed order is close to the formal value, so the sequence is not shown to be in the asymptotic range: no Richardson value is given, and the GCIs of Table~\ref{tab:hronturek_gmsh} are provisional indicators, $0.01$--$0.16\%$ for the displacements, frequency and drag mean and $2.6\%$ for the lift amplitude. Orders far above two make the displacement GCIs small by construction, and they are not error bounds. Sliding the analysis window back by up to three periods changes the L3 values by at most $0.03\%$, a sixth or less of their L2$\to$L3 changes except for the frequency and the drag mean, whose orders are therefore poorly determined.
 
-\begin{itemize}
-	\item \emph{FSI1.} Four levels (5\,966 to 381\,824 cells, fluid plus solid; fluid 5\,336 to 341\,504; ratio 2 in the plane) were computed at a fixed pseudo-time step $\Delta t = 0.00625\,\mathrm{s}$ to $t = 30\,\mathrm{s}$ with IQN-ILS and the strict coupling test (relative tolerance $10^{-5}$, absolute $10^{-10}\,\mathrm{m}$; 2.6--3.0 iterations per step); Table~\ref{tab:fsi1}. All four QoIs converge monotonically, at reference-free observed orders of 1.0--1.1 ($u_x$), 1.6--1.9 ($u_y$, lift) and 1.5 (drag). On the 8x mesh the errors against the Featflow finest level are $+0.18\%$ ($u_x$), $-0.64\%$ ($u_y$), $+0.02\%$ (drag) and $+0.05\%$ (lift), so drag and lift lie within the GCIs of their 8x values ($0.04\%$ and $0.16\%$) and $u_y$ just outside its GCI ($0.64\%$ against $0.41\%$); the conditional Richardson values from 2x--4x--8x (sub-nominal observed orders, Section~\ref{sec:convergence_method}) lie within $0.32\%$ ($u_y$), $0.06\%$ (drag) and $0.07\%$ (lift) of Featflow. $u_x$ converges at first order from below and crosses the Featflow value between 4x and 8x; the 8x value lies $0.18\%$ from Featflow, within its GCI ($0.42\%$), and its conditional Richardson value lies $0.52\%$ above Featflow; the Featflow $u_x$ converges from above, by $0.73\%$ over its six levels, so the two sequences approach the limit from opposite sides and $u_x$ is the least converged QoI of both. Doubling the pseudo-time step at 4x changes every QoI by at most $0.012\%$, a sixtieth of the 2x--4x change, and every run is steady to a relative spread of at most $2.2\times10^{-4}$ over its last $6\,\mathrm{s}$. In a two-level study with the legacy test, IQN-ILS and Robin--Neumann agreed to $0.01\%$, and a fluid-solver tolerance change from $10^{-6}$ to $10^{-9}$ altered the steady values by at most $2\times10^{-4}$.
+\emph{FSI3 time step and coupling.}
+The time step is reduced with the mesh, and on this family there is no separate time-step study, coupling-tolerance sweep, coupling-algorithm comparison or solid-only refinement, so the changes of Table~\ref{tab:hronturek_gmsh} are not divided between space and time or between fluid and solid. The coupling takes $5.1$, $5.4$ and $6.0$ iterations per step on average (at most 24) on L1--L3, no step reaches the iteration limit, and every step is accepted with the step-relative residual $r_1$ below the tolerance (median $6\times10^{-7}$). A $4\,\mathrm{ms}$ moving average lowers the lift amplitude by the same $0.13$--$0.14\%$ on every level, so the step-to-step force noise does not grow as $\Delta t$ falls.
 
-\begin{table}[htbp]
-	\centering
-	\footnotesize
-	\caption{Turek--Hron FSI1: steady QoIs on four levels ($\Delta t = 0.00625\,\mathrm{s}$; strict coupling test), observed orders from levels 1x--2x--4x and 2x--4x--8x, Richardson values from 2x--4x--8x with the observed order, and the Featflow finest level. Source: \texttt{paper-data/fsi1\_four\_level/}.}
-	\label{tab:fsi1}
-	\begin{tabular}{lrrrr}
-		\toprule
-		Level (cells, fluid + solid) & $u_x$ ($10^{-5}\,\mathrm{m}$) & $u_y$ ($10^{-4}\,\mathrm{m}$) & drag (N/m) & lift (N/m) \\
-		\midrule
-		1x (5\,966) & 2.2161 & 7.0404 & 14.1890 & 0.80343 \\
-		2x (23\,864) & 2.2507 & 7.8283 & 14.2628 & 0.77559 \\
-		4x (95\,456) & 2.2668 & 8.0856 & 14.2886 & 0.76663 \\
-		8x (381\,824) & 2.2747 & 8.1560 & 14.2977 & 0.76414 \\
-		\midrule
-		Order, 1x--4x / 2x--8x & 1.11 / 1.02 & 1.61 / 1.87 & 1.52 / 1.51 & 1.63 / 1.85 \\
-		Richardson value & 2.2824 & 8.1825 & 14.3026 & 0.76318 \\
-		Featflow, finest level & 2.2705 & 8.2088 & 14.2943 & 0.76375 \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-	\item \emph{FSI1 with the high-order solid.} With the cubic solid (Section~\ref{sec:solid_solver}) in place of the standard solid, the $u_y$ error against Featflow falls from $-14.2\%$ to $-1.7\%$ on 1x and from $-4.6\%$ to $-0.8\%$ on 2x, and the lift error from $+5.2\%$ to $-0.5\%$ and from $+1.6\%$ to $-0.2\%$; the drag is unchanged to $0.01\%$ ($-0.8\%$, $-0.2\%$), and $u_x$ moves slightly away from Featflow ($-2.8\%\to-3.9\%$ and $-1.0\%\to-1.3\%$). On 4x the high-order errors are $-0.27\%$ ($u_x$), $-0.48\%$ ($u_y$), $-0.04\%$ (drag) and $-0.10\%$ (lift), so all four QoIs converge monotonically from below. The 2x high-order $u_y$ lies between the 4x and 8x standard-solid values of Table~\ref{tab:fsi1}, on a sixteenth of the 8x fluid cells: the standard-solid error in $u_y$ and lift is mostly the solid's bending stiffness, and with the cubic solid the remaining error is that of the fluid and of the piecewise-constant interface load. These runs use the verification driver of the case ($\Delta t = 0.025\,\mathrm{s}$; $0.0125\,\mathrm{s}$ on 4x), whose standard-solid 2x values agree with Table~\ref{tab:fsi1} to $0.01\%$ of the Featflow values (\texttt{paper-data/fsi1\_high\_order/}).
-	\item \emph{FSI2.} On the two levels available (Table~\ref{tab:hronturek_fsi2}) the errors against Featflow fall from $4.6$--$21.6\%$ (1x) to $0.5$--$3.1\%$ (2x), except the lift amplitude ($7.9\%$ and $7.8\%$), of which about $2.4\%$ of the reference amplitude is attributed to coupling-iteration noise; with two levels no observed order or asymptotic statement can be made. With a coupling tolerance of $10^{-5}$ the lift amplitude is inflated by $13\%$ (1x) and $30\%$ (2x) relative to $10^{-6}$ and $10^{-7}$, which agree, so a tolerance adequate for the displacements is not adequate for the lift, and the inadequacy grows with refinement. Fluid-mesh non-orthogonality reaches $58^\circ$ by $t = 10.5\,\mathrm{s}$, where the analysis window is truncated; IQN-ILS fails at $t \approx 11.4\,\mathrm{s}$ on 2x.
-	\item \emph{FSI3 convergence} (Table~\ref{tab:hronturek_gmsh}). Every QoI except the drag amplitude changes monotonically, with a smaller change on the second refinement. The displacements grow in magnitude, the $u_y$ amplitude by $0.74\%$ and then $0.25\%$ and the $u_x$ mean by $1.77\%$ and then $0.20\%$, at observed orders of $3.1$ ($u_y$ amplitude) and $6$--$7$ ($u_x$), far above the formal two; the frequency converges at order $3.0$, the drag mean at $1.5$ and the lift amplitude, which falls by $1.70\%$ and then $1.13\%$, at $1.2$. The drag amplitude is not monotone ($-0.50\%$, then $+0.18\%$). No observed order is close to the formal value, so the sequence is not shown to be in the asymptotic range: no Richardson value is given, and the GCIs of Table~\ref{tab:hronturek_gmsh} are provisional indicators, $0.01$--$0.16\%$ for the displacements, frequency and drag mean and $2.6\%$ for the lift amplitude. Orders far above two make the displacement GCIs small by construction, and they are not error bounds. Sliding the analysis window back by up to three periods changes the L3 values by at most $0.03\%$, a sixth or less of their L2$\to$L3 changes, except for the frequency and the drag mean, whose L2$\to$L3 changes ($0.02\%$) are only about two and four times this variation, so that their orders are poorly determined.
-	\item \emph{FSI3 time step and coupling.} The time step is reduced with the mesh, and on this family there is no separate time-step study, coupling-tolerance sweep, coupling-algorithm comparison or solid-only refinement, so the changes of Table~\ref{tab:hronturek_gmsh} are not divided between space and time or between fluid and solid. The coupling takes $5.1$, $5.4$ and $6.0$ iterations per step on average (at most 24) on L1--L3, no step reaches the iteration limit, and every step is accepted with the step-relative residual $r_1$ below the tolerance (median $6\times10^{-7}$). On the uniform family the tolerance of $10^{-6}$ reduces the step-to-step force noise eightfold relative to $10^{-5}$ (last item); here a $4\,\mathrm{ms}$ moving average lowers the lift amplitude by the same $0.13$--$0.14\%$ on every level, so the noise does not grow as $\Delta t$ falls. A partitioned solution with a second solid code (CalculiX through preCICE) exists only on a coarse block-structured mesh, and is not a comparison for this sequence (\texttt{paper-data/fsi3\_precice\_calculix/}).
-	\item \emph{FSI3 against the references}, compared after the sequence was characterised; no parameter was adjusted towards either reference. Against the category-B sequence of~\citet{Failer2020} the L3 differences are $-2.0\%$ ($u_x$ mean, larger in magnitude), $+2.1\%$ ($u_x$ amplitude), $+0.85\%$ ($u_y$ amplitude), $+0.17\%$ (drag mean), $+1.5\%$ (drag amplitude) and $+1.6\%$ (lift amplitude). The lift amplitude approaches the reference ($+4.5$, $+2.7$ and $+1.6\%$ on L1--L3), and its L3 difference lies within its provisional GCI. The $u_x$ mean and the $u_y$ amplitude cross the reference between L1 and L2 (on L1 the $u_y$ amplitude is $0.14\%$ below it and the $u_x$ mean agrees to $0.01\%$), and the $u_x$ amplitude, $0.3\%$ above it on L1, rises further; the displacements thus move away from it as their changes shrink, so their L3 differences exceed the reference uncertainty ($\approx0.3\%$) and their provisional GCIs several times over. They are differences of our sequence, which is not asymptotic, from the reference; three levels cannot show whether the sequence turns at finer levels, as orders this high allow, or converges to a different discrete limit, for which the unrefined cells at the flag-tip corners are one untested candidate. No modelling difference is indicated. Against the Featflow level-4 table the L3 frequency and drag mean agree to $0.27\%$ and $0.17\%$, the $u_y$ amplitude is $0.96\%$ and the $u_x$ mean and amplitude $2.3$--$2.4\%$ above it in magnitude, and the lift amplitude is $3.4\%$ above it, all within the $2$--$5\%$ uncertainty of that table, whose lift amplitude lies $1.7\%$ below the converged value of~\citet{Failer2020} ($154.3$, $156.1$ and $156.6\,\mathrm{N/m}$ on its levels 4--6).
-	\item \emph{FSI3 coupling tolerance and algorithm} (uniform family). At a coupling tolerance of $10^{-5}$ the step-to-step force noise grows as $\Delta t$ falls (lift $7.3\,\mathrm{N/m}$ rms at the 4x step against $1.7\,\mathrm{N/m}$ at the 2x step) and inflates the extrema-based force amplitudes on 4x to $+15.0\%$ (lift) and $+18.1\%$ (drag) above Featflow, while leaving the displacements unaffected; a tolerance of $10^{-6}$ reduces the noise eightfold, but at $\Delta t = 0.00025\,\mathrm{s}$ IQN-ILS stalls at $5$--$9\times10^{-6}$. Robin--Neumann and IQN-ILS histories differ ($u_x$ $5.1\%$ and $1.9\%$, lift $3.5\%$ and $2.8\%$ on 1x and 2x); the difference decreases with refinement and is attributed to the different discrete interface condition of the Robin--Neumann scheme, not to iterative error.
-\end{itemize}
+\emph{FSI3 against the references}, compared after the sequence was characterised; no parameter was adjusted towards either reference.
+The L3 differences from~\citet{Failer2020} are given in Table~\ref{tab:hronturek_gmsh}. The drag mean agrees to $0.17\%$, and the lift amplitude approaches the reference ($+4.5$, $+2.7$ and $+1.6\%$ on L1--L3) and lies within its provisional GCI. The $u_x$ mean and the $u_y$ amplitude cross the reference between L1 and L2, and the $u_x$ amplitude, $0.3\%$ above it on L1, rises further; the displacements thus move away from it as their changes shrink, and their L3 differences ($0.85$--$2.1\%$) exceed the reference uncertainty ($\approx0.3\%$) and their provisional GCIs several times over. Three levels cannot show whether our sequence, which is not asymptotic, turns at finer levels, as orders this high allow, or converges to a different discrete limit, for which the unrefined cells at the flag-tip corners are one untested candidate; no modelling difference is indicated.
+Against the Featflow level-4 table the L3 differences are $0.17$--$3.4\%$, within the $2$--$5\%$ uncertainty of that table, whose lift amplitude lies $1.7\%$ below the converged value of~\citet{Failer2020} ($154.3$, $156.1$ and $156.6\,\mathrm{N/m}$ on its levels 4--6).
+
+\emph{FSI3 coupling sensitivity, on a separate family.}
+The coupling-tolerance and coupling-algorithm studies of FSI3 were run before the Gmsh family existed, on the uniform block-structured family above (1x, 2x, 4x; $\Delta t = 0.001$, $0.0005$ and $0.00025\,\mathrm{s}$; IQN-ILS, coupling tolerance $10^{-5}$) with a path-dependent mesh motion and a zero-gradient wall pressure (Appendix~\ref{app:lessons}). Its displacements are superseded, but the iterative error it shows depends mainly on the coupling tolerance and the time step, so it remains informative for the force amplitudes. At a tolerance of $10^{-5}$ the step-to-step force noise grows as $\Delta t$ falls (lift $7.3\,\mathrm{N/m}$ rms at the 4x step against $1.7\,\mathrm{N/m}$ at the 2x step) and inflates the extrema-based force amplitudes on 4x to $+15.0\%$ (lift) and $+18.1\%$ (drag) above Featflow, while leaving the displacements unaffected; a tolerance of $10^{-6}$, as used on the Gmsh family, reduces the noise eightfold. Robin--Neumann and IQN-ILS histories differ ($u_x$ $5.1\%$ and $1.9\%$, lift $3.5\%$ and $2.8\%$ on 1x and 2x); the difference decreases with refinement and is attributed to the different discrete interface condition of the Robin--Neumann scheme, not to iterative error.
 
 \paragraph{Independent numerical comparisons.}
-For FSI1, a partitioned solution that keeps the fluid code but replaces the solid code and the coupling library (OpenFOAM \texttt{pimpleFoam} coupled through preCICE~\citep{Chourdakis2022} to CalculiX, whose linear elastic material with \texttt{NLGEOM} is exactly St Venant--Kirchhoff; parallel-implicit IQN-ILS, radial-basis-function mapping) was computed on the 1x, 2x and 4x fluid meshes with the solid refined with them. All four QoIs converge monotonically, at observed orders of 0.99 ($u_x$), 1.74 ($u_y$), 1.54 (drag) and 2.03 (lift), and its Richardson values ($u_x = 2.2823\times10^{-5}\,\mathrm{m}$, $u_y = 8.1813\times10^{-4}\,\mathrm{m}$, drag $14.3006$ and lift $0.76330\,\mathrm{N/m}$) agree with those of Table~\ref{tab:fsi1} to $0.02\%$ in every QoI. The fluid shares the code, the meshes and the set-up, so this agreement verifies the solid discretisation, the interface transfer and the coupling, not the fluid discretisation. Its QoIs are means over the closing $20\%$ of each run rather than final values (with final values the lift order is 1.57), and its 4x lift spread ($1.9\times10^{-3}$) exceeds the $10^{-3}$ steadiness criterion (\texttt{paper-data/fsi1\_precice\_calculix/}).
-A second partitioned solution replaces the fluid code as well, so that the fluid, the solid and the coupling are all independent of the code under test: the vertex-based (median-dual) finite volume incompressible solver of SU2~7.5.1~\citep{Economon2016,Economon2020}, with flux-difference splitting, unlimited MUSCL reconstruction and BDF2 dual time stepping, coupled through preCICE to the same CalculiX plate~\citep{Dhondt2004} on the same nodes of the 1x, 2x and 4x fluid meshes, with the same coupling scheme and tolerances; it starts from the steady rigid-plate solution instead of the inflow ramp, which does not affect the steady end state (\texttt{paper-data/fsi1\_su2\_calculix/}).
-Its $u_y$ and lift converge monotonically at observed orders of 1.22 and 1.90, and their Richardson values ($8.2056\times10^{-4}\,\mathrm{m}$ and $0.76398\,\mathrm{N/m}$) agree with those of Table~\ref{tab:fsi1} to $0.28\%$ and $0.10\%$ and with Featflow to $0.04\%$ and $0.03\%$.
-$u_x$ converges at first order (observed order 1.10) to a Richardson value $2.7\%$ below that of Table~\ref{tab:fsi1}, slightly more than its GCI ($2.4\%$).
-The drag errors decrease monotonically ($-1.51$, $-1.10$ and $-0.73\%$ against Featflow) but at an observed order of 0.20, so the drag is not extrapolated: in the steady rigid-plate problem on the same meshes the viscous part of the drag converges at first order and the pressure part at about second order, with errors of opposite sign, so that their sum is in the asymptotic range of neither.
-On the same nodes the SU2 fluid has the larger error against Featflow in every QoI at every level, which is consistent with its first-order wall shear, and $u_x$, the plate stretching under a load with a large viscous part, is the QoI it affects most.
-This is the only fully independent solution of FSI1 besides Featflow; its differences from Table~\ref{tab:fsi1} in $u_y$ and lift, which are dominated by the pressure load, lie within its own GCIs ($0.81\%$ and $0.22\%$ on 4x), and its $u_x$ and drag are not resolved closely enough to discriminate between the two other solutions.
+For FSI1, a partitioned solution in which the fluid, the solid and the coupling are all independent of solids4foam, with the vertex-based finite volume code SU2~\citep{Economon2016,Economon2020} coupled through preCICE~\citep{Chourdakis2022} to CalculiX~\citep{Dhondt2004} on the nodes of the 1x--4x fluid meshes, gives Richardson values of $u_y$ and lift within $0.04\%$ and $0.03\%$ of Featflow; its $u_x$ and drag, which its first-order wall shear affects most, converge too slowly to discriminate between the other solutions (\texttt{paper-data/fsi1\_su2\_calculix/}). A solution that keeps our fluid code but replaces the solid and the coupling with CalculiX and preCICE agrees with the Richardson values of the standard-solid study to $0.02\%$ in every QoI (\texttt{paper-data/fsi1\_precice\_calculix/}).
+For FSI3, an OpenFOAM--CalculiX solution through preCICE, on one coarse block-structured level with a zero-gradient wall pressure, agrees with solids4foam on the same mesh to $1.1\%$ in the displacements and $1.0\%$ in the frequency and drag mean, but differs by $6\%$ and $15\%$ in the drag and lift amplitudes, which one level cannot attribute; it is not a comparison for the Gmsh sequence (\texttt{paper-data/fsi3\_precice\_calculix/}).
 
-\todo{Author decision: whether to compute an FSI2 4x level or to state the two-level limitation. Pending citation (Philip): the Featflow CSM/CFD tables (Appendix~\ref{app:lessons}). Evidence for this subsection: paper-data/hronturek\_fsi3\_gmsh/ (FSI3) and paper-data/hronturek\_fsi3\_4x\_findings.md (uniform family).}
+\todo{Pending citation (Philip): the Featflow CSM/CFD tables (Appendix~\ref{app:lessons}). Evidence for this subsection: paper-data/fsi1\_high\_order/ and paper-data/fsi1\_four\_level/ (FSI1), paper-data/hronturek\_fsi3\_gmsh/ (FSI3) and paper-data/hronturek\_fsi3\_4x\_findings.md (uniform family).}
 
 \paragraph{Lessons.}
-The de facto standard requires care in use for verification: quoted summary values and detailed tables differ by up to $18\%$; the Featflow FSI3 table is itself uncertain by $3$--$5\%$ in $u_x$ and the force amplitudes, which an independent finer sequence~\citep{Failer2020} resolves to about $0.3\%$; and the lift amplitude is sensitive to a coupling tolerance adequate for every other QoI.
-FSI3 is category B through the sequence of~\citet{Failer2020}. Our three-level sequence approaches it in the lift amplitude ($1.6\%$ on L3, within its provisional GCI) and agrees with it in the drag mean to $0.17\%$ (moving slightly away with refinement), but its displacements, which agree with it to $0.3\%$ on the coarsest level, move away from it with refinement to $0.85\%$ ($u_y$ amplitude) and $2\%$ ($u_x$) at orders of three and above; the agreement on one level was a crossing, and the remaining differences are a property of our unresolved sequence, not evidence about the reference (Section~\ref{sec:cross_convergence}).
-FSI1 converges, over four levels, to within the numerical uncertainty of an independent reference in $u_y$, drag and lift and to $0.5\%$ in $u_x$, and FSI2 is not yet demonstrably asymptotic.
+The de facto standard requires care in use for verification: the two published Featflow sets differ by up to $18\%$, so the source of a reference value must be stated; the Featflow FSI3 table is itself uncertain by $3$--$5\%$ in $u_x$ and the force amplitudes, which an independent finer sequence~\citep{Failer2020} resolves to about $0.3\%$; and the lift amplitude is sensitive to a coupling tolerance adequate for every other QoI.
+FSI1 with a high-order solid converges monotonically to within $0.5\%$ of an independent reference on three levels; on 4x its $u_y$ is closer to the reference than that of the standard solid on 8x.
+FSI2 is not yet demonstrably asymptotic \hl{[pending: FSI2 on the Gmsh family]}.
+FSI3 has a category-B reference through the sequence of~\citet{Failer2020}. Our three-level sequence approaches it in the lift amplitude and agrees with it in the drag mean to $0.17\%$, but its displacements, which agree with it to $0.3\%$ on the coarsest level, move away from it with refinement to $0.85$--$2\%$ at orders of three and above; the agreement on one level was a crossing, and the remaining differences are a property of our unresolved sequence, not evidence about the reference (Section~\ref{sec:cross_convergence}).
 
 %%-------------------------------------------------------------------
 \subsubsection{Three-dimensional pressure-pulse tube}\label{sec:3dtube}
@@ -643,6 +685,7 @@ The last two are independent codes, both with implicit Euler time integration at
 The reference is category C-weak.
 
 \paragraph{Results.}
+The point-A QoIs on L3 are collected in Table~\ref{tab:refvals_3dtube} (Appendix~\ref{app:reference_values}).
 Three geometrically similar block-structured mesh levels (\texttt{blockMesh}; 16\,000, 128\,000 and 1\,024\,000 fluid cells; ratio 2) are computed with $\Delta t$ halved with the mesh ($2.5\times10^{-5}$, $1.25\times10^{-5}$ and $6.25\times10^{-6}\,\mathrm{s}$); all coupling criteria were met at every step (mean 4.8, 3.9 and 3.2 coupling iterations per step). Figure~\ref{fig:3dtube_histories} shows their point-A histories with the published curves.
 
 \begin{table}[htbp]
@@ -653,7 +696,7 @@ Three geometrically similar block-structured mesh levels (\texttt{blockMesh}; 16
 	\label{tab:3dtube}
 	\begin{tabular}{lrrrrrr}
 		\toprule
-		Quantity & Level 1 & Level 2 & Level 3 & Change 1$\to$2 & Change 2$\to$3 & Order \\
+		Quantity & L1 & L2 & L3 & L1$\to$L2 & L2$\to$L3 & Order \\
 		\midrule
 		$u_{r,\max}$ (mm) & 0.15958 & 0.15924 & 0.15831 & $-0.21\%$ & $-0.59\%$ & -- \\
 		$u_{z,\min}$ (mm) & $-0.08817$ & $-0.08657$ & $-0.08570$ & $1.82\%$ & $1.01\%$ & 0.87 \\
@@ -666,26 +709,26 @@ Three geometrically similar block-structured mesh levels (\texttt{blockMesh}; 16
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth]{figures/3dtube_pointA_histories}
-	\caption{Three-dimensional pressure-pulse tube: (a) radial and (b) axial wall displacement at point A on levels 1--3 of Table~\ref{tab:3dtube} (Robin--Neumann, BDF2, $\Delta t$ halved with the mesh), with the published curves of~\citet{Tukovic2018} (BDF2, $\Delta t = 2.5\times10^{-5}\,\mathrm{s}$; radial only, to $10\,\mathrm{ms}$; extracted from vector graphics) and of~\citet{Lozovskiy2019} and~\citet{Eken2016} (implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$; digitised from raster figures to about $\pm3\times10^{-6}\,\mathrm{m}$, smoothed and resampled to $0.1\,\mathrm{ms}$, so the markers are not solver samples; the Eken and Sahin curve is Fig.~5.6 of the companion PhD thesis of A.~Eken, 2016). The inset enlarges the radial peak.}
+	\caption{Three-dimensional pressure-pulse tube: (a) radial and (b) axial wall displacement at point A on L1--L3 of Table~\ref{tab:3dtube} (Robin--Neumann, BDF2, $\Delta t$ halved with the mesh), with the published curves of~\citet{Tukovic2018} (BDF2, $\Delta t = 2.5\times10^{-5}\,\mathrm{s}$; radial only, to $10\,\mathrm{ms}$; extracted from vector graphics) and of~\citet{Lozovskiy2019} and~\citet{Eken2016} (implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$; digitised from raster figures to about $\pm3\times10^{-6}\,\mathrm{m}$, smoothed and resampled to $0.1\,\mathrm{ms}$, so the markers are not solver samples; the Eken and Sahin curve is Fig.~5.6 of the companion PhD thesis of A.~Eken, 2016). The inset enlarges the radial peak.}
 	\label{fig:3dtube_histories}
 \end{figure}
 
 \begin{itemize}
-	\item \emph{Space.} The axial trough $u_{z,\min}$ and the arrival time $t_\mathrm{arr}$ converge monotonically, at observed orders of about 0.87 and 0.74, far below the nominal two; no Richardson estimate is made. The peak radial displacement $u_{r,\max}$ decreases monotonically, but its changes grow ($0.21\%$, then $0.59\%$), so no order can be given; the last change ($0.59\%$) is a scale of the remaining sensitivity, not a bound on the level-3 error, and spatial convergence of $u_{r,\max}$ is not established. The wave speed $c_p$ behaves in the same way ($0.27\%$, then $0.56\%$).
-	\item \emph{Time.} Measured on a variant of the meshes whose wall arcs are defined to fewer digits (QoIs within $0.1$--$0.35\%$ of levels 1 and 2 of Table~\ref{tab:3dtube}), the time step contributes $\approx0.1$--$0.2\%$ on the finer levels: halving $\Delta t$ on level 2 changes $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ by $+0.16\%$, $+0.18\%$ and $+0.10\%$, and reducing it from $2.5\times10^{-5}$ to $6.25\times10^{-6}\,\mathrm{s}$ on level 3 by $+0.10\%$, $+0.20\%$ and $+0.17\%$. The scaled path is therefore dominated by the mesh.
+	\item \emph{Space.} The axial trough $u_{z,\min}$ and the arrival time $t_\mathrm{arr}$ converge monotonically, at observed orders of about 0.87 and 0.74, far below the nominal two; no Richardson estimate is made. The peak radial displacement $u_{r,\max}$ decreases monotonically, but its changes grow ($0.21\%$, then $0.59\%$), so no order can be given; the last change ($0.59\%$) is a scale of the remaining sensitivity, not a bound on the L3 error, and spatial convergence of $u_{r,\max}$ is not established. The wave speed $c_p$ behaves in the same way ($0.27\%$, then $0.56\%$).
+	\item \emph{Time.} Measured on a variant of the meshes whose wall arcs are defined to fewer digits (QoIs within $0.1$--$0.35\%$ of L1 and L2 of Table~\ref{tab:3dtube}), the time step contributes $\approx0.1$--$0.2\%$ on the finer levels: halving $\Delta t$ on L2 changes $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ by $+0.16\%$, $+0.18\%$ and $+0.10\%$, and reducing it from $2.5\times10^{-5}$ to $6.25\times10^{-6}\,\mathrm{s}$ on L3 by $+0.10\%$, $+0.20\%$ and $+0.17\%$. The scaled path is therefore dominated by the mesh.
 	\item \emph{Coupling.} Robin--Neumann and IQN-ILS agree to $0.07\%$ in the QoIs and $0.26\%$ of the peak in the histories.
-	\item \emph{Platforms.} This case exposed two defects in the code under test, both corrected for all results here: a compiler-dependent aliasing error in the wall viscous force, found as a deterministic $1.5$--$3\%$ difference in $u_{z,\min}$ between two platforms, and degenerate interpolation weights that switched on between levels 1 and 2 (Section~\ref{sec:defects}; Appendix~\ref{app:lessons}). On the mesh variant above, levels 1 and 2 computed on two platforms agree to all reported digits ($c_p$ to $0.02\%$), and level 3 computed on three platforms with different compilers, optimisation levels and rank counts reproduces $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ to all reported digits and $c_p$ to $0.09\%$, an order of magnitude below the level-2-to-3 change, so the growing change in $u_{r,\max}$ is a property of the discretisation, not of the platform.
-	\item \emph{Literature discrepancy.} The published $u_{r,\max}$ of the implicit-Euler references ($\approx0.119$ and $0.124\,\mathrm{mm}$) lie $20$--$25\%$ below the BDF2 values of \citet{Tukovic2018} ($0.157\,\mathrm{mm}$) and of the present calculations (level 3 is $0.9\%$ above \citet{Tukovic2018}). Run with the time discretisation of those references (implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$), the present code lowers its peak by $0.036$--$0.038\,\mathrm{mm}$, i.e.\ $92$--$115\%$ of the published gap ($86$--$126\%$ within the reading accuracy), and lands within $+2.5\%/-1.4\%$ (level 1) and $+1.3\%/-2.6\%$ (level 2) of \citet{Lozovskiy2019} and \citet{Eken2016}. Implicit Euler itself converges slowly in time (still $4.4\%$ low at $\Delta t = 1.25\times10^{-5}\,\mathrm{s}$ on level 1), so neither published peak is converged in time. Much of the discrepancy is therefore reproduced by the difference in time integration. \citet{Eken2016} uses a finite volume fluid, so the split is between time integrators, not between finite element and finite volume methods; the references also differ in wall model, pressure switch-off and mesh, and the earlier peak time of \citet{Eken2016} ($0.3\,\mathrm{ms}$) is not explained.
+	\item \emph{Platforms.} This case exposed two defects in the code under test, both corrected for all results here: a compiler-dependent aliasing error in the wall viscous force, found as a deterministic $1.5$--$3\%$ difference in $u_{z,\min}$ between two platforms, and degenerate interpolation weights that switched on between L1 and L2 (Section~\ref{sec:defects}; Appendix~\ref{app:lessons}). On the mesh variant above, L1 and L2 computed on two platforms agree to all reported digits ($c_p$ to $0.02\%$), and L3 computed on three platforms with different compilers, optimisation levels and rank counts reproduces $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ to all reported digits and $c_p$ to $0.09\%$, an order of magnitude below the L2-to-L3 change, so the growing change in $u_{r,\max}$ is a property of the discretisation, not of the platform.
+	\item \emph{Literature discrepancy.} The published $u_{r,\max}$ of the implicit-Euler references ($\approx0.119$ and $0.124\,\mathrm{mm}$) lie $20$--$25\%$ below the BDF2 values of \citet{Tukovic2018} ($0.157\,\mathrm{mm}$) and of the present calculations (L3 is $0.9\%$ above \citet{Tukovic2018}). Run with the time discretisation of those references (implicit Euler, $\Delta t = 10^{-4}\,\mathrm{s}$), the present code lowers its peak by $0.036$--$0.038\,\mathrm{mm}$, i.e.\ $92$--$115\%$ of the published gap ($86$--$126\%$ within the reading accuracy), and lands within $+2.5\%/-1.4\%$ (L1) and $+1.3\%/-2.6\%$ (L2) of \citet{Lozovskiy2019} and \citet{Eken2016}. Implicit Euler itself converges slowly in time (still $4.4\%$ low at $\Delta t = 1.25\times10^{-5}\,\mathrm{s}$ on L1), so neither published peak is converged in time. Much of the discrepancy is therefore reproduced by the difference in time integration. \citet{Eken2016} uses a finite volume fluid, so the split is between time integrators, not between finite element and finite volume methods; the references also differ in wall model, pressure switch-off and mesh, and the earlier peak time of \citet{Eken2016} ($0.3\,\mathrm{ms}$) is not explained.
 \end{itemize}
 
 \paragraph{Independent numerical comparisons.}
-A co-author computed the problem with Kratos Multiphysics~10.3~\citep{Dadvand2010}, which shares no code with solids4foam: P1/P1 stabilised fluid on tetrahedra obtained by splitting the hexahedra of the same block layout, a small-strain hexahedral finite element wall, and Dirichlet--Neumann coupling with the multi-vector quasi-Newton (MVQN) method, on levels 1 and 2 (\texttt{paper-data/kratos\_3dtube/}).
-With implicit Euler at $\Delta t = 10^{-4}\,\mathrm{s}$ its level-1 peak, $u_{r,\max} = 0.12334\,\mathrm{mm}$, lies between the published values of \citet{Lozovskiy2019} and \citet{Eken2016}, and with BDF2 and $\Delta t$ halved with the mesh it is $30.0\%$ higher, against $30.5\%$ in the present code, so an independent code confirms that the published discrepancy is mainly one of time integration.
-With BDF2 (Kratos levels 1 and 2: $u_{r,\max} = 0.16035$ and $0.16096\,\mathrm{mm}$, $u_{z,\min} = -0.08198$ and $-0.08555\,\mathrm{mm}$, $t_\mathrm{arr} = 5.954$ and $5.925\,\mathrm{ms}$, $c_p = 4.578$ and $4.583\,\mathrm{m/s}$), the two codes approach $u_{z,\min}$ from opposite sides (Kratos level 2 is within $0.2\%$ of our level 3), but $u_{r,\max}$ rises with refinement in Kratos and falls in ours, so the difference grows from $+0.5\%$ on level 1 to $+1.1\%$ on level 2 (Table~\ref{tab:3dtube}); $t_\mathrm{arr}$ is $1.4\%$ later at matched levels, from a wall front that is slower in Kratos, a difference not yet attributed to the wall or the fluid discretisation.
-With two levels, a different fluid stabilisation and mesh, and the first step of level 2 accepted above the coupling tolerance, this solution is independent but not converged, and the reference category is unchanged.
+A co-author computed the problem with Kratos Multiphysics~10.3~\citep{Dadvand2010}, which shares no code with solids4foam: P1/P1 stabilised fluid on tetrahedra obtained by splitting the hexahedra of the same block layout, a small-strain hexahedral finite element wall, and Dirichlet--Neumann coupling with the multi-vector quasi-Newton (MVQN) method, on L1 and L2 (\texttt{paper-data/kratos\_3dtube/}).
+With implicit Euler at $\Delta t = 10^{-4}\,\mathrm{s}$ its L1 peak, $u_{r,\max} = 0.12334\,\mathrm{mm}$, lies between the published values of \citet{Lozovskiy2019} and \citet{Eken2016}, and with BDF2 and $\Delta t$ halved with the mesh it is $30.0\%$ higher, against $30.5\%$ in the present code, so an independent code confirms that the published discrepancy is mainly one of time integration.
+With BDF2 (Kratos on L1 and L2: $u_{r,\max} = 0.16035$ and $0.16096\,\mathrm{mm}$, $u_{z,\min} = -0.08198$ and $-0.08555\,\mathrm{mm}$, $t_\mathrm{arr} = 5.954$ and $5.925\,\mathrm{ms}$, $c_p = 4.578$ and $4.583\,\mathrm{m/s}$), the two codes approach $u_{z,\min}$ from opposite sides (Kratos on L2 is within $0.2\%$ of our L3), but $u_{r,\max}$ rises with refinement in Kratos and falls in ours, so the difference grows from $+0.5\%$ on L1 to $+1.1\%$ on L2 (Table~\ref{tab:3dtube}); $t_\mathrm{arr}$ is $1.4\%$ later at matched levels, from a wall front that is slower in Kratos, a difference not yet attributed to the wall or the fluid discretisation.
+With two levels, a different fluid stabilisation and mesh, and the first step of L2 accepted above the coupling tolerance, this solution is independent but not converged, and the reference category is unchanged.
 
 
-\todo{Pending results: level 3 of Table~\ref{tab:3dtube} has been computed on one platform (the three-platform replication used the mesh variant; paper-data/3dtube\_level3\_xenosim, paper-data/3dtube\_level3\_ecore, paper-data/3dtube\_level3\_corrected\_ecore). A level 4 ($\approx8\times10^6$ fluid cells) or an independent converged solution with second-order time integration is needed for any convergence statement on $u_{r,\max}$; the Kratos solution has two levels (a third, factor 3, is estimated at one to two weeks on a workstation; \texttt{paper-data/kratos\_3dtube/README.md}, which still compares with the mesh variant). Report the OpenFOAM temporary-reuse/\texttt{\_\_restrict\_\_} hazard upstream and cite the report. The BDF2 instability on level 1 at $\Delta t = 6.25\times10^{-6}\,\mathrm{s}$ (growth from $\approx11\,\mathrm{ms}$) is unexplained; it does not affect the scaled levels. Evidence: paper-data/3dtube\_level3\_findings.md, Section 12.6.}
+\todo{Pending results: L3 of Table~\ref{tab:3dtube} has been computed on one platform (the three-platform replication used the mesh variant; paper-data/3dtube\_level3\_xenosim, paper-data/3dtube\_level3\_ecore, paper-data/3dtube\_level3\_corrected\_ecore). An L4 ($\approx8\times10^6$ fluid cells) or an independent converged solution with second-order time integration is needed for any convergence statement on $u_{r,\max}$; the Kratos solution has two levels (a third, factor 3, is estimated at one to two weeks on a workstation; \texttt{paper-data/kratos\_3dtube/README.md}, which still compares with the mesh variant). Report the OpenFOAM temporary-reuse/\texttt{\_\_restrict\_\_} hazard upstream and cite the report. The BDF2 instability on L1 at $\Delta t = 6.25\times10^{-6}\,\mathrm{s}$ (growth from $\approx11\,\mathrm{ms}$) is unexplained; it does not affect the scaled levels. Evidence: paper-data/3dtube\_level3\_findings.md, Section 12.6.}
 
 \paragraph{Lessons.}
 The case is more useful as a defect detector and as an explanation of a literature discrepancy than as a convergence demonstration.
@@ -726,6 +769,7 @@ The reference is category B, with that resolution.
 \end{figure}
 
 \paragraph{Results.}
+The reference values are collected in Table~\ref{tab:refvals_mok} (Appendix~\ref{app:reference_values}).
 Midpoint statistics over $t = 20$--$70\,\mathrm{s}$ under combined mesh and time refinement are given for both codes in Table~\ref{tab:mok}; the solids4foam meshes are uniform $n\times n$ fluid meshes generated with \texttt{blockMesh}. The solids4foam $128^2$ run, listed separately in Table~\ref{tab:mok}, relaxes the non-final PIMPLE outer correctors ($p$ 0.3, $\mathbf{U}$ 0.7, the final corrector unrelaxed) with residual control, since at $\nu\,\Delta t/h^2 \approx 4$ (against $2.3$ on $96^2$) the unrelaxed outer loop diverges within a coupling iteration (Appendix~\ref{app:lessons}); Kratos needs no such change.
 
 \begin{table}[htbp]
@@ -792,10 +836,11 @@ The inflow is a parabolic profile with a peak of $1.5\,\mathrm{m/s}$ (mean $1\,\
 Point A of~\citet{Tukovic2018} lies on the top (wetted) surface of the plate, and the values below are for that point. The top-surface and mid-thickness values differ by $0.5\%$, and the value at the nearest node on the plate underside is $1.2\%$ smaller in magnitude than the top-surface value on the finest mesh, so the monitoring point must be stated.
 
 \paragraph{Results.}
-Four uniformly refined levels (\texttt{blockMesh}; $\Delta x = 0.1$, $0.05$, $0.025$, $0.0125\,\mathrm{m}$) were computed with the partitioned solver (Aitken; strict coupling test on every level, Section~\ref{sec:iterative_errors}), with the pseudo-time step halved with the mesh spacing ($\Delta t = 0.5$ to $0.0625\,\mathrm{s}$), at most 20 coupling iterations per step (40 on the finest level) and fluid linear-solver tolerances of $10^{-6}$ ($10^{-8}$ on the finest level).
+The reference values are collected in Table~\ref{tab:refvals_provisional} (Appendix~\ref{app:reference_values}).
+Four uniformly refined levels, L1--L4 (\texttt{blockMesh}; $\Delta x = 0.1$, $0.05$, $0.025$, $0.0125\,\mathrm{m}$) were computed with the partitioned solver (Aitken; strict coupling test on every level, Section~\ref{sec:iterative_errors}), with the pseudo-time step halved with the mesh spacing ($\Delta t = 0.5$ to $0.0625\,\mathrm{s}$), at most 20 coupling iterations per step (40 on L4) and fluid linear-solver tolerances of $10^{-6}$ ($10^{-8}$ on L4).
 The face flux in the continuity equation is interpolated with skew correction, since the fluid cells near the clamped ends of the plate are strongly skewed by the deformation; without it the extrapolated values move by about $0.05\%$ ($F_y$) and $0.04\%$ ($u_y$) (Independent numerical comparisons, below).
 With the partitioned solver, the steady top-surface $u_y$ at point A is $-0.2048$, $-0.2313$, $-0.2382$ and $-0.2400\,\mathrm{m}$, converging monotonically at observed orders $1.93$ and $1.98$; the extrapolated value ($p = 2$) is $-0.2406\,\mathrm{m}$ (GCI $0.31\%$). The interface force is $F_y = -5.1607$, $-5.2333$, $-5.2512$ and $-5.2561\,\mathrm{N/m}$, with observed orders $2.03$ and $1.86$ and an extrapolated value of $-5.2579\,\mathrm{N/m}$ from the three finest levels (GCI $0.045\%$).
-The steady state depends weakly on the pseudo-time step through the pressure--velocity coupling, and this dependence vanishes rapidly under refinement: reducing $\Delta t$ to $0.0625\,\mathrm{s}$ changes $F_y$ by $0.18\%$ on level~1, $0.03\%$ on level~2 and $0.001\%$ on level~3. With $\Delta t = 0.0625\,\mathrm{s}$ on the three finest levels, the extrapolated values are $-0.2406\,\mathrm{m}$ and $-5.2578\,\mathrm{N/m}$, within $0.003\%$ of those above.
+The steady state depends weakly on the pseudo-time step through the pressure--velocity coupling, and this dependence vanishes rapidly under refinement: reducing $\Delta t$ to $0.0625\,\mathrm{s}$ changes $F_y$ by $0.18\%$ on L1, $0.03\%$ on L2 and $0.001\%$ on L3. With $\Delta t = 0.0625\,\mathrm{s}$ on the three finest levels, the extrapolated values are $-0.2406\,\mathrm{m}$ and $-5.2578\,\mathrm{N/m}$, within $0.003\%$ of those above.
 
 \paragraph{Independent numerical comparisons.}
 Four other solutions of the same St Venant--Kirchhoff, plane-strain problem are available (Table~\ref{tab:cavity_refs}); all forces are per unit depth.
@@ -803,7 +848,7 @@ Only one of them is independent of the code under test in every component: a par
 It uses the fluid mesh of the case refined by factors 1, 2, 4, 8 and 16 ($\Delta x = 0.1$ to $0.00625\,\mathrm{m}$; 1\,688 to 432\,128 fluid cells), with the plate refined with it, and reaches the steady state by coupled steps whose size changes the steady values by less than $2\times10^{-5}$ relative.
 Its $F_y$ converges at an observed order of about three (2.94, 3.08 and 3.07 over the three successive triples) to $-5.257784\,\mathrm{N/m}$ (GCI $0.001\%$), and its $u_y$, which is not monotone on the three coarsest levels, at 1.14 on the three finest, to $-0.240559\,\mathrm{m}$ (GCI $0.046\%$).
 Our partitioned limits, $-0.240583\,\mathrm{m}$ and $-5.257947\,\mathrm{N/m}$, agree with these to $0.010\%$ ($u_y$) and $0.003\%$ ($F_y$), well within our GCIs ($0.31\%$ and $0.045\%$).
-Two further solutions agree as closely but are not independent: a monolithic finite element solution by the same group (FEniCSx; Supplementary Material), and the quasi-monolithic solution of the companion paper~\citep{CardiffBatistic2026QM}, which shares the code and the meshes; with ours, the four limits lie within $0.016\%$ of one another in $u_y$ and $0.004\%$ in $F_y$.
+Two further solutions agree as closely but are not independent: a monolithic finite element solution computed by the authors of this paper with a separate implementation (FEniCSx; Supplementary Material), and the quasi-monolithic solution of the companion paper~\citep{CardiffBatistic2026QM}, which shares the code and the meshes; with ours, the four limits lie within $0.016\%$ of one another in $u_y$ and $0.004\%$ in $F_y$.
 With the continuity flux interpolated without skew correction, our four levels still give a small GCI ($0.02\%$ for $F_y$), but the $F_y$ limit lies $0.05\%$ from all three: the independent solutions expose an interpolation error that the four-level sequence alone does not (Appendix~\ref{app:lessons}).
 
 \begin{table}[htbp]
@@ -818,7 +863,7 @@ With the continuity flux interpolated without skew correction, our four levels s
 		\midrule
 		solids4foam, partitioned & -- & $-0.240583$ & 1.98 & $-5.257947$ & 1.86 \\
 		SU2--CalculiX, partitioned & independent & $-0.240559$ & 1.14 & $-5.257784$ & 3.07 \\
-		FEniCSx, monolithic & same group & $-0.240544$ & 1.28 & $-5.257801$ & 2.18 \\
+		FEniCSx, monolithic & same authors & $-0.240544$ & 1.28 & $-5.257801$ & 2.18 \\
 		solids4foam, quasi-monolithic & same code & $-0.240580$ & 2.00 & $-5.257741$ & 2.08 \\
 		COMSOL & independent & $\approx-0.2456$ & $\approx1$ & $\approx-5.37$ & $\approx1$ \\
 		\bottomrule
@@ -840,9 +885,10 @@ Agreement in the integrated interface force therefore did not establish that the
 %%-------------------------------------------------------------------
 
 A thick elastic plate clamped in a three-dimensional channel flow~\citep{Richter2012} would be the only steady three-dimensional external-flow case in the suite ($E_S = 1.4\,\mathrm{MPa}$), with a reference from an independent monolithic finite element code that converges cleanly over five levels.
-Its published inflow contains an error: the printed inlet profile, with a peak of $0.3\,\mathrm{m/s}$, has a mean of $0.133\,\mathrm{m/s}$, whereas the text states $0.15\,\mathrm{m/s}$ and the preprint $0.2\,\mathrm{m/s}$ with $Re = 40$ (based on the plate height); with the printed profile we obtain $1.8$ times the reference values. The author has confirmed from the original code that the reference values were computed with a $0.2\,\mathrm{m/s}$ peak (private communication), for which our level-3 solution lies within $0.1$--$0.2\%$ of the reference values, and our four-level sequence converges monotonically at observed orders rising to 1.6, short of a demonstrated asymptotic range.
-An independent three-level Kratos solution is $0.44\%$ above our level 3 in $u_x(A)$ and also reaches the reference values only with the corrected inflow; its extrapolated $F_x$ agrees with ours to $0.01\%$.
+Its published inflow contains an error: the printed inlet profile, with a peak of $0.3\,\mathrm{m/s}$, has a mean of $0.133\,\mathrm{m/s}$, whereas the text states $0.15\,\mathrm{m/s}$ and the preprint $0.2\,\mathrm{m/s}$ with $Re = 40$ (based on the plate height); with the printed profile we obtain $1.8$ times the reference values. The author has confirmed from the original code that the reference values were computed with a $0.2\,\mathrm{m/s}$ peak (private communication), for which our L4 solution lies within $0.1$--$0.2\%$ of the reference values, and our four-level sequence converges monotonically at observed orders rising to 1.6, short of a demonstrated asymptotic range.
+An independent three-level Kratos solution is $0.44\%$ above our L4 in $u_x(A)$ and also reaches the reference values only with the corrected inflow; its extrapolated $F_x$ agrees with ours to $0.01\%$.
 Appendix~\ref{app:beam} gives the evidence for the correction and both four-level sequences.
+The reference values are collected in Table~\ref{tab:refvals_provisional} (Appendix~\ref{app:reference_values}).
 
 %%-------------------------------------------------------------------
 \subsubsection{Hessenthaler flap (Phase I) [PROVISIONAL]}\label{sec:hessenthaler}
@@ -854,7 +900,7 @@ Appendix~\ref{app:beam} gives the evidence for the correction and both four-leve
 	\centering
 	% Source: paper-data/hessenthaler_geometry_figure/fig.py (see its README.md).
 	\includegraphics{figures/hessenthaler-geometry}
-	\caption{Hessenthaler flap, Phase I: (a) the flow domain on the mid-plane $x = 0$ (dimensions in mm; inlet centres at $y = \pm27.15\,\mathrm{mm}$), with the flap clamped where the two inlet pipes join the outlet pipe; gravity acts in $-y$. (b) The rF1 fluid mesh ($3.1\times10^{5}$ cells) on a plane $0.3\,\mathrm{mm}$ from the mid-plane, with the undeformed flap and the deformed centreline measured under the Phase I flow~\citep{Hessenthaler2017a}. The refinement boxes above the flap cover the region swept by the flap and the path of its tip.}
+	\caption{Hessenthaler flap, Phase I: (a) the flow domain on the mid-plane $x = 0$ (dimensions in mm; inlet centres at $y = \pm27.15\,\mathrm{mm}$), with the flap clamped where the two inlet pipes join the outlet pipe; gravity acts in $-y$. (b) The L2 fluid mesh ($3.1\times10^{5}$ cells) on a plane $0.3\,\mathrm{mm}$ from the mid-plane, with the undeformed flap and the deformed centreline measured under the Phase I flow~\citep{Hessenthaler2017a}. The refinement boxes above the flap cover the region swept by the flap and the path of its tip.}
 	\label{fig:hessenthaler_geom}
 \end{figure}
 
@@ -886,11 +932,11 @@ A zero normal gradient, which omits the acceleration term as well, is used on th
 Convection uses an unlimited blend of $75\%$ linear and $25\%$ linear-upwind interpolation (\texttt{LUST}), with the least-squares gradient.
 With unlimited linear-upwind interpolation a spanwise oscillation of the tip grows until the flow solution diverges at the flap-tip corners, and first-order upwind interpolation lowers the tip deflection by $17\%$ (Appendix~\ref{app:lessons}); with the blend the tip motion stays bounded ($< 0.3\,\mathrm{mm}$ spanwise).
 
-The fluid meshes rF0, rF1 and rF2 are octree meshes generated with the \texttt{cartesianMesh} generator of cfMesh~\citep{Juretic2015cfMesh} from the published surface, with the flap edges captured as feature edges (Table~\ref{tab:hessenthaler_meshes}, Fig.~\ref{fig:hessenthaler_geom}b).
+The fluid meshes L1, L2 and L3 are octree meshes generated with the \texttt{cartesianMesh} generator of cfMesh~\citep{Juretic2015cfMesh} from the published surface, with the flap edges captured as feature edges (Table~\ref{tab:hessenthaler_meshes}, Fig.~\ref{fig:hessenthaler_geom}b).
 A band $1.5\,\mathrm{mm}$ thick around the flap and a box over the path of the tip are refined to the flap cell size, a larger box covers the region swept by the flap, and the junction and the first $130\,\mathrm{mm}$ of the outlet pipe are meshed at the wall cell size.
 Without feature-edge capture the generator chamfers the flap edges (Appendix~\ref{app:lessons}).
 Each level scales all target sizes by $\sqrt{2}$, with effective linear refinement ratios of $1.37$ and $1.39$; the meshes are not nested.
-The same meshes are levels 1--3 of the companion paper~\citep{CardiffBatistic2026QM}.
+The companion paper~\citep{CardiffBatistic2026QM} uses the same meshes, also as levels 1--3.
 
 \begin{table}[htbp]
 	\centering
@@ -901,14 +947,15 @@ The same meshes are levels 1--3 of the companion paper~\citep{CardiffBatistic202
 		\toprule
 		Mesh & Flap & Sweep & Walls & Far & Cells & Ratio & Non-orth. \\
 		\midrule
-		rF0 & 0.714 & 1.43 & 2.86 & 5.66 & 122\,435 & -- & $39.5^\circ$ \\
-		rF1 & 0.505 & 1.01 & 2.02 & 4.00 & 312\,180 & 1.37 & $37.5^\circ$ \\
-		rF2 & 0.357 & 0.714 & 1.43 & 2.83 & 832\,552 & 1.39 & $37.3^\circ$ \\
+		L1 & 0.714 & 1.43 & 2.86 & 5.66 & 122\,435 & -- & $39.5^\circ$ \\
+		L2 & 0.505 & 1.01 & 2.02 & 4.00 & 312\,180 & 1.37 & $37.5^\circ$ \\
+		L3 & 0.357 & 0.714 & 1.43 & 2.83 & 832\,552 & 1.39 & $37.3^\circ$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \paragraph{Results.}
+The reference values are collected in Table~\ref{tab:refvals_provisional} (Appendix~\ref{app:reference_values}).
 \begin{table}[htbp]
 	\centering
 	\small
@@ -921,32 +968,32 @@ The same meshes are levels 1--3 of the companion paper~\citep{CardiffBatistic202
 		\cmidrule(lr){2-5}\cmidrule(lr){6-7}
 		Mesh & acceleration & zero gradient & difference & quasi-mon. & acceleration & zero gradient \\
 		\midrule
-		rF0 & $16.252$ & $16.305$ & $+0.053$ & $15.97$ & 4.66 & 4.21 \\
-		rF1 & $16.553$ & $16.661$ & $+0.108$ & $16.62$ & 4.41 & 4.61 \\
-		rF2 & $16.726$ & $16.724$ & $-0.002$ & $16.64$ & $46.0^{\ddagger}$ & $22.8^{\ddagger}$ \\
+		L1 & $16.252$ & $16.305$ & $+0.053$ & $15.97$ & 4.66 & 4.21 \\
+		L2 & $16.553$ & $16.661$ & $+0.108$ & $16.62$ & 4.41 & 4.61 \\
+		L3 & $16.726$ & $16.724$ & $-0.002$ & $16.64$ & $46.0^{\ddagger}$ & $22.8^{\ddagger}$ \\
 		\midrule
-		rF0$\to$rF1 & $+0.301$ & $+0.356$ & & $+0.65$ & & \\
-		rF1$\to$rF2 & $+0.173$ & $+0.063$ & & $+0.02$ & & \\
+		L1$\to$L2 & $+0.301$ & $+0.356$ & & $+0.65$ & & \\
+		L2$\to$L3 & $+0.173$ & $+0.063$ & & $+0.02$ & & \\
 		\bottomrule
 	\end{tabular}
 \end{table}
-With the acceleration condition the tip deflection increases from $16.252\,\mathrm{mm}$ on rF0 to $16.553\,\mathrm{mm}$ on rF1 ($+0.301\,\mathrm{mm}$, $1.8\%$), and to $16.726\,\mathrm{mm}$ on rF2 ($+0.173\,\mathrm{mm}$, $1.0\%$; Table~\ref{tab:hessenthaler_results}).
-The zero gradient gives $16.305$, $16.661$ and $16.724\,\mathrm{mm}$; it raises the tip by $0.053\,\mathrm{mm}$ ($0.3\%$) on rF0 and $0.108\,\mathrm{mm}$ ($0.7\%$) on rF1, and changes it by only $-0.002\,\mathrm{mm}$ on rF2. The effect of the interface pressure condition is thus small against the change from rF0 to rF1, and it vanishes with refinement.
-On rF0 and rF1 the tip is not exactly steady: with either condition it wanders slowly by $0.1$--$0.2\,\mathrm{mm}$ peak to peak over $t = 25$--$45\,\mathrm{s}$, so a mean over $t = 40$--$45\,\mathrm{s}$ is uncertain by up to about $0.1\,\mathrm{mm}$. Only the rF2 solutions settle monotonically, to a standard deviation of $0.0001$ (acceleration) and $0.0002\,\mathrm{mm}$ (zero gradient) over the window.
+With the acceleration condition the tip deflection increases from $16.252\,\mathrm{mm}$ on L1 to $16.553\,\mathrm{mm}$ on L2 ($+0.301\,\mathrm{mm}$, $1.8\%$), and to $16.726\,\mathrm{mm}$ on L3 ($+0.173\,\mathrm{mm}$, $1.0\%$; Table~\ref{tab:hessenthaler_results}).
+The zero gradient gives $16.305$, $16.661$ and $16.724\,\mathrm{mm}$; it raises the tip by $0.053\,\mathrm{mm}$ ($0.3\%$) on L1 and $0.108\,\mathrm{mm}$ ($0.7\%$) on L2, and changes it by only $-0.002\,\mathrm{mm}$ on L3. The effect of the interface pressure condition is thus small against the change from L1 to L2, and it vanishes with refinement.
+On L1 and L2 the tip is not exactly steady: with either condition it wanders slowly by $0.1$--$0.2\,\mathrm{mm}$ peak to peak over $t = 25$--$45\,\mathrm{s}$, so a mean over $t = 40$--$45\,\mathrm{s}$ is uncertain by up to about $0.1\,\mathrm{mm}$. Only the L3 solutions settle monotonically, to a standard deviation of $0.0001$ (acceleration) and $0.0002\,\mathrm{mm}$ (zero gradient) over the window.
 
 The zero-gradient sequence changes by $+0.356$ and then $+0.063\,\mathrm{mm}$.
-For the refinement ratios of $1.37$ and $1.39$, second-order convergence would reduce the change by a factor of about $1.8$, not $5.7$; the implied apparent order, about $5.6$, has no basis in the discretisation, and the second change is of the size of the uncertainty of the rF1 window mean.
-With the acceleration condition the changes, $+0.301$ and $+0.173\,\mathrm{mm}$, fall by a factor of $1.74$, which for these ratios corresponds to an apparent order of about $1.9$; but the rF0 and rF1 window means are uncertain by up to $0.1\,\mathrm{mm}$, a third of the second change, and the two conditions disagree on how the sequence converges.
+For the refinement ratios of $1.37$ and $1.39$, second-order convergence would reduce the change by a factor of about $1.8$, not $5.7$; the implied apparent order, about $5.6$, has no basis in the discretisation, and the second change is of the size of the uncertainty of the L2 window mean.
+With the acceleration condition the changes, $+0.301$ and $+0.173\,\mathrm{mm}$, fall by a factor of $1.74$, which for these ratios corresponds to an apparent order of about $1.9$; but the L1 and L2 window means are uncertain by up to $0.1\,\mathrm{mm}$, a third of the second change, and the two conditions disagree on how the sequence converges.
 The sequences are therefore not shown to be in the asymptotic range, and no observed order, Richardson extrapolation or GCI is given.
-The verification statement is a three-level mesh sensitivity (category C-weak; self-convergence not established): with the acceleration condition the tip changes by $1.8\%$ from rF0 to rF1 and by $1.0\%$ from rF1 to rF2, against $0.4\%$ with the zero gradient.
+The verification statement is a three-level mesh sensitivity (category C-weak; self-convergence not established): with the acceleration condition the tip changes by $1.8\%$ from L1 to L2 and by $1.0\%$ from L2 to L3, against $0.4\%$ with the zero gradient.
 
 The quasi-monolithic solutions on the same meshes give $15.97$, $16.62$ and $16.64\,\mathrm{mm}$~\citep{CardiffBatistic2026QM}.
 They share the fluid discretisation, the meshes and the code lineage, and differ in the coupling, the solid formulation and the mesh motion, so they are a consistency check of the partitioned solutions, not an independent reference.
-They differ from the primary partitioned solutions by $-0.28\,\mathrm{mm}$ on rF0 and $+0.07\,\mathrm{mm}$ on rF1 and $-0.09\,\mathrm{mm}$ on rF2, and change under refinement in the same way as the partitioned sequences, by much more from rF0 to rF1 ($0.65\,\mathrm{mm}$) than from rF1 to rF2 ($0.02\,\mathrm{mm}$).
+They differ from the primary partitioned solutions by $-0.28\,\mathrm{mm}$ on L1 and $+0.07\,\mathrm{mm}$ on L2 and $-0.09\,\mathrm{mm}$ on L3, and change under refinement in the same way as the partitioned sequences, by much more from L1 to L2 ($0.65\,\mathrm{mm}$) than from L2 to L3 ($0.02\,\mathrm{mm}$).
 
-IQN-ILS needs $4.66$ and $4.41$ coupling iterations per step over $t = 40$--$45\,\mathrm{s}$ on rF0 and rF1 with the acceleration condition, and $4.21$ and $4.61$ with the zero gradient.
-With the acceleration condition on rF2, 2\,044 steps from $t \approx 34\,\mathrm{s}$ reach the limit of 60 iterations (1\,718 of the 2\,501 steps in the window), with the residual stalled at $1\times10^{-4}$--$1.7\times10^{-3}$ (median $2.7\times10^{-4}$), and the mean over the window is $46.0$.
-With the zero gradient on rF2, where the flap becomes steady, 441 steps from $t \approx 37\,\mathrm{s}$ reach the limit of 60 iterations, with the residual stalled at about $2\times10^{-4}$, and the mean over the window rises to $22.8$, while the tip varies by only $5\times10^{-4}\,\mathrm{mm}$ over the window.
+IQN-ILS needs $4.66$ and $4.41$ coupling iterations per step over $t = 40$--$45\,\mathrm{s}$ on L1 and L2 with the acceleration condition, and $4.21$ and $4.61$ with the zero gradient.
+With the acceleration condition on L3, 2\,044 steps from $t \approx 34\,\mathrm{s}$ reach the limit of 60 iterations (1\,718 of the 2\,501 steps in the window), with the residual stalled at $1\times10^{-4}$--$1.7\times10^{-3}$ (median $2.7\times10^{-4}$), and the mean over the window is $46.0$.
+With the zero gradient on L3, where the flap becomes steady, 441 steps from $t \approx 37\,\mathrm{s}$ reach the limit of 60 iterations, with the residual stalled at about $2\times10^{-4}$, and the mean over the window rises to $22.8$, while the tip varies by only $5\times10^{-4}\,\mathrm{mm}$ over the window.
 In a typical stalled step $r_1 = 1.8\times10^{-4}$ while $r_2 = 3.7\times10^{-12}$, the accumulated interface displacement is $9\times10^{-12}$ cell widths and the fluid velocity residuals are about $10^{-13}$: the step is converged, and the stall is a property of the purely relative measure $r_1$ at a steady state (Appendix~\ref{app:lessons}), distinct from the unconverged steps accepted by the legacy test (Section~\ref{sec:iterative_errors}).
 
 Separately from the verification, the solutions are compared with the measurements.
@@ -963,21 +1010,21 @@ The velocity difference is the magnitude of the difference vector between the co
 		\toprule
 		Mesh & Solution & $u_y - 16.41$ (mm) & Centreline (mm) & Velocity \\
 		\midrule
-		rF0 & acc. & $-0.16$ & $0.188$ & $5.18\%$ \\
+		L1 & acc. & $-0.16$ & $0.188$ & $5.18\%$ \\
 		    & z.g. & $-0.10$ & $0.186$ & $5.06\%$ \\
 		    & QM   & $-0.44$ & $0.27$  & $5.2\%$ \\
-		rF1 & acc. & $+0.14$ & $0.226$ & $4.93\%$ \\
+		L2 & acc. & $+0.14$ & $0.226$ & $4.93\%$ \\
 		    & z.g. & $+0.25$ & $0.275$ & $4.92\%$ \\
 		    & QM   & $+0.21$ & $0.27$  & $5.0\%$ \\
-		rF2 & acc. & $+0.32$ & $0.308$ & $4.93\%$ \\
+		L3 & acc. & $+0.32$ & $0.308$ & $4.93\%$ \\
 		    & z.g. & $+0.31$ & $0.306$ & $4.96\%$ \\
 		    & QM   & $+0.23$ & $0.28$  & $4.9\%$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-With the acceleration condition the tip lies $0.16\,\mathrm{mm}$ below the measurement on rF0 and $0.14$ and $0.32\,\mathrm{mm}$ above it on rF1 and rF2, the centreline deviates from the measured one by $0.188$, $0.226$ and $0.308\,\mathrm{mm}$ RMS, and the velocity by $5.18$, $4.93$ and $4.93\%$ (Table~\ref{tab:hessenthaler_validation}); the zero-gradient and quasi-monolithic solutions give $0.19$--$0.31\,\mathrm{mm}$ and $4.9$--$5.2\%$.
-With every condition and coupling, refinement moves the tip from below the measurement to above it, and further away on rF2, so the agreement on any one mesh partly reflects discretisation error, and agreement on a coarse mesh is not evidence of accuracy.
+With the acceleration condition the tip lies $0.16\,\mathrm{mm}$ below the measurement on L1 and $0.14$ and $0.32\,\mathrm{mm}$ above it on L2 and L3, the centreline deviates from the measured one by $0.188$, $0.226$ and $0.308\,\mathrm{mm}$ RMS, and the velocity by $5.18$, $4.93$ and $4.93\%$ (Table~\ref{tab:hessenthaler_validation}); the zero-gradient and quasi-monolithic solutions give $0.19$--$0.31\,\mathrm{mm}$ and $4.9$--$5.2\%$.
+With every condition and coupling, refinement moves the tip from below the measurement to above it, and further away on L3, so the agreement on any one mesh partly reflects discretisation error, and agreement on a coarse mesh is not evidence of accuracy.
 The velocity difference changes by at most $0.3\%$ of $630\,\mathrm{mm/s}$ between meshes; it is largest at the jet cores, where the measured velocities exceed the prescribed inflow and the measured plane flow rates exceed the pump rate by $8$--$10\%$~\citep{CardiffBatistic2026QM}.
 Without an experimental uncertainty, which is not available, a remaining discrepancy cannot be judged.
 
@@ -1001,11 +1048,12 @@ An elastic half-cylinder in a highly viscous channel flow (Fig.~\ref{fig:blob_ge
 We use it with a finite-strain solid: a total Lagrangian neo-Hookean solid with the Lam\'e constants of~\citet{Liu2014} ($\lambda = 500\,\mathrm{Pa}$, $\mu = 50\,\mathrm{Pa}$), with the fluid, the block-structured meshes (\texttt{blockMesh}), the inflow and the time steps of the solids4foam tutorial.
 A small-strain solid, as in the published definition, integrates the fluid traction over its undeformed surface and here receives about $12\%$ less $x$-force than the fluid exerts; with the finite-strain solid the interface forces balance to about $10^{-6}$. A St Venant--Kirchhoff solid is not used, because it softens in compression and collapses at $t \approx 1.8\,\mathrm{s}$.
 \paragraph{Reference.}
-The case is redefined, so the published values do not apply. The reference is C-weak: self-convergence, and a second implementation by the same group (monolithic finite elements, FEniCSx; Supplementary Material, which also audits the small-strain definition).
+The case is redefined, so the published values do not apply. The reference is C-weak: self-convergence, and a second implementation by the authors of this paper (monolithic finite elements, FEniCSx; Supplementary Material, which also audits the small-strain definition).
 
 \paragraph{Results.}
+The reference values are collected in Table~\ref{tab:refvals_provisional} (Appendix~\ref{app:reference_values}).
 At $t = 1\,\mathrm{s}$ on the baseline mesh, $\Delta t = 0.25$ to $0.03125\,\mathrm{s}$ gives top-point $u_x = 0.0590302$, $0.0595007$, $0.0596084$ and $0.0596316\,\mathrm{m}$, with observed orders 2.13 and 2.21 ($u_x$) and 2.12 and 2.00 (interface position); below $\Delta t = 0.03125\,\mathrm{s}$ the changes ($\approx10^{-5}\,\mathrm{m}$) reach the coupling and solver tolerances.
-Four mesh levels (120 to 7\,680 fluid cells, both meshes refined together) give steady $u_x = 0.124852$, $0.135581$, $0.139075$ and $0.139948\,\mathrm{m}$, converging at an observed order of 2.00 to $0.14024\,\mathrm{m}$; the baseline level is $3.3\%$ and the finest level $0.2\%$ below this value.
+Four mesh levels, L1--L4 (120 to 7\,680 fluid cells, both meshes refined together), give steady $u_x = 0.124852$, $0.135581$, $0.139075$ and $0.139948\,\mathrm{m}$, converging at an observed order of 2.00 to $0.14024\,\mathrm{m}$; the baseline level, L2, is $3.3\%$ and L4 $0.2\%$ below this value.
 
 \paragraph{Independent numerical comparisons.}
 The FEniCSx implementation converges to limits within $0.05$--$0.19\%$ of ours for the top-point displacement, the interface forces and the pressure drop, although its own displacement converges at only about first order.

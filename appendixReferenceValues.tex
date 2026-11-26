@@ -1,0 +1,226 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reference values}
+\label{app:reference_values}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Every number in this appendix is repeated from the tables and text of
+% Section benchmark_suite and Appendix app:beam, or read from the stored
+% histories in paper-data (collapsible channel: paper-data/collapsible_mesh_study/).
+% The same values are in paper-data/reference_values/reference_values.csv.
+
+This appendix collects, for every case, the values against which another code can be compared without access to the case files: the exact values where the reference is exact, and otherwise the recommended reference QoIs, our finest-level values and, where the rules of Section~\ref{sec:convergence_method} allow it, an extrapolated value with its uncertainty.
+The category of each reference is that of Table~\ref{tab:ref_hierarchy}; ``conditional'' and ``provisional'' label the indicators of Section~\ref{sec:convergence_method}, which are not bounds.
+A value that is still being updated is marked \hl{[pending]}.
+The problem definitions are those of the case sections; only the definitions needed to evaluate the QoIs are repeated here.
+The same values are given in machine-readable form in \texttt{paper-data/reference\_values/} of the paper repository.
+
+\paragraph{Exact references.}
+For the ring added-mass problem (Table~\ref{tab:refvals_ring}) the QoIs are the angular frequency of the $n=2$ mode and the wet/dry frequency ratio, for the parameters of Table~\ref{tab:ring_params}; the exact values are those of the plane-strain continuum ring with the potential-flow added-mass traction.
+For the pulsatile compliant tube (Table~\ref{tab:refvals_womersley}) the exact complex wave number and wave speed are given, with our finest-level errors in the Fourier-coefficient QoIs of Section~\ref{sec:womersley}.
+For the manufactured solution the exact fields are given in closed form in Appendix~\ref{app:mms}, and the reference values are the L2 error norms at $t = 0.4$ of Table~\ref{tab:refvals_mms}.
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Ring added-mass problem: exact angular frequencies and wet/dry frequency ratios (parameters of Table~\ref{tab:ring_params}), and our values on L3 at 100 steps per period (high-order solid, IQN-ILS).}
+	\label{tab:refvals_ring}
+	\begin{tabular}{lrrrr}
+		\toprule
+		 & \multicolumn{2}{c}{Exact} & \multicolumn{2}{c}{L3, 100 steps per period} \\
+		\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+		Added mass & $\omega$ (rad/s) & $\omega_\mathrm{wet}/\omega_\mathrm{dry}$ & $\omega$ (rad/s) & Error in ratio \\
+		\midrule
+		dry & 2.555042 & -- & \hl{[pending]} & -- \\
+		weak ($m^* = 0.101$) & 2.435615 & 0.953258 & \hl{[pending]} & \hl{[pending]} \\
+		moderate ($m^* = 1.008$) & 1.804513 & 0.706256 & \hl{[pending]} & \hl{[pending]} \\
+		strong ($m^* = 10.08$) & 0.768654 & 0.300838 & \hl{[pending]} & \hl{[pending]} \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Pulsatile compliant tube: exact wave number and wave speed, and our errors on L3 at 200 steps per period (Fourier coefficients over periods 5 and 6, at $x = L/2$; wave speed and $\mathrm{Im}(k)$ from the fit of $\log\hat{p}(x)$ at $r = R/2$; phases in radians).}
+	\label{tab:refvals_womersley}
+	\begin{tabular}{lr}
+		\toprule
+		Quantity & Value \\
+		\midrule
+		Exact wave number $k$ & $0.143978 - 0.020727\mathrm{i}\,\mathrm{m^{-1}}$ \\
+		Exact wave speed & $0.872796\,\mathrm{m/s}$ \\
+		\midrule
+		L3 error, velocity profile (max.) & $1.20\times10^{-3}$ \\
+		L3 error, flow-rate amplitude & $-3.09\times10^{-4}$ \\
+		L3 error, flow-rate phase & $8.2\times10^{-5}$ \\
+		L3 error, wall-displacement amplitude & $-1.76\times10^{-4}$ \\
+		L3 error, wall-displacement phase & $-1.15\times10^{-3}$ \\
+		L3 error, wave speed & $1.4\times10^{-5}$ \\
+		L3 error, attenuation $\mathrm{Im}(k)$ & $-1.96\times10^{-3}$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Manufactured solution, full variant: L2 error norms at $t = 0.4$ on $n = 128$ ($\Delta t = 0.0025$), with the error definition of Appendix~\ref{app:mms}. The quasi-monolithic values are those of Table~\ref{tab:mms_fsi_corr}.}
+	\label{tab:refvals_mms}
+	\begin{tabular}{lrrr}
+		\toprule
+		Quantity & Aitken & Robin--Neumann & Quasi-monolithic \\
+		\midrule
+		$\bb{v}_F$ & \hl{[pending]} & \hl{[pending]} & $6.71\times10^{-4}$ \\
+		$p_F$ & \hl{[pending]} & \hl{[pending]} & $8.40\times10^{-4}$ \\
+		$\bb{D}_S$ & \hl{[pending]} & \hl{[pending]} & $3.69\times10^{-5}$ \\
+		$\bb{D}_S^\Gamma$ & \hl{[pending]} & \hl{[pending]} & $7.33\times10^{-5}$ \\
+		$\bb{t}^\Gamma$ & \hl{[pending]} & \hl{[pending]} & $1.21\times10^{-3}$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{Collapsible channel.}
+The QoIs are the extrema of the vertical displacement of the wall midpoint, $x = 10\,\mathrm{m}$, over $t \leq 1.5\,\mathrm{s}$ (Table~\ref{tab:refvals_collapsible}).
+Each extremum is the vertex of the parabola through the three stored values nearest to it, at $\Delta t = 0.00625\,\mathrm{s}$; differences are given as percentages of the peak $P = 0.216\,\mathrm{m}$ of the reference stored with the case.
+The reference (category B) is oomph-lib extrapolated to zero mesh size at the same $\Delta t$; its two extrapolations agree to $0.004\%$ of $P$ in the history, the model-form difference in the first trough is at least $\approx0.06\%$ of $P$, and an extrapolation of order $1.25$ instead of one would move the first trough by up to $0.011\%$ of $P$.
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Collapsible channel: extrema of the wall-midpoint vertical displacement (m) and their times (s) at $\Delta t = 0.00625\,\mathrm{s}$, for oomph-lib extrapolated to zero mesh size (reference, category B) and for our L4 (Robin--Neumann, solid $160\times8$, high-order solid). Last row: the maximum history difference over $t \leq 1.5\,\mathrm{s}$. Source: \texttt{paper-data/collapsible\_mesh\_study/}.}
+	\label{tab:refvals_collapsible}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		 & \multicolumn{2}{c}{oomph-lib, extrapolated} & \multicolumn{2}{c}{L4} & Difference \\
+		\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+		Extremum & $t$ & $u_y$ & $t$ & $u_y$ & (\% of $P$) \\
+		\midrule
+		first trough & 0.4702 & $-0.21615$ & 0.4701 & $-0.21610$ & $+0.02$ \\
+		second peak & 0.7917 & $-0.04077$ & 0.7915 & $-0.04120$ & $-0.20$ \\
+		second trough & 1.1221 & $-0.20385$ & 1.1217 & $-0.20365$ & $+0.09$ \\
+		third peak & 1.4359 & $-0.06503$ & 1.4353 & $-0.06563$ & $-0.28$ \\
+		\midrule
+		max.\ history difference & & & & & $0.33$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{Turek--Hron benchmarks.}
+The QoIs are the displacements $u_x$ and $u_y$ of the flag-tip point A of the benchmark definition~\citep{Turek2006} and the drag and lift per unit depth on the cylinder and flag together.
+FSI1 is steady (Table~\ref{tab:refvals_fsi1}). The tabulated values are those of a four-level study with the standard solid and the strict coupling test, integrated in pseudo-time with IQN-ILS ($2.6$--$3.0$ coupling iterations per step), which has more levels than the high-order-solid study of Section~\ref{sec:fsi1}.
+All four QoIs converge monotonically; $u_x$ converges at first order from below and crosses the Featflow value between 4x and 8x, whereas the Featflow $u_x$ converges from above, so $u_x$ is the least converged QoI of both sequences.
+Doubling the pseudo-time step at 4x changes every QoI by at most $0.012\%$, every run is steady to a relative spread of at most $2.2\times10^{-4}$ over its last $6\,\mathrm{s}$, and in a two-level study with the legacy test IQN-ILS and Robin--Neumann agree to $0.01\%$.
+For FSI3 (Table~\ref{tab:refvals_fsi3}) the mean is (max+min)/2 and the amplitude (max$-$min)/2, averaged over the last five full periods before $t = 6\,\mathrm{s}$ with the flag held rigid to $t = 2\,\mathrm{s}$; the frequency is that of $u_y$.
+The FSI2 values are \hl{[pending]}: the case is being recomputed on the Gmsh family.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\caption{Turek--Hron FSI1 with the standard solid: steady QoIs on four levels ($\Delta t = 0.00625\,\mathrm{s}$, $t = 30\,\mathrm{s}$; strict coupling test), observed orders from 1x--2x--4x and 2x--4x--8x, the Richardson value from 2x--4x--8x with the observed order and the GCI of 8x (both conditional indicators), and the finest Featflow level (reference, category B). Source: \texttt{paper-data/fsi1\_four\_level/}.}
+	\label{tab:fsi1}\label{tab:refvals_fsi1}
+	\begin{tabular}{lrrrr}
+		\toprule
+		Level (cells, fluid + solid) & $u_x$ ($10^{-5}\,\mathrm{m}$) & $u_y$ ($10^{-4}\,\mathrm{m}$) & drag (N/m) & lift (N/m) \\
+		\midrule
+		1x (5\,966) & 2.2161 & 7.0404 & 14.1890 & 0.80343 \\
+		2x (23\,864) & 2.2507 & 7.8283 & 14.2628 & 0.77559 \\
+		4x (95\,456) & 2.2668 & 8.0856 & 14.2886 & 0.76663 \\
+		8x (381\,824) & 2.2747 & 8.1560 & 14.2977 & 0.76414 \\
+		\midrule
+		Order, 1x--4x / 2x--8x & 1.11 / 1.02 & 1.61 / 1.87 & 1.52 / 1.51 & 1.63 / 1.85 \\
+		Richardson value & 2.2824 & 8.1825 & 14.3026 & 0.76318 \\
+		GCI (8x) & $0.42\%$ & $0.41\%$ & $0.04\%$ & $0.16\%$ \\
+		Featflow, finest level & 2.2705 & 8.2088 & 14.2943 & 0.76375 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Turek--Hron FSI3: QoIs on L3 of the Gmsh family, provisional GCIs centred on L3 (none where the sequence is not monotone), and the reference of~\citet{Failer2020} (level 6, category B, uncertainty $\approx0.3\%$). No Richardson value is given. From Table~\ref{tab:hronturek_gmsh}.}
+	\label{tab:refvals_fsi3}
+	\begin{tabular}{lrrr}
+		\toprule
+		Quantity & L3 & GCI (provisional) & Reference \\
+		\midrule
+		$u_x$ mean (mm) & $-2.947$ & $0.03\%$ & $-2.890$ \\
+		$u_x$ amplitude (mm) & 2.786 & $0.02\%$ & 2.729 \\
+		$u_y$ amplitude (mm) & 35.33 & $0.16\%$ & 35.03 \\
+		frequency (Hz) & 5.4746 & $0.01\%$ & 5.460$^F$ \\
+		drag mean (N/m) & 461.3 & $0.04\%$ & 460.5 \\
+		drag amplitude (N/m) & 28.33 & -- & 27.91 \\
+		lift amplitude (N/m) & 159.1 & $2.6\%$ & 156.6 \\
+		\bottomrule
+		\multicolumn{4}{l}{\footnotesize $^F$~Featflow level 4; not given by~\citet{Failer2020}.}
+	\end{tabular}
+\end{table}
+
+\paragraph{Three-dimensional pressure-pulse tube.}
+The QoIs are taken at point A (Fig.~\ref{fig:3dtube_geom}): the first maximum of the radial wall displacement $u_{r,\max}$, the first minimum of the axial wall displacement $u_{z,\min}$, the arrival time $t_\mathrm{arr}$, the first time at which $u_r(A)$ reaches half its first peak, and the pressure-wave speed $c_p$, the least-squares slope of the arrival of half the inlet pressure at probes on the axis, $z = 1$--$4\,\mathrm{cm}$ (Table~\ref{tab:refvals_3dtube}).
+The reference is C-weak and the sequence is not shown to converge in $u_{r,\max}$ and $c_p$, so no extrapolated value is given; the last change is a scale of the remaining sensitivity, not a bound.
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Three-dimensional pressure-pulse tube: point-A QoIs on L3 ($1.024\times10^{6}$ fluid cells, $\Delta t = 6.25\times10^{-6}\,\mathrm{s}$, BDF2) and the change from L2 to L3. From Table~\ref{tab:3dtube}.}
+	\label{tab:refvals_3dtube}
+	\begin{tabular}{lrr}
+		\toprule
+		Quantity & L3 & Change L2$\to$L3 \\
+		\midrule
+		$u_{r,\max}$ (mm) & 0.15831 & $-0.59\%$ \\
+		$u_{z,\min}$ (mm) & $-0.08570$ & $1.01\%$ \\
+		$t_\mathrm{arr}$ (ms) & 5.823 & $-0.31\%$ \\
+		$c_p$ (m/s) & 4.625 & $-0.56\%$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{Mok lid-driven cavity.}
+The QoIs are the peak, the trough and the mean of the vertical displacement of the membrane midpoint over $t = 20$--$70\,\mathrm{s}$, for the group-B definition with the openings fixed (Table~\ref{tab:refvals_mok}).
+The reference (category B) is the independent Kratos solution; the two codes can be compared to about $1\%$, the effect of their different outlet conditions.
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Mok lid-driven cavity: membrane-midpoint statistics (m) of the Kratos reference (peak: the $128^2$ value with a band down to the extrapolated values; trough and mean: extrapolated, with GCI) and our values on $96^2$ ($\Delta t = 0.025\,\mathrm{s}$). From Table~\ref{tab:mok}.}
+	\label{tab:refvals_mok}
+	\begin{tabular}{lrrr}
+		\toprule
+		 & Peak & Trough & Mean \\
+		\midrule
+		Kratos reference & 0.280--0.2835 & 0.2051 & 0.2430 \\
+		GCI of the reference & -- & $0.45\%$ & $0.61\%$ \\
+		solids4foam, $96^2$ & 0.2861 & 0.2044 & 0.2445 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{Provisional cases.}
+For the flexible-bottom cavity the QoIs are the steady vertical displacement $u_y$ of point A on the top (wetted) surface of the plate and the vertical interface force $F_y$ per unit depth; for the beam in cross-flow, with the corrected inflow, the steady streamwise displacement $u_x(A)$, $A = (0.45, 0.15, -0.15)\,\mathrm{m}$, and the drag $F_x$ on the plate; for the Hessenthaler flap the vertical tip deflection averaged over $t = 40$--$45\,\mathrm{s}$; for the blob in treacle the horizontal displacement $u_x$ of the top point, steady and at $t = 1\,\mathrm{s}$ (Table~\ref{tab:refvals_provisional}).
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\caption{Provisional cases: finest-level values, extrapolated values with their uncertainty where the rules of Section~\ref{sec:convergence_method} allow them, and the reference category. Cavity: partitioned, extrapolated with $p = 2$ from the three finest levels, with GCI; beam: corrected inflow, conditional Richardson values from L2--L4; Hessenthaler: acceleration interface pressure condition, no extrapolation (three-level mesh sensitivity); blob: steady value extrapolated at the observed order $2.00$, and $t = 1\,\mathrm{s}$ on L2 at $\Delta t = 0.03125\,\mathrm{s}$.}
+	\label{tab:refvals_provisional}
+	\begin{tabular}{llrrrl}
+		\toprule
+		Case & Quantity & Finest level & Extrapolated & Uncertainty & Category \\
+		\midrule
+		Flexible-bottom cavity & $u_y$ (m) & $-0.2400$ (L4) & $-0.2406$ & GCI $0.31\%$ & C-weak \\
+		 & $F_y$ (N/m) & $-5.2561$ (L4) & $-5.2579$ & GCI $0.045\%$ & \\
+		Beam in cross-flow & $u_x(A)$ ($10^{-5}\,\mathrm{m}$) & 5.944 (L4) & 5.998 & conditional & C \\
+		 & $F_x$ (N) & 1.3272 (L4) & 1.3325 & conditional & \\
+		Hessenthaler flap & $u_y$ (mm) & 16.726 (L3) & -- & -- & C-weak \\
+		Blob in treacle & $u_x$, steady (m) & 0.139948 (L4) & 0.14024 & -- & C-weak \\
+		 & $u_x$, $t = 1\,\mathrm{s}$ (m) & 0.0596316 (L2) & -- & -- & \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The independent SU2--CalculiX limits of the cavity, $u_y = -0.240559\,\mathrm{m}$ and $F_y = -5.257784\,\mathrm{N/m}$ (Table~\ref{tab:cavity_refs}), agree with ours to $0.010\%$ and $0.003\%$ \hl{[pending merge of the SU2 data]}.
+The published reference values of the beam in cross-flow are $u_x(A) = 5.95\times10^{-5}\,\mathrm{m}$ and $F_x = 1.33\,\mathrm{N}$~\citep{Richter2012}, computed with the corrected inflow.
+The measured tip deflection of the Hessenthaler flap is $16.41\,\mathrm{mm}$; with the zero-gradient interface pressure condition L3 gives $16.724\,\mathrm{mm}$.
