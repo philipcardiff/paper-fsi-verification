@@ -10,6 +10,16 @@ Ansys and COMSOL material models confirmed by E. Tandis on PR #12
 nonlinearity, Ansys as a 3-D slab with symmetry planes front and back,
 COMSOL in 2-D.
 
+**Update, 27 November 2026 (Tuković law, open point 1).** The released
+foam-extend-4.0 FSI toolkit of Tuković et al. (Fsi_40, June 2016) was rebuilt
+and run on the cavity: see `cavity_tukovic_fsi40/README.md`. Its finite-strain
+"linearElastic" plate is exactly StVK (no neo-Hookean or hypoelastic law), and
+on L1–L3 it converges to u_y −0.24061 m and F_y −5.2594 N/m, within 0.01 % and
+0.03 % of our limits. The published displacement is 0.8 %, 3.5 % and 4.2 %
+above it on L1–L3; small strain (+22 %), plane stress (+12 %) and the
+`updatedLagrangian` keyword (−27 %) do not reproduce it either. The source of
+the published 4.3 % remains unidentified.
+
 **Update, 20 November 2026.** The solids4foam rows of `reference_levels.csv`
 and `reference_richardson.csv` are now the partitioned sequence with a
 skew-corrected continuity flux (`paper-data/cavity_partitioned_skew/`). The
@@ -121,7 +131,7 @@ Richardson extrapolation from the three finest levels (r = 2):
 
 ## Status and open points
 
-1. **Which law did Tuković et al. use?** Their published displacement matches a neo-Hookean plate, although the case is stated as StVK. Philip is checking this with Ž. Tuković. Their forces (per 0.05 m depth, now corrected) match solids4foam to 0.01%.
+1. **Which law did Tuković et al. use?** Their published displacement matches a neo-Hookean plate, although the case is stated as StVK. Philip is checking this with Ž. Tuković. (27 November 2026: the released Fsi_40 code reproduces StVK, not the published value; see the update at the top and `cavity_tukovic_fsi40/`.) Their forces (per 0.05 m depth, now corrected) match solids4foam to 0.01%.
 2. **Ansys material model: answered.** Linear elastic material with geometric nonlinearity (large deflection), 3-D slab with symmetry planes. As noted above, Ansys Mechanical's large-deflection linear elastic setting is, as far as we know, a logarithmic-strain (Hencky-type) law, not StVK. Its displacement ratio to solids4foam, 1.053, matches the plate-only Hencky ratio, 1.057. The element type and formulation (e.g. SOLID186 or SOLID185 with enhanced strain) are still to be confirmed; if Ansys has a StVK option (for example a user material), a StVK Ansys run would close the comparison.
 3. **COMSOL with StVK: confirmed.** The solid model is linear elastic with geometric nonlinearity (StVK), in 2-D. COMSOL's −0.2431 m is within 1.0% of solids4foam (0.55% at its 0.7% higher load). Still needed from PR #12: how F_y is integrated (the cause of the 0.7% force offset), element types and orders, and the coupling and its tolerance.
 4. **Proposed redefinition if StVK is impractical in Ansys.** Use a compressible neo-Hookean plate with μ = 178.57 Pa and K = 833.33 Pa (Ansys Neo-Hookean with d = 0.0024 Pa⁻¹; solids4foam `neoHookeanElastic`). Ansys, COMSOL, solids4foam and, if confirmed, Tuković et al. (2018) would then solve the same problem. The case was proposed recently, by Tuković et al. (2018), so there is no long legacy to preserve. The solids4foam four-level study would then need rerunning with `neoHookeanElastic`.
