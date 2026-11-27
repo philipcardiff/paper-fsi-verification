@@ -1,0 +1,4 @@
+run,outerCorrTolerance,dt_s,coupled_steps_t2_6,iter_mean_t2_6,iter_max_t2_6,steps_at_nOuterCorr_50,r1_accept_median,r1_accept_max,source_of_iteration_counts
+g1 (baseline),1e-6,2.0e-4,20000,5.05,20,0,5.68e-07,9.99993e-07,log.solids4Foam (as ../coupling.csv)
+g1_tol1e-7,1e-7,2.0e-4,20000,6.39,50,2,5.11e-08,1.40e-07,fsiResiduals.dat
+g1_dt1e-4,1e-6,1.0e-4,40000,5.69,24,0,5.85e-07,9.99964e-07,fsiResiduals.dat

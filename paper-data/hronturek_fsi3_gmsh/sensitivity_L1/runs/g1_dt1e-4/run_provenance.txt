@@ -1,0 +1,3 @@
+solids4Foam: /scratch/pcardiff/OpenFOAM/gmshpart-v2512/platforms/linux64GccDPInt32Opt/bin/solids4Foam
+9e6d1bfb270345d08dfac2a2ecc65ae84e4b0a25
+Thu 26 Nov 23:33:39 GMT 2026

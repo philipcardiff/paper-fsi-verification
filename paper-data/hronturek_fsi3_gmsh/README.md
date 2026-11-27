@@ -15,6 +15,7 @@ its own statistics driver.
 | `coupling.csv` | Coupling iterations per step, steps at the iteration limit and the residual r1 at acceptance per level. |
 | `window_sensitivity.csv` | The five-period window slid back period by period (window end 4.55–5.84 s), per level. |
 | `compute_orders.py` | `python3 compute_orders.py g123.csv > orders.csv` (standard library only). |
+| `sensitivity_L1/` | Level-1 coupling-tolerance (1e-7) and time-step (1e-4 s) checks; own README. |
 
 ## Analysis command
 
@@ -142,12 +143,19 @@ restarted four times; `fsiResiduals.dat.upto_5.2424` was rebuilt from the logs f
   `/project/home/p201287/philip/fsi3-l3/g3_np128` (case files, postProcessing, logs).
 - Solver-paper report on level 3: paper-monolithic-fsi issue 13, comment 7176633587.
 
+## Coupling-tolerance and time-step checks (`sensitivity_L1/`)
+
+On level 1, a coupling tolerance of 1e-7 (job 1191796) and a halved time step Δt = 1e-4 s (job
+1192165) against the baseline: every QoI changes by ≤ 0.0022 % with the tolerance, and by
+0.047 % (drag amplitude) and ≤ 0.008 % (all others) with the time step, against L1→L2 changes of
+0.04–1.8 %. These replace, in the paper, the coupling studies of the uniform block-structured
+family. Details in `sensitivity_L1/README.md`.
+
 ## Not done on this family
 
-No separate time-step study (Δt is scaled with h), no coupling-tolerance sweep, no
-coupling-algorithm comparison, no solid-only refinement and no second-code solution. The coupling
-studies of the uniform block-structured family and the second-solid-code run on the ring+box
-1x′ mesh (`fsi3_precice_calculix/`) are on other meshes.
+No time-step study on the finer levels (Δt is scaled with h), no coupling-algorithm comparison,
+no solid-only refinement and no second-code solution. The second-solid-code run on the ring+box
+1x′ mesh (`fsi3_precice_calculix/`) is on another mesh.
 
 ## History figure (`figure/`, Fig. `fig:fsi3_histories`)
 

@@ -1,0 +1,2 @@
+solid SNES/KSP failures: 0
+steps accepted with a failed solid solve (no later converged solid iteration and converged coupling): 0 []
