@@ -157,13 +157,13 @@ The FSI2 values are \hl{[pending]}: the case is being recomputed on the Gmsh fam
 \end{table}
 
 \paragraph{Three-dimensional pressure-pulse tube.}
-The QoIs are taken at point A (Fig.~\ref{fig:3dtube_geom}): the first maximum of the radial wall displacement $u_{r,\max}$, the first minimum of the axial wall displacement $u_{z,\min}$, the arrival time $t_\mathrm{arr}$, the first time at which $u_r(A)$ reaches half its first peak, the wall-front speed $c_\mathrm{wall}$, the least-squares slope of the arrival of half the first peak of $u_r$ on the inner wall at $z = 1$--$4\,\mathrm{cm}$, and the pressure-front speed $c_p$, the same slope for the arrival of half the inlet pressure on the axis (Table~\ref{tab:refvals_3dtube}).
-The reference is category D and the sequence is not shown to converge in $u_{r,\max}$, $c_\mathrm{wall}$ and $c_p$, so no extrapolated value is given; the last change is a scale of the remaining sensitivity, not a bound. The wall-front speed is the primary wave-speed QoI; $c_p$ is uncertain to about $1\%$ from the time step, since halving $\Delta t$ on L3 lowers it by $0.86\%$, whereas the wall QoIs change by at most $0.03\%$ (Section~\ref{sec:3dtube}). \hl{[pending: L4]}
+The QoIs are taken at point A (Fig.~\ref{fig:3dtube_geom}): the first maximum of the radial wall displacement $u_{r,\max}$, the first minimum of the axial wall displacement $u_{z,\min}$, the arrival time $t_\mathrm{arr}$, the first time at which $u_r(A)$ reaches half its first peak, the pressure-front speed $c_p$, the least-squares slope of the arrival of half the inlet pressure on the axis at $z = 1$--$4\,\mathrm{cm}$, and the wall-front speed $c_\mathrm{wall}$, the same slope for the arrival of half the first peak of $u_r$ on the inner wall (Table~\ref{tab:refvals_3dtube}).
+The reference is category D and the sequence is not shown to converge in $u_{r,\max}$, $c_p$ and $c_\mathrm{wall}$, so no extrapolated value is given; the last change is a scale of the remaining sensitivity, not a bound. The pressure-front speed $c_p$ is the primary wave-speed QoI, with a time-step uncertainty of about $1\%$: halving $\Delta t$ on L3 lowers it by $0.86\%$, whereas the wall QoIs change by at most $0.03\%$. The wall-front speed $c_\mathrm{wall}$ is a secondary check: it is insensitive to the time step ($0.004\%$) and to the wall law ($0.04\%$), but not monotone in the mesh ($+1.4\%$, $-1.4\%$), a behaviour limited by its station-based fit (Section~\ref{sec:3dtube}). The values are for a Hookean wall; on L1 a St Venant--Kirchhoff wall changes $u_{r,\max}$ by $-1.11\%$, $u_{z,\min}$ by $-3.19\%$ (deeper), $t_\mathrm{arr}$ by $-0.81\%$, $c_p$ by $+0.68\%$ and $c_\mathrm{wall}$ by $+0.04\%$, so a code with that law should be compared allowing for these differences. \hl{[pending: L4]}
 
 \begin{table}[htbp]
 	\centering
 	\small
-	\caption{Three-dimensional pressure-pulse tube: point-A QoIs on L3 ($1.024\times10^{6}$ fluid cells, $\Delta t = 6.25\times10^{-6}\,\mathrm{s}$, BDF2) and the change from L2 to L3. From Table~\ref{tab:3dtube}.}
+	\caption{Three-dimensional pressure-pulse tube: point-A QoIs on L3 ($1.024\times10^{6}$ fluid cells, $\Delta t = 6.25\times10^{-6}\,\mathrm{s}$, BDF2) and the change from L2 to L3, Hookean wall. $c_p$ is the primary wave speed, with a time-step uncertainty of about $1\%$; $c_\mathrm{wall}$ is a secondary check, not monotone in the mesh. From Table~\ref{tab:3dtube}.}
 	\label{tab:refvals_3dtube}
 	\begin{tabular}{lrr}
 		\toprule
@@ -172,8 +172,8 @@ The reference is category D and the sequence is not shown to converge in $u_{r,\
 		$u_{r,\max}$ (mm) & 0.15831 & $-0.59\%$ \\
 		$u_{z,\min}$ (mm) & $-0.08570$ & $1.01\%$ \\
 		$t_\mathrm{arr}$ (ms) & 5.823 & $-0.31\%$ \\
-		$c_\mathrm{wall}$ (m/s) & 5.067 & $-1.40\%$ \\
 		$c_p$ (m/s) & 4.625 & $-0.56\%$ \\
+		$c_\mathrm{wall}$ (m/s) & 5.067 & $-1.40\%$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
