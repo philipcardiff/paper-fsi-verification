@@ -24,7 +24,7 @@ Results computed without these corrections are affected only where an interface 
 		Turek--Hron FSI1 (four levels) & \texttt{a421f063d} & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & after \\
 		Turek--Hron FSI2 & \texttt{18a052637}$^a$ & v2412 & Clang \texttt{-O3} & macOS & before \\
 		FSI3, baseline set-up and diagnostics & \texttt{d49552f4c} and diagnostic branches & v2512 & GCC 11.4, \texttt{-O3} & Linux & before; A/B identical \\
-		Turek--Hron FSI3, Gmsh family L1--L2 (Table~\ref{tab:hronturek_gmsh}) & \texttt{9e6d1bfb2} (development \texttt{206437983}, after \#671, merged into the quasi-monolithic branch) & v2512 & GCC \texttt{-O3} & Linux (UCD Sonic) & after \\
+		Turek--Hron FSI3, Gmsh family L1--L2 (Table~\ref{tab:hronturek_gmsh}) and L1 tolerance and time-step checks (jobs 1191796, 1192165) & \texttt{9e6d1bfb2} (development \texttt{206437983}, after \#671, merged into the quasi-monolithic branch) & v2512 & GCC \texttt{-O3} & Linux (UCD Sonic) & after \\
 		Turek--Hron FSI3, Gmsh family L3 (Table~\ref{tab:hronturek_gmsh}) & \texttt{9e6d1bfb2} & v2512 & GCC 13.3, flags not recorded & MeluXina & after \\
 		FSI3, uniform block-structured family, 1x--4x (wall-derivative and non-orthogonal-correction checks) & \texttt{206437983} (after \#671) & v2512 & Clang \texttt{-O3} (1x, 2x); GCC \texttt{-O3} (4x) & macOS; Linux (UCD Sonic) & after \\
 		FSI3, uniform block-structured family, 8x (Appendix~\ref{app:lessons}; before \#671) & \texttt{30d6e22f3} with PR \#562 & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & before; 2-D argument \\
@@ -66,7 +66,7 @@ Table~\ref{tab:cost} records the cost of the verification studies summarised in 
 		Womersley tube & runs 2.5--25\,min serial; full study $\approx30$\,min on 5 cores \\
 		Collapsible channel & baseline case $\approx10$\,min; finest fluid mesh 70\,min; full sweep $\approx2.5$\,h (one case per core); serial only \\
 		Turek--Hron FSI1 & to $t = 30\,\mathrm{s}$ at $\Delta t = 0.00625\,\mathrm{s}$: 1x 1\,754\,s serial; 2x 1.2\,h on 4 ranks; 4x 5.5\,h on 16 ranks; 8x $\approx25$\,h on 64 ranks (MeluXina) \\
-		Turek--Hron FSI3 & Gmsh family, $t = 0$--$6.2\,\mathrm{s}$, one node per run: L1 9.7\,h on 24 ranks and L2 25.4\,h on 32 ranks (UCD Sonic); L3 $\approx190$\,h on 128 ranks (MeluXina; $\approx16\,\mathrm{s}$ per step late in the coupled phase); uniform family: 1x 1.4\,h serial; 2x 5.5\,h on 8 ranks; 4x 40.8\,h on 32 ranks (no speed-up beyond 32 ranks) \\
+		Turek--Hron FSI3 & Gmsh family, $t = 0$--$6.2\,\mathrm{s}$, one node per run: L1 9.7\,h on 24 ranks and L2 25.4\,h on 32 ranks (UCD Sonic); L3 $\approx190$\,h on 128 ranks (MeluXina; $\approx16\,\mathrm{s}$ per step late in the coupled phase); L1 checks on 24 ranks: tolerance $10^{-7}$ 12.7\,h, $\Delta t$ halved 20.8\,h \\
 		Turek--Hron FSI2 & 1x 1.1--1.2\,h serial; 2x 4.0--4.1\,h on 7--8 ranks \\
 		3-D pressure-pulse tube & L1 2\,511\,s and L2 2\,921\,s on 8 ranks (macOS workstation); L3 25\,060\,s (7.0\,h) on 32 ranks (desktop workstation, $\approx220$ core-hours); L3 with $\Delta t$ halved $\approx9$--$10\,\mathrm{s}$ per step on 44 ranks of one cluster node \\
 		Mok lid-driven cavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
