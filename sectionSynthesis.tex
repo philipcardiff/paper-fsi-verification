@@ -37,7 +37,7 @@ The observations are specific to this suite and to one code family, and are not 
 		Mok lid-driven cavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & trough & SD; vs ref.\ (B) \\
 		Flexible-bottom cavity & $u_y$ 1.93, 1.98; $F_y$ 2.03, 1.86 (four levels, scaled) & pseudo-time step: $0.18$, $0.03$, $0.001\%$ on L1--L3 & $u_y$ (GCI $0.31\%$) & SD; vs ref.\ (B) \\
 		Beam in cross-flow & $u_x(A)$ 1.64, $F_x$ 1.60 (L2--L4; Appendix~\ref{app:beam}) & $\approx1/240$ of the L3-to-L4 change & -- & SD \\
-		Manufactured FSI & partitioned (Aitken): $\bb{v}_F$ 1.7--2.0, $p_F$ 1.8--2.1, solid and interface 1.9--2.3, traction 1.7--2.1; Robin--Neumann $p_F$ 1.8--2.0; QM: 1.2--2.5 (2.0 with three unreleased corrections) & QM 2.0 with corrections & -- & vs exact; scaled \\
+		Manufactured FSI & partitioned (Aitken): $\bb{v}_F$ 1.7--2.0, $p_F$ 1.8--2.1, solid and interface 1.9--2.3, traction 1.7--2.1; Robin--Neumann $p_F$ 1.8--2.0; QM: 1.2--2.5 (2.0 with three corrections) & QM 2.0 with corrections & -- & vs exact; scaled \\
 		Blob in treacle & 2.00 & 2.13, 2.21 (interface 2.12, 2.00) & -- & SD; Richardson \\
 		\bottomrule
 	\end{tabular}
@@ -172,7 +172,7 @@ Most of the difficulties in Table~\ref{tab:published} lay in the reporting rathe
 A benchmark is most useful for verification when its authors tabulate the QoIs on every level computed, not only the finest; report separate mesh and time-step studies, stating the time integrator and step; define the problem unambiguously, including the monitoring points, the inflow and any ramp; state how periodic statistics are taken and whether the solution is periodic over that window; and provide the reference values and, where possible, the case set-up in machine-readable form.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Defects and what a verification claim should contain}\label{sec:defects}
+\subsection{Defects, verification claims and reproducibility}\label{sec:defects}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Nine defects or hazards in solids4foam were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value; they are listed, with how each was found, in Table~\ref{tab:defects} of Appendix~\ref{app:lessons}, which also states the general lessons they carry for FSI solver developers.
@@ -190,6 +190,9 @@ The studies of Section~\ref{sec:benchmark_suite} suggest that such agreement is 
 and (v) the code version, toolchain and platform, with cross-platform, decomposition and symmetry checks, since two of the defects found here could not be seen on a single platform or a single mesh level.
 None of these items requires a new benchmark, and all can be added to existing studies at a cost that is small compared with the refinement study itself.
 
+\label{sec:infrastructure}Such a claim is useful only if it can be re-executed rather than accepted on trust, which requires the definition, the reference and the comparison procedure to be reproducible.
+Independently of the code used, we therefore recommend four properties, which the drivers accompanying the present cases~\citep{Cardiff2025} implement to varying degrees (Table~\ref{tab:driver_properties}, Appendix~\ref{app:provenance}): opt-in drivers that run the mesh, time-step and coupling studies, compute the QoIs and observed orders, and exit with a non-zero status unless every acceptance criterion is met, kept separate from regression tests; machine-readable reference files that record, for each value, its source, its category, the extraction method and its uncertainty, with the code that generates the reference where possible; per-run QoIs written to CSV, with diverged, truncated or non-periodic runs reported as failures; and a record of the case-file hashes, the code and library versions, the compiler and its flags and a fingerprint of the executable, which makes item (v) above checkable, with the case set-ups, drivers, raw outputs and reference files of a publication archived under a persistent identifier.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cost and the tiered suite}\label{sec:cost}\label{sec:recommended_suite}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -198,8 +201,7 @@ Cost rises by roughly four orders of magnitude from the exact-reference problems
 The two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have three levels with sub-nominal or undefined orders (3-D pressure-pulse tube), a published definition that had to be corrected (beam in cross-flow), or a fluid convergence that is not established at $\approx1.8\times10^{3}$ core-hours per run (Hessenthaler flap).
 Even in two dimensions the third FSI3 level, with $3.9\times10^5$ fluid cells, took about eight days on a 128-core node.
 Which error source dominates is also case dependent: in the thin-walled collapsible channel the solid discretisation can dominate ($17.4\%$ against $0.44\%$ for linear against cubic solid), whereas in FSI1, once the solid is of high order, the remaining error is that of the fluid and of the interface load (Section~\ref{sec:fsi1}).
-For one independent cost point, FEBio's monolithic solver took $2\,033\,\mathrm{s}$ on a free-slip variant of the ring problem on L2, against $224\,\mathrm{s}$ (IQN-ILS) and $315\,\mathrm{s}$ (Robin--Neumann) for solids4foam on one core; the processors and methods differ, so this describes these configurations and is not a ranking of the codes.
-\todo{Author decision: whether to add cost per degree of freedom and per time step where comparable hardware was used; the SU2--CalculiX runs (FSI1, ring, cavity) record their costs and could be added as further independent-code points.}
+The recorded costs of all cases are collected in Table~\ref{tab:cost} (Appendix~\ref{app:provenance}); they were measured on different machines and core counts, on which the time to solution of the same calculation can differ by a factor of two or more, so they indicate orders of magnitude only and are not a comparison of codes.
 
 \todo{Author decision: WORKING PROPOSAL. Final membership is not frozen (paper-data/manuscript\_todos.md).}
 No single benchmark verifies a continuum FSI code, and in the present suite the most widely used benchmarks are not the most discriminating.
@@ -238,7 +240,7 @@ We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membersh
 
 \emph{Core suite.}\label{sec:core_suite}
 The routine subset of the core suite, the default levels of each driver, is cheap enough to run after any change to a discretisation or coupling algorithm; the full refinement studies behind Section~\ref{sec:benchmark_suite} are a verification campaign, not a routine check.
-Its backbone is the three category-A problems, which alone measure the total error directly; the category-B problems extend it to large deformation within reference uncertainties of $<0.01\%$ plus a $0.05\%$ model-form difference (collapsible channel) and $\approx0.2\%$ (FSI1).
+Its backbone is the three category-A problems, which alone measure the total error directly, at small deformation (ring and Womersley tube) and at large deformation (manufactured solution); the category-B problems extend it to thin bending walls with strong added mass (collapsible channel) and to steady large-deformation coupling of a flag behind a cylinder (FSI1), within reference uncertainties of $<0.01\%$ plus a $0.05\%$ model-form difference (collapsible channel) and $\approx0.2\%$ (FSI1).
 The requirement is not a fixed matrix of studies but the principle of Section~\ref{sec:convergence_method}: for each QoI on which a claim is made, the error sources that materially affect it must be shown to be controlled below the uncertainty relevant to the claim, and each result should state the five items of Section~\ref{sec:defects}.
 \todo{Author decision: whether mokLidDrivenCavity (category B, Kratos) moves to the core suite, now that relaxing the non-final PIMPLE outer correctors removes the stalls of the all-measure coupling test.}
 
@@ -257,15 +259,9 @@ The Hessenthaler flap shows why verification and validation are kept apart.
 Refinement moves the computed tip from below the measurement to above it (from $-0.16$ to $+0.14\,\mathrm{mm}$ from L1 to L2 with the acceleration interface condition, and from $-0.10$ to $+0.31\,\mathrm{mm}$ from L1 to L3 with the zero gradient), so the close agreement of any one mesh is partly a cancellation of discretisation error (Section~\ref{sec:hessenthaler}), and a validation statement made on it would credit the model with an accuracy that belongs to the discretisation error.
 Validation requires a verified solution with a stated numerical uncertainty and an experimental uncertainty; here neither is available, since the fluid-mesh sequence of the tip is not shown to be in the asymptotic range.
 
-The suite covers incompressible, laminar, Newtonian flows coupled to elastic solids through a sharp interface, conforming or non-conforming.
-It does not cover compressible or non-Newtonian fluids, turbulence, contact, free surfaces, or immersed and fictitious-domain interface treatments, and its hyperelastic solids are limited to St Venant--Kirchhoff and neo-Hookean laws.
+The problems of the suite are incompressible, laminar, Newtonian flows coupled to elastic solids, and here they are solved with a body-fitted ALE fluid, a Lagrangian solid and a sharp interface, conforming or non-conforming.
+The problem definitions and references do not depend on that approach: the suite is equally suitable for verifying immersed-boundary and fictitious-domain methods, Eulerian and meshless formulations, and reduced solid models such as beams and plates, provided that the QoIs are evaluated as defined here.
+It is also naturally extendable to other physics, such as compressible or turbulent flow, non-Newtonian fluids, contact and free surfaces, although each of these would need specific cases of its own; its hyperelastic solids are limited to St Venant--Kirchhoff and neo-Hookean laws.
 All calculations under test come from one code family; the independent solutions with their own convergence evidence are those listed in Section~\ref{sec:published_reliability}, the Kratos solutions of the 3-D pressure-pulse tube and the beam in cross-flow are not shown to be converged, and the remaining cases rest on self-convergence and on published values of incompletely quantified accuracy.
 The three-dimensional problems are the least completely verified, for the cost reasons above.
 These limits mark where the suite can support a claim; they are not a judgement on the problems outside it.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Executable verification infrastructure}\label{sec:infrastructure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-A benchmark is useful for verification only if its definition, its reference and the comparison procedure are reproducible, so that a claim can be re-executed rather than accepted on trust.
-Independently of the code used, we recommend four properties, which the drivers accompanying the present cases in solids4foam~\citep{Cardiff2025} implement to varying degrees (Table~\ref{tab:driver_properties}, Appendix~\ref{app:provenance}): opt-in drivers that run the mesh, time-step and coupling studies, compute the QoIs and observed orders, and exit with a non-zero status unless every acceptance criterion is met, kept separate from regression tests; machine-readable reference files that record, for each value, its source, the extraction method and its uncertainty, with the code that generates the reference where possible; per-run QoIs written to CSV, with diverged, truncated or non-periodic runs reported as failures; and a record of the case-file hashes, the OpenFOAM version, the compiler and its flags and a fingerprint of the executable, with the case set-ups, drivers, raw outputs and reference files of a publication archived under a persistent identifier.

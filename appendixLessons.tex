@@ -27,7 +27,7 @@ None was found by comparison with a published benchmark value. The defects prope
 		Manufactured FSI & segregated fluid: outlet face flux built from the cell velocity instead of the boundary velocity under a prescribed velocity gradient and pressure ($O(h^2/\Delta t)$ pressure error); lagged convection with a single outer corrector; the time-derivative correction of the momentum-interpolated face flux makes the error grow as $\Delta t$ falls & first-order pressure against an exact solution; fluid-only runs with outlet-flux, outer-corrector, flux-correction and time-step variants \\
 		Manufactured FSI & Robin--Neumann interface pressure condition omitted the viscous and body-force normal terms of the momentum balance & pressure order $1.6$--$1.8$ against an exact solution; predicted and measured error in the interface row of cells \\
 		Manufactured FSI & total Lagrangian solid: first-order-in-time start-up of the displacement form under a non-zero initial acceleration; $O(h)$ deformed traction area from the cell-centre gradient & first-order solid displacement against an exact solution; solid-only runs driven by the exact traction \\
-		Manufactured FSI & IQN-ILS stagnates with the tutorial filtering and inverts the solid without it & failure to complete; filtering and convergence-test variants \\
+		Manufactured FSI & IQN-ILS stagnates with the default filtering and inverts the solid without it & failure to complete; filtering and convergence-test variants \\
 		Hessenthaler flap & either-measure coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\
 		\bottomrule
 	\end{tabular}
@@ -208,7 +208,7 @@ A sub-nominal temporal order in a truncated domain should be traced to the bound
 
 \paragraph{Robustness of the coupling and of the fluid iteration.}
 IQN-ILS did not complete the manufactured solution (Section~\ref{sec:mms_fsi}; full variant, $\Delta t = 0.32/n$, tolerance $10^{-6}$, no reuse of secant information from earlier steps).
-With the filtering of the secant columns used in the tutorials, the filter discards so many columns that the update stalls, and the iteration stagnates at a relative residual of about $5\times10^{-4}$ ($6.7\times10^{-4}$ on $n = 16$, $4.7\times10^{-4}$ on $n = 32$) in the first time step.
+With the default filtering of the secant columns, the filter discards so many columns that the update stalls, and the iteration stagnates at a relative residual of about $5\times10^{-4}$ ($6.7\times10^{-4}$ on $n = 16$, $4.7\times10^{-4}$ on $n = 32$) in the first time step.
 Without filtering, it completes on $n = 16$, with errors equal to those of Aitken to four digits and about half the iterations ($12$--$27$ per step, against $26$); on $n = 32$, however, the least-squares update eventually proposes an interface displacement that inverts the cells of the solid next to the interface ($J < 0$) in the fifth step, also with a relaxation factor of $0.01$, and a light filtering only postpones this to the thirteenth step.
 The convergence test has no influence: requiring every residual measure to meet the tolerance gives the same stagnation and the same inversion.
 The case combines a density ratio of one with an interface that moves normal to itself by up to $0.13H$; a step-length guard on the quasi-Newton update, or a fallback to relaxation when $J$ would become non-positive, would probably make IQN-ILS usable here, but neither has been tested.
