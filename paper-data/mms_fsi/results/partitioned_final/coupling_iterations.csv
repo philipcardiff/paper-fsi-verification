@@ -17,3 +17,6 @@ robin_full_visc,16,20,14.3,17
 robin_full_visc,32,40,30.8,43
 robin_full_visc,64,80,51.4,106
 robin_full_visc,128,160,20.5,40
+robin_flat_full,16,20,14.7,16
+robin_flat_full,32,40,30.7,42
+robin_flat_full,64,80,49.4,100

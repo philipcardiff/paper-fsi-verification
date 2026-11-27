@@ -94,8 +94,8 @@ In an enclosed fluid domain the pressure equation has a solution only if the pre
 
 The interface pressure conditions are, case by case:
 \begin{itemize}
-	\item \emph{Full form~\eqref{eq:interface_pressure}}: the ring added-mass problem with both couplings (Section~\ref{sec:ring}, except the Robin--Neumann column of the tolerance sweep, Table~\ref{tab:tol_sweeps}), and the Robin--Neumann coupling of the manufactured solution (full variant, Table~\ref{tab:mms_fsi}).
-	\item \emph{Acceleration only}: the Turek--Hron FSI3 Gmsh family, the IQN-ILS runs of the 3-D pressure-pulse tube, the primary solutions of the Hessenthaler flap, and every other Robin--Neumann run (the Womersley tube, the collapsible channel, FSI1, the uniform FSI3 family, the 3-D pressure-pulse tube and the flat variant of the manufactured solution).
+	\item \emph{Full form~\eqref{eq:interface_pressure}}: the ring added-mass problem with both couplings (Section~\ref{sec:ring}, including the tolerance sweep, Table~\ref{tab:tol_sweeps}), and the Robin--Neumann coupling of the manufactured solution (both variants, Table~\ref{tab:mms_fsi}).
+	\item \emph{Acceleration only}: the Turek--Hron FSI3 Gmsh family, the IQN-ILS runs of the 3-D pressure-pulse tube, the primary solutions of the Hessenthaler flap, and every other Robin--Neumann run (the Womersley tube, the collapsible channel, FSI1, the uniform FSI3 family, and the 3-D pressure-pulse tube).
 	\item \emph{Zero normal gradient}: the remaining Dirichlet--Neumann runs (the Womersley tube, the collapsible channel, FSI1, FSI2, the uniform FSI3 family, the Mok lid-driven cavity, the flexible-bottom cavity, the beam in cross-flow and the blob in treacle) and the sensitivity check of the Hessenthaler flap. The Aitken runs of the manufactured solution use a flux-consistent gradient (Section~\ref{sec:mms_fsi}). In the steady cases the acceleration term vanishes, so the zero gradient differs from the full form only by the viscous and body-force terms.
 \end{itemize}
 The viscous term was not available when the acceleration-only results were computed.
