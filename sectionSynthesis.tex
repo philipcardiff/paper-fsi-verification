@@ -86,18 +86,18 @@ In the blob in treacle, likewise, the time study stops at $\Delta t = 0.03125\,\
 \begin{table}[htbp]
 	\centering
 	\small
-	\caption{Coupling-tolerance sweeps with the all-measure test (RN: Robin--Neumann) at fixed discretisation. Ring added-mass problem: strong level, L2, 100 steps per period, standard solid; wet/dry frequency-ratio error against the exact value; IQN-ILS with the full interface pressure condition~\eqref{eq:interface_pressure}, Robin--Neumann with the acceleration-only Robin condition (Section~\ref{sec:coupling_algorithms}). Collapsible channel: fluid level L3, solid $160\times8$ (high order), $\Delta t = 1/160\,\mathrm{s}$; maximum wall-midpoint error against the oomph-lib reference (percent of the peak) and first trough. Robin--Neumann pressure and flux tolerances scale with the displacement tolerance. Source: \texttt{paper-data/tolerance\_sweeps/}.}
+	\caption{Coupling-tolerance sweeps with the all-measure test (RN: Robin--Neumann) at fixed discretisation. Ring added-mass problem: strong level, L2, 100 steps per period, standard solid; wet/dry frequency-ratio error against the exact value; both couplings with the full interface pressure condition~\eqref{eq:interface_pressure} (Section~\ref{sec:coupling_algorithms}) and the same dry-ring reference. Collapsible channel: fluid level L3, solid $160\times8$ (high order), $\Delta t = 1/160\,\mathrm{s}$; maximum wall-midpoint error against the oomph-lib reference (percent of the peak) and first trough. Robin--Neumann pressure and flux tolerances scale with the displacement tolerance. Source: \texttt{paper-data/tolerance\_sweeps/}.}
 	\label{tab:tol_sweeps}
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{llrrr}
 		\toprule
 		Quantity & Tol. & IQN-ILS & RN & Iter./step (IQN-ILS / RN) \\
 		\midrule
-		ring: ratio error (\%) & $10^{-4}$ & $-0.00884$ & $-0.00949$ & 4.7 / 2.3 \\
-		 & $10^{-5}$ & $-0.00886$ & $-0.00853$ & 5.0 / 3.8 \\
-		 & $10^{-6}$ & $-0.00886$ & $-0.00851$ & 5.3 / 11.7 \\
-		 & $10^{-7}$ & $-0.00886$ & $-0.00851$ & 6.0 / 17.3 \\
-		 & $10^{-8}$ & $-0.00886$ & $-0.00851$ & 7.1 / 23.5 \\
+		ring: ratio error (\%) & $10^{-4}$ & $-0.00884$ & $-0.00947$ & 4.7 / 2.3 \\
+		 & $10^{-5}$ & $-0.00886$ & $-0.00852$ & 5.0 / 3.8 \\
+		 & $10^{-6}$ & $-0.00886$ & $-0.00849$ & 5.3 / 11.9 \\
+		 & $10^{-7}$ & $-0.00886$ & $-0.00849$ & 6.0 / 17.8 \\
+		 & $10^{-8}$ & $-0.00886$ & $-0.00849$ & 7.1 / 23.5 \\
 		\midrule
 		collapsible: max error (\%) & $10^{-3}$ & failed & $0.574$ & -- / 16.3 \\
 		 & $10^{-4}$ & failed & $0.522$ & -- / 27.9 \\

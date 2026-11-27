@@ -50,7 +50,8 @@ before the fixes and are kept for the record.
 |---|---|
 | `aitken_full_*`, `robin_full_visc_*` | full variant, n = 16, 32, 64, 128 (Table `tab:mms_fsi`) |
 | `robin_full_*` | full variant, Robin–Neumann with the acceleration-only Robin condition (superseded by `robin_full_visc_*`; quoted in the text for comparison) |
-| `aitken_flat_*`, `robin_flat_*` | flat variant, n = 16, 32, 64 |
+| `aitken_flat_*`, `robin_flat_full_*` | flat variant, n = 16, 32, 64 (Robin–Neumann with the full interface pressure condition; the flat-variant text of Section `sec:mms_fsi`) |
+| `robin_flat_*` | flat variant, Robin–Neumann with the acceleration-only Robin condition (superseded by `robin_flat_full_*`; quoted in the text for comparison) |
 | `aitken_full_noSSG_*` | A/B without the surface-gradient traction area, n = 64, 128 |
 | `before_aitken_full_*` | the earlier case settings on this build, n = 16, 32, 64 |
 | `*_errors.csv` | errors at t = 0.1, 0.2, 0.3 and 0.4 for each mesh (columns as in `../../README.md`) |
@@ -74,7 +75,14 @@ before the fixes and are kept for the record.
 - **Effect:** p L2 orders 1.81, 1.96, 1.76 (were 1.61, 1.77, 1.66); n128 p L2
   error 1.29e-3 (was 2.45e-3); p L∞ on n64 2.1e-2 (was 6.1e-2). The viscous term
   alone, without the source, made the errors worse.
-- **Flat variant:** not rerun; `robin_flat_*` use the acceleration-only condition.
+- **Flat variant (`robin_flat_full_*`, 27 Nov 2026):** rerun with the full
+  condition on the same tree merged with PR #777 (env `env-mmsmwp.sh`,
+  `libmmsFsiFlat` rebuilt), same case options, `--variant flat`, n = 16, 32, 64,
+  serial on macOS; written `p` shows `viscousTerm true`. Script
+  `robin_flat_full_run.sh`; runs `/Users/philipc/claude-runs/quick_reruns/mms_flat_robin_full/runs/n{16,32,64}`
+  (not copied). n64 v_F and p_F L2 errors 3.34e-3 and 5.70e-3 (were 7.41e-3 and
+  1.35e-2), within 3% of Aitken in every quantity. Aitken uses `fixedFluxPressure`
+  (flux-consistent), so it was not rerun.
 
 ## Remaining limitations
 

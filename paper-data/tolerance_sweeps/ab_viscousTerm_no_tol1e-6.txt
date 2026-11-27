@@ -1,0 +1,7 @@
+done tol_rn_novisc_strong_m2_n100_tol1e-6 5131 steps
+        type            elasticWallPressure;
+        viscousTerm     no;
+        value           uniform 0;
+    }
+run,coupling,tol,omega,omega_dry,ratio_error_pct,loss_per_period,mean_iterations,max_iterations
+tol_rn_novisc_strong_m2_n100_tol1e-6,rn,1e-6,0.8159773505,2.7125759973,-0.008497,0.0006251,11.828,18
