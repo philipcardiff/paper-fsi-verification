@@ -138,7 +138,7 @@ A linearised viscous solution shifts the wet frequencies by at most $-0.073\%$, 
 A quadrant is modelled, with symmetry planes on the axes.
 The solid is the small-strain formulation, with the high-order variant unless stated.
 The fluid and solid meshes are refined by factors 1, 2 and 4 (L1--L3) at 100 steps per period, and 25--100 steps per period are used on L2.
-IQN-ILS and Robin--Neumann coupling are compared; both use the full interface pressure condition~\eqref{eq:interface_pressure} (Section~\ref{sec:coupling_algorithms}), with its mean removed in this enclosed fluid domain.
+IQN-ILS and Robin--Neumann coupling are compared; both use the full interface pressure condition~\eqref{eq:interface_pressure} (Section~\ref{sec:coupling_algorithms}), made consistent with zero net flux in this enclosed fluid domain.
 
 \paragraph{Results.}
 Table~\ref{tab:ring} gives the frequency and ratio errors.
