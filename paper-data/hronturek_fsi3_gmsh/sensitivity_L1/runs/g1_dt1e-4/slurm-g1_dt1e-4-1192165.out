@@ -1,0 +1,8 @@
+sonic88.compute
+Model name:                           INTEL(R) XEON(R) GOLD 6542Y
+Thu 26 Nov 23:33:39 GMT 2026
+/scratch/pcardiff/OpenFOAM/gmshpart-v2512/platforms/linux64GccDPInt32Opt/bin/solids4Foam
+restart from t = 2
+startFrom       latestTime;
+run exit=0
+Fri 27 Nov 19:36:13 GMT 2026
