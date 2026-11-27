@@ -912,6 +912,14 @@ For the three problems below no independent reference with quantified error exis
 	\label{fig:3dtube_geom}
 \end{figure}
 
+\begin{figure}[htbp]
+	\centering
+	% Source: paper-data/3dtube_figure/ (extract.py, render.py, fig.py; see its README.md).
+	\includegraphics{figures/3dtube-3d}
+	\caption{Three-dimensional pressure-pulse tube: perspective view of the computed quarter model, L1, Robin--Neumann coupling, at $t = 5\,\mathrm{ms}$. The fluid pressure $p$ is shown on the symmetry plane and the inlet face, and the wall is coloured by its radial displacement $u_r$; wall and fluid mesh are displaced by ten times their displacement. The quarter is drawn mirrored about its symmetry plane $y = 0$ (an equivalent quarter by symmetry), so that the flow runs from left to right.}
+	\label{fig:3dtube_3d}
+\end{figure}
+
 \paragraph{What it tests.}
 A $3\,\mathrm{ms}$ pressure pulse travelling through a fluid-filled elastic tube (Fig.~\ref{fig:3dtube_geom}) is the standard three-dimensional test of partitioned coupling under strong added mass ($\rho_S/\rho_F = 1.2$)~\citep{Formaggia2001, Gerbeau2003, Fernandez2005, kuttler2008fixed, Degroote2009}; most publications report only iteration counts and snapshots.
 It also tests non-conformal interface transfer: the interface could be meshed conformally, but a non-conformal (AMI) transfer is used deliberately, to exercise it in a transient three-dimensional problem.
@@ -933,6 +941,7 @@ The references are digitised, two are unconverged in time and one is from the sa
 
 \paragraph{Numerical model.}
 A quarter of the tube is computed with symmetry planes, with Robin--Neumann coupling and BDF2 in fluid and solid; the Robin condition is the acceleration-only form, and adding the viscous term changes the displacement history by $0.017\%$ of its peak (Section~\ref{sec:coupling_algorithms}).
+Figure~\ref{fig:3dtube_3d} shows the quarter model in perspective, with the L1 solution at $t = 5\,\mathrm{ms}$.
 Three geometrically similar block-structured levels, L1--L3 (16\,000, 128\,000 and 1\,024\,000 fluid cells and 6\,400, 51\,200 and 409\,600 solid cells; ratio 2), are computed with $\Delta t$ halved with the mesh ($2.5\times10^{-5}$, $1.25\times10^{-5}$ and $6.25\times10^{-6}\,\mathrm{s}$).
 The fluid mesh is an O-grid with a square core, and the solid mesh has 4 cells through the wall thickness on L1.
 
@@ -1006,6 +1015,14 @@ Replicating the case on several platforms exposed two defects in solids4foam tha
 	\label{fig:hessenthaler_geom}
 \end{figure}
 
+\begin{figure}[htbp]
+	\centering
+	% Source: paper-data/hessenthaler_figure/ (extract.py, render.py, fig.py; see its README.md).
+	\includegraphics{figures/hessenthaler-3d}
+	\caption{Hessenthaler flap, Phase I: perspective view of the flow domain and the partitioned L2 solution at $t = 45\,\mathrm{s}$. The half of the domain behind the mid-plane is shaded and the near half is drawn translucent, with rings every $20\,\mathrm{mm}$; the outlet pipe is cut at $z = 185\,\mathrm{mm}$. The mid-plane $x = 0$ is coloured by the fluid speed $|\mathbf{u}|$; the deformed flap is shown with the undeformed flap behind it. Deformation is to scale.}
+	\label{fig:hessenthaler_3d}
+\end{figure}
+
 \paragraph{What it tests.}
 The benchmark of Hessenthaler et al.~\citep{Hessenthaler2017a,Hessenthaler2017b}, a silicone flap in a flow phantom with phase-contrast magnetic resonance imaging (MRI) measurements, is the only problem of the suite with a complex three-dimensional geometry; it has also been simulated with an immersed-boundary method~\citep{Kolahdouz2023}.
 It tests large deformation under buoyancy and flow, a non-conformal interface on unstructured meshes, and the iterative error at a steady state.
@@ -1013,6 +1030,7 @@ It is used twice, and the two uses are kept apart: as a mesh-sensitivity study o
 
 \paragraph{Problem.}
 A silicone flap of $11 \times 2 \times 65\,\mathrm{mm}$ is clamped to the wall where two inlet pipes (diameter $21.9\,\mathrm{mm}$, centres at $y = \pm27.15\,\mathrm{mm}$) join an outlet pipe of diameter $76.2\,\mathrm{mm}$ (Fig.~\ref{fig:hessenthaler_geom}); the flow domain is the published surface~\citep{Hessenthaler2017a}, with the outlet pipe extended by $250\,\mathrm{mm}$.
+Figure~\ref{fig:hessenthaler_3d} shows the three-dimensional domain in perspective, with the deformed flap of the partitioned L2 solution at $t = 45\,\mathrm{s}$.
 The fluid is an aqueous glycerol solution ($\rho_F = 1163.3\,\mathrm{kg/m^3}$, $\mu_F = 12.50\,\mathrm{mPa\,s}$), entering both inlets with parabolic profiles of peak $630$ (upper) and $615\,\mathrm{mm/s}$ (lower), $Re = 1284$, based on the inlet-pipe diameter and the peak velocity of the upper inlet.
 The flap ($\rho_S = 1058.3\,\mathrm{kg/m^3}$) is about $9\%$ lighter than the fluid; buoyancy alone lifts its tip by $29.50\,\mathrm{mm}$, and the steady flow pushes it back to a measured $16.41\,\mathrm{mm}$.
 As in~\citep{Hessenthaler2017b}, the fluid is solved without gravity, so that its pressure excludes the hydrostatic part, and buoyancy is applied to the solid as the net body force $(\rho_S - \rho_F)\,\mathbf{g}/\rho_S$. The inflow and the body force are ramped in together over the first $0.5\,\mathrm{s}$ with $3s^2 - 2s^3$, $s = t/0.5\,\mathrm{s}$.
