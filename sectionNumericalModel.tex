@@ -100,7 +100,7 @@ The interface pressure conditions are, case by case:
 \end{itemize}
 The viscous term was not available when the acceleration-only results were computed.
 Its effect, measured by recomputing with the full form, is small in the transient cases: on L1 of the FSI3 Gmsh family it changes the displacement and force means and amplitudes by at most $0.22\%$ (the $u_y$ amplitude by $-0.06\%$) and the frequency by $0.004\%$; it changes the 3-D pressure-pulse tube by $0.018\%$ of the peak displacement, and the collapsible channel by $0.1\%$ of the peak with IQN-ILS and $0.8\%$ with Robin--Neumann.
-In the steady beam in cross-flow, where the viscous term is the only non-zero term, it changes the tip displacement by $+1.7\%$ on the mesh of the distributed case and by $+0.35\%$ on that mesh refined twice, so its effect falls with refinement, as an $O(h)$ boundary error should.
+In the steady beam in cross-flow, where the viscous term is the only non-zero term, it changes the tip displacement by $+1.7\%$ on a coarse mesh and by $+0.35\%$ on that mesh refined twice, so its effect falls with refinement, as an $O(h)$ boundary error should, and is expected to be below the stated $1\%$ accuracy of the reference on the finer levels of the study (Section~\ref{sec:beam}).
 The Hessenthaler flap was not recomputed with the viscous term.
 
 \paragraph{Robin--Neumann.}
