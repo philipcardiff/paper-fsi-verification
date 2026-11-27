@@ -43,6 +43,7 @@ The solver paper (paper-monolithic-fsi) keeps a matching register for the quasi-
 | 16 | Steady state depends on the pseudo-time step | partitioned fluid | up to 0.2 % on coarse meshes | Open |
 | 17 | Boundary non-orthogonal correction is zero on OpenFOAM.com | moving-wall and other BCs | viscous traction error on skewed wall cells | Issue filed (#748) |
 | 18 | First-order pressure in `pimpleFluid` on a manufactured FSI solution | partitioned fluid | p order ~1, outlet–wall corner error | Issue filed (#750) |
+| 19 | Robin–Neumann restart is not exact | restart / coupling | ≈130 Pa pressure jump; 0.4 % displacement perturbation (3dTube) | Issue filed (#782) |
 
 ## Entries
 
@@ -226,3 +227,17 @@ Set-up details that cost time because the tutorial or its reference did not say 
 - **Also open:** the partitioned solid and interface displacements are first order at t = 0.2 for both couplings, while QM is second order. From n64 to n128 at t = 0.4 their order drops to 0.7–0.8 (paper-data/mms_fsi). The interface pressure condition does not change this.
 - **State:** Issue filed: solids4foam#750. Diagnostic variants are requested: fluid only with prescribed interface motion, and an outlet without the corner clash.
 - **Robust fix to consider:** depends on the cause.
+
+### 19. Robin–Neumann restart is not exact
+
+- **Found:** 2026-11-27, 3dTube, restart test for the L4 run (`/Users/philipc/claude-runs/drafts/tube_L4_and_stvk.md`, section A).
+- **What goes wrong:** a Robin–Neumann run restarted from a written time does not continue the uninterrupted solution.
+  - L1 was written every 1 ms, stopped at 3 ms and resubmitted to 6 ms, with the L4 controls and job script (`restart yes` in the solid coefficients), and compared with a continuous L1 run.
+  - Up to the restart the two runs agree bit for bit, even on a different node type.
+  - In the first step after the restart the axis pressure at z = 25 mm jumps by ≈ 130 Pa (102.7 → −28.2 Pa, against 105.1 Pa continuous). Up to 6 ms the axis-pressure probes differ by 10–70 % of their running peak.
+  - Point-A u_r differs by up to 0.4 % of its running peak (u_z by 0.3 %); at 6 ms u_r is 0.38 % low. That is comparable to the L2→L3 change of u_r,max (0.59 %).
+- **Suspected cause (not confirmed in the code):** the Robin wall condition (`elasticWallPressure`) rebuilds its previous-step interface acceleration at every step from the solid's face acceleration. The solid writes `U` but not its old-time fields (`U_0`), so after a restart that acceleration starts from an incomplete old-time state. The Robin secant history is not written either, but that affects only convergence.
+- **Consequence:** run verification cases in one segment. Restart directories are a fallback only; a restarted run carries a perturbation of the order of the finest mesh changes and must be flagged. A restart at a quieter time than the inlet switch-off may perturb less, but it will not be exact.
+- **Evidence:** `sonic:/scratch/pcardiff/tube_stvk/L1rst/` (`prepare_rst.py`, `compare_restart.py`).
+- **State:** Issue filed: solids4foam#782.
+- **Robust fix to consider:** write and read the old-time solid fields the Robin condition needs (or the Robin acceleration itself, and the secant history), and add a restart regression test that compares a stop-and-restart run with a continuous one; until then, a warning when a Robin–Neumann run starts from a non-zero time.

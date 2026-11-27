@@ -1,0 +1,9 @@
+quantity,units,hookean_L1,stvk_L1,stvk_minus_hookean_pct,mesh_L1_to_L2_pct,mesh_L2_to_L3_pct,ratio_law_to_L1_L2,ratio_law_to_L2_L3,note
+u_r_max,mm,0.159583,0.157817,-1.11,-0.21,-0.59,5.3,1.9,
+u_z_min,mm,-0.088172,-0.090988,-3.19,1.82,1.01,1.8,3.2,deeper with StVK
+t_arr,ms,5.8716,5.8240,-0.81,-0.51,-0.31,1.6,2.6,
+c_p,m/s,4.6639,4.6954,0.68,-0.27,-0.56,2.5,1.2,
+c_wall,m/s,5.0671,5.0690,0.04,1.41,-1.40,0.03,0.03,
+t_u_r_max,ms,7.2012,7.1416,-0.83,,,,,time of u_r_max
+t_u_z_min,ms,4.7203,4.6996,-0.44,,,,,time of u_z_min
+u_r_min_late,mm,-0.099972,-0.100512,-0.54,,,,,minimum of u_r for t > 14 ms

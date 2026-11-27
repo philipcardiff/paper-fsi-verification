@@ -1,0 +1,2 @@
+stvk        nx= 80 ny= 8 q=1.3150  uy_A=-0.24101  ux_A=-2.72e-14  uy_mid=-0.24220
+linear      nx= 80 ny= 8 q=1.3150  uy_A=-0.29208  ux_A=1.17e-15  uy_mid=-0.29516
