@@ -157,8 +157,8 @@ The FSI2 values are \hl{[pending]}: the case is being recomputed on the Gmsh fam
 \end{table}
 
 \paragraph{Three-dimensional pressure-pulse tube.}
-The QoIs are taken at point A (Fig.~\ref{fig:3dtube_geom}): the first maximum of the radial wall displacement $u_{r,\max}$, the first minimum of the axial wall displacement $u_{z,\min}$, the arrival time $t_\mathrm{arr}$, the first time at which $u_r(A)$ reaches half its first peak, and the pressure-wave speed $c_p$, the least-squares slope of the arrival of half the inlet pressure at probes on the axis, $z = 1$--$4\,\mathrm{cm}$ (Table~\ref{tab:refvals_3dtube}).
-The reference is category D and the sequence is not shown to converge in $u_{r,\max}$ and $c_p$, so no extrapolated value is given; the last change is a scale of the remaining sensitivity, not a bound.
+The QoIs are taken at point A (Fig.~\ref{fig:3dtube_geom}): the first maximum of the radial wall displacement $u_{r,\max}$, the first minimum of the axial wall displacement $u_{z,\min}$, the arrival time $t_\mathrm{arr}$, the first time at which $u_r(A)$ reaches half its first peak, the wall-front speed $c_\mathrm{wall}$, the least-squares slope of the arrival of half the first peak of $u_r$ on the inner wall at $z = 1$--$4\,\mathrm{cm}$, and the pressure-front speed $c_p$, the same slope for the arrival of half the inlet pressure on the axis (Table~\ref{tab:refvals_3dtube}).
+The reference is category D and the sequence is not shown to converge in $u_{r,\max}$, $c_\mathrm{wall}$ and $c_p$, so no extrapolated value is given; the last change is a scale of the remaining sensitivity, not a bound. The wall-front speed is the primary wave-speed QoI; $c_p$ is uncertain to about $1\%$ from the time step, since halving $\Delta t$ on L3 lowers it by $0.86\%$, whereas the wall QoIs change by at most $0.03\%$ (Section~\ref{sec:3dtube}). \hl{[pending: L4]}
 
 \begin{table}[htbp]
 	\centering
@@ -172,6 +172,7 @@ The reference is category D and the sequence is not shown to converge in $u_{r,\
 		$u_{r,\max}$ (mm) & 0.15831 & $-0.59\%$ \\
 		$u_{z,\min}$ (mm) & $-0.08570$ & $1.01\%$ \\
 		$t_\mathrm{arr}$ (ms) & 5.823 & $-0.31\%$ \\
+		$c_\mathrm{wall}$ (m/s) & 5.067 & $-1.40\%$ \\
 		$c_p$ (m/s) & 4.625 & $-0.56\%$ \\
 		\bottomrule
 	\end{tabular}

@@ -175,7 +175,7 @@ The cases, drivers and machine-readable references are released.
 
 \maketitle
 
-\todo{Title, abstract, Introduction and Section~\ref{sec:numerical_methods} rewritten (October 2026) around the partitioned solution procedures that produced every result. Section~\ref{sec:math_model} is that of the parent paper, amended (October 2026) for the displacement-based partitioned solids and the small-strain formulation; its notation should remain consistent with the companion solver paper. Abstract and Conclusions numbers checked against Sections~\ref{sec:benchmark_suite}--\ref{sec:cross_benchmark} on 21 November 2026, and the FSI3 sentences against the Gmsh family on 25 November 2026. Recheck after any later change of results.}
+\todo{Title, abstract, Introduction and Section~\ref{sec:numerical_methods} rewritten (October 2026) around the partitioned solution procedures that produced every result. Section~\ref{sec:math_model} is that of the parent paper, amended (October 2026) for the displacement-based partitioned solids and the small-strain formulation; its notation should remain consistent with the companion solver paper. Abstract and Conclusions numbers checked against Sections~\ref{sec:benchmark_suite}--\ref{sec:synthesis} on 21 November 2026, and the FSI3 sentences against the Gmsh family on 25 November 2026. Recheck after any later change of results.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,7 +193,7 @@ The cases, drivers and machine-readable references are released.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Sections 4--8: verification-benchmark paper.
+% Sections 4--6: verification-benchmark paper.
 % The parent (monolithic-solver) test-case section is preserved unchanged in
 % sectionTestCases.tex but is no longer part of the build: its results come
 % from the experimental quasi-monolithic solver, which is not used as
@@ -201,9 +201,7 @@ The cases, drivers and machine-readable references are released.
 %\input{sectionTestCases.tex}
 \input{sectionVerificationMethodology.tex}
 \input{sectionBenchmarkSuite.tex}
-\input{sectionCrossBenchmark.tex}
-\input{sectionRecommendedSuite.tex}
-\input{sectionDiscussion.tex}
+\input{sectionSynthesis.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -211,22 +209,23 @@ The cases, drivers and machine-readable references are released.
 \section{Conclusions} \label{sec:conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Draft of 2026-11-02; numbers repeated from Sections benchmark_suite and
-% cross_benchmark.
+% synthesis; the bullets follow the order of Section synthesis.
 An open, executable verification suite for continuum FSI has been assembled, with each reference classified by its quality and the spatial, temporal and iterative errors studied separately for a partitioned finite volume code.
 The main conclusions are:
 \begin{itemize}
 	\item \textbf{Where the reference is exact or independent, the code converges as designed.} In the ring added-mass problem and the Womersley tube most quantities converge at observed orders close to two; the frequency error of the ring at a practical resolution ($-0.13\%$) is the BDF2 phase error, and the finest amplitudes and profile of the Womersley tube lie within $0.12\%$ of the exact solution ($0.2\%$ for the attenuation; wall-displacement phase within $1.2\times10^{-3}\,\mathrm{rad}$); in the collapsible channel the difference from oomph-lib extrapolated to zero mesh size falls at orders 1.6--2.5 to $0.33\%$ of the peak; the $0.5\%$ floor seen against oomph-lib at its tutorial resolution is that reference's own first-order spatial error.
 	\item \textbf{An exact reference at finite deformation qualifies this.} A closed-form manufactured solution for transient ALE FSI with a finite-strain neo-Hookean solid, normal and tangential interface motion and exact traction continuity at constant fluid viscosity, which needs neither an interface source nor a manufactured material field and, to our knowledge, is the first such solution applied to a cell-centred finite volume code, exposed what the linear exact problems could not. The partitioned fluid pressure first converged at first order and the solid displacement lost its order; fluid-only and solid-only runs traced this to the field solvers and their set-up, not to the coupling: an outlet face flux built from the cell rather than the boundary velocity, which gives an $O(h^2/\Delta t)$ pressure error, the lagged convection of a single outer corrector in fluid-alone runs, a first-order start-up of the displacement-form solid from rest under a non-zero acceleration, and an $O(h)$ error in the deformed traction area. With these removed, both partitioned couplings converge at close to second order from $n = 16$ to $128$ (with Aitken relaxation, fluid velocity and pressure at $1.7$--$2.1$, solid and interface displacements and interface traction at $1.7$--$2.3$); the Robin--Neumann pressure reached $1.76$--$1.96$ only once its interface pressure condition included the viscous and body-force normal terms of the momentum balance, which halved its finest-level error. A quasi-monolithic coupling, close to second order with an orthogonal interface mesh, falls to about first order in the interface traction when the interface tilts, since its boundary pressure omits the non-orthogonal term; with three unreleased corrections it converges at second order in space and time.
-	\item \textbf{The quality of the reference, not the popularity of the problem, sets what can be verified.} Of the ten problems without an exact reference, five have a reference that is both independent and backed by its own convergence evidence (category B), and only two of these are published values; the two published sets of FSI3 values differ by $18\%$ in one QoI.
 	\item \textbf{Two levels are not enough.} Further levels changed conclusions drawn from fewer: the FSI3 displacements agree with an independent reference to $0.3\%$ on the coarsest of three levels, but with refinement they move away from it, to $2\%$ in $u_x$ on $3.9\times10^5$ fluid cells, while their changes shrink at observed orders of three and above, so they are not resolved to the level of their difference from the reference; the change in the peak displacement of the 3-D pressure-pulse tube grows on its third level.
+	\item \textbf{The iterative error must be measured, not assumed.} A coupling test that takes the smaller of two residual measures accepted unconverged steps in every benchmark audited, and in a quasi-steady case produced a drift larger than the spatial differences under study, which a steadiness check on the QoI did not detect; requiring every residual measure to meet the tolerance removes it, provided the field solvers themselves converge in each step.
+	\item \textbf{The quality of the reference, not the popularity of the problem, sets what can be verified.} Of the ten problems without an exact reference, five have a reference that is both independent and backed by its own convergence evidence (category B), and only two of these are published values; the two published sets of FSI3 values differ by $18\%$ in one QoI.
 	\item \textbf{Verification exposed defects that agreement with a reference did not.} Defects in the boundary treatment, the field algebra, the interface transfer, the coupling test and the field solvers of solids4foam were all found by convergence, cross-platform, residual or component-isolation checks, none by comparison with a published value (Section~\ref{sec:defects}; Appendix~\ref{app:lessons}).
-	\item \textbf{The iterative error must be measured, not assumed.} A coupling test that takes the smaller of two residual measures accepted unconverged steps in every benchmark audited, and in a quasi-steady case produced a drift larger than the spatial differences under study, which a steadiness check on the QoI did not detect; requiring every residual measure to meet the tolerance removes it.
+	\item \textbf{A tiered suite makes such evidence routine.} The three exact problems and the inexpensive category-B problems form a core suite whose routine subset runs in hours on a workstation; the three-dimensional and self-excited problems, whose finest levels cost up to $\approx2\times10^{4}$ core-hours, form an extended suite that tests whether the accuracy carries over (Section~\ref{sec:recommended_suite}).
 \end{itemize}
 
 Several directions remain:
 \begin{enumerate}
 	\item \textbf{Independent converged references where none exists}, above all for the 3-D pressure-pulse tube, whose independent Kratos solution has two levels and is not converged in the peak radial displacement, and the Hessenthaler flap, which has none; they need their own mesh and time studies, as the Kratos solution of the Mok lid-driven cavity has.
-	\item \textbf{Further levels where the evidence stops at two or three}: Turek--Hron FSI2, and a fourth fluid level for the Hessenthaler flap.
+	\item \textbf{Further levels where the evidence stops at two or three}: Turek--Hron FSI2, a fourth level of the 3-D pressure-pulse tube \hl{[pending: L4]}, and a fourth fluid level for the Hessenthaler flap.
 	\item \textbf{Completion of the remaining evidence}: the beam in cross-flow (a fifth mesh, L5) and the blob in treacle (an independent converged reference for the redefined case).
 	\item \textbf{Wider coverage}: compressible and non-Newtonian fluids, contact and free surfaces; the companion paper~\citep{CardiffBatistic2026QM} applies the same suite to a quasi-monolithic coupling.
 	\item \textbf{Higher-order discretisation}, for which the exact references of the suite can measure orders above two.
@@ -263,7 +262,7 @@ The authors wish to acknowledge the Irish Centre for High-End Computing (ICHEC) 
 \textbf{Philip Cardiff:} Conceptualization, Methodology, Software, Investigation, Formal analysis, Writing -- original draft, Writing -- review \& editing, Supervision, Funding acquisition.
 \textbf{Emad Tandis:} Investigation, Validation (independent ANSYS and COMSOL solutions of the flexible-bottom cavity), Writing -- review \& editing \hl{TBD: confirm}.
 \textbf{Sairam Pamulaparthi Venkata:} Investigation, Software (FEBio models), Validation (independent FEBio solutions of the ring added-mass problem), Formal analysis, Writing -- review \& editing.
-\textbf{Seevani Bali:} Investigation, Software (preCICE--CalculiX models), Validation (L3 of the 3-D pressure-pulse tube mesh study on the corrected meshes, and its third-platform replication on the earlier meshes; preCICE--CalculiX solutions of Turek--Hron FSI1 and FSI3), Writing -- review \& editing \hl{TBD: confirm}.
+\textbf{Seevani Bali:} Investigation, Software (preCICE--CalculiX models), Validation (L3 of the 3-D pressure-pulse tube mesh study; preCICE--CalculiX solutions of Turek--Hron FSI1 and FSI3), Writing -- review \& editing \hl{TBD: confirm}.
 \textbf{Amirhossein Taran:} Investigation, Software (Kratos models), Validation (independent Kratos solutions of the lid-driven cavity, the 3-D pressure-pulse tube and the beam in cross-flow), Writing -- review \& editing \hl{TBD: confirm}.
 \textbf{Dylan Armfield:} Investigation, Software (preCICE--SU2--CalculiX models), Validation (independent SU2--CalculiX solutions of Turek--Hron FSI1, the ring added-mass problem and the flexible-bottom cavity), Writing -- review \& editing.
 \textbf{Ivan Batisti\'{c}:} Software (high-order solid discretisation), Writing -- review \& editing \hl{TBD: confirm}.

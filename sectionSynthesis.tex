@@ -1,0 +1,271 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Synthesis and recommendations}\label{sec:synthesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Merges the former Sections 6 (cross-benchmark analysis), 7 (recommended
+% suite) and 8 (discussion), November 2026. All values are repeated from
+% Section 5, the appendices or the paper-data evidence reports, except the
+% Hessenthaler convergence-test evidence (sec:iterative_errors), which comes
+% from a preliminary calculation on a different fluid mesh.
+
+\todo{Author decision: how the manufactured solution (in Tables~\ref{tab:orders} and~\ref{tab:defects}) enters the rest of the synthesis.}
+
+This section draws the findings of Section~\ref{sec:benchmark_suite} together by theme and turns them into recommendations: what a verification claim should contain, and which cases a tiered suite should include.
+In this suite the strength of a verification statement is usually limited by the quality of the reference, the number of refinement levels that could be afforded, the iterative error, or sub-nominal convergence whose cause is only partly identified.
+The observations are specific to this suite and to one code family, and are not offered as universal.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Convergence against references}\label{sec:cross_convergence}\label{sec:qoi_dependence}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\caption{Observed orders and slowest-converging QoI of each case (formal order 2 in space and time). ``SD'': successive differences of three or more levels (reference-free); ``vs exact'': error against an exact reference; ``vs ref.'': against a non-exact reference; ``scaled'': $\Delta t$ reduced with $h$.}
+	\label{tab:orders}
+	\begin{tabular}{p{2.3cm}p{4.3cm}p{2.9cm}p{2.9cm}p{1.6cm}}
+		\toprule
+		Case & Space & Time & Slowest QoI & Basis \\
+		\midrule
+		Ring added-mass problem & freq.\ converged on coarsest mesh; ratio 1.84--1.90; standard solid 1.66 & 1.89--1.90 & frequency, dominated by the BDF2 phase error & vs exact; Richardson \\
+		Womersley tube & 2.01--2.05 (amplitudes, profile, speed); 1.92 (flow phase); 1.40 (wall phase); attenuation at linear-theory level & 1.86--2.14 (1.29--1.84 with a standard mixed end condition) & wall phase (1.40); attenuation ($-0.2\%$) & SD; vs exact \\
+		Collapsible channel & 1.6, 2.1, 2.5 & 1.8, 2.0 & -- & vs ref.\ (B); SD (time) \\
+		Turek--Hron FSI1 & $u_x$ 1.0--1.1; $u_y$, lift 1.6--1.9; drag 1.5 & pseudo-time step $\leq0.012\%$ & $u_x$, first order, crossing the reference & SD (four levels); vs ref.\ (B) \\
+		Turek--Hron FSI3 & displacements $3.1$ ($u_y$ amplitude), $6$--$7$ ($u_x$), not asymptotic; frequency 3.0; drag mean 1.5; lift amplitude 1.2; drag amplitude not monotone (three levels, $r = 1.415$) & no separate study (scaled) & displacements, $0.85$--$2.1\%$ from the reference and moving away & SD; vs ref.\ (B) \\
+		Turek--Hron FSI2 & two levels & -- & lift amplitude ($7.8\%$) & vs ref.\ (C) \\
+		3-D pressure-pulse tube & $u_{z,\min}$ 0.87, $t_\mathrm{arr}$ 0.74; $u_{r,\max}$ and $c_\mathrm{wall}$ not defined & halving $\Delta t$: wall QoIs $\leq0.09\%$ (L2), $\leq0.03\%$ (L3); $c_p$ $-0.86\%$ (L3) & $u_{r,\max}$ (changes grow); $c_\mathrm{wall}$ (not monotone) & SD \\
+		Mok lid-driven cavity & peak $\approx1.2$; trough $<0.5$ (scaled) & changes $0.17$, $0.04\%$ & trough & SD; vs ref.\ (B) \\
+		Flexible-bottom cavity & $u_y$ 1.93, 1.98; $F_y$ 2.03, 1.86 (four levels, scaled) & pseudo-time step: $0.18$, $0.03$, $0.001\%$ on L1--L3 & $u_y$ (GCI $0.31\%$) & SD; vs ref.\ (B) \\
+		Beam in cross-flow & $u_x(A)$ 1.64, $F_x$ 1.60 (L2--L4; Appendix~\ref{app:beam}) & $\approx1/240$ of the L3-to-L4 change & -- & SD \\
+		Manufactured FSI & partitioned (Aitken): $\bb{v}_F$ 1.7--2.0, $p_F$ 1.8--2.1, solid and interface 1.9--2.3, traction 1.7--2.1; Robin--Neumann $p_F$ 1.8--2.0; QM: 1.2--2.5 (2.0 with three unreleased corrections) & QM 2.0 with corrections & -- & vs exact; scaled \\
+		Blob in treacle & 2.00 & 2.13, 2.21 (interface 2.12, 2.00) & -- & SD; Richardson \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Table~\ref{tab:orders} collects the observed orders and the slowest-converging QoI of each case, from which four observations follow.
+
+\emph{Where the reference is exact or independent, the orders are mostly nominal, and exact references also locate errors.}
+The ring added-mass problem converges at near-second order in time and the amplitude-type quantities of the Womersley tube at near-second order in space; the collapsible channel shows the same behaviour against its category-B reference.
+The exact references did more than confirm this.
+In the Womersley tube a falling temporal order was traced to an $O(\Delta t)$ end-flux inconsistency, separated from the coupling by fluid-only runs with the exact wall motion (Section~\ref{sec:womersley}); in the manufactured solution, fluid-only and solid-only runs located the first-order errors of the partitioned calculations in the field solvers rather than in the coupling (Section~\ref{sec:mms_fsi}); and in the ring added-mass problem the remaining $-0.13\%$ frequency error was attributed to the BDF2 phase error (Section~\ref{sec:ring}).
+Neither diagnosis could have been made from convergence data alone.
+A linearised exact solution is, however, exact only in the limit of vanishing amplitude: at finite amplitude, where the reference is evaluated (at the undeformed or the current cell positions) matters at $O(\eta\,\partial u/\partial r)$ next to a moving wall, which at the amplitude of the Womersley tube changes the near-wall reference velocity by up to $8\times10^{-4}$ of the peak~\citep{CardiffBatistic2026QM}, comparable with the finest-mesh errors reported here.
+Such references should be used at amplitudes at which this ambiguity is below the errors to be measured, and the evaluation point should be stated.
+
+\emph{Two levels do not establish convergence.}
+In Turek--Hron FSI3 the displacements agree with the independent reference to $0.3\%$ on the coarsest of three levels, but this is a crossing: with refinement they move away from it, to $0.85\%$ ($u_y$ amplitude) and $2\%$ ($u_x$), while their changes shrink at observed orders of three and above (Section~\ref{sec:fsi23}).
+In FSI1 the third and fourth levels showed that $u_x$, first order, crosses the reference between 4x and 8x, and in the 3-D pressure-pulse tube the change in $u_{r,\max}$ grows on the third level.
+Orders well above the formal value are interpreted as pre-asymptotic and are not used for extrapolation.
+Two statements must therefore be kept apart: ``our result disagrees with the reference'' and ``our result is not yet resolved''.
+Against the Featflow table the FSI3 differences lie within the uncertainty of that table, whose levels are non-monotone in these quantities, so they cannot be attributed to either code; against the sequence of~\citet{Failer2020}, resolved to $\approx0.3\%$, the displacement differences are a property of our sequence, which is not asymptotic.
+
+\emph{The QoIs of one case converge at different rates.}
+Time-mean integrated forces, such as the Turek--Hron drag and the vertical force in the flexible-bottom cavity, are often the fastest-converging quantities, plausibly because they are dominated by a global pressure balance.
+The slowest are of three kinds:
+force amplitudes that result from near-cancellation of larger contributions, above all the Turek--Hron lift amplitude, which is also the QoI most sensitive to the coupling tolerance;
+phase- and attenuation-type quantities or small components, such as the Womersley wall phase and attenuation and the transverse tip displacement of FSI1;
+and the response amplitudes of a self-excited oscillation, set by a small imbalance of large loads, such as the FSI3 displacements, for which a sub-nominal order in the in-phase fluid load appears as a sub-nominal order in the amplitude (Appendix~\ref{app:lessons}).
+A benchmark should therefore report several QoI types, namely a displacement, a mean force, an oscillatory force amplitude or phase, and a frequency where applicable, and the slowest QoI on which a claim is made determines the resolution required.
+
+\emph{Combined space--time refinement conceals the balance of errors.}
+Where space and time have been separated, the balance differs strongly: in the Mok lid-driven cavity the temporal error is an order of magnitude below the spatial error, in the ring added-mass problem it dominates the frequency, and in the Womersley tube it ranges from a tenth of the finest-mesh error to more, depending on the QoI.
+In the 3-D pressure-pulse tube, halving $\Delta t$ on L2 and on L3 changes the wall QoIs by at most $0.09\%$ and $0.03\%$, a small fraction of the L2-to-L3 changes, but lowers the pressure-front speed $c_p$ on L3 by $0.86\%$, more than its own L2-to-L3 change; a QoI defined by a level crossing of a slowly rising signal inherits the time-step dependence of the oscillations on that signal, which the wall-front speed $c_\mathrm{wall}$ does not ($0.004\%$; Section~\ref{sec:3dtube}).
+Scaled studies cannot show which error dominates unless supplemented by time-step checks on the finer levels; the scaled FSI3 sequence of Section~\ref{sec:fsi23} has none.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Iterative error and coupling tests}\label{sec:iterative_errors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The iterative error is the least systematically quantified component of the error budget in the present suite.
+Where it was measured directly it can be large: in Turek--Hron FSI2 a coupling tolerance of $10^{-5}$ inflates the lift amplitude by $13\%$ (1x) and $30\%$ (2x), so a tolerance chosen on a coarse mesh can contaminate a fine-mesh result, and in the uniform FSI3 family the step-to-step force noise at a fixed tolerance grows as $\Delta t$ falls (Section~\ref{sec:fsi23}).
+The two tolerance sweeps with the all-measure test (Table~\ref{tab:tol_sweeps}) bound it at fixed discretisation: in the ring added-mass problem reducing the tolerance from $10^{-4}$ to $10^{-8}$ changes the frequency-ratio error by at most $10^{-3}\%$, against $0.007\%$ between meshes 2 and 4, and in the collapsible channel Robin--Neumann changes the maximum difference from the reference by $0.002\%$ of the peak between $10^{-4}$ and $10^{-5}$, against $0.03\%$ between fluid levels L3 and L4.
+IQN-ILS did not complete that calculation of the collapsible channel with the all-measure test at any tolerance, so its results in Section~\ref{sec:collapsible}, computed with the either-measure test, rest on iterations accepted unconverged, which is consistent with an IQN-ILS/Robin--Neumann gap that does not decrease with refinement there.
+In the blob in treacle, likewise, the time study stops at $\Delta t = 0.03125\,\mathrm{s}$, where the changes reach the tolerance level; in both cases the iterative error rather than the discretisation bounds what can be verified.
+
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Coupling-tolerance sweeps with the all-measure test (RN: Robin--Neumann) at fixed discretisation. Ring added-mass problem: strong level, L2, 100 steps per period, standard solid; wet/dry frequency-ratio error against the exact value; IQN-ILS with the full interface pressure condition~\eqref{eq:interface_pressure}, Robin--Neumann with the acceleration-only Robin condition (Section~\ref{sec:coupling_algorithms}). Collapsible channel: fluid level L3, solid $160\times8$ (high order), $\Delta t = 1/160\,\mathrm{s}$; maximum wall-midpoint error against the oomph-lib reference (percent of the peak) and first trough. Robin--Neumann pressure and flux tolerances scale with the displacement tolerance. Source: \texttt{paper-data/tolerance\_sweeps/}.}
+	\label{tab:tol_sweeps}
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{llrrr}
+		\toprule
+		Quantity & Tol. & IQN-ILS & RN & Iter./step (IQN-ILS / RN) \\
+		\midrule
+		ring: ratio error (\%) & $10^{-4}$ & $-0.00884$ & $-0.00949$ & 4.7 / 2.3 \\
+		 & $10^{-5}$ & $-0.00886$ & $-0.00853$ & 5.0 / 3.8 \\
+		 & $10^{-6}$ & $-0.00886$ & $-0.00851$ & 5.3 / 11.7 \\
+		 & $10^{-7}$ & $-0.00886$ & $-0.00851$ & 6.0 / 17.3 \\
+		 & $10^{-8}$ & $-0.00886$ & $-0.00851$ & 7.1 / 23.5 \\
+		\midrule
+		collapsible: max error (\%) & $10^{-3}$ & failed & $0.574$ & -- / 16.3 \\
+		 & $10^{-4}$ & failed & $0.522$ & -- / 27.9 \\
+		 & $10^{-5}$ & failed & $0.520$ & -- / 42.7 \\
+		 & $10^{-6}$ & failed & failed & -- / -- \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\emph{A converged-looking QoI can carry an accumulated coupling error.}
+This is the evidence for the recommendation of Section~\ref{sec:convergence_method}.
+In a preliminary calculation of the Hessenthaler flap on a different fluid mesh from those of Section~\ref{sec:hessenthaler} (IQN-ILS, tolerance $10^{-4}$, $\Delta t = 0.002\,\mathrm{s}$, to $t = 80\,\mathrm{s}$), the either-measure test, $\min(r_1, r_2)$ of Eq.~\eqref{eq:coupling_residuals}, accepted steps after about three iterations once the flow had become quasi-steady, since $r_2$, normalised by the total tip deflection of $\approx17\,\mathrm{mm}$, was small whatever the reduction within the step.
+After $t = 1\,\mathrm{s}$ every step was accepted with $r_1 > 10^{-4}$ (median $\approx6.8\times10^{-2}$), and the flap tip crept upwards by $0.14\,\mathrm{mm}$ between $t = 30$ and $80\,\mathrm{s}$, more than the spatial differences under study, although neither the fluid nor the solid alone drifted.
+Restarted with the all-measure test, $\max(r_1, r_2)$, the tip settled within $\approx0.3\,\mathrm{s}$, but restarts from different states of the drifting run did not return to one value ($17.02$ and $16.90\,\mathrm{mm}$), so the accumulated error leaves history in the solution and a clean result requires the all-measure test from $t = 0$ (\texttt{paper-data/hessenthaler\_phaseI\_verification.md}).
+A steadiness check on the QoI, for example a change below $0.04\%$ over the last second, would have accepted the drifting solution.
+A convergence measure normalised by a large total quantity can thus be met without converging the step, and the error it admits is invisible to checks on the solution itself; the residual reduction at acceptance should be reported.
+Accepted unconverged steps do not always matter: in the Mok lid-driven cavity the either-measure test accepted about $98\%$ of the steps with $r_1$ above the tolerance, yet the all-measure test changes the periodic statistics by at most $0.025\%$ (Section~\ref{sec:mok}).
+Where the all-measure test could not be met there, the cause was the unconverged, unrelaxed outer loop of the segregated fluid rather than the coupling; with the non-final outer correctors relaxed it is met in every step.
+Without such repeats, neither outcome could have been known in advance.
+
+\emph{Internal agreement is not external verification.}
+IQN-ILS and Robin--Neumann agree to $4\times10^{-4}\%$ (ring added-mass frequency), $2.1\times10^{-4}$ (Womersley tube), $0.01\%$ (FSI1) and $0.07\%$ (3-D pressure-pulse tube).
+This is a consistency check of the two implementations, not a bound on the iterative error of either, since both can share an incomplete field solve and their discrete interface conditions differ, and it says nothing about the shared discretisation error.
+Conversely, a difference in solution quality between couplings need not come from the coupling algorithm: in the ring added-mass problem the amplitude loss of IQN-ILS came from its zero-gradient interface pressure condition, and with the full condition the two couplings agree (Section~\ref{sec:ring}).
+Which coupling is cheaper is case dependent: IQN-ILS in the ring added-mass problem, FSI3 and, narrowly, the Womersley tube, and Robin--Neumann in the 3-D pressure-pulse tube.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Published references and model-form differences}\label{sec:published_reliability}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Of the ten problems without an exact reference, five have a category-B reference, independent of solids4foam and with its own convergence evidence at the resolution used: Turek--Hron FSI1 (Featflow; SU2--CalculiX), FSI3~\citep{Failer2020}, the collapsible channel (oomph-lib), the Mok lid-driven cavity (Kratos) and the flexible-bottom cavity (SU2--CalculiX and FEniCSx).
+Only two of these, the Featflow FSI1 table and the sequence of~\citet{Failer2020}, are published values; the other three references were computed for this study.
+The independent references of FSI2 and of the 3-D pressure-pulse tube are not converged at the resolution used, that of the beam in cross-flow is published to three digits for an inflow that had to be corrected, and the Hessenthaler flap and the blob in treacle have second solutions only from the same code lineage or not converged (Table~\ref{tab:published}).
+This is a statement about the specific values used, not about the quality of the FSI benchmark literature in general.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\caption{Issues found with published benchmark values.}
+	\label{tab:published}
+	\begin{tabular}{p{2.8cm}p{5.8cm}p{5.0cm}}
+		\toprule
+		Case & Issue & Consequence \\
+		\midrule
+		Turek--Hron FSI2/3 & Summary values of~\citet{Turek2006} differ from Featflow tables (FSI3 drag amplitude $-18\%$); Featflow level 3$\to$4 changes 1.6--4.5\% (FSI3), 0.9--2.5\% (FSI2) & Choice of source changes conclusions; FSI3 reference uncertain by 3--5\% in $u_x$ and force amplitudes, non-monotone over levels 2--4 \\
+		3-D pressure-pulse tube & Independent references use BDF1, $\Delta t = 10^{-4}\,\mathrm{s}$, without time-step studies; peaks 20--25\% below BDF2 values; figure-digitised & BDF1 in solids4foam reproduces 92--115\% of the gap; an independent Kratos solution with BDF1 lies between the published peaks \\
+		Mok lid-driven cavity & Two inconsistent problem definitions; mesh-dependent openings; no convincing convergence studies; the Kratos tutorial example moves the group-B openings & No published value can be treated as correct; an independent Kratos solution with fixed openings agrees with solids4foam to $\approx1\%$ and lies above all published group-B peaks and troughs \\
+		Collapsible channel & Published problem (pre-stressed, massless wall) unsuitable for continuum/partitioned comparison & Modified problem and regenerated reference used \\
+		Beam in cross-flow & Quoted values are rounded extrapolations of \citet{Richter2012}, often cited to a later paper; the printed inflow peak ($0.3\,\mathrm{m/s}$) is inconsistent with the stated mean and $Re$, and the author confirms $0.2\,\mathrm{m/s}$ & The printed inflow gives $1.8$ times the reference values; with $0.2\,\mathrm{m/s}$, L4 is within $0.1$--$0.2\%$ and an independent Kratos solution within $0.5\%$ (Appendix~\ref{app:beam}) \\
+		Flexible-bottom cavity & Same-lineage, from the figure; forces per $0.05\,\mathrm{m}$ depth; published and ANSYS displacements $4.3\%$ and $5.4\%$ larger than the St Venant--Kirchhoff limit & Forces agree to $0.02$--$0.3\%$; two independent St Venant--Kirchhoff solutions agree to $0.016\%$ ($u_y$) and $0.003\%$ ($F_y$) \hl{[pending: COMSOL sequence with the parabolic inflow]} \\
+		Blob in treacle & Preprint figures only, with a small-strain solid; first-order time, coarse steady mesh & Redefined with a finite-strain solid, so the published values are not used; a small-strain solid integrating over the undeformed surface received $12\%$ less $x$-force than the fluid exerted \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The table illustrates the central distinction of Section~\ref{sec:verification_methodology}: a widely used benchmark problem does not automatically provide a trustworthy benchmark solution.
+The same problem can carry several published ``reference values'', and an $18\%$ difference in a quoted force amplitude exceeds the change of every FSI3 quantity between our two finest levels (at most $1.1\%$).
+Disagreements between codes can originate in the discretisation of the reference rather than of the code being verified, so a discrepancy with a published curve should not be resolved by tuning the code; and same-lineage references, though useful for regression and for diagnosing set-up differences, cannot expose common-mode errors.
+
+\emph{Model-form differences.}
+An independent code tests the shared discretisation error that same-lineage comparisons cannot, but only if the two codes solve the same problem or the difference is quantified.
+In the collapsible channel the oomph-lib beam and the continuum wall differ at $O(h/L)$, quantified as $0.05\%$ (Section~\ref{sec:collapsible}); in the FEBio ring comparison weak compressibility, finite strain, finite amplitude and the mesh-motion regulariser were each quantified at the level of $0.01\%$ of the frequency ratio (Section~\ref{sec:ring}); and in the Mok lid-driven cavity the different outlet conditions, quantified at $0.5$--$1.7\%$, limit the comparison to about $1\%$ (Section~\ref{sec:mok}).
+In the 3-D pressure-pulse tube, by contrast, the wall laws of the published calculations differ from ours and are not quantified, and the difference in time integration alone reproduces most of a 20--25\% discrepancy between the published solutions (Section~\ref{sec:3dtube}).
+A parameter of the independent code can also belong to its discretisation rather than to its solution procedure.
+In the SU2 solutions of FSI1 and of the ring added-mass problem, the artificial-compressibility factor sets the preconditioned wave speed in the upwind dissipation and so changes the converged discrete solution: between two values of the factor the drag of the rigid-flag problem CFD1 changes by $5.4\%$, the lift amplitude of CFD3 by $23\%$, and the amplitude loss of the ring about fourfold, while its frequency ratio moves by $0.01\%$ (\texttt{paper-data/fsi1\_su2\_calculix/README.md}, \texttt{paper-data/ring\_added\_mass\_su2\_calculix/README.md}).
+The effect decreases under refinement, so it is a discretisation error; such a parameter must be held fixed through a refinement study and reported with the reference, as a stabilisation parameter would be.
+A code-to-code difference can be interpreted only where it exceeds the sum of both codes' numerical uncertainties and the quantified model-form contribution.
+
+\emph{Recommendations to benchmark authors.}
+Most of the difficulties in Table~\ref{tab:published} lay in the reporting rather than in the computations.
+A benchmark is most useful for verification when its authors tabulate the QoIs on every level computed, not only the finest; report separate mesh and time-step studies, stating the time integrator and step; define the problem unambiguously, including the monitoring points, the inflow and any ramp; state how periodic statistics are taken and whether the solution is periodic over that window; and provide the reference values and, where possible, the case set-up in machine-readable form.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Defects and what a verification claim should contain}\label{sec:defects}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Nine defects or hazards in solids4foam were found by the studies of Section~\ref{sec:benchmark_suite}, none by comparison with a published value; they are listed, with how each was found, in Table~\ref{tab:defects} of Appendix~\ref{app:lessons}, which also states the general lessons they carry for FSI solver developers.
+Two observations follow.
+First, the toolchain belongs in the verification matrix: an aliasing defect in OpenFOAM's field algebra produced a reproducible difference between two platforms that looked like a platform or round-off effect, and a study on one platform, at any resolution, would have reported either the correct or the incorrect result without warning.
+Second, a defect can switch on with refinement: an interpolation degeneracy affected L2 and L3 of the 3-D pressure-pulse tube but not L1, so a mesh study with it compares different interpolation operators.
+Cross-platform replication, decomposition invariance and symmetry checks are inexpensive and were decisive; they should accompany refinement studies of coupled codes.
+
+A common way of supporting an FSI code is a figure or table showing agreement with a published benchmark value at one or two resolutions.
+The studies of Section~\ref{sec:benchmark_suite} suggest that such agreement is weak evidence, and that a verification claim should state at least five things, each of which mattered at least once in this suite:
+(i) the reference, its source and its category, since two published sets of FSI3 values differ by $18\%$ in one QoI (Section~\ref{sec:published_reliability});
+(ii) at least three levels for each error source, with space and time refined separately, since further levels changed the conclusions drawn from two or three in FSI1, FSI3 and the 3-D pressure-pulse tube (Section~\ref{sec:cross_convergence});
+(iii) several QoI types, with the claim limited by the slowest-converging one;
+(iv) the iterative error, namely the form of the coupling convergence test, the residual reduction at acceptance and a tolerance check at the finest resolution, since a test normalised by a large total quantity accepted unconverged steps in every benchmark audited (Section~\ref{sec:iterative_errors});
+and (v) the code version, toolchain and platform, with cross-platform, decomposition and symmetry checks, since two of the defects found here could not be seen on a single platform or a single mesh level.
+None of these items requires a new benchmark, and all can be added to existing studies at a cost that is small compared with the refinement study itself.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cost and the tiered suite}\label{sec:cost}\label{sec:recommended_suite}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cost rises by roughly four orders of magnitude from the exact-reference problems, which run in minutes on a workstation, to the finest three-dimensional calculations (Table~\ref{tab:cost}, Appendix~\ref{app:provenance}), and the completeness of the evidence falls in the opposite direction.
+The two-dimensional and axisymmetric problems have three or more levels in space and time and exact or independent references, whereas the three-dimensional problems have three levels with sub-nominal or undefined orders (3-D pressure-pulse tube), a published definition that had to be corrected (beam in cross-flow), or a fluid convergence that is not established at $\approx1.8\times10^{3}$ core-hours per run (Hessenthaler flap).
+Even in two dimensions the third FSI3 level, with $3.9\times10^5$ fluid cells, took about eight days on a 128-core node.
+Which error source dominates is also case dependent: in the thin-walled collapsible channel the solid discretisation can dominate ($17.4\%$ against $0.44\%$ for linear against cubic solid), whereas in FSI1, once the solid is of high order, the remaining error is that of the fluid and of the interface load (Section~\ref{sec:fsi1}).
+For one independent cost point, FEBio's monolithic solver took $2\,033\,\mathrm{s}$ on a free-slip variant of the ring problem on L2, against $224\,\mathrm{s}$ (IQN-ILS) and $315\,\mathrm{s}$ (Robin--Neumann) for solids4foam on one core; the processors and methods differ, so this describes these configurations and is not a ranking of the codes.
+\todo{Author decision: whether to add cost per degree of freedom and per time step where comparable hardware was used; the SU2--CalculiX runs (FSI1, ring, cavity) record their costs and could be added as further independent-code points.}
+
+\todo{Author decision: WORKING PROPOSAL. Final membership is not frozen (paper-data/manuscript\_todos.md).}
+No single benchmark verifies a continuum FSI code, and in the present suite the most widely used benchmarks are not the most discriminating.
+We therefore propose a tiered suite (Table~\ref{tab:suite_tiers}), with membership set by complementary challenges, reference quality and cost.
+
+\todo{Author decision: the tier of cavityFlexibleBottom (category B; inexpensive, steady, two independent references): core or extended suite.}
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\caption{Proposed tiered suite (working proposal). Ref.: reference category (Table~\ref{tab:ref_hierarchy}).}
+	\label{tab:suite_tiers}
+	\begin{tabular}{p{2.8cm}p{1.1cm}p{6.3cm}p{3.4cm}}
+		\toprule
+		Case & Ref. & Principal challenge & Status \\
+		\midrule
+		\multicolumn{4}{l}{\emph{Core suite (routine subset a few hours on a workstation; full refinement studies longer)}} \\
+		ringAddedMass & A & added mass over $m^* = 0.1$--$10$; temporal phase error; solid-independent coupling check; interface pressure condition in an enclosed fluid (amplitude) & core \\
+		womersleyTube & A & viscous wave propagation; amplitude versus phase/attenuation; truncated-domain boundary consistency & core \\
+		collapsibleChannel & B & thin bending wall, large deformation, strong added mass; solid discretisation & core \\
+		manufactured FSI$^\dagger$ & A & finite-strain solid, normal interface motion and mesh motion against an exact solution; boundary non-orthogonality (flat and tilting variants); outlet face flux, outer correctors and face-flux time-derivative correction of the segregated fluid; Robin interface pressure condition; start-up and traction-area errors of the solid; density ratio one & core (proposed); four levels, combined refinement; fluid-only and solid-only diagnostics \\
+		Turek--Hron FSI1 & B & steady large-deformation coupling & core \\
+		\midrule
+		\multicolumn{4}{l}{\emph{Extended / high-cost suite}} \\
+		Turek--Hron FSI2, FSI3 & C (FSI2), B (FSI3) & self-excited oscillation; lift amplitude; tolerance sensitivity; sensitivity of the in-phase fluid load to mesh motion and wall conditions & FSI3 three levels (scaled), displacements not asymptotic; FSI2 two levels \\
+		3dTube & D & 3-D wave propagation with added mass; time-discretisation sensitivity of the QoI definitions; cross-platform and toolchain checks & three levels; $u_{r,\max}$ and $c_\mathrm{wall}$ not yet converging \hl{[pending: L4]} \\
+		beamInCrossFlow & C & 3-D steady external flow; displacement and force convergence & four levels, corrected inflow; orders rising to 1.6 (Appendix~\ref{app:beam}) \\
+		Hessenthaler & D & realistic 3-D geometry, large deformation; steady-state iterative error; validation data kept separate & three fluid levels, not shown to be asymptotic (mesh sensitivity only) \\
+		mokLidDrivenCavity & B & tension-dominated membrane; problem-definition sensitivity; robustness of the coupling and of the fluid outer loop & four levels, combined refinement; orders below nominal; within $\approx1\%$ of Kratos; relaxed outer correctors on $128^2$ \\
+		cavityFlexibleBottom & B & steady internal flow, large deformation, skewed deformed cells; displacement distinguishes plate laws & four levels, orders 1.9--2.0; within $0.02\%$ of two independent solutions \\
+		blobInTreacle & D & temporal and spatial order in viscous large-deformation flow; interface force balance & four levels and four time steps at near-nominal orders; independent second implementation converging at first order \\
+		\bottomrule
+		\multicolumn{4}{l}{$^\dagger$ Section~\ref{sec:mms_fsi}; case files in \texttt{paper-data/mms\_fsi/}; \hl{[case to be added to the suite]}.}
+	\end{tabular}
+\end{table}
+
+\emph{Core suite.}\label{sec:core_suite}
+The routine subset of the core suite, the default levels of each driver, is cheap enough to run after any change to a discretisation or coupling algorithm; the full refinement studies behind Section~\ref{sec:benchmark_suite} are a verification campaign, not a routine check.
+Its backbone is the three category-A problems, which alone measure the total error directly; the category-B problems extend it to large deformation within reference uncertainties of $<0.01\%$ plus a $0.05\%$ model-form difference (collapsible channel) and $\approx0.2\%$ (FSI1).
+The requirement is not a fixed matrix of studies but the principle of Section~\ref{sec:convergence_method}: for each QoI on which a claim is made, the error sources that materially affect it must be shown to be controlled below the uncertainty relevant to the claim, and each result should state the five items of Section~\ref{sec:defects}.
+\todo{Author decision: whether mokLidDrivenCavity (category B, Kratos) moves to the core suite, now that relaxing the non-final PIMPLE outer correctors removes the stalls of the all-measure coupling test.}
+
+\emph{Extended suite.}\label{sec:extended_suite}
+The extended suite does not establish formal order, which the core suite does more cheaply and reliably, but tests whether that accuracy carries over to three dimensions, complex geometry, large mesh motion and slowly converging QoIs.
+Turek--Hron FSI2 and FSI3 belong here despite being two-dimensional, since their slowest QoIs need resolutions well beyond the core suite and the Featflow FSI3 table carries a $3$--$5\%$ uncertainty in $u_x$ and the force amplitudes.
+The Mok lid-driven cavity is inexpensive but belongs here too: neither its sequence nor the Kratos sequence is in the asymptotic range for the peak, and its value is as a test of sensitivity to the problem definition and of coupling robustness.
+Published values should be quoted with their source and reference category, and agreement with them should not be presented as verification without self-convergence evidence.
+\todo{Author decision, pending results: final extended-suite membership depends on, for beamInCrossFlow, a fifth mesh (L5); for the Hessenthaler flap, whether a mesh-sensitivity statement suffices; for cavityFlexibleBottom, the COMSOL parabolic-inflow sequence (contributor); for 3dTube, the fourth level now running or an independent converged solution for $u_{r,\max}$. A case without at least three mesh levels should not be listed as ``verified'' in any final suite table.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Verification and validation; limits of the suite}\label{sec:limits}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The Hessenthaler flap shows why verification and validation are kept apart.
+Refinement moves the computed tip from below the measurement to above it (from $-0.16$ to $+0.14\,\mathrm{mm}$ from L1 to L2 with the acceleration interface condition, and from $-0.10$ to $+0.31\,\mathrm{mm}$ from L1 to L3 with the zero gradient), so the close agreement of any one mesh is partly a cancellation of discretisation error (Section~\ref{sec:hessenthaler}), and a validation statement made on it would credit the model with an accuracy that belongs to the discretisation error.
+Validation requires a verified solution with a stated numerical uncertainty and an experimental uncertainty; here neither is available, since the fluid-mesh sequence of the tip is not shown to be in the asymptotic range.
+
+The suite covers incompressible, laminar, Newtonian flows coupled to elastic solids through a sharp interface, conforming or non-conforming.
+It does not cover compressible or non-Newtonian fluids, turbulence, contact, free surfaces, or immersed and fictitious-domain interface treatments, and its hyperelastic solids are limited to St Venant--Kirchhoff and neo-Hookean laws.
+All calculations under test come from one code family; the independent solutions with their own convergence evidence are those listed in Section~\ref{sec:published_reliability}, the Kratos solutions of the 3-D pressure-pulse tube and the beam in cross-flow are not shown to be converged, and the remaining cases rest on self-convergence and on published values of incompletely quantified accuracy.
+The three-dimensional problems are the least completely verified, for the cost reasons above.
+These limits mark where the suite can support a claim; they are not a judgement on the problems outside it.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Executable verification infrastructure}\label{sec:infrastructure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A benchmark is useful for verification only if its definition, its reference and the comparison procedure are reproducible, so that a claim can be re-executed rather than accepted on trust.
+Independently of the code used, we recommend four properties, which the drivers accompanying the present cases in solids4foam~\citep{Cardiff2025} implement to varying degrees (Table~\ref{tab:driver_properties}, Appendix~\ref{app:provenance}): opt-in drivers that run the mesh, time-step and coupling studies, compute the QoIs and observed orders, and exit with a non-zero status unless every acceptance criterion is met, kept separate from regression tests; machine-readable reference files that record, for each value, its source, the extraction method and its uncertainty, with the code that generates the reference where possible; per-run QoIs written to CSV, with diverged, truncated or non-periodic runs reported as failures; and a record of the case-file hashes, the OpenFOAM version, the compiler and its flags and a fingerprint of the executable, with the case set-ups, drivers, raw outputs and reference files of a publication archived under a persistent identifier.

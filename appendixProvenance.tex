@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Provenance of the results}
+\section{Provenance, cost and reproducibility of the results}
 \label{app:provenance}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Moved from Section 4.3 (review of Sections 1-4, November 2026).
@@ -28,9 +28,8 @@ Results computed without these corrections are affected only where an interface 
 		Turek--Hron FSI3, Gmsh family L3 (Table~\ref{tab:hronturek_gmsh}) & \texttt{9e6d1bfb2} & v2512 & GCC 13.3, flags not recorded & MeluXina & after \\
 		FSI3, uniform block-structured family, 1x--4x (wall-derivative and non-orthogonal-correction checks) & \texttt{206437983} (after \#671) & v2512 & Clang \texttt{-O3} (1x, 2x); GCC \texttt{-O3} (4x) & macOS; Linux (UCD Sonic) & after \\
 		FSI3, uniform block-structured family, 8x (Appendix~\ref{app:lessons}; before \#671) & \texttt{30d6e22f3} with PR \#562 & v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$ & MeluXina & before; 2-D argument \\
-		3dTube L1--L2, earlier meshes$^\S$ & \texttt{c45b30b7e} & v2512; v2412 & GCC 11.4 \texttt{-O3}; GCC 13.3 \texttt{-O2}$^\ddagger$ & Linux; MeluXina & fixes before merge \\
-		3dTube L3, earlier meshes$^\S$ & \texttt{c45b30b7e}; replicates \texttt{b200718f4} & v2412; v2512 & GCC 13.3 \texttt{-O2}$^\ddagger$; GCC 11.4 and 13.3 \texttt{-O3} & MeluXina; Linux (cluster node, desktop) & fixes before merge; after \\
 		3dTube, corrected meshes (Table~\ref{tab:3dtube}) & \texttt{206437983} with the meshes of \texttt{9b52c2303} & v2512 & Clang \texttt{-O3}, 8 ranks (L1--L2); GCC 13.3 \texttt{-O3} (L3) & macOS; Linux (desktop) & after \\
+		3dTube, time-step study and same-platform L2 control & \texttt{206437983} with the meshes of \texttt{9b52c2303} and one local commit not used by the case & v2512 & GCC 11.5, 16 and 44 ranks & Linux (UCD Sonic) & after \\
 		mokLidDrivenCavity & \texttt{6e69ddb6c}$^a$; coupling-test study \texttt{a421f063d}$^\dagger$ & v2412; v2512 & Clang \texttt{-O3}; GCC 13.3 \texttt{-O2}$^\ddagger$ & macOS; MeluXina & before; after \\
 		cavityFlexibleBottom & \texttt{206437983} & v2512 & Clang \texttt{-O3} & macOS & after \\
 		blobInTreacle & \texttt{206437983} with PR \#694 (merged as \texttt{1b5ab0963}) & v2512 & GCC \texttt{-O3} & Linux & after \\
@@ -41,7 +40,7 @@ Results computed without these corrections are affected only where an interface 
 		Manufactured FSI solution, quasi-monolithic & \texttt{4071b431e} ($n \leq 64$); \texttt{677865f55} ($n = 128$) & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
 		Manufactured FSI solution, partitioned (Table~\ref{tab:mms_fsi}) & \texttt{7a2f0a63e} with PRs \#756 and \#776 (unmerged); Robin--Neumann: \texttt{e38f3b06f} with the interface-pressure branch$^\|$ & v2512 & Clang \texttt{-O3} & macOS (arm64) & after \\
 		\bottomrule
-		\multicolumn{6}{p{0.95\linewidth}}{$^\dagger$ Rerun that reproduces the tabulated errors to the digits given. $^a$ Commit that first recorded the values, an upper bound on the commit of the run; all precede PR \#492, and every one of these runs sets the IQN-ILS predictor explicitly or uses Robin--Neumann coupling with a relaxation factor of~1, so the change of the predictor default in PR \#492 does not affect them. $^\S$ Cross-platform replicates on an earlier mesh variant (Appendix~\ref{app:lessons}). $^\|$ \texttt{fix/movingWallPressure-721} (solids4foam PR~\#777): full interface pressure condition~\eqref{eq:interface_pressure}. $^\ddagger$ \texttt{-O2 -fno-tree-vectorize -march=znver2} (v2412 also \texttt{-fno-math-errno}). Clang is Apple Clang (Xcode 27.0). PETSc: 3.24.1 (Linux), 3.22.0 (MeluXina), 3.22.2 (macOS).}
+		\multicolumn{6}{p{0.95\linewidth}}{$^\dagger$ Rerun that reproduces the tabulated errors to the digits given. $^a$ Commit that first recorded the values, an upper bound on the commit of the run; all precede PR \#492, and every one of these runs sets the IQN-ILS predictor explicitly or uses Robin--Neumann coupling with a relaxation factor of~1, so the change of the predictor default in PR \#492 does not affect them. $^\|$ \texttt{fix/movingWallPressure-721} (solids4foam PR~\#777): full interface pressure condition~\eqref{eq:interface_pressure}. $^\ddagger$ \texttt{-O2 -fno-tree-vectorize -march=znver2} (v2412 also \texttt{-fno-math-errno}). Clang is Apple Clang (Xcode 27.0). PETSc: 3.24.1 (Linux), 3.22.0 (MeluXina), 3.22.2 (macOS).}
 	\end{tabular}
 \end{table}
 % Provenance compiled 2026-11-02 from paper-data evidence files and the case
@@ -49,3 +48,61 @@ Results computed without these corrections are affected only where an interface 
 % git merge-base. 3dTube used the branch commits 635ff464f and 0ff7f462b,
 % the fixes later merged (rebased) as #546.
 \todo{Provenance not recoverable: the working-tree state behind the README-recorded results (the commits are upper bounds, and no logs survive for ring and collapsible), the GCC version of the blobInTreacle runs (Linux, xenosim), the GCC version of the Sonic build and the optimisation flags of the MeluXina build of the FSI3 Gmsh family (both \texttt{linux64GccDPInt32Opt}; build \texttt{9e6d1bfb2} recorded in \texttt{run\_provenance.txt} for all five level-3 jobs) and the exact Apple Clang build of the earlier macOS runs. Recovered on 21 November 2026: the corrected-mesh 3dTube L1--L2 (\texttt{206437983} with the full-precision \texttt{blockMeshDict}s of \texttt{9b52c2303}, wmake \texttt{Opt}, 8 ranks; log headers in \texttt{tube3d/post671/3dTube/verification/work/}) and the manufactured-solution build (the local worktree in which both commits were built, \texttt{darwin64ClangDPInt32Opt}, Apple Clang with \texttt{-O3} in its build logs). Evidence: \texttt{paper-data/provenance\_audit\_2026-11-03.md}. Plan a Zenodo archive of case set-ups, drivers, raw CSV outputs and reference files.}
+
+\paragraph{Computational cost.}
+Table~\ref{tab:cost} records the cost of the verification studies summarised in Section~\ref{sec:cost}.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\caption{Recorded computational cost of the verification studies. Hardware and core counts differ between cases, so the figures indicate orders of magnitude only. $^\S$~Wall-clock times on a machine shared with other jobs (load $\approx14$ on 20 cores), so upper bounds (\texttt{paper-data/cavity\_partitioned\_skew/README.md}).}
+	\label{tab:cost}
+	\begin{tabular}{p{3.0cm}p{10.8cm}}
+		\toprule
+		Case & Recorded cost \\
+		\midrule
+		Ring added-mass problem & baseline case $\approx75$\,s serial; full study (35 runs) $\approx30$\,min with 32 concurrent serial runs \\
+		Womersley tube & runs 2.5--25\,min serial; full study $\approx30$\,min on 5 cores \\
+		Collapsible channel & baseline case $\approx10$\,min; finest fluid mesh 70\,min; full sweep $\approx2.5$\,h (one case per core); serial only \\
+		Turek--Hron FSI1 & to $t = 30\,\mathrm{s}$ at $\Delta t = 0.00625\,\mathrm{s}$: 1x 1\,754\,s serial; 2x 1.2\,h on 4 ranks; 4x 5.5\,h on 16 ranks; 8x $\approx25$\,h on 64 ranks (MeluXina) \\
+		Turek--Hron FSI3 & Gmsh family, $t = 0$--$6.2\,\mathrm{s}$, one node per run: L1 9.7\,h on 24 ranks and L2 25.4\,h on 32 ranks (UCD Sonic); L3 $\approx190$\,h on 128 ranks (MeluXina; $\approx16\,\mathrm{s}$ per step late in the coupled phase); uniform family: 1x 1.4\,h serial; 2x 5.5\,h on 8 ranks; 4x 40.8\,h on 32 ranks (no speed-up beyond 32 ranks) \\
+		Turek--Hron FSI2 & 1x 1.1--1.2\,h serial; 2x 4.0--4.1\,h on 7--8 ranks \\
+		3-D pressure-pulse tube & L1 2\,511\,s and L2 2\,921\,s on 8 ranks (macOS workstation); L3 25\,060\,s (7.0\,h) on 32 ranks (desktop workstation, $\approx220$ core-hours); L3 with $\Delta t$ halved $\approx9$--$10\,\mathrm{s}$ per step on 44 ranks of one cluster node \\
+		Mok lid-driven cavity & $96^2$ 3\,729\,s on 2 ranks; quick run $\approx7$\,min \\
+		Flexible-bottom cavity & four levels, serial, Mac Studio: 22\,s, 128\,s, 1\,019\,s and 12\,383\,s at $\Delta t = 0.5$, $0.25$, $0.125$ and $0.0625\,\mathrm{s}$ (L4 with a limit of 40 coupling iterations per step and fluid solver tolerances of $10^{-8}$); $13\,552\,\mathrm{s}$ ($3.8$\,h) in total$^\S$ \\
+		Beam in cross-flow & L4 ($4.2\times10^{6}$ fluid cells) $\approx45$ node-hours on 128-core nodes; both inflows to L4 with checks $158$ node-hours ($2.0\times10^{4}$ core-hours) \\
+		Blob in treacle & full study $\approx40$\,min \\
+		Hessenthaler flap & all-measure test from $t = 0$ to $45\,\mathrm{s}$, single nodes: L1 ($1.2\times10^{5}$ fluid cells) 14\,h and L2 ($3.1\times10^{5}$) 8--19\,h on 24 ranks ($2$--$4.5\times10^{2}$ core-hours); L3 ($8.3\times10^{5}$) on 48 ranks 37\,h with the zero-gradient and 54\,h with the acceleration interface pressure ($1.8$ and $2.6\times10^{3}$ core-hours), including the steps at the iteration limit \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{Reproducibility of the drivers.}
+Table~\ref{tab:driver_properties} states which of the properties recommended in Section~\ref{sec:infrastructure} the present drivers implement.
+Every driver exits with a non-zero status when a criterion fails and writes its QoIs to CSV, and every case has a machine-readable reference file that records its source.
+The extraction method is recorded explicitly for the 3-D pressure-pulse tube, the Turek--Hron benchmarks and the beam in cross-flow, and the collapsible channel stores the oomph-lib driver that generates its reference.
+No driver records the compiler or its flags; where they are known, they are given in Table~\ref{tab:provenance}.
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{4pt}
+	\caption{Reproducibility properties implemented by the verification driver of each case (solids4foam \texttt{development}, November 2026): non-zero exit status on failure (Exit), CSV output, hashes of the case files, the OpenFOAM version, a fingerprint of the solver executable and libraries, and the solids4foam commit. The drivers of the Hessenthaler flap and of the manufactured solution are not yet part of the released suite and are not included.}
+	\label{tab:driver_properties}
+	\begin{tabular}{lcccccc}
+		\toprule
+		Case & Exit & CSV & Hashes & OF version & Fingerprint & Commit \\
+		\midrule
+		Ring added-mass problem & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & -- \\
+		Womersley tube & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+		Collapsible channel & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & -- \\
+		Turek--Hron FSI1--FSI3 & \checkmark & \checkmark & -- & -- & -- & -- \\
+		3-D pressure-pulse tube & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+		Mok lid-driven cavity & \checkmark & \checkmark & \checkmark & -- & \checkmark & -- \\
+		Flexible-bottom cavity & \checkmark & \checkmark & -- & -- & -- & -- \\
+		Blob in treacle & \checkmark & \checkmark & -- & -- & -- & -- \\
+		Beam in cross-flow & \checkmark & \checkmark & -- & -- & -- & -- \\
+		\bottomrule
+	\end{tabular}
+\end{table}

@@ -3,18 +3,41 @@
 \label{app:lessons}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sources: solids4foam_learnings.md (register entries 1-18), the defect
-% table of Section 6 (sec:defects), Sections 5.1.3, 5.3.1 and 5.3.2, and
+% table (moved here from Section 6, sec:defects), Sections 5.1.3, 5.3.1 and 5.3.2, and
 % paper-data/r1_audit/ for the coupling-test audit.
 
 This appendix collects the issues that the verification campaign revealed in solids4foam, its set-ups and the benchmark definitions.
 Each is stated generically, with solids4foam as the example, together with the evidence that revealed it and how it was resolved or what remains open.
-None was found by comparison with a published benchmark value; the defects proper are also listed in Table~\ref{tab:defects}.
+None was found by comparison with a published benchmark value. The defects proper are listed in Table~\ref{tab:defects}, with how each was found (Section~\ref{sec:defects}).
+
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\caption{Defects and hazards exposed by verification, and how they were found.}
+	\label{tab:defects}
+	\begin{tabular}{p{2.6cm}p{5.6cm}p{5.6cm}}
+		\toprule
+		Case & Defect & How it was found \\
+		\midrule
+		Ring added-mass problem & zero normal pressure gradient on the moving interface omits the wall acceleration ($O(h)$ wall pressure); the acceleration condition failed in the enclosed fluid, whose prescribed wall gradients were not consistent with zero net flux & amplitude loss of IQN-ILS up to $2.1\%$ per period, first order in the mesh and independent of the coupling tolerance, against an exact reference and Robin--Neumann \\
+		Womersley tube & $O(\Delta t)$ inconsistency of the end flux under a mixed velocity condition & temporal order falling towards one against an exact reference \\
+		3-D pressure-pulse tube & wall viscous force miscompiled at \texttt{-O3} (temporary-storage aliasing under \texttt{\_\_restrict\_\_}) & deterministic $1.5$--$3\%$ difference in one QoI between two platforms \\
+		3-D pressure-pulse tube & degenerate barycentric weights below a fixed absolute area threshold; interpolation operator changed with mesh level & remaining cross-platform divergence; broken symmetry and rank dependence \\
+		Manufactured FSI & segregated fluid: outlet face flux built from the cell velocity instead of the boundary velocity under a prescribed velocity gradient and pressure ($O(h^2/\Delta t)$ pressure error); lagged convection with a single outer corrector; the time-derivative correction of the momentum-interpolated face flux makes the error grow as $\Delta t$ falls & first-order pressure against an exact solution; fluid-only runs with outlet-flux, outer-corrector, flux-correction and time-step variants \\
+		Manufactured FSI & Robin--Neumann interface pressure condition omitted the viscous and body-force normal terms of the momentum balance & pressure order $1.6$--$1.8$ against an exact solution; predicted and measured error in the interface row of cells \\
+		Manufactured FSI & total Lagrangian solid: first-order-in-time start-up of the displacement form under a non-zero initial acceleration; $O(h)$ deformed traction area from the cell-centre gradient & first-order solid displacement against an exact solution; solid-only runs driven by the exact traction \\
+		Manufactured FSI & IQN-ILS stagnates with the tutorial filtering and inverts the solid without it & failure to complete; filtering and convergence-test variants \\
+		Hessenthaler flap & either-measure coupling test $\min(r_1, r_2)$ accepts unconverged steps in quasi-steady phases & slow drift larger than the spatial differences; residuals at acceptance \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \paragraph{Aliasing in field algebra under optimisation.}
 In the 3-D pressure-pulse tube (Section~\ref{sec:3dtube}) two platforms gave deterministic results that differed by $1.5$--$3\%$ in one QoI while the others agreed to $0.1$--$0.2\%$.
 The wall viscous force was formed as an inner product of two temporary fields; OpenFOAM's field algebra writes such a product into the storage of a temporary operand while its loops access result and operands through \texttt{\_\_restrict\_\_} pointers, so at \texttt{-O3} one component was formed from already overwritten values, whereas \texttt{-O2} builds were correct.
 The site and about 15 others with the same mechanism were corrected.
-After this correction and the one below, levels L1 and L2 computed on two platforms agree to all reported digits ($c_p$ to $0.02\%$), and L3 computed on three platforms with different compilers, optimisation levels and rank counts reproduces $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ to all reported digits and $c_p$ to $0.09\%$, an order of magnitude below the L2-to-L3 change, so the growing change in $u_{r,\max}$ is a property of the discretisation, not of the platform; these replicates used an earlier version of the tube meshes, whose wall arcs were defined to fewer digits and whose QoIs lie within $0.1$--$0.35\%$ of those of Section~\ref{sec:3dtube}.
+After this correction and the one below, L2 computed on two platforms with different compilers and rank counts agrees to $10^{-5}$ in $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ and to $0.03\%$ in $c_p$, far below the L2-to-L3 changes, so the growing change in $u_{r,\max}$ is a property of the discretisation, not of the platform.
 The general lesson is that the compiled executable is what is verified: the compiler and optimisation level belong in the verification record, and a replicate on a second build or platform is a cheap check that no refinement study on one platform replaces.
 
 \paragraph{Scale-dependent tolerances in interpolation weights.}
@@ -190,6 +213,8 @@ Without filtering, it completes on $n = 16$, with errors equal to those of Aitke
 The convergence test has no influence: requiring every residual measure to meet the tolerance gives the same stagnation and the same inversion.
 The case combines a density ratio of one with an interface that moves normal to itself by up to $0.13H$; a step-length guard on the quasi-Newton update, or a fallback to relaxation when $J$ would become non-positive, would probably make IQN-ILS usable here, but neither has been tested.
 In the Mok lid-driven cavity at $128^2$ cells ($\nu\Delta t/h^2 \approx 4$) an unrelaxed segregated fluid diverged inside a coupling iteration with the interface frozen, which looked like a coupling failure; under-relaxation of the fluid outer iterations removes it.
+On coarser meshes the same unrelaxed outer loop does not diverge but fails to converge in some steps later in the run, and the inexact fluid response that it returns makes the quasi-Newton coupling stagnate above the tolerance of the all-measure test, which again looks like a coupling failure; relaxing the non-final outer correctors, with the final corrector unrelaxed, lets every run meet the all-measure test in every step (Section~\ref{sec:mok}).
+A coupling iteration that stagnates should therefore be checked for an unconverged field solve before the coupling algorithm is changed.
 A relaxed first coupling iterate without a solid predictor caused late added-mass instabilities in FSI3; a predictor is now the default.
 In the Hessenthaler flap (Section~\ref{sec:hessenthaler}), unlimited linear-upwind convection made every partitioned run on a coarse preliminary mesh ($4\times10^{4}$ cells) unstable at $t \approx 5\,\mathrm{s}$: a spanwise oscillation of the tip grew until the flow solution diverged in the cells at the flap-tip corners. Tighter coupling and fluid tolerances, a halved time step, a different solid formulation and removing the viscous traction from the coupling did not change this; first-order upwind convection was stable but lowered the tip deflection by $17\%$; and a blend of $75\%$ linear and $25\%$ linear-upwind interpolation runs to $t = 45\,\mathrm{s}$ at about three coupling iterations per step. Linear-upwind extrapolation with an unlimited gradient is anti-diffusive where the gradient is poorly resolved, as at sharp corners, whereas the linear part of the blend adds no numerical diffusion; we take this as the likely reason, without having proved it.
 Restart files must hold every time level the scheme uses: limit-cycle restarts of the FSI3 solid diverged because the second old-time displacement was not written, so all FSI3 time-step and tolerance branches are cold runs.

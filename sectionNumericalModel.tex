@@ -12,7 +12,7 @@
 
 All results in this paper were obtained with the partitioned fluid--solid interaction framework of the open-source toolbox solids4foam~\citep{Cardiff2025}, which builds on the OpenFOAM finite volume library~\citep{Weller1998} and follows the partitioned approach of \citet{Tukovic2018}.
 The fluid and the solid are discretised on separate cell-centred finite volume meshes and solved by separate field solvers, which exchange interface displacements and tractions within each time step.
-This section summarises the components that determine the discretisation, temporal and iterative errors studied in Sections~\ref{sec:verification_methodology}--\ref{sec:cross_benchmark}; implementation detail is in the source code and in the case set-ups that accompany each benchmark.
+This section summarises the components that determine the discretisation, temporal and iterative errors studied in Sections~\ref{sec:verification_methodology}--\ref{sec:synthesis}; implementation detail is in the source code and in the case set-ups that accompany each benchmark.
 Case-specific choices (time scheme, convection scheme, solid variant, coupling algorithm and tolerances) are stated with each benchmark in Section~\ref{sec:benchmark_suite}.
 
 %%--------------------------------------------------------------------------------------------------------------------%%
