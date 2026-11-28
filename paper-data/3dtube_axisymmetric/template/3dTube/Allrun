@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Source solids4Foam scripts
+source solids4FoamScripts.sh
+
+# Example usage
+# ./Allrun # default behaviour is Robin-Neumann coupling
+# ./Allrun dirichletNeumann
+# ./Allrun sonicLiquidFluid
+# ./Allrun weakCoupling
+
+# This case requires PETSc to be installed
+solids4Foam::requirePetscOrExitSilently
+
+# Select approach
+if [[ "$1" == "sonicLiquidFluid" ]]; then
+    # Dirichlet-Neumann sonicLiquidFluid approach
+    echo "Using the Dirichlet-Neumann sonicLiquidFluid approach"
+    for file in $(find ./0 ./constant ./system -name '*.sonicLiquidFluid')
+    do
+        ln -vnsf ${file##*/} ${file%.*}
+    done
+elif [[ "$1" == "weakCoupling" ]]; then
+    # Weak (explicit) coupling, with the Robin-Neumann fluid setup
+    echo "Using the weak coupling approach"
+    for file in $(find ./0 ./constant ./system -name '*.robin')
+    do
+        ln -vnsf ${file##*/} ${file%.*}
+    done
+    # Override the interface with the weak coupling variant
+    ln -vnsf fsiProperties.weakCoupling constant/fsiProperties
+elif [[ "$1" == "dirichletNeumann" ]]; then
+    # Dirichlet-Neumann pimpleFluid approach
+    echo "Using the Dirichlet-Neumann pimpleFluid approach"
+    for file in $(find ./0 ./constant ./system -name '*.pimpleFluid')
+    do
+        ln -vnsf ${file##*/} ${file%.*}
+    done
+else
+    # Robin-Neumann pimpleFluid approach
+    echo "Using the Robin-Neumann sonicLiquidFluid approach"
+    for file in $(find ./0 ./constant ./system -name '*.robin')
+    do
+        ln -vnsf ${file##*/} ${file%.*}
+    done
+fi
+
+# Check case version is correct
+solids4Foam::convertCaseFormat .
+
+# Create meshes
+solids4Foam::runApplication -s solid blockMesh -region solid
+solids4Foam::runApplication -s fluid blockMesh -region fluid
+
+# Run solver
+solids4Foam::runApplication solids4Foam
+
+# Create plots
+if command -v gnuplot &> /dev/null
+then
+    echo "Generating plots"
+    gnuplot -p displacement.gnuplot &> /dev/null
+    gnuplot -p fsiConvergence.gnuplot &> /dev/null
+else
+    echo "Please install gnuplot if you would like to generate the plots"
+fi

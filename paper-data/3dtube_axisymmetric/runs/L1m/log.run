@@ -1,0 +1,23 @@
+Started: Fri 27 Nov 20:26:55 GMT 2026
+'./0/fluid' -> 'fluid.robin'
+'./constant/fluid/fluidProperties' -> 'fluidProperties.robin'
+'./constant/fsiProperties' -> 'fsiProperties.robin'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| solids4Foam::convertCaseFormat start                                |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OpenFOAM.com loaded: cases are stored in this format
+No changes made
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| solids4Foam::convertCaseFormat end                                  |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Running blockMesh on /scratch/pcardiff/tube_axi/runs/L1m
+Running blockMesh on /scratch/pcardiff/tube_axi/runs/L1m
+Running checkMesh on /scratch/pcardiff/tube_axi/runs/L1m
+Running checkMesh on /scratch/pcardiff/tube_axi/runs/L1m
+Running solids4Foam on /scratch/pcardiff/tube_axi/runs/L1m
+Error: solids4Foam failed with exit code 72; see /scratch/pcardiff/tube_axi/runs/L1m/log.solids4Foam
+Finished: Fri 27 Nov 21:14:54 GMT 2026 (exit 0)

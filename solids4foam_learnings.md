@@ -241,3 +241,12 @@ Set-up details that cost time because the tutorial or its reference did not say 
 - **Evidence:** `sonic:/scratch/pcardiff/tube_stvk/L1rst/` (`prepare_rst.py`, `compare_restart.py`).
 - **State:** Issue filed: solids4foam#782.
 - **Robust fix to consider:** write and read the old-time solid fields the Robin condition needs (or the Robin acceleration itself, and the secant history), and add a restart regression test that compares a stop-and-restart run with a continuous one; until then, a warning when a Robin–Neumann run starts from a non-zero time.
+
+### 20. 3dTube driver: c_p should be measured on the averaged axis pressure; law effects need resolved meshes
+
+- **Found:** 2026-11-28, 3dTube, axisymmetric (1° wedge) sequence and c_p recomputation (`paper-data/3dtube_axisymmetric/`).
+- **What goes wrong (c_p):** the verification driver of `tutorials/fluidSolidInteraction/3dTube` takes c_p from the first crossing of half the inlet pressure by the raw axis-pressure probe signal. The axis pressure rises slowly and carries a spurious oscillation of ≈ 0.2 ms period, whose amplitude near the front grows as numerical damping falls with h and Δt (2–24 Pa on L1, 10–40 Pa on 3-D L3). The crossing therefore drifts: the raw c_p changes by −0.39, −0.54, −0.81 % per level on the wedge and by −0.86 % when Δt is halved on 3-D L3.
+- **Fix used in the paper:** apply a centred moving average over 0.4 ms (two periods) to the probe signal before the crossing. The averaged c_p changes by ≤ 0.06 % when Δt is halved on 3-D L2/L3, by ≤ 0.05 % between 0.2 and 0.4 ms windows on L3/L4, and converges to about 0.1–0.2 %. Script: `paper-data/3dtube_axisymmetric/scripts/cp_averaged.py`.
+- **State:** follow-up solids4foam change after submission: make the 0.4 ms averaged c_p the driver's c_p (keep the raw value as a diagnostic column), and update the tutorial's reference JSON and README.
+- **Law-effect lesson:** a comparison of two material laws on one coarse mesh can overstate the law effect. On the 3dTube L1 the Hookean–St Venant–Kirchhoff difference in u_r,max was −1.1 %; on resolved meshes it is −0.4 % (wedge L4) and −0.5 % (3-D L3), because on L1 the mesh error and the law effect mix. Measure model-form effects on at least two resolved levels before quoting them.
+- **Robust fix to consider:** the driver change above, plus a regression check that c_p changes by less than ≈ 0.1 % when Δt is halved on L2.

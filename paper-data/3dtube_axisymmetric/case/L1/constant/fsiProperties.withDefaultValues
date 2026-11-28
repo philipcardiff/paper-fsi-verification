@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2512                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    arch        "LSB;label=32;scalar=64";
+    class       fixedRelaxation;
+    location    "constant";
+    object      fsiProperties.withDefaultValues;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluidSolidInterface fixedRelaxation;
+
+fixedRelaxationCoeffs
+{
+    interfaceTransferMethod directMap;
+    solidPatch      inner-wall;
+    fluidPatch      wall;
+    relaxationFactor 1;
+    outerCorrTolerance 1e-06;
+    nOuterCorr      100;
+    interpolatorUpdateFrequency 0;
+    interfaceDeformationLimit 0;
+    coupled         yes;
+    writeResidualsToFile yes;
+    allowUnconvergedCoupling false;
+    additionalMeshCorrection false;
+    couplingStartTime -1;
+    predictor       true;
+    incrementalResiduals true;
+    requireAllResidualMeasures false;
+    outerCorrAbsoluteTolerance 0;
+    robinPressureTolerance 1e-05;
+    robinFluxTolerance 1e-05;
+    robinConvergence residual;
+    robinSlowRate   0.9;
+    robinStallRate  0.97;
+    robinStallIterations 4;
+    robinStallToleranceFactor 10;
+    robinFluxReferenceVelocity 0;
+    robinPressureReference 0;
+    GGICoeffs
+    {
+    }
+    AMICoeffs
+    {
+    }
+    RBFCoeffs
+    {
+    }
+    directMapCoeffs
+    {
+    }
+    predictSolid    1;
+}
+
+
+// ************************************************************************* //

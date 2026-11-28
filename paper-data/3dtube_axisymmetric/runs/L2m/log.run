@@ -1,0 +1,24 @@
+Started: Fri 27 Nov 20:26:55 GMT 2026
+'./0/fluid' -> 'fluid.robin'
+'./constant/fluid/fluidProperties' -> 'fluidProperties.robin'
+'./constant/fsiProperties' -> 'fsiProperties.robin'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| solids4Foam::convertCaseFormat start                                |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OpenFOAM.com loaded: cases are stored in this format
+No changes made
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| solids4Foam::convertCaseFormat end                                  |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Running blockMesh on /scratch/pcardiff/tube_axi/runs/L2m
+Running blockMesh on /scratch/pcardiff/tube_axi/runs/L2m
+Running checkMesh on /scratch/pcardiff/tube_axi/runs/L2m
+Running checkMesh on /scratch/pcardiff/tube_axi/runs/L2m
+Running decomposePar on /scratch/pcardiff/tube_axi/runs/L2m
+Running decomposePar on /scratch/pcardiff/tube_axi/runs/L2m
+Running solids4Foam (8 processes) on /scratch/pcardiff/tube_axi/runs/L2m 
+Finished: Fri 27 Nov 21:29:01 GMT 2026 (exit 0)

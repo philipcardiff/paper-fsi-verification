@@ -38,10 +38,15 @@ each mesh change.
 - Against Tukovic et al. (2018, StVK): the StVK L1 peak is 0.6 % above the published
   peak (Hookean L1: 1.7 %); peak time 7.14 ms against 7.23 ms. One level only.
 
-## Caveat
+## Caveat (superseded)
 
-Measured on L1 only. The law effect is a modelling difference and is expected to vary
-little with the mesh, but this is not verified.
+Measured on L1 only. The mesh dependence of the law effect has since been measured on
+the 3-D L1–L3 and on the axisymmetric L1–L4 sequences (`../3dtube_axisymmetric/`): the
+effect on u_r,max falls from −1.1 % on L1 to −0.5 % (3-D L3) and −0.4 % (axisymmetric
+L4), because on L1 the mesh error and the law effect mix; the effects on u_z,min,
+t_arr and the averaged c_p change by at most 0.3 percentage points between levels.
+The paper quotes the finest-level values. The c_p in `stvk_vs_hookean_L1.csv` is the
+unaveraged driver value.
 
 ## Raw data
 
