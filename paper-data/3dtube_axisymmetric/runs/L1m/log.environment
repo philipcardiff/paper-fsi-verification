@@ -1,0 +1,10 @@
+Fri 27 Nov 20:26:55 GMT 2026
+job 1200218
+sonic45.compute
+CPU(s):                                  44
+Model name:                              Intel(R) Xeon(R) Gold 6152 CPU @ 2.10GHz
+CPU(s) scaling MHz:                      80%
+solids4foam 64896b0a5 Local Sonic build: add backflowStabilisedOutletVelocity from PR 676 (db12f9505) on 206437983
+/scratch/pcardiff/OpenFOAM/pcardiff-v2512/platforms/linux64GccDPInt32Opt/bin/solids4Foam
+make_case args: --level 1 --law hooke --cores 1 --base-dt 6.25e-6
+load at start:  20:26:55 up 136 days, 11:46,  0 users,  load average: 28.37, 28.92, 28.93

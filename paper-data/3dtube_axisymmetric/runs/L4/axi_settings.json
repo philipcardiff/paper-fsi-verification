@@ -1,0 +1,20 @@
+{
+  "level": 4,
+  "law": "hooke",
+  "factor": 8,
+  "delta_t_s": 3.125e-06,
+  "end_time_s": 0.02,
+  "wedge_deg": 1.0,
+  "cores": 12,
+  "fluid_cells": 76800,
+  "solid_cells": 20480,
+  "fluid_radial": 120,
+  "solid_radial": 32,
+  "axial": 640,
+  "solid_preconditioner": "hypre",
+  "solid_jacobian": "assembled",
+  "snes_stol": "1e-6",
+  "time_scheme": "backward",
+  "coupling": "robin",
+  "interface_transfer": "directMap"
+}

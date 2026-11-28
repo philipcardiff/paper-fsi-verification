@@ -37,7 +37,7 @@ None was found by comparison with a published benchmark value. The defects prope
 In the 3-D pressure-pulse tube (Section~\ref{sec:3dtube}) two platforms gave deterministic results that differed by $1.5$--$3\%$ in one QoI while the others agreed to $0.1$--$0.2\%$.
 The wall viscous force was formed as an inner product of two temporary fields; OpenFOAM's field algebra writes such a product into the storage of a temporary operand while its loops access result and operands through \texttt{\_\_restrict\_\_} pointers, so at \texttt{-O3} one component was formed from already overwritten values, whereas \texttt{-O2} builds were correct.
 The site and about 15 others with the same mechanism were corrected.
-After this correction and the one below, L2 computed on two platforms with different compilers and rank counts agrees to $10^{-5}$ in $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ and to $0.03\%$ in $c_p$, far below the L2-to-L3 changes, so the growing change in $u_{r,\max}$ is a property of the discretisation, not of the platform.
+After this correction and the one below, L2 computed on two platforms with different compilers and rank counts agrees to $10^{-5}$ in $u_{r,\max}$, $u_{z,\min}$ and $t_\mathrm{arr}$ and to $0.04\%$ in $c_p$, far below the L2-to-L3 changes, so the growing change in $u_{r,\max}$ is a property of the discretisation, not of the platform.
 The general lesson is that the compiled executable is what is verified: the compiler and optimisation level belong in the verification record, and a replicate on a second build or platform is a cheap check that no refinement study on one platform replaces.
 
 \paragraph{Scale-dependent tolerances in interpolation weights.}
